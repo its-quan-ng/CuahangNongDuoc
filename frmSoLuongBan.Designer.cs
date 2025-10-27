@@ -75,7 +75,7 @@ namespace CuahangNongduoc
             this.groupBox1.Size = new System.Drawing.Size(217, 95);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Xem theo tháng/nãm";
+            this.groupBox1.Text = "Xem theo thï¿½ng/nï¿½m";
             // 
             // numNam
             // 
@@ -106,7 +106,7 @@ namespace CuahangNongduoc
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(29, 13);
             this.label3.TabIndex = 12;
-            this.label3.Text = "Nãm";
+            this.label3.Text = "Nï¿½m";
             // 
             // cmbThang
             // 
@@ -138,7 +138,7 @@ namespace CuahangNongduoc
             this.btnXemThang.Name = "btnXemThang";
             this.btnXemThang.Size = new System.Drawing.Size(97, 24);
             this.btnXemThang.TabIndex = 10;
-            this.btnXemThang.Text = "Xem tháng";
+            this.btnXemThang.Text = "Xem thï¿½ng";
             this.btnXemThang.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnXemThang.UseVisualStyleBackColor = true;
             this.btnXemThang.Click += new System.EventHandler(this.btnXemThang_Click);
@@ -150,7 +150,7 @@ namespace CuahangNongduoc
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(38, 13);
             this.label2.TabIndex = 9;
-            this.label2.Text = "Tháng";
+            this.label2.Text = "Thï¿½ng";
             // 
             // groupBox2
             // 
@@ -162,7 +162,7 @@ namespace CuahangNongduoc
             this.groupBox2.Size = new System.Drawing.Size(190, 95);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Xem theo ngày";
+            this.groupBox2.Text = "Xem theo ngï¿½y";
             // 
             // dtNgay
             // 
@@ -193,7 +193,7 @@ namespace CuahangNongduoc
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(32, 13);
             this.label1.TabIndex = 5;
-            this.label1.Text = "Ngày";
+            this.label1.Text = "Ngï¿½y";
             // 
             // panel2
             // 
