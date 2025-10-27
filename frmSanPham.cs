@@ -110,7 +110,7 @@ namespace CuahangNongduoc
         {
             if (toolTimMaSanPham.Checked == true)
             {
-                ctrl.TimMaSanPham(toolTimSanPham.Text);
+                ctrl.TimMaSanPham(Convert.ToInt32(toolTimSanPham.Text));
             }
             else
             {

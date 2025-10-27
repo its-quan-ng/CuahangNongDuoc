@@ -86,7 +86,7 @@ namespace CuahangNongduoc
             dn.PhatSinh = Convert.ToInt64(row["PHAT_SINH"]);
             dn.DaTra = Convert.ToInt64(row["DA_TRA"]);
             dn.CuoiKy = Convert.ToInt64(row["CUOI_KY"]);
-            dn.KhachHang = ctrlKH.LayKhachHang(Convert.ToString(row["ID_KHACH_HANG"]));
+            dn.KhachHang = ctrlKH.LayKhachHang(Convert.ToInt32(row["ID_KHACH_HANG"]));
 
             frmInDunoKhachHang InDuNo = new frmInDunoKhachHang(dn);
             InDuNo.Show();

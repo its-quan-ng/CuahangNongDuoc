@@ -22,7 +22,7 @@ namespace CuahangNongduoc.Controller
 
 
             BindingSource bs = new BindingSource();
-            bs.DataSource = factory.LayDuNoKhachHang("-1", 0, 0);
+            bs.DataSource = factory.LayDuNoKhachHang(-1, 0, 0);
             bn.BindingSource = bs;
             dg.DataSource = bs;
             
@@ -37,9 +37,8 @@ namespace CuahangNongduoc.Controller
             foreach(DataRow row in tbl.Rows)
             {
                 DataRow r = factory.NewRow();
-                String kh = Convert.ToString(row["ID"]);
+                int kh = Convert.ToInt32(row["ID"]);
                 
-
                 dauky = DuNoKhachHangFactory.LayDuNo(kh, ThangTruoc, NamTruoc);
                 phatsinh = PhieuBanFactory.LayConNo(kh, thang, nam);
                 datra = PhieuThanhToanFactory.LayTongTien(kh, thang, nam);

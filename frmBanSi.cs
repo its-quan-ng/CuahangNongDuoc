@@ -51,7 +51,7 @@ namespace CuahangNongduoc
             ctrlPhieuBan.HienthiPhieuBan(bindingNavigator,cmbKhachHang, txtMaPhieu, dtNgayLapPhieu, numTongTien, numDaTra, numConNo);
             bindingNavigator.BindingSource.CurrentChanged += new EventHandler(BindingSource_CurrentChanged);
             
-            ctrlChiTiet.HienThiChiTiet(dgvDanhsachSP, txtMaPhieu.Text);
+            ctrlChiTiet.HienThiChiTiet(dgvDanhsachSP, Convert.ToInt32(txtMaPhieu.Text));
 
 
             if (status == Controll.AddNew)
@@ -70,7 +70,7 @@ namespace CuahangNongduoc
         {
             if (status == Controll.Normal)
             {
-                ctrlChiTiet.HienThiChiTiet(dgvDanhsachSP, txtMaPhieu.Text);
+                ctrlChiTiet.HienThiChiTiet(dgvDanhsachSP, Convert.ToInt32(txtMaPhieu.Text));
             }
         }
 
@@ -82,7 +82,7 @@ namespace CuahangNongduoc
                 MaSanPhamController ctrlMSP = new MaSanPhamController();
 
                 cmbMaSanPham.SelectedIndexChanged -= new EventHandler(cmbMaSanPham_SelectedIndexChanged);
-                ctrlMSP.HienThiAutoComboBox(cmbSanPham.SelectedValue.ToString(), cmbMaSanPham);
+                ctrlMSP.HienThiAutoComboBox(Convert.ToInt32(cmbSanPham.SelectedValue), cmbMaSanPham);
                 cmbMaSanPham.SelectedIndexChanged += new EventHandler(cmbMaSanPham_SelectedIndexChanged);
             }
         }
@@ -185,7 +185,7 @@ namespace CuahangNongduoc
 
             PhieuBanController ctrl = new PhieuBanController();
 
-            if (ctrl.LayPhieuBan(txtMaPhieu.Text) != null)
+            if (ctrl.LayPhieuBan(Convert.ToInt32(txtMaPhieu.Text)) != null)
             {
                 MessageBox.Show("Mã Phiếu bán này đã tồn tại !", "Phieu Nhap", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -211,7 +211,7 @@ namespace CuahangNongduoc
             status = Controll.AddNew;
             txtMaPhieu.Text = ThamSo.LayMaPhieuBan().ToString();
             numTongTien.Value = 0;
-            ctrlChiTiet.HienThiChiTiet(dgvDanhsachSP, txtMaPhieu.Text);
+            ctrlChiTiet.HienThiChiTiet(dgvDanhsachSP, Convert.ToInt32(txtMaPhieu.Text));
             this.Allow(true);
         }
 
@@ -255,7 +255,7 @@ namespace CuahangNongduoc
 
                 PhieuBanController ctrlPB = new PhieuBanController();
 
-                CuahangNongduoc.BusinessObject.PhieuBan ph = ctrlPB.LayPhieuBan(ma_phieu);
+                CuahangNongduoc.BusinessObject.PhieuBan ph = ctrlPB.LayPhieuBan(Convert.ToInt32(ma_phieu));
 
                 frmInPhieuBan InPhieuBan = new frmInPhieuBan(ph);
 
@@ -307,7 +307,7 @@ namespace CuahangNongduoc
                  if (MessageBox.Show("Bạn có chắc chắn xóa không?", "Phieu Ban Si", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                  {
                      ChiTietPhieuBanController ctrl = new ChiTietPhieuBanController();
-                     IList<ChiTietPhieuBan> ds = ctrl.ChiTietPhieuBan(view["ID"].ToString());
+                     IList<ChiTietPhieuBan> ds = ctrl.ChiTietPhieuBan(Convert.ToInt32(view["ID"]));
                      foreach (ChiTietPhieuBan ct in ds)
                      {
                          CuahangNongduoc.DataLayer.MaSanPhanFactory.CapNhatSoLuong(ct.MaSanPham.Id, ct.SoLuong);

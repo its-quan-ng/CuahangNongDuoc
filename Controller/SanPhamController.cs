@@ -29,7 +29,7 @@ namespace CuahangNongduoc.Controller
             cmb.ValueMember = "ID";
             cmb.AutoComplete = true;
         }
-        public void TimMaSanPham(String ma)
+        public void TimMaSanPham(int ma)
         {
             factory.TimMaSanPham(ma);
         }
@@ -69,7 +69,7 @@ namespace CuahangNongduoc.Controller
 
             
         }
-        public void CapNhatGiaNhap(String id, long gia_moi ,long so_luong)
+        public void CapNhatGiaNhap(int id, long gia_moi ,long so_luong)
         {
             DataTable tbl = factory.LaySanPham(id);
             if (tbl.Rows.Count > 0)
@@ -88,7 +88,7 @@ namespace CuahangNongduoc.Controller
 
         }
     
-        public SanPham LaySanPham(String id)
+        public SanPham LaySanPham(int id)
         {
             DataTable tbl = factory.LaySanPham(id);
             SanPham sp = new SanPham();

@@ -27,7 +27,7 @@ namespace CuahangNongduoc.Controller
             factory.Save();
         }
 
-        public PhieuChi LayPhieuChi(String id)
+        public PhieuChi LayPhieuChi(int id)
         {
             PhieuChi ph = null;
             DataTable tbl = factory.LayPhieuChi(id);
@@ -36,7 +36,7 @@ namespace CuahangNongduoc.Controller
                 ph = new PhieuChi();
                 ph.Id = Convert.ToString(tbl.Rows[0]["ID"]);
                 LyDoChiController ctrlLyDo = new LyDoChiController();
-                ph.LyDoChi = ctrlLyDo.LayLyDoChi(Convert.ToInt64(tbl.Rows[0]["ID_LY_DO_CHI"]));
+                ph.LyDoChi = ctrlLyDo.LayLyDoChi(Convert.ToInt32(tbl.Rows[0]["ID_LY_DO_CHI"]));
                 ph.NgayChi = Convert.ToDateTime(tbl.Rows[0]["NGAY_CHI"]);
                 ph.TongTien = Convert.ToInt64(tbl.Rows[0]["TONG_TIEN"]);
                 ph.GhiChu = Convert.ToString(tbl.Rows[0]["GHI_CHU"]);

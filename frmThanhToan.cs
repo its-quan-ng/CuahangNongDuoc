@@ -80,7 +80,7 @@ namespace CuahangNongduoc
             {
                 PhieuThanhToanController ctrlTT = new PhieuThanhToanController();
                 String ma_phieu = row["ID"].ToString();
-                CuahangNongduoc.BusinessObject.PhieuThanhToan ph = ctrlTT.LayPhieuThanhToan(ma_phieu);
+                CuahangNongduoc.BusinessObject.PhieuThanhToan ph = ctrlTT.LayPhieuThanhToan(Convert.ToInt32(ma_phieu));
                 frmInPhieuThanhToan PhieuThanhToan = new frmInPhieuThanhToan(ph);
                 PhieuThanhToan.Show();
             }
@@ -97,7 +97,7 @@ namespace CuahangNongduoc
             if (Tim.DialogResult == DialogResult.OK)
             {
                 ctrl.TimPhieuThanhToan(bindingNavigator, dataGridView, cmbKhachHang, txtMaPhieu, dtNgayThanhToan, numTongTien, txtGhiChu,
-                    Tim.cmbKhachHang.SelectedValue.ToString(), Tim.dtNgayThu.Value.Date);
+                    Convert.ToInt32(Tim.cmbKhachHang.SelectedValue), Tim.dtNgayThu.Value.Date);
             }
         }
 

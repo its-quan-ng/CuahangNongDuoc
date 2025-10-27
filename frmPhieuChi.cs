@@ -74,7 +74,7 @@ namespace CuahangNongduoc
             {
                 PhieuChiController ctrlChi = new PhieuChiController();
                 String ma_phieu = row["ID"].ToString();
-                CuahangNongduoc.BusinessObject.PhieuChi ph = ctrlChi.LayPhieuChi(ma_phieu);
+                CuahangNongduoc.BusinessObject.PhieuChi ph = ctrlChi.LayPhieuChi(Convert.ToInt32(ma_phieu));
                 frmInPhieuChi InPhieu = new frmInPhieuChi(ph);
                 InPhieu.Show();
             }

@@ -27,7 +27,7 @@ namespace CuahangNongduoc.Controller
             factory.Save();
         }
 
-        public PhieuThanhToan LayPhieuThanhToan(String id)
+        public PhieuThanhToan LayPhieuThanhToan(int id)
         {
             PhieuThanhToan ph = null;
             DataTable tbl = factory.LayPhieuThanhToan(id);
@@ -36,7 +36,7 @@ namespace CuahangNongduoc.Controller
                 ph = new PhieuThanhToan();
                 ph.Id = Convert.ToString(tbl.Rows[0]["ID"]);
                 KhachHangController ctrlKH = new KhachHangController();
-                ph.KhachHang = ctrlKH.LayKhachHang(Convert.ToString(tbl.Rows[0]["ID_KHACH_HANG"]));
+                ph.KhachHang = ctrlKH.LayKhachHang(Convert.ToInt32(tbl.Rows[0]["ID_KHACH_HANG"]));
                 ph.NgayThanhToan = Convert.ToDateTime(tbl.Rows[0]["NGAY_THANH_TOAN"]);
                 ph.TongTien = Convert.ToInt64(tbl.Rows[0]["TONG_TIEN"]);
                 ph.GhiChu = Convert.ToString(tbl.Rows[0]["GHI_CHU"]);
@@ -70,7 +70,7 @@ namespace CuahangNongduoc.Controller
 
         }
         public void TimPhieuThanhToan(BindingNavigator bn, DataGridView dg, ComboBox cmb, TextBox txt, DateTimePicker dt, NumericUpDown numTongTien, TextBox txtGhichu,
-            String idKH, DateTime dtNgayThu)
+            int idKH, DateTime dtNgayThu)
         {
             
             BindingSource bs = new BindingSource();

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
-using System.Data.OleDb;
+using System.Data.SqlClient;
 
 namespace CuahangNongduoc.DataLayer
 {
@@ -12,38 +12,41 @@ namespace CuahangNongduoc.DataLayer
 
         public void LoadSchema()
         {
-           OleDbCommand cmd = new OleDbCommand("SELECT * FROM PHIEU_NHAP WHERE ID='-1'");
+           SqlCommand cmd = new SqlCommand("SELECT * FROM PHIEU_NHAP WHERE ID=-1");
             m_Ds.Load(cmd);
 
         }
 
         public DataTable DanhsachPhieuNhap()
         {
-            OleDbCommand cmd = new OleDbCommand("SELECT * FROM PHIEU_NHAP");
-            m_Ds.Load(cmd);
+            DataService ds = new DataService();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM PHIEU_NHAP");
+            ds.Load(cmd);
 
-            return m_Ds;
+            return ds;
         }
 
-        public DataTable TimPhieuNhap(String maNCC, DateTime dt)
+        public DataTable TimPhieuNhap(int maNCC, DateTime dt)
         {
+            DataService ds = new DataService();
             String sql = "SELECT * FROM PHIEU_NHAP WHERE NGAY_NHAP = @ngay AND ID_NHA_CUNG_CAP = @ncc";
-            OleDbCommand cmd = new OleDbCommand(sql);
-            cmd.Parameters.Add("ngay", OleDbType.Date).Value = dt;
-            cmd.Parameters.Add("ncc", OleDbType.VarChar).Value = maNCC;
+            SqlCommand cmd = new SqlCommand(sql);
+            cmd.Parameters.Add("@ngay", SqlDbType.DateTime).Value = dt;
+            cmd.Parameters.Add("@ncc", SqlDbType.Int).Value = maNCC;
             
-            m_Ds.Load(cmd);
+            ds.Load(cmd);
 
-            return m_Ds;
+            return ds;
         }
 
 
-        public DataTable LayPhieuNhap(String id)
+        public DataTable LayPhieuNhap(int id)
         {
-            OleDbCommand cmd = new OleDbCommand("SELECT * FROM PHIEU_NHAP WHERE ID = @id");
-            cmd.Parameters.Add("id", OleDbType.VarChar,50).Value = id;
-            m_Ds.Load(cmd);
-            return m_Ds;
+            DataService ds = new DataService();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM PHIEU_NHAP WHERE ID = @id");
+            cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
+            ds.Load(cmd);
+            return ds;
         }
 
 

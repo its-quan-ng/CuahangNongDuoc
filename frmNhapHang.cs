@@ -38,7 +38,7 @@ namespace CuahangNongduoc
         void BindingSource_CurrentChanged(object sender, EventArgs e)
         {
             if (status == Controll.Normal)
-                ctrlMaSP.HienThiChiTietPhieuNhap(txtMaPhieu.Text, dataGridView);
+                ctrlMaSP.HienThiChiTietPhieuNhap(Convert.ToInt32(txtMaPhieu.Text), dataGridView);
         }
       
         private void frmNhapHang_Load(object sender, EventArgs e)
@@ -54,7 +54,7 @@ namespace CuahangNongduoc
             bindingNavigator.BindingSource.CurrentChanged -= new EventHandler(BindingSource_CurrentChanged);
             bindingNavigator.BindingSource.CurrentChanged += new EventHandler(BindingSource_CurrentChanged);
             
-            ctrlMaSP.HienThiChiTietPhieuNhap(txtMaPhieu.Text, dataGridView);
+            ctrlMaSP.HienThiChiTietPhieuNhap(Convert.ToInt32(txtMaPhieu.Text), dataGridView);
 
             if (status == Controll.AddNew)
             {
@@ -175,7 +175,7 @@ namespace CuahangNongduoc
 
             PhieuNhapController ctrlPN = new PhieuNhapController();
 
-            if (ctrlPN.LayPhieuNhap(txtMaPhieu.Text) != null)
+            if (ctrlPN.LayPhieuNhap(Convert.ToInt32(txtMaPhieu.Text)) != null)
             {
                 MessageBox.Show("Mã Phiếu nhập này đã tồn tại !", "Phieu Nhap", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -196,7 +196,7 @@ namespace CuahangNongduoc
             SanPhamController ctrlSP = new SanPhamController();
             foreach (DataGridViewRow view in dataGridView.Rows)
             {
-                ctrlSP.CapNhatGiaNhap(Convert.ToString(view.Cells["colSanPham"].Value),
+                ctrlSP.CapNhatGiaNhap(Convert.ToInt32(view.Cells["colSanPham"].Value),
                     Convert.ToInt64(view.Cells["colDonGiaNhap"].Value),
                 Convert.ToInt64(view.Cells["colSoLuong"].Value));
 
@@ -214,7 +214,7 @@ namespace CuahangNongduoc
             numTongTien.Value = 0;
             numDaTra.Value = 0;
             numConNo.Value = 0;
-            ctrlMaSP.HienThiChiTietPhieuNhap(txtMaPhieu.Text, dataGridView);
+            ctrlMaSP.HienThiChiTietPhieuNhap(Convert.ToInt32(txtMaPhieu.Text), dataGridView);
             this.Allow(true);
         }
 
@@ -231,7 +231,7 @@ namespace CuahangNongduoc
 
                 PhieuNhapController ctrlPN = new PhieuNhapController();
 
-                CuahangNongduoc.BusinessObject.PhieuNhap ph = ctrlPN.LayPhieuNhap(ma_phieu);
+                CuahangNongduoc.BusinessObject.PhieuNhap ph = ctrlPN.LayPhieuNhap(Convert.ToInt32(ma_phieu));
 
                 frmInPhieuNhap PhieuNhap = new frmInPhieuNhap(ph);
 

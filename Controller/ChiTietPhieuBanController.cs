@@ -15,7 +15,7 @@ namespace CuahangNongduoc.Controller
 
 
 
-        public void HienThiChiTiet(DataGridView dgv, String idPhieuBan)
+        public void HienThiChiTiet(DataGridView dgv, int idPhieuBan)
         {
             BindingSource bs = new BindingSource();
             bs.DataSource = factory.LayChiTietPhieuBan(idPhieuBan);
@@ -35,7 +35,7 @@ namespace CuahangNongduoc.Controller
         }
 
 
-        public IList<ChiTietPhieuBan> ChiTietPhieuBan(String idPhieuBan)
+        public IList<ChiTietPhieuBan> ChiTietPhieuBan(int idPhieuBan)
         {
             IList<ChiTietPhieuBan> ds = new List<ChiTietPhieuBan>();
 

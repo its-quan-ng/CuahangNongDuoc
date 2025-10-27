@@ -14,6 +14,7 @@ namespace CuahangNongduoc.Controller
 
         public void HienthiAutoComboBox(System.Windows.Forms.ComboBox cmb)
         {
+            cmb.DataSource = null;  // ← Reset binding trước
             DataTable tbl = factory.DanhsachDVT();
             cmb.DataSource = tbl;
             cmb.DisplayMember = "TEN_DON_VI";

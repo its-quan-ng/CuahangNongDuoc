@@ -14,7 +14,7 @@ namespace CuahangNongduoc.Controller
         ChiTietPhieuNhapFactory factory = new ChiTietPhieuNhapFactory();
 
 
-        public void ThemChiTietPhieuNhap(String idPhieuNhap, String idMaSP)
+        public void ThemChiTietPhieuNhap(int idPhieuNhap, String idMaSP)
         {
             factory.LoadSchema();
             DataRow row = factory.NewRow();
@@ -24,12 +24,12 @@ namespace CuahangNongduoc.Controller
             factory.Add(row);
             factory.Save();
         }
-        public int XoaChiTietPhieuNhap(String idPhieuNhap)
+        public int XoaChiTietPhieuNhap(int idPhieuNhap)
         {
             return factory.XoaChiTietPhieuNhap(idPhieuNhap);
         }
 
-        public void HienThiChiTietPhieuNhap(String id, ListView lvw)
+        public void HienThiChiTietPhieuNhap(int id, ListView lvw)
         {
             MaSanPhamController ctrlMSP = new MaSanPhamController();
             PhieuNhapController ctrlPN = new PhieuNhapController();
@@ -40,7 +40,7 @@ namespace CuahangNongduoc.Controller
             {
                 ChiTietPhieuNhap ct = new ChiTietPhieuNhap();
                 ct.MaSanPham = ctrlMSP.LayMaSanPham(Convert.ToString(row["ID_MA_SAN_PHAM"]));
-                ct.PhieuNhap = ctrlPN.LayPhieuNhap(Convert.ToString((row["ID_PHIEU_NHAP"])));
+                ct.PhieuNhap = ctrlPN.LayPhieuNhap(Convert.ToInt32(row["ID_PHIEU_NHAP"]));
 
                 ListViewItem item = new ListViewItem(Convert.ToString(lvw.Items.Count + 1));
                 item.SubItems.Add(ct.MaSanPham.SanPham.TenSanPham);

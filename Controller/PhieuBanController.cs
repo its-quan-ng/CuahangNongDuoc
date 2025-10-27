@@ -18,7 +18,7 @@ namespace CuahangNongduoc.Controller
 
         public PhieuBanController()
         {
-            bs.DataSource = factory.LayPhieuBan("-1");
+            bs.DataSource = factory.LayPhieuBan(-1);
         }
         public DataRow NewRow()
         {
@@ -90,7 +90,7 @@ namespace CuahangNongduoc.Controller
 
         }
 
-        public PhieuBan LayPhieuBan(String id)
+        public PhieuBan LayPhieuBan(int id)
         {
             DataTable tbl = factory.LayPhieuBan(id);
             PhieuBan ph = null;
@@ -105,14 +105,14 @@ namespace CuahangNongduoc.Controller
                 ph.DaTra = Convert.ToInt64(tbl.Rows[0]["DA_TRA"]);
                 ph.ConNo = Convert.ToInt64(tbl.Rows[0]["CON_NO"]);
                 KhachHangController ctrlKH = new KhachHangController();
-                ph.KhachHang = ctrlKH.LayKhachHang(Convert.ToString(tbl.Rows[0]["ID_KHACH_HANG"]));
+                ph.KhachHang = ctrlKH.LayKhachHang(Convert.ToInt32(tbl.Rows[0]["ID_KHACH_HANG"]));
                 ChiTietPhieuBanController ctrl = new ChiTietPhieuBanController();
-                ph.ChiTiet = ctrl.ChiTietPhieuBan(ph.Id);
+                ph.ChiTiet = ctrl.ChiTietPhieuBan(Convert.ToInt32(ph.Id));
             }
             return ph;
         }
 
-        public void TimPhieuBan(String maKH, DateTime dt)
+        public void TimPhieuBan(int maKH, DateTime dt)
         {
             factory.TimPhieuBan(maKH, dt);
 

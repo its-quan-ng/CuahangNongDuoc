@@ -29,7 +29,12 @@ namespace CuahangNongduoc.Controller
         {
             System.Windows.Forms.BindingSource bs = new System.Windows.Forms.BindingSource();
             DataTable tbl = factory.DanhsachKhachHang(false);
-            tbl.Columns[4].DefaultValue = false;
+            
+            if (tbl != null && tbl.Columns.Count > 4)
+            {
+                tbl.Columns[4].DefaultValue = false;
+            }
+            
             bs.DataSource = tbl;
             bn.BindingSource = bs;
             dg.DataSource = bs;
@@ -71,7 +76,12 @@ namespace CuahangNongduoc.Controller
         {
             System.Windows.Forms.BindingSource bs = new System.Windows.Forms.BindingSource();
             DataTable tbl = factory.DanhsachKhachHang(true);
-            tbl.Columns[4].DefaultValue = true;
+            
+            if (tbl != null && tbl.Columns.Count > 4)
+            {
+                tbl.Columns[4].DefaultValue = true;
+            }
+            
             bs.DataSource = tbl;
             bn.BindingSource = bs;
             dg.DataSource = bs;
@@ -87,7 +97,7 @@ namespace CuahangNongduoc.Controller
             factory.TimDiaChi(diachi, loai);
         }
         
-        public KhachHang LayKhachHang(String id)
+        public KhachHang LayKhachHang(int id)
         {
             DataTable tbl = factory.LayKhachHang(id);
             KhachHang kh = new KhachHang();

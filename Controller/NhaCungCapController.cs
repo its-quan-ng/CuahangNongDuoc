@@ -50,7 +50,7 @@ namespace CuahangNongduoc.Controller
 
         }
         
-        public NhaCungCap LayNCC(String id)
+        public NhaCungCap LayNCC(int id)
         {
             DataTable tbl = factory.LayNCC(id);
             NhaCungCap ncc = new NhaCungCap();

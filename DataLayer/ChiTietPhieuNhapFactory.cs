@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
-using System.Data.OleDb;
+using System.Data.SqlClient;
 
 namespace CuahangNongduoc.DataLayer
 {
@@ -12,22 +12,23 @@ namespace CuahangNongduoc.DataLayer
 
         public void LoadSchema()
         {
-            OleDbCommand cmd = new OleDbCommand("SELECT * FROM CHI_TIET_PHIEU_NHAP WHERE ID_PHIEU_NHAP = '-1'");
+            SqlCommand cmd = new SqlCommand("SELECT * FROM CHI_TIET_PHIEU_NHAP WHERE ID_PHIEU_NHAP = -1");
             m_Ds.Load(cmd);
         }
 
-        public DataTable LayChiTietPhieuNhap(String id)
+        public DataTable LayChiTietPhieuNhap(int id)
         {
-            OleDbCommand cmd = new OleDbCommand("SELECT * FROM CHI_TIET_PHIEU_NHAP WHERE ID_PHIEU_NHAP = @id");
-            cmd.Parameters.Add("id", OleDbType.VarChar,50).Value = id;
-            m_Ds.Load(cmd);
-            return m_Ds;
+            DataService ds = new DataService();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM CHI_TIET_PHIEU_NHAP WHERE ID_PHIEU_NHAP = @id");
+            cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
+            ds.Load(cmd);
+            return ds;
         }
 
-        public int XoaChiTietPhieuNhap(String id)
+        public int XoaChiTietPhieuNhap(int id)
         {
-            OleDbCommand cmd = new OleDbCommand("DELETE FROM CHI_TIET_PHIEU_NHAP WHERE ID_PHIEU_NHAP = @id");
-            cmd.Parameters.Add("id", OleDbType.VarChar, 50).Value = id;
+            SqlCommand cmd = new SqlCommand("DELETE FROM CHI_TIET_PHIEU_NHAP WHERE ID_PHIEU_NHAP = @id");
+            cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
             return m_Ds.ExecuteNoneQuery(cmd);
         }
         

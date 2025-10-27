@@ -16,7 +16,7 @@ namespace CuahangNongduoc.Controller
 
         public PhieuNhapController()
         {
-            bs.DataSource = factory.LayPhieuNhap("-1");
+            bs.DataSource = factory.LayPhieuNhap(-1);
         }
 
         public DataRow NewRow()
@@ -39,7 +39,7 @@ namespace CuahangNongduoc.Controller
         }
 
     
-        public PhieuNhap LayPhieuNhap(String id)
+        public PhieuNhap LayPhieuNhap(int id)
         {
             DataTable tbl = factory.LayPhieuNhap(id);
             PhieuNhap ph = null;
@@ -53,9 +53,9 @@ namespace CuahangNongduoc.Controller
                 ph.TongTien = Convert.ToInt64(tbl.Rows[0]["TONG_TIEN"]);
                 ph.DaTra = Convert.ToInt64(tbl.Rows[0]["TONG_TIEN"]);
                 ph.ConNo = Convert.ToInt64(tbl.Rows[0]["TONG_TIEN"]);
-                ph.NhaCungCap = ctrlNCC.LayNCC(Convert.ToString(tbl.Rows[0]["ID_NHA_CUNG_CAP"]));
+                ph.NhaCungCap = ctrlNCC.LayNCC(Convert.ToInt32(tbl.Rows[0]["ID_NHA_CUNG_CAP"]));
                 MaSanPhamController ctrl = new MaSanPhamController();
-                ph.ChiTiet = ctrl.ChiTietPhieuNhap(ph.Id);
+                ph.ChiTiet = ctrl.ChiTietPhieuNhap(Convert.ToInt32(ph.Id));
             }
             return ph;
         }
@@ -92,7 +92,7 @@ namespace CuahangNongduoc.Controller
             
         }
 
-        public void TimPhieuNhap(String maNCC, DateTime dt)
+        public void TimPhieuNhap(int maNCC, DateTime dt)
         {
             factory.TimPhieuNhap(maNCC, dt);
         }

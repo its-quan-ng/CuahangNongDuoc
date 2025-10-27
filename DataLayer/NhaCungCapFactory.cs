@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
-using System.Data.OleDb;
+using System.Data.SqlClient;
 
 namespace CuahangNongduoc.DataLayer
 {
@@ -12,34 +12,38 @@ namespace CuahangNongduoc.DataLayer
 
         public DataTable DanhsachNCC()
         {
-            OleDbCommand cmd = new OleDbCommand("SELECT * FROM NHA_CUNG_CAP");
-            m_Ds.Load(cmd);
+            DataService ds = new DataService();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM NHA_CUNG_CAP");
+            ds.Load(cmd);
 
-            return m_Ds;
+            return ds;
         }
         public DataTable TimDiaChi(String diachi)
         {
-            OleDbCommand cmd = new OleDbCommand("SELECT * FROM NHA_CUNG_CAP WHERE DIA_CHI LIKE '%' + @diachi + '%' ");
-            cmd.Parameters.Add("diachi", OleDbType.VarChar).Value = diachi;
-            m_Ds.Load(cmd);
+            DataService ds = new DataService();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM NHA_CUNG_CAP WHERE DIA_CHI LIKE '%' + @diachi + '%' ");
+            cmd.Parameters.Add("@diachi", SqlDbType.NVarChar).Value = diachi;
+            ds.Load(cmd);
 
-            return m_Ds;
+            return ds;
         }
         public DataTable TimHoTen(String hoten)
         {
-            OleDbCommand cmd = new OleDbCommand("SELECT * FROM NHA_CUNG_CAP WHERE HO_TEN LIKE '%' + @hoten + '%' ");
-            cmd.Parameters.Add("hoten", OleDbType.VarChar).Value = hoten;
-            m_Ds.Load(cmd);
+            DataService ds = new DataService();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM NHA_CUNG_CAP WHERE HO_TEN LIKE '%' + @hoten + '%' ");
+            cmd.Parameters.Add("@hoten", SqlDbType.NVarChar).Value = hoten;
+            ds.Load(cmd);
 
-            return m_Ds;
+            return ds;
         }
 
-        public DataTable LayNCC(String id)
+        public DataTable LayNCC(int id)
         {
-            OleDbCommand cmd = new OleDbCommand("SELECT * FROM NHA_CUNG_CAP WHERE ID = @id");
-            cmd.Parameters.Add("id", OleDbType.VarChar,50).Value = id;
-            m_Ds.Load(cmd);
-            return m_Ds;
+            DataService ds = new DataService();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM NHA_CUNG_CAP WHERE ID = @id");
+            cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
+            ds.Load(cmd);
+            return ds;
         }
 
         public DataRow NewRow()

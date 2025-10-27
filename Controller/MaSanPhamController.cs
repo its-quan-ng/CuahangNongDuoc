@@ -62,7 +62,7 @@ namespace CuahangNongduoc.Controller
                 sp.NgayNhap = Convert.ToDateTime(tbl.Rows[0]["NGAY_NHAP"]);
                 sp.NgaySanXuat = Convert.ToDateTime(tbl.Rows[0]["NGAY_SAN_XUAT"]);
                 sp.NgayHetHan = Convert.ToDateTime(tbl.Rows[0]["NGAY_HET_HAN"]);
-                sp.SanPham = ctrlSanPham.LaySanPham(tbl.Rows[0]["ID_SAN_PHAM"].ToString());
+                sp.SanPham = ctrlSanPham.LaySanPham(Convert.ToInt32(tbl.Rows[0]["ID_SAN_PHAM"]));
                 
             }
             return sp;
@@ -86,14 +86,14 @@ namespace CuahangNongduoc.Controller
                 sp.NgayNhap = Convert.ToDateTime(row["NGAY_NHAP"]);
                 sp.NgaySanXuat = Convert.ToDateTime(row["NGAY_SAN_XUAT"]);
                 sp.NgayHetHan = Convert.ToDateTime(row["NGAY_HET_HAN"]);
-                sp.SanPham = ctrlSanPham.LaySanPham(row["ID_SAN_PHAM"].ToString());
+                sp.SanPham = ctrlSanPham.LaySanPham(Convert.ToInt32(row["ID_SAN_PHAM"]));
                 ds.Add(sp);
             }
             return ds;
 
         }
 
-        public void HienThiAutoComboBox(String sp, ComboBox cmb)
+        public void HienThiAutoComboBox(int sp, ComboBox cmb)
         {
             cmb.DataSource = factory.DanhsachMaSanPham(sp);
             cmb.DisplayMember = "ID";
@@ -109,12 +109,12 @@ namespace CuahangNongduoc.Controller
             cmb.HeaderText = "Mã sản phẩm";
         }
 
-        public void HienThiChiTietPhieuNhap(String id, DataGridView dg)
+        public void HienThiChiTietPhieuNhap(int id, DataGridView dg)
         {
             
             dg.DataSource = factory.DanhsachChiTiet(id);
         }
-        public IList<MaSanPham> ChiTietPhieuNhap(String id)
+        public IList<MaSanPham> ChiTietPhieuNhap(int id)
         {
             SanPhamController ctrlSanPham = new SanPhamController();
             IList<MaSanPham> ds = new List<MaSanPham>();
@@ -130,7 +130,7 @@ namespace CuahangNongduoc.Controller
                 sp.NgayNhap = Convert.ToDateTime(row["NGAY_NHAP"]);
                 sp.NgaySanXuat = Convert.ToDateTime(row["NGAY_SAN_XUAT"]);
                 sp.NgayHetHan = Convert.ToDateTime(row["NGAY_HET_HAN"]);
-                sp.SanPham = ctrlSanPham.LaySanPham(row["ID_SAN_PHAM"].ToString());
+                sp.SanPham = ctrlSanPham.LaySanPham(Convert.ToInt32(row["ID_SAN_PHAM"]));
                 ds.Add(sp);
             }
             return ds;

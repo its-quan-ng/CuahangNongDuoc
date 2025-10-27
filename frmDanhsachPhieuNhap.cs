@@ -54,7 +54,7 @@ namespace CuahangNongduoc
             {
                 PhieuNhapController ctrlPN = new PhieuNhapController();
                 String ma_phieu = row["ID"].ToString();
-                CuahangNongduoc.BusinessObject.PhieuNhap ph =  ctrlPN.LayPhieuNhap(ma_phieu);
+                CuahangNongduoc.BusinessObject.PhieuNhap ph =  ctrlPN.LayPhieuNhap(Convert.ToInt32(ma_phieu));
                 frmInPhieuNhap PhieuNhap = new frmInPhieuNhap(ph);
                 PhieuNhap.Show();
             }
@@ -80,7 +80,7 @@ namespace CuahangNongduoc
             TimPhieu.ShowDialog();
             if (TimPhieu.DialogResult == DialogResult.OK)
             {
-                ctrl.TimPhieuNhap(TimPhieu.cmbNCC.SelectedValue.ToString(), TimPhieu.dtNgayNhap.Value.Date);
+                ctrl.TimPhieuNhap(Convert.ToInt32(TimPhieu.cmbNCC.SelectedValue), TimPhieu.dtNgayNhap.Value.Date);
             }
         }
     }

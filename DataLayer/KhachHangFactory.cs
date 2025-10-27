@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
-using System.Data.OleDb;
+using System.Data.SqlClient;
 
 namespace CuahangNongduoc.DataLayer
 {
@@ -12,43 +12,51 @@ namespace CuahangNongduoc.DataLayer
 
         public DataTable DanhsachKhachHang(bool loai)
         {
-            OleDbCommand cmd = new OleDbCommand("SELECT * FROM KHACH_HANG WHERE LOAI_KH = " + loai);
-            m_Ds.Load(cmd);
+            DataService ds = new DataService();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM KHACH_HANG WHERE LOAI_KH = @loai");
+            cmd.Parameters.Add("@loai", SqlDbType.Bit).Value = loai;
+            ds.Load(cmd);
 
-            return m_Ds;
+            return ds;
         }
         public DataTable TimHoTen(String hoten, bool loai)
         {
-            OleDbCommand cmd = new OleDbCommand("SELECT * FROM KHACH_HANG WHERE HO_TEN LIKE '%' + @hoten + '%' AND LOAI_KH = " + loai);
-            cmd.Parameters.Add("hoten", OleDbType.VarChar).Value = hoten;
-            m_Ds.Load(cmd);
+            DataService ds = new DataService();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM KHACH_HANG WHERE HO_TEN LIKE '%' + @hoten + '%' AND LOAI_KH = @loai");
+            cmd.Parameters.Add("@hoten", SqlDbType.NVarChar).Value = hoten;
+            cmd.Parameters.Add("@loai", SqlDbType.Bit).Value = loai;
+            ds.Load(cmd);
 
-            return m_Ds;
+            return ds;
         }
 
         public DataTable TimDiaChi(String diachi, bool loai)
         {
-            OleDbCommand cmd = new OleDbCommand("SELECT * FROM KHACH_HANG WHERE DIA_CHI LIKE '%' + @diachi + '%' AND LOAI_KH = " + loai);
-            cmd.Parameters.Add("diachi", OleDbType.VarChar).Value = diachi;
-            m_Ds.Load(cmd);
+            DataService ds = new DataService();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM KHACH_HANG WHERE DIA_CHI LIKE '%' + @diachi + '%' AND LOAI_KH = @loai");
+            cmd.Parameters.Add("@diachi", SqlDbType.NVarChar).Value = diachi;
+            cmd.Parameters.Add("@loai", SqlDbType.Bit).Value = loai;
+            ds.Load(cmd);
 
-            return m_Ds;
+            return ds;
         }
 
         public DataTable DanhsachKhachHang()
         {
-            OleDbCommand cmd = new OleDbCommand("SELECT * FROM KHACH_HANG");
-            m_Ds.Load(cmd);
+            DataService ds = new DataService();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM KHACH_HANG");
+            ds.Load(cmd);
 
-            return m_Ds;
+            return ds;
         }
 
-        public DataTable LayKhachHang(String id)
+        public DataTable LayKhachHang(int id)
         {
-            OleDbCommand cmd = new OleDbCommand("SELECT * FROM KHACH_HANG WHERE ID = @id");
-            cmd.Parameters.Add("id", OleDbType.VarChar,50).Value = id;
-            m_Ds.Load(cmd);
-            return m_Ds;
+            DataService ds = new DataService();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM KHACH_HANG WHERE ID = @id");
+            cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
+            ds.Load(cmd);
+            return ds;
         }
 
         public DataRow NewRow()

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
-using System.Data.OleDb;
+using System.Data.SqlClient;
 
 namespace CuahangNongduoc.DataLayer
 {
@@ -12,39 +12,42 @@ namespace CuahangNongduoc.DataLayer
 
         public DataTable TimPhieuChi(int lydo, DateTime ngay)
         {
-            OleDbCommand cmd = new OleDbCommand("SELECT * FROM PHIEU_CHI WHERE ID_LY_DO_CHI = @lydo AND NGAY_CHI = @ngay");
-            cmd.Parameters.Add("lydo", OleDbType.Integer).Value = lydo;
-            cmd.Parameters.Add("ngay", OleDbType.Date).Value = ngay;
+            DataService ds = new DataService();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM PHIEU_CHI WHERE ID_LY_DO_CHI = @lydo AND NGAY_CHI = @ngay");
+            cmd.Parameters.Add("@lydo", SqlDbType.Int).Value = lydo;
+            cmd.Parameters.Add("@ngay", SqlDbType.DateTime).Value = ngay;
 
-            m_Ds.Load(cmd);
+            ds.Load(cmd);
 
-            return m_Ds;
+            return ds;
         }
 
         public DataTable DanhsachPhieuChi()
         {
-            OleDbCommand cmd = new OleDbCommand("SELECT * FROM PHIEU_CHI ");
-            m_Ds.Load(cmd);
+            DataService ds = new DataService();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM PHIEU_CHI ");
+            ds.Load(cmd);
 
-            return m_Ds;
+            return ds;
         }
       
-        public DataTable LayPhieuChi(String id)
+        public DataTable LayPhieuChi(int id)
         {
-            OleDbCommand cmd = new OleDbCommand("SELECT * FROM PHIEU_CHI WHERE ID = @id");
-            cmd.Parameters.Add("id", OleDbType.VarChar,50).Value = id;
-            m_Ds.Load(cmd);
-            return m_Ds;
+            DataService ds = new DataService();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM PHIEU_CHI WHERE ID = @id");
+            cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
+            ds.Load(cmd);
+            return ds;
         }
 
 
-        public static long LayTongTien(String lydo, int thang, int nam)
+        public static long LayTongTien(int lydo, int thang, int nam)
         {
             DataService ds = new DataService();
-            OleDbCommand cmd = new OleDbCommand("SELECT SUM(TONG_TIEN) FROM PHIEU_CHI WHERE ID_LY_DO_CHI = @lydo AND MONTH(NGAY_CHI)=@thang AND YEAR(NGAY_CHI)= @nam");
-            cmd.Parameters.Add("lydo", OleDbType.VarChar, 50).Value = lydo;
-            cmd.Parameters.Add("thang", OleDbType.Integer).Value = thang;
-            cmd.Parameters.Add("nam", OleDbType.Integer).Value = nam;
+            SqlCommand cmd = new SqlCommand("SELECT SUM(TONG_TIEN) FROM PHIEU_CHI WHERE ID_LY_DO_CHI = @lydo AND MONTH(NGAY_CHI)=@thang AND YEAR(NGAY_CHI)= @nam");
+            cmd.Parameters.Add("@lydo", SqlDbType.Int).Value = lydo;
+            cmd.Parameters.Add("@thang", SqlDbType.Int).Value = thang;
+            cmd.Parameters.Add("@nam", SqlDbType.Int).Value = nam;
 
             object obj = ds.ExecuteScalar(cmd);
             

@@ -57,7 +57,7 @@ namespace CuahangNongduoc
             {
                 DataRowView view = (DataRowView)bindingNavigator.BindingSource.Current;
                 ChiTietPhieuBanController ctrl = new ChiTietPhieuBanController();
-                IList<ChiTietPhieuBan> ds = ctrl.ChiTietPhieuBan(view["ID"].ToString());
+                IList<ChiTietPhieuBan> ds = ctrl.ChiTietPhieuBan(Convert.ToInt32(view["ID"]));
                 foreach (ChiTietPhieuBan ct in ds)
                 {
                     CuahangNongduoc.DataLayer.MaSanPhanFactory.CapNhatSoLuong(ct.MaSanPham.Id, ct.SoLuong);
@@ -74,7 +74,7 @@ namespace CuahangNongduoc
                  if (MessageBox.Show("Bạn có chắc chắn xóa không?", "Phieu Ban Le", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                  {
                      ChiTietPhieuBanController ctrl = new ChiTietPhieuBanController();
-                     IList<ChiTietPhieuBan> ds = ctrl.ChiTietPhieuBan(view["ID"].ToString());
+                     IList<ChiTietPhieuBan> ds = ctrl.ChiTietPhieuBan(Convert.ToInt32(view["ID"]));
                      foreach (ChiTietPhieuBan ct in ds)
                      {
                          CuahangNongduoc.DataLayer.MaSanPhanFactory.CapNhatSoLuong(ct.MaSanPham.Id, ct.SoLuong);
@@ -92,7 +92,7 @@ namespace CuahangNongduoc
             {
                 PhieuBanController ctrlPB = new PhieuBanController();
                 String ma_phieu = row["ID"].ToString();
-                CuahangNongduoc.BusinessObject.PhieuBan ph = ctrlPB.LayPhieuBan(ma_phieu);
+                CuahangNongduoc.BusinessObject.PhieuBan ph = ctrlPB.LayPhieuBan(Convert.ToInt32(ma_phieu));
                 frmInPhieuBan PhieuBan = new frmInPhieuBan(ph);
                 PhieuBan.Show();
             }
@@ -108,7 +108,7 @@ namespace CuahangNongduoc
             Tim.ShowDialog();
             if (Tim.DialogResult == DialogResult.OK)
             {
-                ctrl.TimPhieuBan(Tim.cmbNCC.SelectedValue.ToString(), Tim.dtNgayNhap.Value.Date);
+                ctrl.TimPhieuBan(Convert.ToInt32(Tim.cmbNCC.SelectedValue), Tim.dtNgayNhap.Value.Date);
             }
         }
     }
