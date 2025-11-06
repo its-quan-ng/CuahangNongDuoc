@@ -47,8 +47,9 @@ namespace CuahangNongduoc
         public static void GanMaPhieuNhap(long id)
         {
             DataService ds = new DataService();
-            ds.ExecuteNoneQuery(new SqlCommand("UPDATE THAM_SO SET PHIEU_NHAP = " + id));
-            
+            SqlCommand cmd = new SqlCommand("UPDATE THAM_SO SET PHIEU_NHAP = @id");
+            cmd.Parameters.Add("@id", SqlDbType.BigInt).Value = id;
+            ds.ExecuteNoneQuery(cmd);
         }
 
         public static long LayMaPhieuBan()
@@ -60,8 +61,9 @@ namespace CuahangNongduoc
         public static void GanMaPhieuBan(long id)
         {
             DataService ds = new DataService();
-            ds.ExecuteNoneQuery(new SqlCommand("UPDATE THAM_SO SET PHIEU_BAN = " + id));
-
+            SqlCommand cmd = new SqlCommand("UPDATE THAM_SO SET PHIEU_BAN = @id");
+            cmd.Parameters.Add("@id", SqlDbType.BigInt).Value = id;
+            ds.ExecuteNoneQuery(cmd);
         }
 
         public static long LayMaPhieuThanhToan()
@@ -73,8 +75,9 @@ namespace CuahangNongduoc
         public static void GanMaPhieuThanhToan(long id)
         {
             DataService ds = new DataService();
-            ds.ExecuteNoneQuery(new SqlCommand("UPDATE THAM_SO SET PHIEU_THANH_TOAN = " + id));
-
+            SqlCommand cmd = new SqlCommand("UPDATE THAM_SO SET PHIEU_THANH_TOAN = @id");
+            cmd.Parameters.Add("@id", SqlDbType.BigInt).Value = id;
+            ds.ExecuteNoneQuery(cmd);
         }
 
 
@@ -90,7 +93,9 @@ namespace CuahangNongduoc
             set 
             {
                 DataService ds = new DataService();
-                ds.ExecuteNoneQuery(new SqlCommand("UPDATE THAM_SO SET SAN_PHAM = " + value));
+                SqlCommand cmd = new SqlCommand("UPDATE THAM_SO SET SAN_PHAM = @value");
+                cmd.Parameters.Add("@value", SqlDbType.BigInt).Value = value;
+                ds.ExecuteNoneQuery(cmd);
             }
         }
 	
@@ -132,7 +137,9 @@ namespace CuahangNongduoc
             set
             {
                 DataService ds = new DataService();
-                ds.ExecuteNoneQuery(new SqlCommand("UPDATE THAM_SO SET NHA_CUNG_CAP = " + value));
+                SqlCommand cmd = new SqlCommand("UPDATE THAM_SO SET NHA_CUNG_CAP = @value");
+                cmd.Parameters.Add("@value", SqlDbType.BigInt).Value = value;
+                ds.ExecuteNoneQuery(cmd);
             }
         }
 
@@ -147,7 +154,9 @@ namespace CuahangNongduoc
             set
             {
                 DataService ds = new DataService();
-                ds.ExecuteNoneQuery(new SqlCommand("UPDATE THAM_SO SET KHACH_HANG = " + value));
+                SqlCommand cmd = new SqlCommand("UPDATE THAM_SO SET KHACH_HANG = @value");
+                cmd.Parameters.Add("@value", SqlDbType.BigInt).Value = value;
+                ds.ExecuteNoneQuery(cmd);
             }
         }
 
@@ -162,7 +171,9 @@ namespace CuahangNongduoc
             set
             {
                 DataService ds = new DataService();
-                ds.ExecuteNoneQuery(new SqlCommand("UPDATE THAM_SO SET PHIEU_CHI = " + value));
+                SqlCommand cmd = new SqlCommand("UPDATE THAM_SO SET PHIEU_CHI = @value");
+                cmd.Parameters.Add("@value", SqlDbType.BigInt).Value = value;
+                ds.ExecuteNoneQuery(cmd);
             }
         }
 
