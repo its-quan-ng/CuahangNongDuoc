@@ -21,12 +21,21 @@ namespace CuahangNongduoc.Controller
 
         public void HienthiDataGridview(System.Windows.Forms.DataGridView dg, System.Windows.Forms.BindingNavigator bn)
         {
+            factory.LoadData();
+            
             System.Windows.Forms.BindingSource bs = new System.Windows.Forms.BindingSource();
-            DataTable tbl = factory.DanhsachLyDo();
-            bs.DataSource = tbl;
+            bs.DataSource = factory.GetDataTable();
             bn.BindingSource = bs;
             dg.DataSource = bs;
             
+        }
+
+        /// <summary>
+        /// Get DataTable từ Factory để refresh binding
+        /// </summary>
+        public DataTable GetDataTable()
+        {
+            return factory.GetDataTable();
         }
 
         public void HienthiDataGridviewComboBox(System.Windows.Forms.DataGridViewComboBoxColumn cmb)

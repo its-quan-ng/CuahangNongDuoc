@@ -93,6 +93,17 @@ namespace CuahangNongduoc
             SqlTransaction tr = null;
 			try
 			{
+                OpenConnection();
+                
+                if (m_Command == null)
+                {
+                    if (string.IsNullOrEmpty(this.TableName))
+                    {
+                        throw new InvalidOperationException("TableName chưa được set. Không thể tạo command để update.");
+                    }
+                    m_Command = new SqlCommand("SELECT * FROM " + this.TableName);
+                }
+                
                 tr =  m_Connection.BeginTransaction();
 
                 m_Command.Connection = m_Connection;
@@ -112,7 +123,10 @@ namespace CuahangNongduoc
 			catch ( Exception e)
             {
                 if (tr != null) tr.Rollback();
-           
+                System.Diagnostics.Debug.WriteLine("DataService.ExecuteNoneQuery Error: " + e.Message);
+                System.Windows.Forms.MessageBox.Show("Lỗi khi lưu dữ liệu:\n" + e.Message, "Lỗi", 
+                    System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                throw; 
             }
             return result;
 		}

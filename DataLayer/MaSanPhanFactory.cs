@@ -10,6 +10,11 @@ namespace CuahangNongduoc.DataLayer
     {
         DataService m_Ds = new DataService();
 
+        public MaSanPhanFactory()
+        {
+            m_Ds.TableName = "MA_SAN_PHAM";
+        }
+
         public void LoadSchema()
         {
             SqlCommand cmd = new SqlCommand("SELECT * FROM MA_SAN_PHAM WHERE ID = '-1'");

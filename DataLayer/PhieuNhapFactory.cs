@@ -10,6 +10,11 @@ namespace CuahangNongduoc.DataLayer
     {
         DataService m_Ds = new DataService();
 
+        public PhieuNhapFactory()
+        {
+            m_Ds.TableName = "PHIEU_NHAP";
+        }
+
         public void LoadSchema()
         {
            SqlCommand cmd = new SqlCommand("SELECT * FROM PHIEU_NHAP WHERE ID=-1");

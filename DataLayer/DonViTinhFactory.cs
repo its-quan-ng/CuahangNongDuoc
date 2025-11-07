@@ -10,6 +10,11 @@ namespace CuahangNongduoc.DataLayer
     {
         DataService m_Ds = new DataService();
 
+        public DonViTinhFactory()
+        {
+            m_Ds.TableName = "DON_VI_TINH";
+        }
+
         public DataTable DanhsachDVT()
         {
             DataService ds = new DataService();
@@ -28,6 +33,24 @@ namespace CuahangNongduoc.DataLayer
             ds.Load(cmd);
             return ds;
         }
+
+        /// <summary>
+        /// Load data vào m_Ds để binding và save
+        /// </summary>
+        public void LoadData()
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM DON_VI_TINH");
+            m_Ds.Load(cmd);
+        }
+
+        /// <summary>
+        /// Get m_Ds để binding
+        /// </summary>
+        public DataTable GetDataTable()
+        {
+            return m_Ds;
+        }
+
         public bool Save()
         {
             return m_Ds.ExecuteNoneQuery() > 0;

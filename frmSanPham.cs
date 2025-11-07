@@ -31,7 +31,17 @@ namespace CuahangNongduoc
         private void toolLuu_Click(object sender, EventArgs e)
         {
             bindingNavigatorPositionItem.Focus();
-            ctrl.Save();
+            
+            bindingNavigator.BindingSource.EndEdit();
+            
+            if (ctrl.Save())
+            {
+                MessageBox.Show("Lưu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Không có thay đổi nào để lưu.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void bindingNavigatorAddNewItem_Click(object sender, EventArgs e)
@@ -110,11 +120,25 @@ namespace CuahangNongduoc
         {
             if (toolTimMaSanPham.Checked == true)
             {
-                ctrl.TimMaSanPham(Convert.ToInt32(toolTimSanPham.Text));
+                if (!string.IsNullOrEmpty(toolTimSanPham.Text))
+                {
+                    ctrl.TimMaSanPham(Convert.ToInt32(toolTimSanPham.Text));
+                    if (bindingNavigator.BindingSource != null)
+                    {
+                        bindingNavigator.BindingSource.DataSource = ctrl.GetDataTable();
+                    }
+                }
             }
             else
             {
-                ctrl.TimTenSanPham(toolTimSanPham.Text);
+                if (!string.IsNullOrEmpty(toolTimSanPham.Text))
+                {
+                    ctrl.TimTenSanPham(toolTimSanPham.Text);
+                    if (bindingNavigator.BindingSource != null)
+                    {
+                        bindingNavigator.BindingSource.DataSource = ctrl.GetDataTable();
+                    }
+                }
             }
         }
 
