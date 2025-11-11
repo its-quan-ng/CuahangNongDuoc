@@ -362,7 +362,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-# Cursor AI and AI coding assistants
 .cursorrules
 .cursorignore
-.cursor/
+CLAUDE.md
