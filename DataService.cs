@@ -59,8 +59,7 @@ namespace CuahangNongduoc
             try
             {
                 if (m_Connection == null)
-                    //m_Connection = new SqlConnection("Data Source=LAPTOP07\\SQLEXPRESS;Initial Catalog=VCB;Integrated Security=True;");
-                    //m_Connection = new SqlConnection("Data Source=localhost;Initial Catalog=phongkham;User ID=sa; Password=tvteo;");
+                   
                     m_Connection = new SqlConnection(m_ConnectString);
                     
                     
@@ -75,18 +74,13 @@ namespace CuahangNongduoc
             }
             
         }
-		/// <summary>
-		/// Closes the connection of this data service.
-		/// </summary>
+		
 		public void CloseConnection()
 		{
 			m_Connection.Close();
 		}
 
-        /// <summary>
-        /// Update DataTable
-        /// </summary>
-        /// <returns></returns>
+        
         public int ExecuteNoneQuery()
 		{
             int result = 0;
@@ -116,11 +110,9 @@ namespace CuahangNongduoc
             }
             return result;
 		}
-        /// <summary>
-        /// Thuc thi mot command
-        /// </summary>
+        
         /// <param name="command">SqlCommand hay Store Procedure</param>
-        /// <returns></returns>
+        
         public int ExecuteNoneQuery(SqlCommand cmd)
         {
 
