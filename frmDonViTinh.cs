@@ -24,7 +24,12 @@ namespace CuahangNongduoc
 
         private void toolLuu_Click(object sender, EventArgs e)
         {
-            ctrl.Save();
+            bindingNavigator.BindingSource.EndEdit();
+            
+            if (ctrl.Save())
+            {
+                MessageBox.Show("Lưu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }

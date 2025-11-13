@@ -10,7 +10,10 @@ namespace CuahangNongduoc.DataLayer
     {
         DataService m_Ds = new DataService();
 
-      
+        public ChiTietPhieuBanFactory()
+        {
+            m_Ds.TableName = "CHI_TIET_PHIEU_BAN";
+        }
 
         public DataTable LayChiTietPhieuBan(int idPhieuBan)
         {

@@ -33,11 +33,21 @@ namespace CuahangNongduoc.Controller
         }
         public void HienthiDataGridview(System.Windows.Forms.DataGridView dg, System.Windows.Forms.BindingNavigator bn)
         {
+            factory.LoadData();
+            
             System.Windows.Forms.BindingSource bs = new System.Windows.Forms.BindingSource();
-            bs.DataSource = factory.DanhsachDVT();
+            bs.DataSource = factory.GetDataTable();
             bn.BindingSource = bs;
             dg.DataSource = bs;
             
+        }
+
+        /// <summary>
+        /// Get DataTable từ Factory để refresh binding
+        /// </summary>
+        public DataTable GetDataTable()
+        {
+            return factory.GetDataTable();
         }
         
         public DonViTinh LayDVT(int id)

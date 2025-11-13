@@ -10,6 +10,11 @@ namespace CuahangNongduoc.DataLayer
     {
         DataService m_Ds = new DataService();
 
+        public SanPhamFactory()
+            {
+            m_Ds.TableName = "SAN_PHAM";
+        }
+
         public DataTable DanhsachSanPham()
         {
             DataService ds = new DataService();
@@ -28,6 +33,14 @@ namespace CuahangNongduoc.DataLayer
 
             return ds;
         }
+        
+        public void TimMaSanPhamLoad(int id)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM SAN_PHAM WHERE ID = @id");
+            cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
+            m_Ds.Load(cmd);
+        }
+        
         public DataTable TimTenSanPham(String ten)
         {
             DataService ds = new DataService();
@@ -36,6 +49,13 @@ namespace CuahangNongduoc.DataLayer
             ds.Load(cmd);
 
             return ds;
+        }
+        
+        public void TimTenSanPhamLoad(String ten)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM SAN_PHAM WHERE TEN_SAN_PHAM LIKE '%' + @ten + '%'");
+            cmd.Parameters.Add("@ten", SqlDbType.NVarChar).Value = ten;
+            m_Ds.Load(cmd);
         }
 
 
@@ -58,6 +78,22 @@ namespace CuahangNongduoc.DataLayer
             return ds;
         }
 
+        /// <summary>
+        /// Load data vào m_Ds để binding và save
+        /// </summary>
+        public void LoadData()
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM SAN_PHAM");
+            m_Ds.Load(cmd);
+        }
+
+        /// <summary>
+        /// Get m_Ds để binding
+        /// </summary>
+        public DataTable GetDataTable()
+        {
+            return m_Ds;
+        }
 
         public DataRow NewRow()
         {

@@ -31,18 +31,20 @@ namespace CuahangNongduoc.Controller
         }
         public void TimMaSanPham(int ma)
         {
-            factory.TimMaSanPham(ma);
+            factory.TimMaSanPhamLoad(ma);
         }
         public void TimTenSanPham(String ten)
         {
-            factory.TimTenSanPham(ten);
+            factory.TimTenSanPhamLoad(ten);
         }
 
         public void HienthiDataGridview(System.Windows.Forms.DataGridView dg, System.Windows.Forms.BindingNavigator bn,
             TextBox txtMaSp, TextBox txtTenSp, ComboBox cmbDVT, NumericUpDown numSL, NumericUpDown numDonGiaNhap, NumericUpDown numGiaBanSi, NumericUpDown numGiaBanLe)
         {
+            factory.LoadData();
+            
             System.Windows.Forms.BindingSource bs = new System.Windows.Forms.BindingSource();
-            bs.DataSource = factory.DanhsachSanPham();
+            bs.DataSource = factory.GetDataTable();
             
             txtMaSp.DataBindings.Clear();
             txtMaSp.DataBindings.Add("Text", bs, "ID");
@@ -133,6 +135,14 @@ namespace CuahangNongduoc.Controller
             }
             return ds;
 
+        }
+
+        /// <summary>
+        /// Get DataTable từ Factory để refresh binding
+        /// </summary>
+        public DataTable GetDataTable()
+        {
+            return factory.GetDataTable();
         }
 
         public DataRow NewRow()
