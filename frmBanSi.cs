@@ -51,9 +51,6 @@ namespace CuahangNongduoc
             ctrlPhieuBan.HienthiPhieuBan(bindingNavigator,cmbKhachHang, txtMaPhieu, dtNgayLapPhieu, numTongTien, numDaTra, numConNo);
             bindingNavigator.BindingSource.CurrentChanged += new EventHandler(BindingSource_CurrentChanged);
             
-            ctrlChiTiet.HienThiChiTiet(dgvDanhsachSP, Convert.ToInt32(txtMaPhieu.Text));
-
-
             if (status == Controll.AddNew)
             {
                 txtMaPhieu.Text = ThamSo.LayMaPhieuBan().ToString();
@@ -61,6 +58,12 @@ namespace CuahangNongduoc
             else
             {
                 this.Allow(false);
+
+                int maPhieu;
+                if (int.TryParse(txtMaPhieu.Text, out maPhieu))
+                {
+                    ctrlChiTiet.HienThiChiTiet(dgvDanhsachSP, maPhieu);
+                }
             }
 
 

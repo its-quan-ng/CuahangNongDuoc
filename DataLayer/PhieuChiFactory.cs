@@ -17,23 +17,23 @@ namespace CuahangNongduoc.DataLayer
 
         public DataTable TimPhieuChi(int lydo, DateTime ngay)
         {
-            DataService ds = new DataService();
+            // Sử dụng chung m_Ds để luôn có schema (các cột) của bảng PHIEU_CHI
             SqlCommand cmd = new SqlCommand("SELECT * FROM PHIEU_CHI WHERE ID_LY_DO_CHI = @lydo AND NGAY_CHI = @ngay");
             cmd.Parameters.Add("@lydo", SqlDbType.Int).Value = lydo;
             cmd.Parameters.Add("@ngay", SqlDbType.DateTime).Value = ngay;
 
-            ds.Load(cmd);
+            m_Ds.Load(cmd);
 
-            return ds;
+            return m_Ds;
         }
 
         public DataTable DanhsachPhieuChi()
         {
-            DataService ds = new DataService();
-            SqlCommand cmd = new SqlCommand("SELECT * FROM PHIEU_CHI ");
-            ds.Load(cmd);
+            // Load toàn bộ phiếu chi vào m_Ds để binding và thêm/sửa/xóa rồi Save()
+            SqlCommand cmd = new SqlCommand("SELECT * FROM PHIEU_CHI");
+            m_Ds.Load(cmd);
 
-            return ds;
+            return m_Ds;
         }
       
         public DataTable LayPhieuChi(int id)

@@ -47,12 +47,55 @@ namespace CuahangNongduoc
 
         }
 
+        private bool KiemTraBanGhiRong()
+        {
+            // Không cho phép lưu nếu tồn tại dòng chỉ có ID mà không nhập thêm thông tin nào
+            foreach (DataGridViewRow row in dataGridView.Rows)
+            {
+                // Bỏ qua dòng trống cuối cùng của DataGridView
+                if (row.IsNewRow) continue;
+
+                bool tatCaOThongTinTrong = true;
+
+                // Giả sử cột 0 là ID, chỉ kiểm tra các cột thông tin từ cột 1 trở đi
+                for (int i = 1; i < row.Cells.Count; i++)
+                {
+                    DataGridViewCell cell = row.Cells[i];
+
+                    // Nếu có ô nào có giá trị (khác null hoặc chuỗi trắng) thì bản ghi không rỗng về mặt thông tin
+                    if (cell.Value != null && !string.IsNullOrWhiteSpace(cell.Value.ToString()))
+                    {
+                        tatCaOThongTinTrong = false;
+                        break;
+                    }
+                }
+
+                if (tatCaOThongTinTrong)
+                {
+                    MessageBox.Show("Có bản ghi nhà cung cấp rỗng (chỉ có mã, chưa nhập thông tin). Vui lòng nhập thông tin hoặc xóa dòng này trước khi lưu.",
+                                    "Thông báo",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                    dataGridView.CurrentCell = row.Cells[0];
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         private void toolLuu_Click(object sender, EventArgs e)
         {
             // Đảm bảo commit giá trị đang sửa trên lưới
             dataGridView.EndEdit();
             bindingNavigatorPositionItem.Focus();
             bindingNavigator.BindingSource.EndEdit();
+
+            // Kiểm tra dữ liệu trước khi lưu
+            if (!KiemTraBanGhiRong())
+            {
+                return;
+            }
 
             if (ctrl.Save())
             {

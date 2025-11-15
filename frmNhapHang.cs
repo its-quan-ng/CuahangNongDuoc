@@ -38,24 +38,26 @@ namespace CuahangNongduoc
         void BindingSource_CurrentChanged(object sender, EventArgs e)
         {
             if (status == Controll.Normal)
-                ctrlMaSP.HienThiChiTietPhieuNhap(Convert.ToInt32(txtMaPhieu.Text), dataGridView);
+            {
+                int maPhieu;
+                if (int.TryParse(txtMaPhieu.Text, out maPhieu))
+                {
+                    ctrlMaSP.HienThiChiTietPhieuNhap(maPhieu, dataGridView);
+                }
+            }
         }
       
         private void frmNhapHang_Load(object sender, EventArgs e)
         {
-            
             ctrlSanPham.HienthiAutoComboBox(cmbSanPham);
             ctrlSanPham.HienthiDataGridViewComboBoxColumn(colSanPham);
             ctrlNCC.HienthiAutoComboBox(cmbNhaCungCap);
 
-
-            
-            ctrl.HienthiPhieuNhap(bindingNavigator, txtMaPhieu,cmbNhaCungCap, dtNgayNhap, numTongTien, numDaTra, numConNo);
+            ctrl.HienthiPhieuNhap(bindingNavigator, txtMaPhieu, cmbNhaCungCap, dtNgayNhap, numTongTien, numDaTra, numConNo);
             bindingNavigator.BindingSource.CurrentChanged -= new EventHandler(BindingSource_CurrentChanged);
             bindingNavigator.BindingSource.CurrentChanged += new EventHandler(BindingSource_CurrentChanged);
-            
-            ctrlMaSP.HienThiChiTietPhieuNhap(Convert.ToInt32(txtMaPhieu.Text), dataGridView);
 
+            // Khi thêm mới, txtMaPhieu chưa có giá trị nên cần gán mã trước khi dùng
             if (status == Controll.AddNew)
             {
                 txtMaPhieu.Text = ThamSo.LayMaPhieuNhap().ToString();
@@ -66,6 +68,12 @@ namespace CuahangNongduoc
                 Allow(false);
             }
 
+            // Sau khi txtMaPhieu chắc chắn là số thì mới hiển thị chi tiết phiếu nhập
+            int maPhieuLoad;
+            if (int.TryParse(txtMaPhieu.Text, out maPhieuLoad))
+            {
+                ctrlMaSP.HienThiChiTietPhieuNhap(maPhieuLoad, dataGridView);
+            }
 
         }
 
@@ -214,7 +222,11 @@ namespace CuahangNongduoc
             numTongTien.Value = 0;
             numDaTra.Value = 0;
             numConNo.Value = 0;
-            ctrlMaSP.HienThiChiTietPhieuNhap(Convert.ToInt32(txtMaPhieu.Text), dataGridView);
+            int maPhieuThem;
+            if (int.TryParse(txtMaPhieu.Text, out maPhieuThem))
+            {
+                ctrlMaSP.HienThiChiTietPhieuNhap(maPhieuThem, dataGridView);
+            }
             this.Allow(true);
         }
 

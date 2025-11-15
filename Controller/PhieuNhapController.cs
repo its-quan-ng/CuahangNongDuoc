@@ -94,7 +94,9 @@ namespace CuahangNongduoc.Controller
 
         public void TimPhieuNhap(int maNCC, DateTime dt)
         {
-            factory.TimPhieuNhap(maNCC, dt);
+            // Lọc lại nguồn dữ liệu của BindingSource theo điều kiện tìm kiếm
+            // để DataGridView và BindingNavigator hiển thị đúng kết quả đã chọn
+            bs.DataSource = factory.TimPhieuNhap(maNCC, dt);
         }
    
     }

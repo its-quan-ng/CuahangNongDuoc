@@ -21,6 +21,15 @@ namespace CuahangNongduoc
 
         private void frmSanPham_Load(object sender, EventArgs e)
         {
+            // Cho phép NumericUpDown nhận được các giá trị âm từ CSDL (nếu dữ liệu cũ bị sai),
+            // sau đó ta sẽ kiểm tra lại khi lưu bằng hàm KiemTraSanPhamHopLe().
+            // Nếu không đặt Minimum nhỏ hơn, khi binding gặp giá trị âm sẽ phát sinh
+            // System.ArgumentOutOfRangeException: 'Value' must be between 'Minimum' and 'Maximum'.
+            numSoLuong.Minimum = -1000000;
+            numDonGiaNhap.Minimum = -1000000000;
+            numGiaBanSi.Minimum = -1000000000;
+            numGiaBanLe.Minimum = -1000000000;
+
             ctrlDVT.HienthiAutoComboBox(cmbDVT);
             dataGridView.Columns.Add(ctrlDVT.HienthiDataGridViewComboBoxColumn());
             ctrl.HienthiDataGridview(dataGridView, bindingNavigator,

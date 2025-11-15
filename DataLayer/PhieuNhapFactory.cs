@@ -58,6 +58,11 @@ namespace CuahangNongduoc.DataLayer
         
         public DataRow NewRow()
         {
+            // Đảm bảo đã load schema (các cột của bảng PHIEU_NHAP) trước khi tạo dòng mới
+            if (m_Ds.Columns.Count == 0)
+            {
+                LoadSchema();
+            }
             return m_Ds.NewRow();
         }
         public void Add(DataRow row)

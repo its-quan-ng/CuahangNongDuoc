@@ -64,6 +64,28 @@ namespace CuahangNongduoc.DataLayer
         {
             SqlCommand cmd = new SqlCommand("SELECT * FROM DON_VI_TINH");
             m_Ds.Load(cmd);
+
+            // Thiết lập AutoIncrement cho cột ID giống như trong DanhsachDVT()
+            // để khi thêm đơn vị tính mới không bị lỗi "Column 'ID' does not allow nulls".
+            if (m_Ds.Columns.Contains("ID"))
+            {
+                DataColumn colId = m_Ds.Columns["ID"];
+                colId.AutoIncrement = true;
+
+                int seed = -1;
+                if (m_Ds.Rows.Count > 0)
+                {
+                    object minObj = m_Ds.Compute("MIN(ID)", string.Empty);
+                    if (minObj != DBNull.Value)
+                    {
+                        int minId = Convert.ToInt32(minObj);
+                        seed = minId - 1;
+                    }
+                }
+
+                colId.AutoIncrementSeed = seed;
+                colId.AutoIncrementStep = -1;
+            }
         }
 
         /// <summary>

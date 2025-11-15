@@ -5,6 +5,8 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Security;
+using System.Security.Permissions;
 
 namespace CuahangNongduoc
 {
@@ -13,10 +15,15 @@ namespace CuahangNongduoc
         CuahangNongduoc.BusinessObject.PhieuBan m_PhieuBan;
         public frmInPhieuBan(CuahangNongduoc.BusinessObject.PhieuBan ph)
         {
-            InitializeComponent();
-            reportViewer.LocalReport.ExecuteReportInCurrentAppDomain(System.Reflection.Assembly.GetExecutingAssembly().Evidence);
-            this.reportViewer.LocalReport.SubreportProcessing += new Microsoft.Reporting.WinForms.SubreportProcessingEventHandler(LocalReport_SubreportProcessing);
             m_PhieuBan = ph;
+            InitializeComponent();
+
+            // Chạy report trong sandbox AppDomain để tránh yêu cầu CAS trên .NET 4 trở lên
+            reportViewer.LocalReport.ExecuteReportInSandboxAppDomain();
+            reportViewer.LocalReport.SetBasePermissionsForSandboxAppDomain(
+                new PermissionSet(PermissionState.Unrestricted));
+
+            this.reportViewer.LocalReport.SubreportProcessing += new Microsoft.Reporting.WinForms.SubreportProcessingEventHandler(LocalReport_SubreportProcessing);
         }
 
         void LocalReport_SubreportProcessing(object sender, Microsoft.Reporting.WinForms.SubreportProcessingEventArgs e)

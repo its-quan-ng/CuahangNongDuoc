@@ -17,22 +17,23 @@ namespace CuahangNongduoc.DataLayer
 
         public DataTable DanhsachPhieuThanhToan()
         {
-            DataService ds = new DataService();
-            SqlCommand cmd = new SqlCommand("SELECT * FROM PHIEU_THANH_TOAN ");
-            ds.Load(cmd);
+            // Load toàn bộ phiếu thanh toán vào m_Ds để binding và thêm/sửa/xóa rồi Save()
+            SqlCommand cmd = new SqlCommand("SELECT * FROM PHIEU_THANH_TOAN");
+            m_Ds.Load(cmd);
 
-            return ds;
+            return m_Ds;
         }
+
         public DataTable TimPhieuThanhToan(int kh, DateTime ngay)
         {
-            DataService ds = new DataService();
+            // Sử dụng chung m_Ds để luôn có schema (các cột) của bảng PHIEU_THANH_TOAN
             SqlCommand cmd = new SqlCommand("SELECT * FROM PHIEU_THANH_TOAN WHERE ID_KHACH_HANG=@kh AND NGAY_THANH_TOAN = @ngay");
             cmd.Parameters.Add("@kh", SqlDbType.Int).Value = kh;
             cmd.Parameters.Add("@ngay", SqlDbType.DateTime).Value = ngay;
 
-            ds.Load(cmd);
+            m_Ds.Load(cmd);
 
-            return ds;
+            return m_Ds;
         }
       
         public DataTable LayPhieuThanhToan(int id)

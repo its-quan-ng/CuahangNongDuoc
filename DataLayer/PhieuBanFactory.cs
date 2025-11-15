@@ -15,6 +15,16 @@ namespace CuahangNongduoc.DataLayer
             m_Ds.TableName = "PHIEU_BAN";
         }
 
+        /// <summary>
+        /// Load schema (các cột) của bảng PHIEU_BAN vào m_Ds để NewRow() có đủ column như ID, NGAY_BAN...
+        /// </summary>
+        public void LoadSchema()
+        {
+            // Lấy schema bằng một câu lệnh luôn trả về 0 dòng nhưng đầy đủ cấu trúc cột
+            SqlCommand cmd = new SqlCommand("SELECT * FROM PHIEU_BAN WHERE ID = -1");
+            m_Ds.Load(cmd);
+        }
+
         public DataTable TimPhieuBan(int idKh, DateTime dt)
         {
             DataService ds = new DataService();
@@ -93,6 +103,11 @@ namespace CuahangNongduoc.DataLayer
         
         public DataRow NewRow()
         {
+            // Đảm bảo đã load schema cho bảng PHIEU_BAN trước khi tạo dòng mới
+            if (m_Ds.Columns.Count == 0)
+            {
+                LoadSchema();
+            }
             return m_Ds.NewRow();
         }
         public void Add(DataRow row)

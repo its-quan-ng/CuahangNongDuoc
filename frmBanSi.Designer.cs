@@ -435,7 +435,7 @@
             this.txtGiaBQGQ.BackColor = System.Drawing.Color.White;
             this.txtGiaBQGQ.Location = new System.Drawing.Point(75, 103);
             this.txtGiaBQGQ.Name = "txtGiaBQGQ";
-            this.txtGiaBQGQ.ReadOnly = true;
+            this.txtGiaBQGQ.ReadOnly = false;
             this.txtGiaBQGQ.Size = new System.Drawing.Size(109, 20);
             this.txtGiaBQGQ.TabIndex = 60;
             this.txtGiaBQGQ.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -454,7 +454,7 @@
             this.txtGiaBanLe.BackColor = System.Drawing.Color.White;
             this.txtGiaBanLe.Location = new System.Drawing.Point(75, 77);
             this.txtGiaBanLe.Name = "txtGiaBanLe";
-            this.txtGiaBanLe.ReadOnly = true;
+            this.txtGiaBanLe.ReadOnly = false;
             this.txtGiaBanLe.Size = new System.Drawing.Size(109, 20);
             this.txtGiaBanLe.TabIndex = 58;
             this.txtGiaBanLe.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -464,7 +464,7 @@
             this.txtGiaBanSi.BackColor = System.Drawing.Color.White;
             this.txtGiaBanSi.Location = new System.Drawing.Point(75, 49);
             this.txtGiaBanSi.Name = "txtGiaBanSi";
-            this.txtGiaBanSi.ReadOnly = true;
+            this.txtGiaBanSi.ReadOnly = false;
             this.txtGiaBanSi.Size = new System.Drawing.Size(109, 20);
             this.txtGiaBanSi.TabIndex = 57;
             this.txtGiaBanSi.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -474,7 +474,7 @@
             this.txtGiaNhap.BackColor = System.Drawing.Color.White;
             this.txtGiaNhap.Location = new System.Drawing.Point(75, 24);
             this.txtGiaNhap.Name = "txtGiaNhap";
-            this.txtGiaNhap.ReadOnly = true;
+            this.txtGiaNhap.ReadOnly = false;
             this.txtGiaNhap.Size = new System.Drawing.Size(109, 20);
             this.txtGiaNhap.TabIndex = 56;
             this.txtGiaNhap.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;

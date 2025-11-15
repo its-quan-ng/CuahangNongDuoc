@@ -48,19 +48,24 @@ namespace CuahangNongduoc
 
             bindingNavigator.BindingSource.CurrentChanged -= new EventHandler(BindingSource_CurrentChanged);
             bindingNavigator.BindingSource.CurrentChanged += new EventHandler(BindingSource_CurrentChanged);
-            
-            ctrlChiTiet.HienThiChiTiet(dgvDanhsachSP, Convert.ToInt32(txtMaPhieu.Text));
 
-
+            // Khi thêm mới, txtMaPhieu chưa có giá trị nên cần gán mã trước khi Convert.ToInt32
             if (status == Controll.AddNew)
             {
                 txtMaPhieu.Text = ThamSo.LayMaPhieuBan().ToString();
             }
-            else
+
+            // Sau khi đảm bảo txtMaPhieu là số hợp lệ thì mới hiển thị chi tiết
+            int maPhieu;
+            if (int.TryParse(txtMaPhieu.Text, out maPhieu))
+            {
+                ctrlChiTiet.HienThiChiTiet(dgvDanhsachSP, maPhieu);
+            }
+
+            if (status != Controll.AddNew)
             {
                 this.Allow(false);
             }
-
 
         }
 

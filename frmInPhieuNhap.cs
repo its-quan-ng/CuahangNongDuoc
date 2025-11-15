@@ -5,6 +5,8 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Security;
+using System.Security.Permissions;
 
 namespace CuahangNongduoc
 {
@@ -16,7 +18,12 @@ namespace CuahangNongduoc
             m_PhieuNhap = ph;
             InitializeComponent();
 
-            reportViewer.LocalReport.ExecuteReportInCurrentAppDomain(System.Reflection.Assembly.GetExecutingAssembly().Evidence);
+            // Thay vì chạy report trong AppDomain hiện tại (yêu cầu CAS),
+            // ta chạy trong sandbox AppDomain để tránh lỗi trên .NET 4 trở lên.
+            reportViewer.LocalReport.ExecuteReportInSandboxAppDomain();
+            reportViewer.LocalReport.SetBasePermissionsForSandboxAppDomain(
+                new PermissionSet(PermissionState.Unrestricted));
+
             this.reportViewer.LocalReport.SubreportProcessing += new Microsoft.Reporting.WinForms.SubreportProcessingEventHandler(LocalReport_SubreportProcessing);
         }
 
