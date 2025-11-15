@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BusinessObject\ChiTietPhieuBan.cs" />
+    <Compile Include="BusinessObject\NguoiDung.cs" />
     <Compile Include="BusinessObject\PhieuChi.cs" />
     <Compile Include="BusinessObject\LyDoChi.cs" />
     <Compile Include="BusinessObject\NhaCungCap.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="BusinessObject\SanPham.cs" />
     <Compile Include="BusinessObject\SoLuongTon.cs" />
     <Compile Include="Controller\ChiTietPhieuBanController.cs" />
+    <Compile Include="Controller\NguoiDungController.cs" />
     <Compile Include="Controller\PhieuChiController.cs" />
     <Compile Include="Controller\LyDoChiController.cs" />
     <Compile Include="Controller\NhaCungCapController.cs" />
@@ -101,6 +103,7 @@
     <Compile Include="Controller\PhieuBanController.cs" />
     <Compile Include="Controller\SanPhamController.cs" />
     <Compile Include="Controller\DonViTinhController.cs" />
+    <Compile Include="DataLayer\NguoiDungFactory.cs" />
     <Compile Include="DataLayer\PhieuChiFactory.cs" />
     <Compile Include="frmDangNhap.cs">
       <SubType>Form</SubType>

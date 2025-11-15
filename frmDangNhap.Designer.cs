@@ -32,7 +32,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtDangNhap = new System.Windows.Forms.TextBox();
+            this.txtTenDangNhap = new System.Windows.Forms.TextBox();
             this.txtMatKhau = new System.Windows.Forms.TextBox();
             this.btnDangNhap = new System.Windows.Forms.Button();
             this.btnThoat = new System.Windows.Forms.Button();
@@ -71,14 +71,14 @@
             this.label3.TabIndex = 1;
             this.label3.Text = "Mật khẩu:";
             // 
-            // txtDangNhap
+            // txtTenDangNhap
             // 
-            this.txtDangNhap.Location = new System.Drawing.Point(326, 119);
-            this.txtDangNhap.MaxLength = 50;
-            this.txtDangNhap.Multiline = true;
-            this.txtDangNhap.Name = "txtDangNhap";
-            this.txtDangNhap.Size = new System.Drawing.Size(232, 31);
-            this.txtDangNhap.TabIndex = 2;
+            this.txtTenDangNhap.Location = new System.Drawing.Point(326, 119);
+            this.txtTenDangNhap.MaxLength = 50;
+            this.txtTenDangNhap.Multiline = true;
+            this.txtTenDangNhap.Name = "txtTenDangNhap";
+            this.txtTenDangNhap.Size = new System.Drawing.Size(232, 31);
+            this.txtTenDangNhap.TabIndex = 2;
             // 
             // txtMatKhau
             // 
@@ -101,7 +101,6 @@
             this.btnDangNhap.Text = "Đăng nhập";
             this.btnDangNhap.UseVisualStyleBackColor = false;
             this.btnDangNhap.Click += new System.EventHandler(this.btnDangNhap_Click);
-            this.btnDangNhap.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtField_KeyDown);
             // 
             // btnThoat
             // 
@@ -113,6 +112,8 @@
             this.btnThoat.TabIndex = 3;
             this.btnThoat.Text = "Thoát";
             this.btnThoat.UseVisualStyleBackColor = false;
+            this.btnThoat.Click += new System.EventHandler(this.btnThoat_Click);
+            this.btnThoat.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.btnThoat_KeyPress);
             // 
             // picHinhAnhCuaHang
             // 
@@ -145,7 +146,7 @@
             this.Controls.Add(this.btnThoat);
             this.Controls.Add(this.btnDangNhap);
             this.Controls.Add(this.txtMatKhau);
-            this.Controls.Add(this.txtDangNhap);
+            this.Controls.Add(this.txtTenDangNhap);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -167,7 +168,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtDangNhap;
+        private System.Windows.Forms.TextBox txtTenDangNhap;
         private System.Windows.Forms.TextBox txtMatKhau;
         private System.Windows.Forms.Button btnDangNhap;
         private System.Windows.Forms.Button btnThoat;

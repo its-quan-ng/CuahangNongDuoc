@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CuahangNongduoc.BusinessObject;
+using CuahangNongduoc.Controller;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,48 +17,112 @@ namespace CuahangNongduoc
         public frmDangNhap()
         {
             InitializeComponent();
+            txtTenDangNhap.Focus();
         }
-        private void SetupEvents()
-        {
-            // 1. Thêm event Click cho button Đăng nhập
-            btnDangNhap.Click += btnDangNhap_Click;
-
-            // 2. Thêm event KeyDown (để bắt Enter Key) cho các field
-            txtDangNhap.KeyDown += TxtField_KeyDown;
-            txtMatKhau.KeyDown += TxtField_KeyDown;
-        }
-        private void TxtField_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                // Logic: username → password → login
-                if (sender == txtDangNhap)
-                {
-                    txtMatKhau.Focus();
-                }
-                else if (sender == txtMatKhau)
-                {
-                    ThucHienDangNhap();
-                }
-
-                // Chặn tiếng beep khi nhấn Enter trong TextBox
-                e.SuppressKeyPress = true;
-                e.Handled = true;
-            }
-        }
+       
+        private NguoiDungController ctrl = new NguoiDungController();
 
         private void frmDangNhap_Load(object sender, EventArgs e)
         {
-
+            txtTenDangNhap.Focus();
         }
 
         private void btnDangNhap_Click(object sender, EventArgs e)
-        {
-            ThucHienDangNhap();
+        { // VALIDATION: Kiểm tra rỗng
+            if (String.IsNullOrWhiteSpace(txtTenDangNhap.Text))
+            {
+                MessageBox.Show(
+                    "Vui lòng nhập tên đăng nhập!",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                txtTenDangNhap.Focus();
+                return;
+            }
+
+            if (String.IsNullOrWhiteSpace(txtMatKhau.Text))
+            {
+                MessageBox.Show(
+                    "Vui lòng nhập mật khẩu!",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                txtMatKhau.Focus();
+                return;
+            }
+
+            // ĐĂNG NHẬP
+            try
+            {
+                // Gọi Controller để kiểm tra
+                NguoiDung nguoiDung = ctrl.DangNhap(
+                    txtTenDangNhap.Text.Trim(),
+                    txtMatKhau.Text
+                );
+
+                if (nguoiDung != null)
+                {
+                    // ✅ ĐĂNG NHẬP THÀNH CÔNG
+
+                    // Lưu vào PhienDangNhap (Singleton)
+                    PhienDangNhap.DangNhap(
+                        nguoiDung.Id,
+                        nguoiDung.TenDangNhap,
+                        nguoiDung.HoTen,
+                        nguoiDung.QuyenHan
+                    );
+
+                    // Hiển thị thông báo
+                    MessageBox.Show(
+                        String.Format("Xin chào {0}!", nguoiDung.HoTen),
+                        "Đăng Nhập Thành Công",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+
+                    // Mở form chính
+                    this.Hide();
+                    frmMain frmChinh = new frmMain();
+                    frmChinh.ShowDialog();
+
+                    // Sau khi đóng frmMain → Đóng form đăng nhập
+                    this.Close();
+                }
+                else
+                {
+                    // ❌ ĐĂNG NHẬP THẤT BẠI
+                    MessageBox.Show(
+                        "Tên đăng nhập hoặc mật khẩu không đúng!",
+                        "Lỗi Đăng Nhập",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+
+                    // Clear mật khẩu, focus lại username
+                    txtMatKhau.Clear();
+                    txtTenDangNhap.SelectAll();
+                    txtTenDangNhap.Focus();
+                }
+            }
+            catch (Exception ex)
+            {
+                // LỖI DATABASE
+                MessageBox.Show(
+                    "Lỗi kết nối cơ sở dữ liệu:\n" + ex.Message,
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+
+                System.Diagnostics.Debug.WriteLine("frmDangNhap Error: " + ex.ToString());
+            }
+
         }
         private void ThucHienDangNhap()
         {
-            string tenDangNhap = txtDangNhap.Text.Trim();
+            string tenDangNhap = txtTenDangNhap.Text.Trim();
             string matKhau = txtMatKhau.Text; // Không trim mật khẩu
 
             // Validate Rỗng
@@ -65,7 +131,7 @@ namespace CuahangNongduoc
                 MessageBox.Show("Vui lòng nhập đầy đủ Tên đăng nhập và Mật khẩu.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 if (string.IsNullOrEmpty(tenDangNhap))
                 {
-                    txtDangNhap.Focus();
+                    txtTenDangNhap.Focus();
                 }
                 else
                 {
@@ -75,12 +141,12 @@ namespace CuahangNongduoc
             }
 
             // Gọi Controller để xử lý Đăng nhập (Giả định NguoiDungController đã tồn tại)
-            NguoiDung nguoiDung = NguoiDungController.Instance.DangNhap(tenDangNhap, matKhau);
+           NguoiDung nguoiDung = ctrl.DangNhap(tenDangNhap, matKhau);
 
             if (nguoiDung != null)
             {
                 // Đăng nhập thành công: Lưu vào PhienDangNhap
-                PhienDangNhap.Instance.DangNhap(
+                PhienDangNhap.DangNhap(
                     nguoiDung.Id,
                     nguoiDung.TenDangNhap,
                     nguoiDung.HoTen,
@@ -99,9 +165,50 @@ namespace CuahangNongduoc
                 // Đăng nhập thất bại
                 MessageBox.Show("Tên đăng nhập hoặc Mật khẩu không đúng. Vui lòng thử lại.", "Lỗi đăng nhập", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtMatKhau.Clear();
-                txtDangNhap.Focus();
+                txtTenDangNhap.Focus();
             }
         }
-    }
 
+        private void btnThoat_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(
+                    "Bạn có chắc muốn thoát?",
+                    "Xác nhận",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                ) == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
+
+        }
+
+        /// <summary>
+        /// Enter trong txtTenDangNhap → Focus sang txtMatKhau
+        /// </summary>
+        private void txtTenDangNhap_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            {
+                if (e.KeyChar == (char)Keys.Enter)
+                {
+                    txtMatKhau.Focus();
+                    e.Handled = true;
+                }
+            }
+
+
+        }
+
+        private void btnThoat_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                btnDangNhap.PerformClick();
+                e.Handled = true;
+            }
+        }
+
+    }
 }
+
+
