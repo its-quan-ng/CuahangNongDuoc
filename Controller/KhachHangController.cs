@@ -27,8 +27,10 @@ namespace CuahangNongduoc.Controller
 
         public void HienthiKhachHangDataGridview(System.Windows.Forms.DataGridView dg, System.Windows.Forms.BindingNavigator bn)
         {
+            factory.LoadDataKhachHang();
+            
             System.Windows.Forms.BindingSource bs = new System.Windows.Forms.BindingSource();
-            DataTable tbl = factory.DanhsachKhachHang(false);
+            DataTable tbl = factory.GetDataTable();
             
             if (tbl != null && tbl.Columns.Count > 4)
             {
@@ -74,8 +76,10 @@ namespace CuahangNongduoc.Controller
         }
         public void HienthiDaiLyDataGridview(System.Windows.Forms.DataGridView dg, System.Windows.Forms.BindingNavigator bn)
         {
+            factory.LoadDataDaiLy();
+            
             System.Windows.Forms.BindingSource bs = new System.Windows.Forms.BindingSource();
-            DataTable tbl = factory.DanhsachKhachHang(true);
+            DataTable tbl = factory.GetDataTable();
             
             if (tbl != null && tbl.Columns.Count > 4)
             {
@@ -88,13 +92,21 @@ namespace CuahangNongduoc.Controller
 
         }
 
+        /// <summary>
+        /// Get DataTable từ Factory để refresh binding
+        /// </summary>
+        public DataTable GetDataTable()
+        {
+            return factory.GetDataTable();
+        }
+
         public void TimHoTen(String hoten, bool loai)
         {
-            factory.TimHoTen(hoten, loai);
+            factory.TimHoTenLoad(hoten, loai);
         }
         public void TimDiaChi(String diachi, bool loai)
         {
-            factory.TimDiaChi(diachi, loai);
+            factory.TimDiaChiLoad(diachi, loai);
         }
         
         public KhachHang LayKhachHang(int id)

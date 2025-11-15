@@ -11,6 +11,11 @@ namespace CuahangNongduoc.DataLayer
         DataService m_Ds = new DataService();
 
         // Các hàm danh sách/tìm kiếm sử dụng chung m_Ds để binding và Save()
+        public NhaCungCapFactory()
+        {
+            m_Ds.TableName = "NHA_CUNG_CAP";
+        }
+
         public DataTable DanhsachNCC()
         {
             SqlCommand cmd = new SqlCommand("SELECT * FROM NHA_CUNG_CAP");
@@ -41,6 +46,43 @@ namespace CuahangNongduoc.DataLayer
             cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
             ds.Load(cmd);
             return ds;
+        }
+
+        /// <summary>
+        /// Load data vào m_Ds để binding và save
+        /// </summary>
+        public void LoadData()
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM NHA_CUNG_CAP");
+            m_Ds.Load(cmd);
+        }
+
+        /// <summary>
+        /// Get m_Ds để binding
+        /// </summary>
+        public DataTable GetDataTable()
+        {
+            return m_Ds;
+        }
+
+        /// <summary>
+        /// Tìm theo địa chỉ và load vào m_Ds để binding
+        /// </summary>
+        public void TimDiaChiLoad(String diachi)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM NHA_CUNG_CAP WHERE DIA_CHI LIKE '%' + @diachi + '%'");
+            cmd.Parameters.Add("@diachi", SqlDbType.NVarChar).Value = diachi;
+            m_Ds.Load(cmd);
+        }
+
+        /// <summary>
+        /// Tìm theo họ tên và load vào m_Ds để binding
+        /// </summary>
+        public void TimHoTenLoad(String hoten)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM NHA_CUNG_CAP WHERE HO_TEN LIKE '%' + @hoten + '%'");
+            cmd.Parameters.Add("@hoten", SqlDbType.NVarChar).Value = hoten;
+            m_Ds.Load(cmd);
         }
 
         public DataRow NewRow()

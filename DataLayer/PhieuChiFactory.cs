@@ -10,6 +10,11 @@ namespace CuahangNongduoc.DataLayer
     {
         DataService m_Ds = new DataService();
 
+        public PhieuChiFactory()
+        {
+            m_Ds.TableName = "PHIEU_CHI";
+        }
+
         public DataTable TimPhieuChi(int lydo, DateTime ngay)
         {
             DataService ds = new DataService();

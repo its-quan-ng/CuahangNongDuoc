@@ -44,7 +44,7 @@ namespace CuahangNongduoc
 
             DataRowView row = (DataRowView)bindingNavigator.BindingSource.AddNew();
             row["ID"] = maso;
-            
+
         }
 
         private void toolLuu_Click(object sender, EventArgs e)
@@ -52,30 +52,12 @@ namespace CuahangNongduoc
             // Đảm bảo commit giá trị đang sửa trên lưới
             dataGridView.EndEdit();
             bindingNavigatorPositionItem.Focus();
+            bindingNavigator.BindingSource.EndEdit();
 
-            // Lấy dòng hiện tại
-            DataRowView current = bindingNavigator.BindingSource.Current as DataRowView;
-            if (current == null)
+            if (ctrl.Save())
             {
-                return;
+                MessageBox.Show("Lưu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
-            // Kiểm tra các trường bắt buộc không được rỗng
-            string hoTen = Convert.ToString(current["HO_TEN"]).Trim();
-            string diaChi = Convert.ToString(current["DIA_CHI"]).Trim();
-            string dienThoai = Convert.ToString(current["DIEN_THOAI"]).Trim();
-
-            if (string.IsNullOrEmpty(hoTen))
-            {
-                MessageBox.Show("Bạn phải nhập tên nhà cung cấp.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // Nếu cần, có thể bắt buộc thêm các trường khác
-            // if (string.IsNullOrEmpty(diaChi)) { ... }
-            // if (string.IsNullOrEmpty(dienThoai)) { ... }
-
-            ctrl.Save();
         }
 
         private void toolThoat_Click(object sender, EventArgs e)

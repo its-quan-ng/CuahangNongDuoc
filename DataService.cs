@@ -4,22 +4,22 @@ using System.Data.SqlClient;
 
 namespace CuahangNongduoc
 {
-	
-	public class DataService : DataTable
-	{
-        
-		// The connection to a database of this data service.
-		private static SqlConnection	m_Connection;
+
+    public class DataService : DataTable
+    {
+
+        // The connection to a database of this data service.
+        private static SqlConnection m_Connection;
 
         //
         public static String m_ConnectString = "Server=LAPTOP-MV0TC9Q6\\SQLEXPRESS;Initial Catalog=QLCHNongDuoc;Integrated Security=SSPI;TrustServerCertificate=True;";
-		// The command to execute query or non-query command on a database of this data service.
-		private SqlCommand		m_Command;
-      
-		// The data adapter to execute query on a database of this data service.
-		private SqlDataAdapter	m_DataAdapter;
+        // The command to execute query or non-query command on a database of this data service.
+        private SqlCommand m_Command;
 
-        public DataService(){}
+        // The data adapter to execute query on a database of this data service.
+        private SqlDataAdapter m_DataAdapter;
+
+        public DataService() { }
 
 
         public SqlCommand Command
@@ -28,13 +28,13 @@ namespace CuahangNongduoc
             set { m_Command = value; }
         }
 
-		public void Load(SqlCommand command)
-		{
+        public void Load(SqlCommand command)
+        {
             OpenConnection();
             m_Command = command;
             try
             {
-                
+
                 m_Command.Connection = m_Connection;
 
                 m_DataAdapter = new SqlDataAdapter();
@@ -46,14 +46,14 @@ namespace CuahangNongduoc
                 m_DataAdapter.Fill(this);
 
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 // Log error để dễ debug
                 System.Diagnostics.Debug.WriteLine("DataService.Load Error: " + e.Message);
-                System.Windows.Forms.MessageBox.Show("Lỗi kết nối database:\n" + e.Message + "\n\nConnection: " + m_ConnectString, "Lỗi", 
+                System.Windows.Forms.MessageBox.Show("Lỗi kết nối database:\n" + e.Message + "\n\nConnection: " + m_ConnectString, "Lỗi",
                     System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
             }
-		}
+        }
 
 
         public static bool OpenConnection()
@@ -61,10 +61,10 @@ namespace CuahangNongduoc
             try
             {
                 if (m_Connection == null)
-                   
+
                     m_Connection = new SqlConnection(m_ConnectString);
-                    
-                    
+
+
                 if (m_Connection.State == ConnectionState.Closed)
                     m_Connection.Open();
                 return true;
@@ -74,22 +74,33 @@ namespace CuahangNongduoc
                 m_Connection.Close();
                 return false;
             }
-            
-        }
-		
-		public void CloseConnection()
-		{
-			m_Connection.Close();
-		}
 
-        
+        }
+
+        public void CloseConnection()
+        {
+            m_Connection.Close();
+        }
+
+
         public int ExecuteNoneQuery()
-		{
+        {
             int result = 0;
             SqlTransaction tr = null;
-			try
-			{
-                tr =  m_Connection.BeginTransaction();
+            try
+            {
+                OpenConnection();
+
+                if (m_Command == null)
+                {
+                    if (string.IsNullOrEmpty(this.TableName))
+                    {
+                        throw new InvalidOperationException("TableName chưa được set. Không thể tạo command để update.");
+                    }
+                    m_Command = new SqlCommand("SELECT * FROM " + this.TableName);
+                }
+
+                tr = m_Connection.BeginTransaction();
 
                 m_Command.Connection = m_Connection;
                 m_Command.Transaction = tr;
@@ -104,7 +115,7 @@ namespace CuahangNongduoc
                 tr.Commit();
 
             }
-            catch ( Exception e)
+            catch (Exception e)
             {
                 if (tr != null) tr.Rollback();
                 // Hiện lỗi ra màn hình để biết vì sao lưu thất bại (ví dụ thiếu PRIMARY KEY)
@@ -115,10 +126,10 @@ namespace CuahangNongduoc
                     System.Windows.Forms.MessageBoxIcon.Error);
             }
             return result;
-		}
-        
+        }
+
         /// <param name="command">SqlCommand hay Store Procedure</param>
-        
+
         public int ExecuteNoneQuery(SqlCommand cmd)
         {
 
@@ -140,20 +151,20 @@ namespace CuahangNongduoc
                 tr.Commit();
 
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 if (tr != null) tr.Rollback();
                 throw;
             }
             return result;
-            
+
         }
 
         public object ExecuteScalar(SqlCommand cmd)
         {
             object result = null;
             SqlTransaction tr = null;
-            
+
             try
             {
                 tr = m_Connection.BeginTransaction();
@@ -180,5 +191,5 @@ namespace CuahangNongduoc
             }
             return result;
         }
-	}
+    }
 }

@@ -119,7 +119,7 @@ namespace CuahangNongduoc
         {
             DataRow row = ctrl.NewRow();
             long maso = ThamSo.SanPham;
-            ThamSo.SanPham = maso+1;
+            ThamSo.SanPham = maso + 1;
             row["ID"] = maso;
             row["TEN_SAN_PHAM"] = "";
             row["SO_LUONG"] = 0;
@@ -128,10 +128,10 @@ namespace CuahangNongduoc
             row["GIA_BAN_LE"] = 0;
             ctrl.Add(row);
             bindingNavigator.BindingSource.MoveLast();
-            
+
         }
 
-      
+
         private void bindingNavigatorDeleteItem_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Bạn có chắc chắn xóa không?", "San Pham", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -148,7 +148,7 @@ namespace CuahangNongduoc
         private void dataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
             e.Cancel = true;
-            
+
         }
 
         private void btnThemDVT_Click(object sender, EventArgs e)
@@ -191,11 +191,25 @@ namespace CuahangNongduoc
         {
             if (toolTimMaSanPham.Checked == true)
             {
-                ctrl.TimMaSanPham(Convert.ToInt32(toolTimSanPham.Text));
+                if (!string.IsNullOrEmpty(toolTimSanPham.Text))
+                {
+                    ctrl.TimMaSanPham(Convert.ToInt32(toolTimSanPham.Text));
+                    if (bindingNavigator.BindingSource != null)
+                    {
+                        bindingNavigator.BindingSource.DataSource = ctrl.GetDataTable();
+                    }
+                }
             }
             else
             {
-                ctrl.TimTenSanPham(toolTimSanPham.Text);
+                if (!string.IsNullOrEmpty(toolTimSanPham.Text))
+                {
+                    ctrl.TimTenSanPham(toolTimSanPham.Text);
+                    if (bindingNavigator.BindingSource != null)
+                    {
+                        bindingNavigator.BindingSource.DataSource = ctrl.GetDataTable();
+                    }
+                }
             }
         }
 
@@ -204,7 +218,7 @@ namespace CuahangNongduoc
             toolTimSanPham.Text = "";
             toolTimSanPham.ForeColor = Color.Black;
         }
-      
+
 
 
     }

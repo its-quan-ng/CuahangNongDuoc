@@ -11,6 +11,11 @@ namespace CuahangNongduoc.DataLayer
         DataService m_Ds = new DataService();
 
         // Danh sách đơn vị tính dùng chung m_Ds để có thể Save() lại SQL Server
+        public DonViTinhFactory()
+        {
+            m_Ds.TableName = "DON_VI_TINH";
+        }
+
         public DataTable DanhsachDVT()
         {
             // Sắp xếp theo ID để các đơn vị tính mới (ID lớn hơn) nằm dưới các đơn vị cũ
@@ -51,6 +56,24 @@ namespace CuahangNongduoc.DataLayer
             ds.Load(cmd);
             return ds;
         }
+
+        /// <summary>
+        /// Load data vào m_Ds để binding và save
+        /// </summary>
+        public void LoadData()
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM DON_VI_TINH");
+            m_Ds.Load(cmd);
+        }
+
+        /// <summary>
+        /// Get m_Ds để binding
+        /// </summary>
+        public DataTable GetDataTable()
+        {
+            return m_Ds;
+        }
+
         public bool Save()
         {
             return m_Ds.ExecuteNoneQuery() > 0;

@@ -10,6 +10,11 @@ namespace CuahangNongduoc.DataLayer
     {
         DataService m_Ds = new DataService();
 
+        public SanPhamFactory()
+        {
+            m_Ds.TableName = "SAN_PHAM";
+        }
+
         // Danh sách sản phẩm dùng chung một DataService (m_Ds)
         // để có thể thêm/sửa/xóa rồi gọi Save() cập nhật lại SQL Server.
         public DataTable DanhsachSanPham()
@@ -27,14 +32,19 @@ namespace CuahangNongduoc.DataLayer
             m_Ds.Load(cmd);
             return m_Ds;
         }
-
-        // Tìm theo tên sản phẩm: nạp lại m_Ds với dữ liệu đã lọc
         public DataTable TimTenSanPham(String ten)
         {
             SqlCommand cmd = new SqlCommand("SELECT * FROM SAN_PHAM WHERE TEN_SAN_PHAM LIKE '%' + @ten + '%'");
             cmd.Parameters.Add("@ten", SqlDbType.NVarChar).Value = ten;
             m_Ds.Load(cmd);
             return m_Ds;
+        }
+
+        public void TimTenSanPhamLoad(String ten)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM SAN_PHAM WHERE TEN_SAN_PHAM LIKE '%' + @ten + '%'");
+            cmd.Parameters.Add("@ten", SqlDbType.NVarChar).Value = ten;
+            m_Ds.Load(cmd);
         }
 
         // Lấy 1 sản phẩm theo ID (dùng cho cập nhật giá nhập)
@@ -57,6 +67,22 @@ namespace CuahangNongduoc.DataLayer
             return ds;
         }
 
+        /// <summary>
+        /// Load data vào m_Ds để binding và save
+        /// </summary>
+        public void LoadData()
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM SAN_PHAM");
+            m_Ds.Load(cmd);
+        }
+
+        /// <summary>
+        /// Get m_Ds để binding
+        /// </summary>
+        public DataTable GetDataTable()
+        {
+            return m_Ds;
+        }
 
         public DataRow NewRow()
         {
