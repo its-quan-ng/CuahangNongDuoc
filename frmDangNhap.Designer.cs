@@ -44,35 +44,37 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(306, 18);
+            this.label1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.DarkGreen;
+            this.label1.Location = new System.Drawing.Point(306, 19);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(283, 20);
+            this.label1.Size = new System.Drawing.Size(274, 24);
             this.label1.TabIndex = 1;
             this.label1.Text = "CỬA HÀNG NÔNG DƯỢC AGRO";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Font = new System.Drawing.Font("Calibri", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(322, 97);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(110, 19);
+            this.label2.Size = new System.Drawing.Size(118, 21);
             this.label2.TabIndex = 1;
             this.label2.Text = "Tên đăng nhập:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(322, 175);
+            this.label3.Font = new System.Drawing.Font("Calibri", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(322, 158);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(76, 19);
+            this.label3.Size = new System.Drawing.Size(82, 21);
             this.label3.TabIndex = 1;
             this.label3.Text = "Mật khẩu:";
             // 
             // txtTenDangNhap
             // 
+            this.txtTenDangNhap.Font = new System.Drawing.Font("Calibri", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTenDangNhap.Location = new System.Drawing.Point(326, 119);
             this.txtTenDangNhap.MaxLength = 50;
             this.txtTenDangNhap.Multiline = true;
@@ -82,7 +84,8 @@
             // 
             // txtMatKhau
             // 
-            this.txtMatKhau.Location = new System.Drawing.Point(326, 197);
+            this.txtMatKhau.Font = new System.Drawing.Font("Calibri", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMatKhau.Location = new System.Drawing.Point(326, 180);
             this.txtMatKhau.Multiline = true;
             this.txtMatKhau.Name = "txtMatKhau";
             this.txtMatKhau.PasswordChar = '●';
@@ -94,7 +97,7 @@
             // 
             this.btnDangNhap.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.btnDangNhap.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDangNhap.Location = new System.Drawing.Point(326, 249);
+            this.btnDangNhap.Location = new System.Drawing.Point(326, 258);
             this.btnDangNhap.Name = "btnDangNhap";
             this.btnDangNhap.Size = new System.Drawing.Size(105, 29);
             this.btnDangNhap.TabIndex = 2;
@@ -106,7 +109,7 @@
             // 
             this.btnThoat.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.btnThoat.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnThoat.Location = new System.Drawing.Point(453, 249);
+            this.btnThoat.Location = new System.Drawing.Point(453, 258);
             this.btnThoat.Name = "btnThoat";
             this.btnThoat.Size = new System.Drawing.Size(105, 29);
             this.btnThoat.TabIndex = 3;
@@ -129,13 +132,13 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label4.Location = new System.Drawing.Point(375, 64);
+            this.label4.Font = new System.Drawing.Font("Calibri", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.Blue;
+            this.label4.Location = new System.Drawing.Point(361, 62);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(141, 19);
+            this.label4.Size = new System.Drawing.Size(178, 21);
             this.label4.TabIndex = 4;
-            this.label4.Text = "Đăng nhập hệ thống";
+            this.label4.Text = "ĐĂNG NHẬP HỆ THỐNG";
             // 
             // frmDangNhap
             // 
