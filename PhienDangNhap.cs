@@ -15,8 +15,6 @@ namespace CuahangNongduoc
         private static String m_QuyenHan = String.Empty;
         private static bool m_DaDangNhap = false;
 
-        // ========== PUBLIC PROPERTIES ==========
-
         /// <summary>
         /// ID người dùng
         /// </summary>
@@ -64,8 +62,6 @@ namespace CuahangNongduoc
         {
             get { return m_QuyenHan.ToLower() == "admin"; }
         }
-
-        // ========== PUBLIC METHODS ==========
 
         /// <summary>
         /// Lưu thông tin đăng nhập
