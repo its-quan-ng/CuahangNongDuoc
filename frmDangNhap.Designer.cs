@@ -47,7 +47,7 @@
             this.label1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(149, 18);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(283, 23);
+            this.label1.Size = new System.Drawing.Size(341, 26);
             this.label1.TabIndex = 1;
             this.label1.Text = "CỬA HÀNG NÔNG DƯỢC FIT";
             // 
@@ -57,7 +57,7 @@
             this.label2.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(322, 97);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(110, 19);
+            this.label2.Size = new System.Drawing.Size(136, 23);
             this.label2.TabIndex = 1;
             this.label2.Text = "Tên đăng nhập:";
             // 
@@ -67,7 +67,7 @@
             this.label3.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(322, 175);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(76, 19);
+            this.label3.Size = new System.Drawing.Size(94, 23);
             this.label3.TabIndex = 1;
             this.label3.Text = "Mật khẩu:";
             // 
@@ -100,6 +100,8 @@
             this.btnDangNhap.TabIndex = 3;
             this.btnDangNhap.Text = "Đăng nhập";
             this.btnDangNhap.UseVisualStyleBackColor = false;
+            this.btnDangNhap.Click += new System.EventHandler(this.btnDangNhap_Click);
+            this.btnDangNhap.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtField_KeyDown);
             // 
             // btnThoat
             // 
@@ -130,13 +132,13 @@
             this.label4.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.label4.Location = new System.Drawing.Point(375, 64);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(141, 19);
+            this.label4.Size = new System.Drawing.Size(174, 23);
             this.label4.TabIndex = 4;
             this.label4.Text = "Đăng nhập hệ thống";
             // 
             // frmDangNhap
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(592, 299);
             this.Controls.Add(this.label4);
@@ -152,6 +154,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmDangNhap";
             this.Text = "frmDangNhap";
+            this.Load += new System.EventHandler(this.frmDangNhap_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picHinhAnhCuaHang)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

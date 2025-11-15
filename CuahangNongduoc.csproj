@@ -310,6 +310,7 @@
       <DependentUpon>frmTimPhieuThu.cs</DependentUpon>
     </Compile>
     <Compile Include="Num2Str.cs" />
+    <Compile Include="PhienDangNhap.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmDangNhap.resx">
