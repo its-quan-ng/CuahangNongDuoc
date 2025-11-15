@@ -177,6 +177,88 @@ namespace CuahangNongduoc
             }
         }
 
-       
+        // ====== CẤU HÌNH KHO - Thêm mới ======
+
+        /// <summary>
+        /// Phương pháp xuất kho: "FIFO" hoặc "CHI_DINH"
+        /// </summary>
+        public static string PhuongPhapXuatKho
+        {
+            get
+            {
+                DataService ds = new DataService();
+                object obj = ds.ExecuteScalar(new SqlCommand("SELECT PHUONG_PHAP_XUAT_KHO FROM THAM_SO"));
+                return obj != null ? Convert.ToString(obj) : "FIFO";
+            }
+            set
+            {
+                DataService ds = new DataService();
+                SqlCommand cmd = new SqlCommand("UPDATE THAM_SO SET PHUONG_PHAP_XUAT_KHO = @value");
+                cmd.Parameters.Add("@value", SqlDbType.VarChar).Value = value;
+                ds.ExecuteNoneQuery(cmd);
+            }
+        }
+
+        /// <summary>
+        /// Phương pháp tính giá xuất: "Average" (Bình quân gia quyền) hoặc "FIFO"
+        /// </summary>
+        public static string PhuongPhapTinhGiaXuat
+        {
+            get
+            {
+                DataService ds = new DataService();
+                object obj = ds.ExecuteScalar(new SqlCommand("SELECT PHUONG_PHAP_TINH_GIA_XUAT FROM THAM_SO"));
+                return obj != null ? Convert.ToString(obj) : "Average";
+            }
+            set
+            {
+                DataService ds = new DataService();
+                SqlCommand cmd = new SqlCommand("UPDATE THAM_SO SET PHUONG_PHAP_TINH_GIA_XUAT = @value");
+                cmd.Parameters.Add("@value", SqlDbType.VarChar).Value = value;
+                ds.ExecuteNoneQuery(cmd);
+            }
+        }
+
+        /// <summary>
+        /// Tự động phân lô theo ngày hết hạn: true = Có, false = Không
+        /// </summary>
+        public static bool TuDongPhanLo
+        {
+            get
+            {
+                DataService ds = new DataService();
+                object obj = ds.ExecuteScalar(new SqlCommand("SELECT TU_DONG_PHAN_LO FROM THAM_SO"));
+                return obj != null && Convert.ToBoolean(obj);
+            }
+            set
+            {
+                DataService ds = new DataService();
+                SqlCommand cmd = new SqlCommand("UPDATE THAM_SO SET TU_DONG_PHAN_LO = @value");
+                cmd.Parameters.Add("@value", SqlDbType.Bit).Value = value;
+                ds.ExecuteNoneQuery(cmd);
+            }
+        }
+
+        /// <summary>
+        /// Hiển thị lô và ngày hết hạn trong phiếu xuất: true = Có, false = Không
+        /// </summary>
+        public static bool HienThiLoPhieuXuat
+        {
+            get
+            {
+                DataService ds = new DataService();
+                object obj = ds.ExecuteScalar(new SqlCommand("SELECT HIEN_THI_LO_PHIEU_XUAT FROM THAM_SO"));
+                return obj != null && Convert.ToBoolean(obj);
+            }
+            set
+            {
+                DataService ds = new DataService();
+                SqlCommand cmd = new SqlCommand("UPDATE THAM_SO SET HIEN_THI_LO_PHIEU_XUAT = @value");
+                cmd.Parameters.Add("@value", SqlDbType.Bit).Value = value;
+                ds.ExecuteNoneQuery(cmd);
+            }
+        }
+
+
     }
 }
