@@ -441,8 +441,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptChiTietPhieuBan.rdlc" />
     <EmbeddedResource Include="Report\rptChiTietPhieuNhap.rdlc" />
@@ -455,17 +455,17 @@
     <EmbeddedResource Include="Report\rptSoLuongBan.rdlc" />
     <EmbeddedResource Include="Report\rptSoLuongTon.rdlc" />
     <EmbeddedResource Include="Report\rptThanhToan.rdlc" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -527,6 +527,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="CuahangNongduoc.ico" />
+    <None Include="Resources\HinhAnhCuaHang.png" />
     <None Include="Resources\LyDoChi.png" />
     <None Include="Resources\DonViTinh.png" />
     <None Include="Resources\PhieuChi.png" />
