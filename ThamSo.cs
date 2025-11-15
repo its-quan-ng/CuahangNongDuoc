@@ -177,58 +177,91 @@ namespace CuahangNongduoc
             }
         }
 
-        // ====== CẤU HÌNH KHO - Thêm mới ======
-
-        /// <summary>
-        /// Phương pháp xuất kho: "FIFO" hoặc "CHI_DINH"
-        /// </summary>
-        public static string PhuongPhapXuatKho
+        public static String PhuongPhapXuatKho
         {
             get
             {
                 DataService ds = new DataService();
-                object obj = ds.ExecuteScalar(new SqlCommand("SELECT PHUONG_PHAP_XUAT_KHO FROM THAM_SO"));
-                return obj != null ? Convert.ToString(obj) : "FIFO";
+                SqlCommand cmd = new SqlCommand("SELECT PHUONG_PHAP_XUAT_KHO FROM THAM_SO");
+                object obj = ds.ExecuteScalar(cmd);
+
+                if (obj != null && obj != DBNull.Value)
+                {
+                    String giatri = Convert.ToString(obj).ToUpper();
+
+                    // Validate: chỉ chấp nhận FIFO hoặc CHI_DINH
+                    if (giatri == "FIFO" || giatri == "CHI_DINH")
+                        return giatri;
+                }
+
+                // Mặc định: FIFO
+                return "FIFO";
             }
             set
             {
+                // Validate trước khi lưu
+                String giatri = value.ToUpper();
+                if (giatri != "FIFO" && giatri != "CHI_DINH")
+                {
+                    throw new ArgumentException("Phương pháp xuất kho phải là FIFO hoặc CHI_DINH");
+                }
+
                 DataService ds = new DataService();
                 SqlCommand cmd = new SqlCommand("UPDATE THAM_SO SET PHUONG_PHAP_XUAT_KHO = @value");
-                cmd.Parameters.Add("@value", SqlDbType.VarChar).Value = value;
+                cmd.Parameters.Add("@value", SqlDbType.VarChar, 20).Value = giatri;
                 ds.ExecuteNoneQuery(cmd);
             }
         }
 
-        /// <summary>
-        /// Phương pháp tính giá xuất: "Average" (Bình quân gia quyền) hoặc "FIFO"
-        /// </summary>
-        public static string PhuongPhapTinhGiaXuat
+        public static String PhuongPhapTinhGiaXuat
         {
             get
             {
                 DataService ds = new DataService();
-                object obj = ds.ExecuteScalar(new SqlCommand("SELECT PHUONG_PHAP_TINH_GIA_XUAT FROM THAM_SO"));
-                return obj != null ? Convert.ToString(obj) : "Average";
+                SqlCommand cmd = new SqlCommand("SELECT PHUONG_PHAP_TINH_GIA_XUAT FROM THAM_SO");
+                object obj = ds.ExecuteScalar(cmd);
+
+                if (obj != null && obj != DBNull.Value)
+                {
+                    String giatri = Convert.ToString(obj).ToUpper();
+
+                    // Validate: chỉ chấp nhận AVERAGE hoặc FIFO
+                    if (giatri == "AVERAGE" || giatri == "FIFO")
+                        return giatri;
+                }
+
+                // Mặc định: AVERAGE (Bình quân gia quyền)
+                return "AVERAGE";
             }
             set
             {
+                // Validate trước khi lưu
+                String giatri = value.ToUpper();
+                if (giatri != "AVERAGE" && giatri != "FIFO")
+                {
+                    throw new ArgumentException("Phương pháp tính giá phải là AVERAGE hoặc FIFO");
+                }
+
                 DataService ds = new DataService();
                 SqlCommand cmd = new SqlCommand("UPDATE THAM_SO SET PHUONG_PHAP_TINH_GIA_XUAT = @value");
-                cmd.Parameters.Add("@value", SqlDbType.VarChar).Value = value;
+                cmd.Parameters.Add("@value", SqlDbType.VarChar, 30).Value = giatri;
                 ds.ExecuteNoneQuery(cmd);
             }
         }
 
-        /// <summary>
-        /// Tự động phân lô theo ngày hết hạn: true = Có, false = Không
-        /// </summary>
+  
         public static bool TuDongPhanLo
         {
             get
             {
                 DataService ds = new DataService();
-                object obj = ds.ExecuteScalar(new SqlCommand("SELECT TU_DONG_PHAN_LO FROM THAM_SO"));
-                return obj != null && Convert.ToBoolean(obj);
+                SqlCommand cmd = new SqlCommand("SELECT TU_DONG_PHAN_LO FROM THAM_SO");
+                object obj = ds.ExecuteScalar(cmd);
+
+                if (obj != null && obj != DBNull.Value)
+                    return Convert.ToBoolean(obj);
+
+                return true; // Mặc định: bật
             }
             set
             {
@@ -239,16 +272,19 @@ namespace CuahangNongduoc
             }
         }
 
-        /// <summary>
-        /// Hiển thị lô và ngày hết hạn trong phiếu xuất: true = Có, false = Không
-        /// </summary>
+     
         public static bool HienThiLoPhieuXuat
         {
             get
             {
                 DataService ds = new DataService();
-                object obj = ds.ExecuteScalar(new SqlCommand("SELECT HIEN_THI_LO_PHIEU_XUAT FROM THAM_SO"));
-                return obj != null && Convert.ToBoolean(obj);
+                SqlCommand cmd = new SqlCommand("SELECT HIEN_THI_LO_PHIEU_XUAT FROM THAM_SO");
+                object obj = ds.ExecuteScalar(cmd);
+
+                if (obj != null && obj != DBNull.Value)
+                    return Convert.ToBoolean(obj);
+
+                return true; // Mặc định: hiển thị
             }
             set
             {
@@ -258,6 +294,7 @@ namespace CuahangNongduoc
                 ds.ExecuteNoneQuery(cmd);
             }
         }
+
 
 
     }
