@@ -31,7 +31,8 @@ namespace CuahangNongduoc.Controller
         }
         public void TimMaSanPham(int ma)
         {
-            factory.TimMaSanPhamLoad(ma);
+            // Tìm sản phẩm theo mã: dùng hàm TimMaSanPham của Factory để nạp dữ liệu vào m_Ds
+            factory.TimMaSanPham(ma);
         }
         public void TimTenSanPham(String ten)
         {
