@@ -30,8 +30,89 @@ namespace CuahangNongduoc
 
         private void toolLuu_Click(object sender, EventArgs e)
         {
+            // Kiểm tra dữ liệu trước khi lưu xuống database
+            if (!KiemTraSanPhamHopLe())
+            {
+                return;
+            }
+
             bindingNavigatorPositionItem.Focus();
-            ctrl.Save();
+
+            // Đảm bảo các control commit giá trị về DataTable trước khi lưu
+            if (bindingNavigator.BindingSource != null)
+            {
+                bindingNavigator.BindingSource.EndEdit();
+            }
+            dataGridView.EndEdit();
+
+            try
+            {
+                bool ketQua = ctrl.Save();
+                if (!ketQua)
+                {
+                    // Không có dòng nào được cập nhật (ExecuteNoneQuery trả về 0)
+                    MessageBox.Show(
+                        "Lưu sản phẩm thất bại. Không có dữ liệu nào được cập nhật.",
+                        "Sản phẩm",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log cho developer
+                System.Diagnostics.Debug.WriteLine("Lưu sản phẩm lỗi: " + ex.Message);
+
+                // Thông báo cho người dùng
+                MessageBox.Show(
+                    "Đã xảy ra lỗi khi lưu sản phẩm.\n" + ex.Message,
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        // Hàm validate dữ liệu sản phẩm hiện tại (row đang được binding lên các control)
+        private bool KiemTraSanPhamHopLe()
+        {
+            // Tên sản phẩm bắt buộc nhập
+            if (string.IsNullOrWhiteSpace(txtTenSanPham.Text))
+            {
+                MessageBox.Show("Tên sản phẩm không được để trống.", "Sản phẩm",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTenSanPham.Focus();
+                return false;
+            }
+
+            // Bắt buộc chọn đơn vị tính
+            if (cmbDVT.SelectedValue == null)
+            {
+                MessageBox.Show("Bạn phải chọn đơn vị tính.", "Sản phẩm",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbDVT.Focus();
+                return false;
+            }
+
+            // Giá và số lượng không được âm
+            if (numSoLuong.Value < 0)
+            {
+                MessageBox.Show("Số lượng không được âm.", "Sản phẩm",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                numSoLuong.Focus();
+                return false;
+            }
+
+            if (numDonGiaNhap.Value < 0 || numGiaBanSi.Value < 0 || numGiaBanLe.Value < 0)
+            {
+                MessageBox.Show("Đơn giá nhập, giá bán sỉ, giá bán lẻ không được âm.", "Sản phẩm",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (numDonGiaNhap.Value < 0) numDonGiaNhap.Focus();
+                else if (numGiaBanSi.Value < 0) numGiaBanSi.Focus();
+                else numGiaBanLe.Focus();
+                return false;
+            }
+
+            return true;
         }
 
         private void bindingNavigatorAddNewItem_Click(object sender, EventArgs e)

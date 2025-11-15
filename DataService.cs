@@ -12,7 +12,7 @@ namespace CuahangNongduoc
 		private static SqlConnection	m_Connection;
 
         //
-        public static String m_ConnectString = "Server=.\\SQLEXPRESS;Initial Catalog=QLCHNongDuoc;Integrated Security=SSPI;TrustServerCertificate=True;";
+        public static String m_ConnectString = "Server=LAPTOP-MV0TC9Q6\\SQLEXPRESS;Initial Catalog=QLCHNongDuoc;Integrated Security=SSPI;TrustServerCertificate=True;";
 		// The command to execute query or non-query command on a database of this data service.
 		private SqlCommand		m_Command;
       
@@ -39,6 +39,8 @@ namespace CuahangNongduoc
 
                 m_DataAdapter = new SqlDataAdapter();
                 m_DataAdapter.SelectCommand = m_Command;
+                // Đảm bảo lấy luôn schema có khóa chính để SqlCommandBuilder sinh được lệnh INSERT/UPDATE
+                m_DataAdapter.MissingSchemaAction = MissingSchemaAction.AddWithKey;
 
                 this.Clear();
                 m_DataAdapter.Fill(this);
@@ -95,18 +97,22 @@ namespace CuahangNongduoc
                 m_DataAdapter = new SqlDataAdapter();
                 m_DataAdapter.SelectCommand = m_Command;
 
-                SqlCommandBuilder builder = new SqlCommandBuilder(m_DataAdapter);                
+                SqlCommandBuilder builder = new SqlCommandBuilder(m_DataAdapter);
 
                 result = m_DataAdapter.Update(this);
-               
 
                 tr.Commit();
-                
-			}
-			catch ( Exception e)
+
+            }
+            catch ( Exception e)
             {
                 if (tr != null) tr.Rollback();
-           
+                // Hiện lỗi ra màn hình để biết vì sao lưu thất bại (ví dụ thiếu PRIMARY KEY)
+                System.Windows.Forms.MessageBox.Show(
+                    "Lỗi khi lưu dữ liệu:\n" + e.Message,
+                    "Lỗi",
+                    System.Windows.Forms.MessageBoxButtons.OK,
+                    System.Windows.Forms.MessageBoxIcon.Error);
             }
             return result;
 		}

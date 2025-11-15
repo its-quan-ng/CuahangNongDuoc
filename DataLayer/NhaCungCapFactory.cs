@@ -10,31 +10,28 @@ namespace CuahangNongduoc.DataLayer
     {
         DataService m_Ds = new DataService();
 
+        // Các hàm danh sách/tìm kiếm sử dụng chung m_Ds để binding và Save()
         public DataTable DanhsachNCC()
         {
-            DataService ds = new DataService();
             SqlCommand cmd = new SqlCommand("SELECT * FROM NHA_CUNG_CAP");
-            ds.Load(cmd);
-
-            return ds;
+            m_Ds.Load(cmd);
+            return m_Ds;
         }
+
         public DataTable TimDiaChi(String diachi)
         {
-            DataService ds = new DataService();
             SqlCommand cmd = new SqlCommand("SELECT * FROM NHA_CUNG_CAP WHERE DIA_CHI LIKE '%' + @diachi + '%' ");
             cmd.Parameters.Add("@diachi", SqlDbType.NVarChar).Value = diachi;
-            ds.Load(cmd);
-
-            return ds;
+            m_Ds.Load(cmd);
+            return m_Ds;
         }
+
         public DataTable TimHoTen(String hoten)
         {
-            DataService ds = new DataService();
             SqlCommand cmd = new SqlCommand("SELECT * FROM NHA_CUNG_CAP WHERE HO_TEN LIKE '%' + @hoten + '%' ");
             cmd.Parameters.Add("@hoten", SqlDbType.NVarChar).Value = hoten;
-            ds.Load(cmd);
-
-            return ds;
+            m_Ds.Load(cmd);
+            return m_Ds;
         }
 
         public DataTable LayNCC(int id)

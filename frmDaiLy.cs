@@ -24,8 +24,119 @@ namespace CuahangNongduoc
 
         private void toolLuu_Click(object sender, EventArgs e)
         {
+            // Gọi hàm lưu dùng chung để có thể tái sử dụng khi thoát form
+            LuuDaiLy();
+        }
+
+        // Hàm lưu dùng chung, trả về true nếu lưu thành công
+        private bool LuuDaiLy()
+        {
+            // Đẩy dữ liệu đang nhập trên lưới/binding xuống DataTable
             bindingNavigatorPositionItem.Focus();
-            ctrl.Save();
+
+            if (bindingNavigator.BindingSource != null)
+            {
+                bindingNavigator.BindingSource.EndEdit();
+            }
+            dataGridView.EndEdit();
+
+            // Kiểm tra dữ liệu hợp lệ trước khi lưu
+            if (!KiemTraDaiLyHopLe())
+            {
+                return false;
+            }
+
+            try
+            {
+                bool ketQua = ctrl.Save();
+                if (ketQua)
+                {
+                    MessageBox.Show(
+                        "Lưu đại lý thành công.",
+                        "Đại lý",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show(
+                        "Lưu đại lý thất bại. Không có dữ liệu nào được cập nhật.",
+                        "Đại lý",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Lưu đại lý lỗi: " + ex.Message);
+                MessageBox.Show(
+                    "Đã xảy ra lỗi khi lưu đại lý.\n" + ex.Message,
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+        // Validate dữ liệu đại lý hiện tại (dựa trên dòng đang chọn trên grid)
+        private bool KiemTraDaiLyHopLe()
+        {
+            if (bindingNavigator.BindingSource == null || bindingNavigator.BindingSource.Current == null)
+            {
+                return true; // Không có bản ghi nào để lưu
+            }
+
+            DataRowView rowView = bindingNavigator.BindingSource.Current as DataRowView;
+            if (rowView == null)
+            {
+                return true;
+            }
+
+            string tenDaiLy = Convert.ToString(rowView["HO_TEN"]).Trim();
+            string diaChi = Convert.ToString(rowView["DIA_CHI"]).Trim();
+            string dienThoai = Convert.ToString(rowView["DIEN_THOAI"]).Trim();
+
+            // Tên đại lý bắt buộc nhập
+            if (string.IsNullOrWhiteSpace(tenDaiLy))
+            {
+                MessageBox.Show(
+                    "Tên đại lý không được để trống.",
+                    "Đại lý",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                int rowIndex = dataGridView.CurrentCell != null ? dataGridView.CurrentCell.RowIndex : -1;
+                if (rowIndex >= 0)
+                {
+                    dataGridView.CurrentCell = dataGridView.Rows[rowIndex].Cells["colHoTen"];
+                    dataGridView.BeginEdit(true);
+                }
+
+                return false;
+            }
+
+            // Nếu có nhập điện thoại thì phải là số
+            if (!string.IsNullOrWhiteSpace(dienThoai) && !ThamSo.LaSoNguyen(dienThoai))
+            {
+                MessageBox.Show(
+                    "Số điện thoại phải là số (0-9).",
+                    "Đại lý",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                int rowIndex = dataGridView.CurrentCell != null ? dataGridView.CurrentCell.RowIndex : -1;
+                if (rowIndex >= 0)
+                {
+                    dataGridView.CurrentCell = dataGridView.Rows[rowIndex].Cells["colDienThoai"];
+                    dataGridView.BeginEdit(true);
+                }
+
+                return false;
+            }
+
+            return true;
         }
 
         private void bindingNavigatorAddNewItem_Click(object sender, EventArgs e)
@@ -39,7 +150,58 @@ namespace CuahangNongduoc
 
         private void toolThoat_Click(object sender, EventArgs e)
         {
-            this.Close();
+            // Đảm bảo commit dữ liệu đang sửa xuống DataTable trước khi kiểm tra thay đổi
+            if (bindingNavigator.BindingSource != null)
+            {
+                bindingNavigator.BindingSource.EndEdit();
+            }
+            dataGridView.EndEdit();
+
+            // Lấy DataTable gốc từ BindingSource để kiểm tra thay đổi
+            DataTable tbl = null;
+            BindingSource bs = bindingNavigator.BindingSource as BindingSource;
+            if (bs != null)
+            {
+                tbl = bs.DataSource as DataTable;
+            }
+
+            bool hasChanges = (tbl != null && tbl.GetChanges() != null);
+
+            if (!hasChanges)
+            {
+                // Không có gì thay đổi, thoát luôn
+                this.Close();
+                return;
+            }
+
+            // Có thay đổi, hỏi người dùng có muốn lưu trước khi thoát không
+            DialogResult result = MessageBox.Show(
+                "Dữ liệu đã được thay đổi. Bạn có muốn lưu trước khi thoát không?",
+                "Đại lý",
+                MessageBoxButtons.YesNoCancel,
+                MessageBoxIcon.Question);
+
+            if (result == DialogResult.Cancel)
+            {
+                // Ở lại form
+                return;
+            }
+
+            if (result == DialogResult.No)
+            {
+                // Không lưu, thoát luôn
+                this.Close();
+                return;
+            }
+
+            if (result == DialogResult.Yes)
+            {
+                // Thử lưu, chỉ thoát nếu lưu thành công
+                if (LuuDaiLy())
+                {
+                    this.Close();
+                }
+            }
         }
 
         private void bindingNavigatorDeleteItem_Click(object sender, EventArgs e)

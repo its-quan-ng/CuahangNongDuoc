@@ -10,44 +10,38 @@ namespace CuahangNongduoc.DataLayer
     {
         DataService m_Ds = new DataService();
 
+        // Các hàm danh sách/tìm kiếm sử dụng chung m_Ds để binding và Save()
         public DataTable DanhsachKhachHang(bool loai)
         {
-            DataService ds = new DataService();
             SqlCommand cmd = new SqlCommand("SELECT * FROM KHACH_HANG WHERE LOAI_KH = @loai");
             cmd.Parameters.Add("@loai", SqlDbType.Bit).Value = loai;
-            ds.Load(cmd);
-
-            return ds;
+            m_Ds.Load(cmd);
+            return m_Ds;
         }
+
         public DataTable TimHoTen(String hoten, bool loai)
         {
-            DataService ds = new DataService();
             SqlCommand cmd = new SqlCommand("SELECT * FROM KHACH_HANG WHERE HO_TEN LIKE '%' + @hoten + '%' AND LOAI_KH = @loai");
             cmd.Parameters.Add("@hoten", SqlDbType.NVarChar).Value = hoten;
             cmd.Parameters.Add("@loai", SqlDbType.Bit).Value = loai;
-            ds.Load(cmd);
-
-            return ds;
+            m_Ds.Load(cmd);
+            return m_Ds;
         }
 
         public DataTable TimDiaChi(String diachi, bool loai)
         {
-            DataService ds = new DataService();
             SqlCommand cmd = new SqlCommand("SELECT * FROM KHACH_HANG WHERE DIA_CHI LIKE '%' + @diachi + '%' AND LOAI_KH = @loai");
             cmd.Parameters.Add("@diachi", SqlDbType.NVarChar).Value = diachi;
             cmd.Parameters.Add("@loai", SqlDbType.Bit).Value = loai;
-            ds.Load(cmd);
-
-            return ds;
+            m_Ds.Load(cmd);
+            return m_Ds;
         }
 
         public DataTable DanhsachKhachHang()
         {
-            DataService ds = new DataService();
             SqlCommand cmd = new SqlCommand("SELECT * FROM KHACH_HANG");
-            ds.Load(cmd);
-
-            return ds;
+            m_Ds.Load(cmd);
+            return m_Ds;
         }
 
         public DataTable LayKhachHang(int id)

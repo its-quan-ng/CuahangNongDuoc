@@ -10,44 +10,43 @@ namespace CuahangNongduoc.DataLayer
     {
         DataService m_Ds = new DataService();
 
+        // Danh sách sản phẩm dùng chung một DataService (m_Ds)
+        // để có thể thêm/sửa/xóa rồi gọi Save() cập nhật lại SQL Server.
         public DataTable DanhsachSanPham()
         {
-            DataService ds = new DataService();
             SqlCommand cmd = new SqlCommand("SELECT * FROM SAN_PHAM");
-            ds.Load(cmd);
-
-            return ds;
+            m_Ds.Load(cmd);
+            return m_Ds;
         }
 
+        // Tìm theo mã sản phẩm: nạp lại m_Ds với dữ liệu đã lọc
         public DataTable TimMaSanPham(int id)
         {
-            DataService ds = new DataService();
             SqlCommand cmd = new SqlCommand("SELECT * FROM SAN_PHAM WHERE ID = @id");
             cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
-            ds.Load(cmd);
-
-            return ds;
+            m_Ds.Load(cmd);
+            return m_Ds;
         }
+
+        // Tìm theo tên sản phẩm: nạp lại m_Ds với dữ liệu đã lọc
         public DataTable TimTenSanPham(String ten)
         {
-            DataService ds = new DataService();
             SqlCommand cmd = new SqlCommand("SELECT * FROM SAN_PHAM WHERE TEN_SAN_PHAM LIKE '%' + @ten + '%'");
             cmd.Parameters.Add("@ten", SqlDbType.NVarChar).Value = ten;
-            ds.Load(cmd);
-
-            return ds;
+            m_Ds.Load(cmd);
+            return m_Ds;
         }
 
-
+        // Lấy 1 sản phẩm theo ID (dùng cho cập nhật giá nhập)
         public DataTable LaySanPham(int id)
         {
-            DataService ds = new DataService();
             SqlCommand cmd = new SqlCommand("SELECT * FROM SAN_PHAM WHERE ID = @id");
             cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
-            ds.Load(cmd);
-            return ds;
+            m_Ds.Load(cmd);
+            return m_Ds;
         }
 
+        // Báo cáo số lượng tồn chỉ đọc, dùng DataService riêng
         public DataTable LaySoLuongTon()
         {
             DataService ds = new DataService();
