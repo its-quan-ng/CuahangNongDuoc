@@ -1,8 +1,8 @@
 # 📊 TIẾN ĐỘ DỰ ÁN - ĐỒ ÁN BẢO TRÌ PHẦN MỀM
 
-**Cập nhật lần cuối:** 08/11/2025
-**Deadline:** 24/11/2025 (17 ngày)
-**Team:** 7 thành viên
+**Cập nhật lần cuối:** 14/11/2025
+**Deadline:** 17/11/2025 (3 ngày còn lại!)
+**Team:** 5-7 thành viên
 **Loại đồ án:** Bảo trì phần mềm (Software Maintenance)
 
 ---
@@ -10,14 +10,14 @@
 ## 🎯 MỤC TIÊU TỔNG
 
 ### Yêu cầu chức năng (8 yêu cầu chính):
-1. ✅ Fix lỗi nhỏ và hoàn chỉnh phần mềm
-2. ⏳ Xuất kho theo lô (FIFO/Manual) + Tính giá 2 phương pháp
-3. ⏳ Thêm chi phí vận chuyển & dịch vụ phụ vào hóa đơn
-4. ⏳ Thêm giảm giá/chiết khấu trên hóa đơn
-5. ⏳ Thống kê theo khoảng ngày
-6. ⏳ Thống kê theo nhân viên
-7. ⏳ Đăng nhập & phân quyền
-8. ⏳ Tư vấn phát triển tương lai
+1. ⏳ YC1: Fix lỗi nhỏ và hoàn chỉnh phần mềm (cuối cùng)
+2. 🔄 YC2: Xuất kho theo lô (FIFO/Manual) + Tính giá 2 phương pháp (ĐANG LÀM - 60%)
+3. ⏳ YC3: Thêm chi phí vận chuyển & dịch vụ phụ vào hóa đơn
+4. ⏳ YC4: Thêm giảm giá/chiết khấu trên hóa đơn
+5. ⏳ YC5: Thống kê theo khoảng ngày
+6. ⏳ YC6: Thống kê theo nhân viên
+7. ✅ YC7: Đăng nhập & phân quyền (XONG 100%)
+8. ⏳ YC8: Tư vấn phát triển tương lai
 
 ### Yêu cầu tài liệu (200-300 trang):
 - Phân tích & Thiết kế (Interface, Database, Process)
@@ -28,32 +28,128 @@
 
 ---
 
-## ✅ ĐÃ HOÀN THÀNH (08/11/2025)
+## ✅ ĐÃ HOÀN THÀNH
 
-### 1. Phân tích yêu cầu đồ án ✅
-- Đọc và phân tích file PDF yêu cầu
-- Đối chiếu với codebase hiện tại
-- Xác định gap analysis
+### 1. YC7: ĐĂNG NHẬP & PHÂN QUYỀN ✅ (14/11/2025 - 100%)
 
-### 2. Audit bảo mật (SQL Injection) ✅
-- **Kết quả:** Toàn bộ codebase ĐÃ AN TOÀN!
-- Kiểm tra `ThamSo.cs`: ✅ All methods dùng parameterized queries
-- Scan toàn bộ Factory classes: ✅ All safe
-- **Kết luận:** Không cần fix gì về SQL injection
+#### Database & Core Classes:
+- ✅ Table `NGUOI_DUNG` trong database (đã có sẵn với 4 cột cấu hình xuất kho)
+- ✅ `BusinessObject/NguoiDung.cs` - Entity class đầy đủ
+- ✅ `DataLayer/NguoiDungFactory.cs` - CRUD + DangNhap() method
+- ✅ `Controller/NguoiDungController.cs` - Business logic + MD5 hashing
 
-### 3. Lập kế hoạch chi tiết ✅
-- Timeline 17 ngày được chia thành 3 giai đoạn
-- Phân công công việc cho 7 thành viên
-- Xác định milestones và deliverables
+#### Session Management (Singleton Pattern):
+- ✅ `PhienDangNhap.cs` - Static class lưu session
+  - Properties: IdNguoiDung, TenDangNhap, HoTen, QuyenHan, DaDangNhap, LaAdmin
+  - Methods: DangNhap(), DangXuat(), LayTenHienThi()
+
+#### UI Forms:
+- ✅ `frmDangNhap.cs` - Form đăng nhập
+  - PictureBox hình cửa hàng
+  - Textbox username + password
+  - Validation đầy đủ
+  - Enter key support
+- ✅ `Program.cs` - Entry point chạy frmDangNhap trước
+
+#### Authorization:
+- ✅ Phân quyền trong `frmMain.cs`
+  - Check `PhienDangNhap.LaAdmin` khi load
+  - Ẩn 8 menu cho User: mnuSanPham, mnuDonViTinh, mnuLyDoChi, mnuNhaCungCap, mnuPhieuChi, mnuTonghopDuno, mnuSoLuongBan, mnuTuychinh
+  - Hiển thị tên user trong title bar
+
+#### Tài khoản test:
+```
+Admin: admin / admin (MD5: 21232f297a57a5a743894a0e4a801fc3)
+User: nva1 / 123456 (MD5: e10adc3949ba59abbe56e057f20f883e)
+```
+
+**Design Pattern:** Singleton Pattern cho PhienDangNhap
 
 ---
 
-## 🔄 ĐANG LÀM (Tuần 1: 08-14/11)
+## 🔄 ĐANG LÀM: YC2 - XUẤT KHO FIFO (14/11/2025 - 60%)
 
-### Giai đoạn 1: Hạ tầng & Bảo mật
-- [ ] **Ngày 1 (08/11)**: Thiết kế database cho tính năng mới
-- [ ] **Ngày 2 (09/11)**: Implement hệ thống đăng nhập
-- [ ] **Ngày 3 (10/11)**: Implement phân quyền
+### ✅ ĐÃ XONG (Task 1-4):
+
+#### Task 1: Database ✅
+- Table THAM_SO đã có 4 cột:
+  - PHUONG_PHAP_XUAT_KHO (varchar) - "FIFO" hoặc "CHI_DINH"
+  - PHUONG_PHAP_TINH_GIA_XUAT (varchar) - "AVERAGE" hoặc "FIFO"
+  - TU_DONG_PHAN_LO (bit) - true/false
+  - HIEN_THI_LO_PHIEU_XUAT (bit) - true/false
+- Giá trị mặc định: FIFO, AVERAGE, true, true
+
+#### Task 2: ThamSo.cs Properties ✅
+- ✅ `PhuongPhapXuatKho` - Get/Set với validation
+- ✅ `PhuongPhapTinhGiaXuat` - Get/Set với validation
+- ✅ `TuDongPhanLo` - Get/Set boolean
+- ✅ `HienThiLoPhieuXuat` - Get/Set boolean
+- Có ToUpper() chuẩn hóa
+- Có ArgumentException khi set giá trị không hợp lệ
+- Có default values khi NULL
+
+#### Task 3: frmCauHinhKho.cs ✅
+- Form cấu hình xuất kho (480x420)
+- 3 GroupBox:
+  - Phương pháp xuất kho: 2 RadioButton (FIFO, Chỉ định)
+  - Phương pháp tính giá: 2 RadioButton (AVERAGE, FIFO)
+  - Tùy chọn: 2 CheckBox (Tự động phân lô, Hiển thị lô)
+- Logic đọc/ghi từ ThamSo.cs
+- Phân quyền: CHỈ Admin mở được
+- Thêm vào menu frmMain → Tùy chỉnh → Cấu hình xuất kho
+
+#### Task 4: Logic FIFO Core ✅
+**MaSanPhanFactory.cs:**
+- ✅ `LayDanhSachLoConHang(int idSanPham)` - Query lô còn hàng, ORDER BY NGAY_HET_HAN ASC, NGAY_NHAP ASC
+
+**MaSanPhamController.cs:**
+- ✅ `ChonLoFIFO(int idSanPham, int soLuongCan)` - Tự động chọn lô theo FIFO
+  - Sắp xếp lô hết hạn sớm nhất
+  - Lấy đủ số lượng cần (có thể nhiều lô)
+  - Return IList<MaSanPham>
+- ✅ `TinhGiaXuat(int idSanPham)` - Tính giá xuất theo cấu hình
+- ✅ `TinhGiaBinhQuanGiaQuyen(int idSanPham)` - Weighted Average
+  - Công thức: SUM(số lượng × giá nhập) / SUM(số lượng)
+- ✅ `TinhGiaFIFO(int idSanPham)` - Lấy giá lô đầu tiên
+
+**Ví dụ FIFO Logic:**
+```
+Database: L1(5 cái, 10k), L2(8 cái, 12k), L3(2 cái, 11k)
+Cần bán: 10 cái
+
+→ ChonLoFIFO():
+  - Sắp xếp theo HSD: L2 → L1 → L3
+  - Lấy L2: 8 cái
+  - Lấy L1: 2 cái
+  - Return: [L2: 8 cái], [L1: 2 cái]
+
+→ TinhGiaXuat() với AVERAGE:
+  - (5×10k + 8×12k + 2×11k) / 15 = 11,200
+
+→ TinhGiaXuat() với FIFO:
+  - Lấy giá lô đầu (L2) = 12,000
+```
+
+### ⏳ CÒN LẠI (Task 5-6):
+
+#### Task 5: Áp dụng FIFO vào Form Bán Hàng
+- [ ] Sửa `frmBanLe.cs`:
+  - Khi chọn sản phẩm → Check ThamSo.TuDongPhanLo
+  - Nếu true → Gọi ChonLoFIFO() tự động
+  - Nếu false → User chọn lô thủ công
+  - Hiển thị danh sách lô đã chọn trong DataGridView
+- [ ] Sửa `frmBanSi.cs` (giống frmBanLe)
+- [ ] Update logic lưu CHI_TIET_PHIEU_BAN
+  - Lưu ID_MA_SAN_PHAM (số lô)
+  - Giảm SO_LUONG trong MA_SAN_PHAM
+
+#### Task 6: Sửa Report
+- [ ] Update `Report/rptPhieuBan.rdlc`
+  - Thêm cột SỐ LÔ (ID_MA_SAN_PHAM)
+  - Thêm cột NGÀY HẾT HẠN
+  - JOIN với MA_SAN_PHAM để lấy thông tin lô
+
+**Ước tính hoàn thành:** Ngày 16/11/2025 (2 ngày nữa)
 
 ---
 
@@ -601,10 +697,39 @@
 
 ---
 
-**CẬP NHẬT LẦN CUỐI:** 08/11/2025
-**NGƯỜI CẬP NHẬT:** Claude Code
-**TRẠNG THÁI:** Đang trong giai đoạn 1 - Thiết kế database
+---
+
+## 📌 LỊCH SỬ CẬP NHẬT
+
+**14/11/2025 - Session 3:**
+- ✅ Hoàn thành YC7 (Đăng nhập + Phân quyền) - 100%
+- 🔄 Làm YC2 (Xuất kho FIFO) - 60%
+  - Task 1-4 xong: Database, ThamSo.cs, Form cấu hình, Logic FIFO
+  - Task 5-6 còn lại: Áp dụng vào form bán hàng, Sửa report
+- Files đã tạo/sửa:
+  - PhienDangNhap.cs (mới)
+  - frmDangNhap.cs (mới)
+  - frmCauHinhKho.cs (mới)
+  - ThamSo.cs (thêm 4 properties)
+  - MaSanPhanFactory.cs (thêm LayDanhSachLoConHang)
+  - MaSanPhamController.cs (thêm 4 methods FIFO)
+  - Program.cs (sửa entry point)
+  - frmMain.cs (phân quyền menu)
+
+**08/11/2025:**
+- Phân tích yêu cầu đồ án
+- Audit bảo mật SQL Injection
+- Lập kế hoạch chi tiết
 
 ---
 
-*File này nên được cập nhật hàng ngày để track tiến độ thực tế!*
+**CẬP NHẬT LẦN CUỐI:** 14/11/2025 23:45
+**NGƯỜI CẬP NHẬT:** Claude Code
+**TRẠNG THÁI:**
+- YC7: ✅ XONG
+- YC2: 🔄 ĐANG LÀM (60%)
+- Deadline: **17/11/2025** (3 NGÀY NỮA!)
+
+---
+
+*File này được cập nhật sau mỗi session làm việc!*

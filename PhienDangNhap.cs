@@ -8,7 +8,6 @@ namespace CuahangNongduoc
 {
     public static class PhienDangNhap
     {
-        // Khóa đồng bộ (đảm bảo Thread Safety khi tạo instance)
         private static int m_IdNguoiDung = -1;
         private static String m_TenDangNhap = String.Empty;
         private static String m_HoTen = String.Empty;

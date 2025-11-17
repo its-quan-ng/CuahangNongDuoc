@@ -169,10 +169,6 @@ namespace CuahangNongduoc
             }
         }
 
-        private void txtMatKhau_TextChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }
 
