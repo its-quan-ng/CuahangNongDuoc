@@ -297,7 +297,9 @@ namespace CuahangNongduoc
            // Help.ShowHelp(this, "CPP.CHM");
         }
 
-        private void mnuCauHinhKho_Click(object sender, EventArgs e)
+        
+
+        private void mnuCauHinhKho_Click_1(object sender, EventArgs e)
         {
             // Kiểm tra quyền
             if (!PhienDangNhap.LaAdmin)
@@ -314,6 +316,7 @@ namespace CuahangNongduoc
             // Mở form
             frmCauHinh frm = new frmCauHinh();
             frm.ShowDialog();
+
 
         }
     }
