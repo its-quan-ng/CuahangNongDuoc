@@ -67,89 +67,92 @@ User: nva1 / 123456 (MD5: e10adc3949ba59abbe56e057f20f883e)
 
 ---
 
-## 🔄 ĐANG LÀM: YC2 - XUẤT KHO FIFO (14/11/2025 - 60%)
+## 🔄 ĐANG LÀM: YC2 - XUẤT KHO FIFO + STRATEGY PATTERN (17/11/2025 - 75%)
 
-### ✅ ĐÃ XONG (Task 1-4):
+### ✅ ĐÃ XONG (75%):
 
-#### Task 1: Database ✅
+#### 1. Database & Config ✅
 - Table THAM_SO đã có 4 cột:
   - PHUONG_PHAP_XUAT_KHO (varchar) - "FIFO" hoặc "CHI_DINH"
-  - PHUONG_PHAP_TINH_GIA_XUAT (varchar) - "AVERAGE" hoặc "FIFO"
+  - PHUONG_PHAP_TINH_GIA_XUAT (varchar) - "Average" hoặc "FIFO"
   - TU_DONG_PHAN_LO (bit) - true/false
   - HIEN_THI_LO_PHIEU_XUAT (bit) - true/false
-- Giá trị mặc định: FIFO, AVERAGE, true, true
+- ThamSo.cs có 4 properties với validation
+- frmCauHinh.cs: Form cấu hình (Admin only)
 
-#### Task 2: ThamSo.cs Properties ✅
-- ✅ `PhuongPhapXuatKho` - Get/Set với validation
-- ✅ `PhuongPhapTinhGiaXuat` - Get/Set với validation
-- ✅ `TuDongPhanLo` - Get/Set boolean
-- ✅ `HienThiLoPhieuXuat` - Get/Set boolean
-- Có ToUpper() chuẩn hóa
-- Có ArgumentException khi set giá trị không hợp lệ
-- Có default values khi NULL
+#### 2. Strategy Pattern Implementation ✅
+**Design Pattern:** Strategy Pattern cho xuất kho và tính giá
 
-#### Task 3: frmCauHinhKho.cs ✅
-- Form cấu hình xuất kho (480x420)
-- 3 GroupBox:
-  - Phương pháp xuất kho: 2 RadioButton (FIFO, Chỉ định)
-  - Phương pháp tính giá: 2 RadioButton (AVERAGE, FIFO)
-  - Tùy chọn: 2 CheckBox (Tự động phân lô, Hiển thị lô)
-- Logic đọc/ghi từ ThamSo.cs
-- Phân quyền: CHỈ Admin mở được
-- Thêm vào menu frmMain → Tùy chỉnh → Cấu hình xuất kho
+**Files đã tạo (6 files trong Strategy/):**
+1. ✅ `IXuatKhoStrategy.cs` - Interface chọn lô
+2. ✅ `FifoXuatKhoStrategy.cs` - Xuất lô cũ nhất trước (ORDER BY NGAY_NHAP ASC)
+3. ✅ `ChiDinhXuatKhoStrategy.cs` - User chọn lô thủ công (return empty list + validate)
+4. ✅ `ITinhGiaXuatStrategy.cs` - Interface tính giá xuất
+5. ✅ `WeightedAverageGiaStrategy.cs` - Bình quân gia quyền: SUM(qty×price)/SUM(qty)
+6. ✅ `FifoGiaStrategy.cs` - Giá lô đầu tiên
 
-#### Task 4: Logic FIFO Core ✅
-**MaSanPhanFactory.cs:**
-- ✅ `LayDanhSachLoConHang(int idSanPham)` - Query lô còn hàng, ORDER BY NGAY_HET_HAN ASC, NGAY_NHAP ASC
-
-**MaSanPhamController.cs:**
-- ✅ `ChonLoFIFO(int idSanPham, int soLuongCan)` - Tự động chọn lô theo FIFO
-  - Sắp xếp lô hết hạn sớm nhất
-  - Lấy đủ số lượng cần (có thể nhiều lô)
-  - Return IList<MaSanPham>
-- ✅ `TinhGiaXuat(int idSanPham)` - Tính giá xuất theo cấu hình
-- ✅ `TinhGiaBinhQuanGiaQuyen(int idSanPham)` - Weighted Average
-  - Công thức: SUM(số lượng × giá nhập) / SUM(số lượng)
-- ✅ `TinhGiaFIFO(int idSanPham)` - Lấy giá lô đầu tiên
-
-**Ví dụ FIFO Logic:**
+**Kiến trúc Strategy Pattern:**
 ```
-Database: L1(5 cái, 10k), L2(8 cái, 12k), L3(2 cái, 11k)
-Cần bán: 10 cái
-
-→ ChonLoFIFO():
-  - Sắp xếp theo HSD: L2 → L1 → L3
-  - Lấy L2: 8 cái
-  - Lấy L1: 2 cái
-  - Return: [L2: 8 cái], [L1: 2 cái]
-
-→ TinhGiaXuat() với AVERAGE:
-  - (5×10k + 8×12k + 2×11k) / 15 = 11,200
-
-→ TinhGiaXuat() với FIFO:
-  - Lấy giá lô đầu (L2) = 12,000
+Admin thay đổi config (frmCauHinh)
+    ↓
+THAM_SO table → ThamSo.cs properties
+    ↓
+MaSanPhamController.TaoXuatKhoStrategy()
+    ↓
+IXuatKhoStrategy instance (FIFO/CHI_DINH)
+    ↓
+ChonLoXuat() → DanhSachLoXuat
+    ↓
+ITinhGiaXuatStrategy.TinhGiaXuat() → GiaXuat
+    ↓
+XuatKhoResult → Form xử lý
 ```
 
-### ⏳ CÒN LẠI (Task 5-6):
+#### 3. Controller Methods ✅
+**MaSanPhamController.cs đã thêm:**
+- ✅ `TaoXuatKhoStrategy()` - Factory method tạo strategy xuất kho từ config
+- ✅ `TaoTinhGiaStrategy()` - Factory method tạo strategy tính giá từ config
+- ✅ `XuatKho(int idSanPham, int soLuongCanXuat)` - Main orchestration method
+  - Gọi strategies để chọn lô và tính giá
+  - Return XuatKhoResult
+  - ⚠️ CẦN SỬA: Bỏ phần cập nhật database (để form xử lý)
 
-#### Task 5: Áp dụng FIFO vào Form Bán Hàng
-- [ ] Sửa `frmBanLe.cs`:
-  - Khi chọn sản phẩm → Check ThamSo.TuDongPhanLo
-  - Nếu true → Gọi ChonLoFIFO() tự động
-  - Nếu false → User chọn lô thủ công
-  - Hiển thị danh sách lô đã chọn trong DataGridView
-- [ ] Sửa `frmBanSi.cs` (giống frmBanLe)
-- [ ] Update logic lưu CHI_TIET_PHIEU_BAN
-  - Lưu ID_MA_SAN_PHAM (số lô)
-  - Giảm SO_LUONG trong MA_SAN_PHAM
+#### 4. Result Class ✅
+**XuatKhoResult class:**
+```csharp
+public class XuatKhoResult
+{
+    public IList<MaSanPham> DanhSachLoXuat { get; set; }  // Lô nào, bao nhiêu
+    public long GiaXuat { get; set; }                      // Giá trung bình
+    public bool ThanhCong { get; set; }                    // Success/Fail
+    public string ErrorMessage { get; set; }               // Lỗi gì (nếu có)
+}
+```
 
-#### Task 6: Sửa Report
-- [ ] Update `Report/rptPhieuBan.rdlc`
-  - Thêm cột SỐ LÔ (ID_MA_SAN_PHAM)
-  - Thêm cột NGÀY HẾT HẠN
-  - JOIN với MA_SAN_PHAM để lấy thông tin lô
+### ⏳ CÒN LẠI (25% - Task 1-4):
 
-**Ước tính hoàn thành:** Ngày 16/11/2025 (2 ngày nữa)
+#### Task 1: Sửa Method XuatKho() (5 phút) ⚠️
+- [ ] Bỏ Bước 4: Xóa phần `foreach (var maSp in danhSachLoXuat) { CapNhatSoLuong(...) }`
+- Lý do: Method chỉ TRẢ VỀ thông tin, KHÔNG cập nhật database
+- Database sẽ được cập nhật khi user bấm "Lưu" ở form
+
+#### Task 2: Sửa frmBanLe.cs (30 phút)
+- [ ] Method `btnThem_Click()` - Thay đổi logic:
+  - Từ: User chọn LÔ từ ComboBox
+  - Thành: User chọn SẢN PHẨM → Gọi `controller.XuatKho()` → Strategy tự chọn lô
+- [ ] Thêm TỪNG LÔ vào DataGridView (có thể nhiều lô)
+- [ ] Import: `using System.Linq;` và `using CuahangNongduoc.Strategy;`
+
+#### Task 3: Sửa frmBanSi.cs (10 phút)
+- [ ] Method `btnThem_Click()` - GIỐNG frmBanLe
+
+#### Task 4: Test Tích Hợp (30 phút)
+- [ ] TC1: FIFO + Weighted Average
+- [ ] TC2: FIFO + FIFO Price
+- [ ] TC3: Không đủ hàng → Show error
+- [ ] Admin đổi config → Hành vi thay đổi
+
+**Ước lượng hoàn thành:** 17/11/2025 (1-2 giờ nữa)
 
 ---
 
@@ -701,6 +704,25 @@ Cần bán: 10 cái
 
 ## 📌 LỊCH SỬ CẬP NHẬT
 
+**17/11/2025 - Session 4:**
+- 🔄 Tiếp tục YC2 (Xuất kho FIFO + Strategy Pattern) - 75%
+  - ✅ Implement Strategy Pattern (6 files trong Strategy/)
+  - ✅ MaSanPhamController: 3 factory methods + XuatKhoResult class
+  - ✅ Phân tích và thiết kế chi tiết Strategy Pattern
+  - ⏳ Còn lại: Sửa method XuatKho() + Tích hợp vào form bán hàng
+- Files đã tạo:
+  - Strategy/IXuatKhoStrategy.cs (mới)
+  - Strategy/FifoXuatKhoStrategy.cs (mới)
+  - Strategy/ChiDinhXuatKhoStrategy.cs (mới)
+  - Strategy/ITinhGiaXuatStrategy.cs (mới)
+  - Strategy/WeightedAverageGiaStrategy.cs (mới)
+  - Strategy/FifoGiaStrategy.cs (mới)
+- Files đã sửa:
+  - MaSanPhamController.cs (thêm TaoXuatKhoStrategy, TaoTinhGiaStrategy, XuatKho, XuatKhoResult)
+- Files tài liệu:
+  - YC2_TODO.md (cập nhật chi tiết 75%)
+  - PROGRESS.md (cập nhật tiến độ)
+
 **14/11/2025 - Session 3:**
 - ✅ Hoàn thành YC7 (Đăng nhập + Phân quyền) - 100%
 - 🔄 Làm YC2 (Xuất kho FIFO) - 60%
@@ -723,12 +745,13 @@ Cần bán: 10 cái
 
 ---
 
-**CẬP NHẬT LẦN CUỐI:** 14/11/2025 23:45
+**CẬP NHẬT LẦN CUỐI:** 17/11/2025 00:35
 **NGƯỜI CẬP NHẬT:** Claude Code
 **TRẠNG THÁI:**
-- YC7: ✅ XONG
-- YC2: 🔄 ĐANG LÀM (60%)
-- Deadline: **17/11/2025** (3 NGÀY NỮA!)
+- YC7: ✅ XONG (100%)
+- YC2: 🔄 ĐANG LÀM (75%)
+- Deadline: **17/11/2025** (còn vài giờ!)
+- Next: Sửa controller + form (1-2 giờ)
 
 ---
 
