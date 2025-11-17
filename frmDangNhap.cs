@@ -157,6 +157,22 @@ namespace CuahangNongduoc
             }
         }
 
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                txtMatKhau.PasswordChar = '\0';   // hiện dãy ký tự thật
+            }
+            else
+            {
+                txtMatKhau.PasswordChar = '*';    // che lại bằng *
+            }
+        }
+
+        private void txtMatKhau_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 

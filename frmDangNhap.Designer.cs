@@ -38,6 +38,7 @@
             this.btnThoat = new System.Windows.Forms.Button();
             this.picHinhAnhCuaHang = new System.Windows.Forms.PictureBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.picHinhAnhCuaHang)).BeginInit();
             this.SuspendLayout();
             // 
@@ -86,12 +87,13 @@
             // 
             this.txtMatKhau.Font = new System.Drawing.Font("Calibri", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMatKhau.Location = new System.Drawing.Point(326, 180);
-            this.txtMatKhau.Multiline = true;
+            this.txtMatKhau.Multiline = false;
             this.txtMatKhau.Name = "txtMatKhau";
-            this.txtMatKhau.PasswordChar = '●';
+            this.txtMatKhau.PasswordChar = '*';
             this.txtMatKhau.Size = new System.Drawing.Size(232, 31);
             this.txtMatKhau.TabIndex = 1;
-            this.txtMatKhau.UseSystemPasswordChar = true;
+            this.txtMatKhau.UseSystemPasswordChar = false;
+            this.txtMatKhau.TextChanged += new System.EventHandler(this.txtMatKhau_TextChanged);
             // 
             // btnDangNhap
             // 
@@ -141,11 +143,23 @@
             this.label4.TabIndex = 4;
             this.label4.Text = "ĐĂNG NHẬP HỆ THỐNG";
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(326, 217);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(122, 19);
+            this.checkBox1.TabIndex = 5;
+            this.checkBox1.Text = "Hiển thị mật khẩu";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // frmDangNhap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(592, 299);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btnThoat);
             this.Controls.Add(this.btnDangNhap);
@@ -178,5 +192,6 @@
         private System.Windows.Forms.Button btnDangNhap;
         private System.Windows.Forms.Button btnThoat;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
