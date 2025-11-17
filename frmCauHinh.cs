@@ -22,7 +22,6 @@ namespace CuahangNongduoc
         {
             try
             {
-                // ========== ĐỌC PHƯƠNG PHÁP XUẤT KHO ==========
                 String phuongPhapXuatKho = ThamSo.PhuongPhapXuatKho;
 
                 if (phuongPhapXuatKho == "FIFO")
@@ -34,7 +33,6 @@ namespace CuahangNongduoc
                     radChiDinh.Checked = true;
                 }
 
-                // ========== ĐỌC PHƯƠNG PHÁP TÍNH GIÁ ==========
                 String phuongPhapTinhGia = ThamSo.PhuongPhapTinhGiaXuat;
 
                 if (phuongPhapTinhGia == "AVERAGE")
@@ -46,11 +44,9 @@ namespace CuahangNongduoc
                     radFIFOGia.Checked = true;
                 }
 
-                // ========== ĐỌC CHECKBOX ==========
                 chkTuDongPhanLo.Checked = ThamSo.TuDongPhanLo;
                 chkHienThiLo.Checked = ThamSo.HienThiLoPhieuXuat;
 
-                System.Diagnostics.Debug.WriteLine("frmCauHinhKho: Đọc cấu hình thành công");
             }
             catch (Exception ex)
             {
@@ -60,8 +56,6 @@ namespace CuahangNongduoc
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
-
-                System.Diagnostics.Debug.WriteLine("frmCauHinhKho Load Error: " + ex.ToString());
             }
 
         }
@@ -70,7 +64,6 @@ namespace CuahangNongduoc
         {
             try
             {
-                // ========== LƯU PHƯƠNG PHÁP XUẤT KHO ==========
                 if (radFIFO.Checked)
                 {
                     ThamSo.PhuongPhapXuatKho = "FIFO";
@@ -80,7 +73,6 @@ namespace CuahangNongduoc
                     ThamSo.PhuongPhapXuatKho = "CHI_DINH";
                 }
 
-                // ========== LƯU PHƯƠNG PHÁP TÍNH GIÁ ==========
                 if (radAverage.Checked)
                 {
                     ThamSo.PhuongPhapTinhGiaXuat = "AVERAGE";
@@ -90,13 +82,9 @@ namespace CuahangNongduoc
                     ThamSo.PhuongPhapTinhGiaXuat = "FIFO";
                 }
 
-                // ========== LƯU CHECKBOX ==========
                 ThamSo.TuDongPhanLo = chkTuDongPhanLo.Checked;
                 ThamSo.HienThiLoPhieuXuat = chkHienThiLo.Checked;
 
-                System.Diagnostics.Debug.WriteLine("frmCauHinhKho: Lưu cấu hình thành công");
-
-                // Thông báo thành công
                 MessageBox.Show(
                     "Lưu cấu hình thành công!",
                     "Thông báo",
@@ -104,12 +92,10 @@ namespace CuahangNongduoc
                     MessageBoxIcon.Information
                 );
 
-                // Đóng form
                 this.Close();
             }
             catch (ArgumentException ex)
             {
-                // Lỗi validation từ ThamSo.cs
                 MessageBox.Show(
                     "Lỗi validation:\n" + ex.Message,
                     "Lỗi",
@@ -119,15 +105,12 @@ namespace CuahangNongduoc
             }
             catch (Exception ex)
             {
-                // Lỗi database hoặc lỗi khác
                 MessageBox.Show(
                     "Lỗi lưu cấu hình:\n" + ex.Message,
                     "Lỗi",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
-
-                System.Diagnostics.Debug.WriteLine("frmCauHinhKho Save Error: " + ex.ToString());
             }
 
         }
