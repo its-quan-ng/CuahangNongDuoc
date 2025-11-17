@@ -10,7 +10,7 @@ namespace CuahangNongduoc.Controller
 {
     public class MaSanPhamController
     {
-        MaSanPhanFactory factory = new MaSanPhanFactory();
+        MaSanPhamFactory factory = new MaSanPhamFactory();
 
         public DataRow NewRow()
         {
@@ -27,7 +27,7 @@ namespace CuahangNongduoc.Controller
 
         public SanPham LaySanPham(String idMaSanPham)
         {
-            MaSanPhanFactory f = new MaSanPhanFactory();
+            MaSanPhamFactory f = new MaSanPhamFactory();
             DataTable tbl = f.LaySanPham(idMaSanPham);
             SanPham sp = null;
             DonViTinhController ctrlDVT = new DonViTinhController();
@@ -49,7 +49,7 @@ namespace CuahangNongduoc.Controller
 
         public MaSanPham LayMaSanPham(String idMaSanPham)
         {
-            MaSanPhanFactory f = new MaSanPhanFactory();
+            MaSanPhamFactory f = new MaSanPhamFactory();
             DataTable tbl = f.LayMaSanPham(idMaSanPham);
             MaSanPham sp = null;
             SanPhamController ctrlSanPham = new SanPhamController();
@@ -72,7 +72,7 @@ namespace CuahangNongduoc.Controller
         public static IList<MaSanPham> LayMaSanPhamHetHan(DateTime dt)
         {
             IList<MaSanPham> ds = new List<MaSanPham>();
-            MaSanPhanFactory f = new MaSanPhanFactory();
+            MaSanPhamFactory f = new MaSanPhamFactory();
             DataTable tbl = f.DanhsachMaSanPhamHetHan(dt);
 
             MaSanPham sp = null;

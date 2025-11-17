@@ -6,11 +6,11 @@ using System.Data.SqlClient;
 
 namespace CuahangNongduoc.DataLayer
 {
-    public class MaSanPhanFactory
+    public class MaSanPhamFactory
     {
         DataService m_Ds = new DataService();
 
-        public MaSanPhanFactory()
+        public MaSanPhamFactory()
         {
             m_Ds.TableName = "MA_SAN_PHAM";
         }

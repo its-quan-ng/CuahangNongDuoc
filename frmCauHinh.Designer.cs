@@ -46,6 +46,7 @@
             // 
             // grpPhuongPhapXuatKho
             // 
+            this.grpPhuongPhapXuatKho.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.grpPhuongPhapXuatKho.Controls.Add(this.radChiDinh);
             this.grpPhuongPhapXuatKho.Controls.Add(this.radFIFO);
             this.grpPhuongPhapXuatKho.Location = new System.Drawing.Point(20, 20);
@@ -81,6 +82,7 @@
             // 
             // grpPhuongPhapTinhGia
             // 
+            this.grpPhuongPhapTinhGia.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.grpPhuongPhapTinhGia.Controls.Add(this.radAverage);
             this.grpPhuongPhapTinhGia.Controls.Add(this.radFIFOGia);
             this.grpPhuongPhapTinhGia.Location = new System.Drawing.Point(20, 110);
@@ -116,6 +118,7 @@
             // 
             // grpTuyChon
             // 
+            this.grpTuyChon.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.grpTuyChon.Controls.Add(this.chkHienThiLo);
             this.grpTuyChon.Controls.Add(this.chkTuDongPhanLo);
             this.grpTuyChon.Location = new System.Drawing.Point(20, 200);
@@ -151,6 +154,7 @@
             // 
             // btnLuu
             // 
+            this.btnLuu.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnLuu.BackColor = System.Drawing.Color.LightGreen;
             this.btnLuu.Location = new System.Drawing.Point(97, 300);
             this.btnLuu.Name = "btnLuu";
@@ -162,6 +166,7 @@
             // 
             // btnHuy
             // 
+            this.btnHuy.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnHuy.BackColor = System.Drawing.Color.OrangeRed;
             this.btnHuy.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnHuy.Location = new System.Drawing.Point(257, 300);
@@ -176,7 +181,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(432, 433);
+            this.ClientSize = new System.Drawing.Size(432, 340);
             this.Controls.Add(this.btnHuy);
             this.Controls.Add(this.btnLuu);
             this.Controls.Add(this.grpTuyChon);

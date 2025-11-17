@@ -61,7 +61,7 @@ namespace CuahangNongduoc.DataLayer
             {
                 if (row.RowState == DataRowState.Added)
                 {
-                    CuahangNongduoc.DataLayer.MaSanPhanFactory.CapNhatSoLuong(Convert.ToString(row["ID_MA_SAN_PHAM"]), -Convert.ToInt32(row["SO_LUONG"]));
+                    CuahangNongduoc.DataLayer.MaSanPhamFactory.CapNhatSoLuong(Convert.ToString(row["ID_MA_SAN_PHAM"]), -Convert.ToInt32(row["SO_LUONG"]));
                 }
             }
             return m_Ds.ExecuteNoneQuery() > 0;
