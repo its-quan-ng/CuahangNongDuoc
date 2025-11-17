@@ -296,5 +296,25 @@ namespace CuahangNongduoc
         {
            // Help.ShowHelp(this, "CPP.CHM");
         }
+
+        private void mnuCauHinhKho_Click(object sender, EventArgs e)
+        {
+            // Kiểm tra quyền
+            if (!PhienDangNhap.LaAdmin)
+            {
+                MessageBox.Show(
+                    "Bạn không có quyền truy cập chức năng này!",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                return;
+            }
+
+            // Mở form
+            frmCauHinh frm = new frmCauHinh();
+            frm.ShowDialog();
+
+        }
     }
 }
