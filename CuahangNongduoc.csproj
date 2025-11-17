@@ -485,6 +485,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Settings.cs" />
+    <Compile Include="Strategy\ChiDinhXuatKhoStrategy.cs" />
+    <Compile Include="Strategy\FifoGiaStrategy.cs" />
+    <Compile Include="Strategy\FifoXuatKhoStrategy.cs" />
+    <Compile Include="Strategy\ITinhGiaXuatStrategy.cs" />
+    <Compile Include="Strategy\IXuatKhoStrategy.cs" />
+    <Compile Include="Strategy\WeightedAverageGiaStrategy.cs" />
     <Compile Include="ThamSo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -581,9 +587,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Strategy\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
