@@ -60,7 +60,7 @@ namespace CuahangNongduoc
                 IList<ChiTietPhieuBan> ds = ctrl.ChiTietPhieuBan(Convert.ToInt32(view["ID"]));
                 foreach (ChiTietPhieuBan ct in ds)
                 {
-                    CuahangNongduoc.DataLayer.MaSanPhanFactory.CapNhatSoLuong(ct.MaSanPham.Id, ct.SoLuong);
+                    CuahangNongduoc.DataLayer.MaSanPhamFactory.CapNhatSoLuong(ct.MaSanPham.Id, ct.SoLuong);
                 }
                 ctrl.Save();
             }
@@ -77,7 +77,7 @@ namespace CuahangNongduoc
                      IList<ChiTietPhieuBan> ds = ctrl.ChiTietPhieuBan(Convert.ToInt32(view["ID"]));
                      foreach (ChiTietPhieuBan ct in ds)
                      {
-                         CuahangNongduoc.DataLayer.MaSanPhanFactory.CapNhatSoLuong(ct.MaSanPham.Id, ct.SoLuong);
+                         CuahangNongduoc.DataLayer.MaSanPhamFactory.CapNhatSoLuong(ct.MaSanPham.Id, ct.SoLuong);
                      }
                      bindingNavigator.BindingSource.RemoveCurrent();
                      ctrl.Save();
