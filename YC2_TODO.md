@@ -1,202 +1,219 @@
-# 🔥 YC2: XUẤT KHO FIFO - TODO LIST
+# 🔥 YC2: XUẤT KHO FIFO + STRATEGY PATTERN - TODO
 
-**Trạng thái:** 60% hoàn thành
-**Deadline:** 16/11/2025
-
----
-
-## ✅ ĐÃ XONG (Task 1-4)
-
-### Task 1: Database ✅
-- THAM_SO có 4 cột mới (đã có sẵn)
-
-### Task 2: ThamSo.cs ✅
-```csharp
-// Thêm 4 properties:
-ThamSo.PhuongPhapXuatKho       // "FIFO" | "CHI_DINH"
-ThamSo.PhuongPhapTinhGiaXuat   // "AVERAGE" | "FIFO"
-ThamSo.TuDongPhanLo             // bool
-ThamSo.HienThiLoPhieuXuat       // bool
-```
-
-### Task 3: frmCauHinhKho.cs ✅
-- Form cấu hình (Admin only)
-- Menu: Tùy chỉnh → Cấu hình xuất kho
-
-### Task 4: Logic FIFO Core ✅
-**MaSanPhanFactory.cs:**
-```csharp
-public DataTable LayDanhSachLoConHang(int idSanPham)
-// → Query lô còn hàng, ORDER BY NGAY_HET_HAN, NGAY_NHAP
-```
-
-**MaSanPhamController.cs:**
-```csharp
-public IList<MaSanPham> ChonLoFIFO(int idSanPham, int soLuongCan)
-// → Chọn lô tự động, hết hạn sớm nhất trước
-
-public long TinhGiaXuat(int idSanPham)
-// → Gọi TinhGiaBinhQuanGiaQuyen() hoặc TinhGiaFIFO()
-
-private long TinhGiaBinhQuanGiaQuyen(int idSanPham)
-// → Weighted average: SUM(qty×price) / SUM(qty)
-
-private long TinhGiaFIFO(int idSanPham)
-// → Giá lô đầu tiên
-```
+**Trạng thái:** 75% hoàn thành
+**Deadline:** 17/11/2025 (còn 3 ngày)
+**Session:** 17/11/2025 00:30
 
 ---
 
-## ⏳ CÒN LẠI (Task 5-6) - LÀM TIẾP
+## ✅ ĐÃ HOÀN THÀNH (75%)
 
-### 🔴 Task 5: Áp Dụng FIFO vào Form Bán Hàng (1 NGÀY)
+### 1. Database + Config ✅
+- THAM_SO có 4 cột: `PHUONG_PHAP_XUAT_KHO`, `PHUONG_PHAP_TINH_GIA_XUAT`, `TU_DONG_PHAN_LO`, `HIEN_THI_LO_PHIEU_XUAT`
+- ThamSo.cs có 4 properties tương ứng (get/set)
+- frmCauHinh.cs: Form cấu hình (Admin thay đổi)
 
-#### **File 1: frmBanLe.cs**
+### 2. Strategy Pattern (6 files) ✅
 
-**Vị trí sửa:** Event khi chọn sản phẩm (cmbSanPham_SelectedIndexChanged)
+**Vị trí:** `D:\Workspace\CHND\CHND\Strategy\`
 
-**Logic cần thêm:**
+```
+Strategy/
+├── IXuatKhoStrategy.cs              ✅ Interface chọn lô
+├── FifoXuatKhoStrategy.cs           ✅ Xuất lô cũ trước (NGAY_NHAP ASC)
+├── ChiDinhXuatKhoStrategy.cs        ✅ User chọn lô (return empty, validate)
+├── ITinhGiaXuatStrategy.cs          ✅ Interface tính giá
+├── WeightedAverageGiaStrategy.cs    ✅ Bình quân gia quyền: SUM(qty×price)/SUM(qty)
+└── FifoGiaStrategy.cs               ✅ Giá lô đầu tiên
+```
+
+**Lưu ý:**
+- `FifoXuatKhoStrategy.cs` dùng `factory.DanhsachMaSanPham(idSanPham)` (method có sẵn)
+- Tất cả strategies đã implement đúng interface
+
+### 3. Controller Methods ✅
+
+**Vị trí:** `D:\Workspace\CHND\CHND\Controller\MaSanPhamController.cs`
+
+**Đã thêm:**
 ```csharp
-// Khi user chọn sản phẩm + nhập số lượng:
+using CuahangNongduoc.Strategy;  // ← Import namespace
 
-// B1: Đọc cấu hình
-if (ThamSo.TuDongPhanLo)
+private IXuatKhoStrategy TaoXuatKhoStrategy()
+// → Đọc ThamSo.PhuongPhapXuatKho → Return FIFO/CHI_DINH strategy
+
+private ITinhGiaXuatStrategy TaoTinhGiaStrategy()
+// → Đọc ThamSo.PhuongPhapTinhGiaXuat → Return Average/FIFO strategy
+
+public XuatKhoResult XuatKho(int idSanPham, int soLuongCanXuat)
+// → Orchestrate: Chọn lô + Tính giá + Return result
+// ⚠️ CẦN SỬA: Bỏ Bước 4 (cập nhật database) - Xem phần TODO
+```
+
+### 4. Result Class ✅
+
+**Vị trí:** `D:\Workspace\CHND\CHND\Controller\MaSanPhamController.cs` (cuối file)
+
+```csharp
+public class XuatKhoResult
 {
-    // B2: Gọi FIFO tự động
-    int idSanPham = Convert.ToInt32(cmbSanPham.SelectedValue);
-    int soLuong = Convert.ToInt32(numSoLuong.Value);
+    public IList<MaSanPham> DanhSachLoXuat { get; set; }  // Lô nào, bao nhiêu
+    public long GiaXuat { get; set; }                      // Giá trung bình
+    public bool ThanhCong { get; set; }                    // Success/Fail
+    public string ErrorMessage { get; set; }               // Lỗi gì (nếu fail)
+}
+```
 
-    IList<MaSanPham> danhSachLo = ctrlMaSanPham.ChonLoFIFO(idSanPham, soLuong);
+---
 
-    // B3: Add từng lô vào DataGridView chi tiết
-    foreach (MaSanPham lo in danhSachLo)
+## ⏳ CẦN LÀM TIẾP (25% còn lại)
+
+### 🔴 TASK 1: Sửa Method XuatKho() (5 phút)
+
+**File:** `D:\Workspace\CHND\CHND\Controller\MaSanPhamController.cs`
+
+**Vấn đề hiện tại:**
+```csharp
+// ❌ ĐANG SAI - Bước 4 cập nhật database ngay
+public XuatKhoResult XuatKho(int idSanPham, int soLuongCanXuat)
+{
+    // Bước 1-3: OK
+
+    // ❌ BƯỚC 4: XÓA ĐOẠN NÀY
+    foreach (var maSp in danhSachLoXuat)
     {
-        // Add row vào dgvChiTiet
-        // Columns: ID_MA_SAN_PHAM, SO_LUONG, DON_GIA, THANH_TIEN
+        MaSanPhamFactory.CapNhatSoLuong(maSp.Id, -maSp.SoLuong);
     }
-}
-else
-{
-    // B2: User chọn lô thủ công (logic cũ)
-    // Hiển thị danh sách lô available
-    // User chọn lô cụ thể
-}
 
-// B4: Tính giá xuất
-long giaXuat = ctrlMaSanPham.TinhGiaXuat(idSanPham);
-```
-
-**Controls cần thêm/sửa:**
-- DataGridView chi tiết phải có cột: ID_MA_SAN_PHAM (số lô)
-- Label hiển thị giá xuất
-
-**Khi lưu phiếu bán:**
-```csharp
-// Lưu CHI_TIET_PHIEU_BAN
-foreach (DataGridViewRow row in dgvChiTiet.Rows)
-{
-    String idMaSanPham = row.Cells["ID_MA_SAN_PHAM"].Value;
-    int soLuong = row.Cells["SO_LUONG"].Value;
-
-    // INSERT vào CHI_TIET_PHIEU_BAN
-    // UPDATE MA_SAN_PHAM: Giảm SO_LUONG
+    return result;
 }
 ```
 
-#### **File 2: frmBanSi.cs**
-- Logic GIỐNG Y HỆT frmBanLe.cs
-- Copy paste code ở trên, test lại
+**Cần sửa:**
+- XÓA Bước 4 (cập nhật database)
+- Method chỉ TRẢ VỀ thông tin, KHÔNG sửa database
+- Database sẽ được cập nhật khi user bấm "Lưu" ở form
+
+**Lý do:**
+- User có thể thêm → xóa → thêm lại trên form trước khi lưu
+- Nếu cập nhật ngay → Database thay đổi loạn xạ
 
 ---
 
-### 🔴 Task 6: Sửa Report Hiển Thị Lô (0.5 NGÀY)
+### 🔴 TASK 2: Sửa frmBanLe.cs (30 phút)
 
-#### **File: Report/rptPhieuBan.rdlc**
+**File:** `D:\Workspace\CHND\CHND\frmBanLe.cs`
 
-**Bước 1: Sửa DataSet / Query**
-```sql
--- Query cũ:
-SELECT CTPB.*, SP.TEN_SAN_PHAM
-FROM CHI_TIET_PHIEU_BAN CTPB
-INNER JOIN SAN_PHAM SP ON ...
+**Method cần sửa:** `btnThem_Click()` (line ~110-130)
 
--- Query mới (thêm JOIN):
-SELECT CTPB.*, SP.TEN_SAN_PHAM,
-       MSP.ID AS SO_LO,
-       MSP.NGAY_HET_HAN
-FROM CHI_TIET_PHIEU_BAN CTPB
-INNER JOIN SAN_PHAM SP ON ...
-INNER JOIN MA_SAN_PHAM MSP ON CTPB.ID_MA_SAN_PHAM = MSP.ID
-```
-
-**Bước 2: Thêm columns vào Report**
-- Column mới: "Số Lô" (ID)
-- Column mới: "Ngày HSD" (NGAY_HET_HAN)
-
-**Bước 3: Conditional Visibility**
+**Logic CŨ (đang dùng):**
 ```csharp
-// Chỉ hiển thị lô nếu cấu hình bật
-=IIF(ThamSo.HienThiLoPhieuXuat, "Visible", "Hidden")
+// ❌ User tự chọn LÔ từ ComboBox
+string idLo = cmbMaSanPham.SelectedValue.ToString();
+int soLuong = (int)numSoLuong.Value;
+long donGia = (long)numDonGia.Value;
+
+DataRow row = ctrlChiTiet.NewRow();
+row["ID_MA_SAN_PHAM"] = idLo;  // ← User chọn lô thủ công
+row["SO_LUONG"] = soLuong;
+row["DON_GIA"] = donGia;
+row["THANH_TIEN"] = soLuong * donGia;
+ctrlChiTiet.Add(row);
 ```
+
+**Logic MỚI (cần sửa thành):**
+```csharp
+// ✅ Gọi Strategy Pattern
+int idSanPham = (int)cmbSanPham.SelectedValue;  // ← Chọn SẢN PHẨM, không phải lô
+int soLuong = (int)numSoLuong.Value;
+
+MaSanPhamController ctrl = new MaSanPhamController();
+XuatKhoResult result = ctrl.XuatKho(idSanPham, soLuong);
+
+if (!result.ThanhCong)
+{
+    MessageBox.Show(result.ErrorMessage, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+    return;
+}
+
+// Thêm TỪNG LÔ vào DataGridView (có thể nhiều lô)
+foreach (var maSp in result.DanhSachLoXuat)
+{
+    DataRow row = ctrlChiTiet.NewRow();
+    row["ID_PHIEU_BAN"] = txtMaPhieu.Text;
+    row["ID_MA_SAN_PHAM"] = maSp.Id;           // ← Lô do Strategy chọn
+    row["SO_LUONG"] = maSp.SoLuong;
+    row["DON_GIA"] = result.GiaXuat;           // ← Giá do Strategy tính
+    row["THANH_TIEN"] = maSp.SoLuong * result.GiaXuat;
+    ctrlChiTiet.Add(row);
+}
+
+// Cập nhật tổng tiền
+numTongTien.Value += result.DanhSachLoXuat.Sum(m => m.SoLuong) * result.GiaXuat;
+```
+
+**Lưu ý:**
+- Cần import: `using System.Linq;` (để dùng `.Sum()`)
+- `btnLuu_Click()` KHÔNG cần sửa (vẫn cập nhật database như cũ)
 
 ---
 
-## 🧪 TEST CASES
+### 🔴 TASK 3: Sửa frmBanSi.cs (10 phút)
 
-### TC1: FIFO Tự Động
+**File:** `D:\Workspace\CHND\CHND\frmBanSi.cs`
+
+**Method cần sửa:** `btnThem_Click()` (line ~110-130)
+
+**Logic:** GIỐNG Y HỆT frmBanLe.cs Task 2
+- Copy code từ frmBanLe đã sửa
+- Thay tên controls nếu khác (txtMaPhieu, numTongTien...)
+
+---
+
+### 🔴 TASK 4: Test Tích Hợp (30 phút)
+
+**TC1: FIFO Tự Động**
 ```
 Setup:
-  - Cấu hình: FIFO, Tự động phân lô = true
-  - Database:
-    L1 (HSD: 01/06/2025, 5 cái)
-    L2 (HSD: 01/03/2025, 8 cái) ← Hết hạn sớm nhất
-    L3 (HSD: 01/12/2025, 10 cái)
+  - Admin vào frmCauHinh → Chọn FIFO, Average
+  - Database có:
+    Lô 1: 30 chai, ngày nhập: 01/01/2025, giá 10,000đ
+    Lô 2: 50 chai, ngày nhập: 05/01/2025, giá 11,000đ
+    Lô 3: 70 chai, ngày nhập: 10/01/2025, giá 12,000đ
 
 Action:
-  - Bán 10 cái
+  - User bán 100 chai sản phẩm này
 
 Expected:
-  - Hệ thống tự chọn:
-    L2: 8 cái
-    L1: 2 cái
-  - DataGridView hiển thị 2 dòng
-  - In phiếu: Thấy 2 số lô
+  - DataGridView hiển thị 3 dòng:
+    Lô 1: 30 chai × 10,900đ
+    Lô 2: 50 chai × 10,900đ
+    Lô 3: 20 chai × 10,900đ
+  - Giá: 10,900đ = (30×10k + 50×11k + 20×12k) / 100 (Weighted Average)
+  - Bấm Lưu → Database cập nhật đúng
 ```
 
-### TC2: Chỉ Định Thủ Công
+**TC2: FIFO Price**
 ```
 Setup:
-  - Cấu hình: Chỉ định, Tự động = false
+  - Admin vào frmCauHinh → Chọn FIFO, FIFO Price
+  - Database như TC1
+
+Expected:
+  - Giá: 10,000đ (giá lô 1 - lô đầu tiên)
+```
+
+**TC3: Không Đủ Hàng**
+```
+Setup:
+  - Database chỉ có 50 chai
 
 Action:
-  - Bán 10 cái
+  - User bán 100 chai
 
 Expected:
-  - Hệ thống hiển thị danh sách lô available
-  - User chọn L3: 10 cái
-  - Lưu thành công
-```
-
-### TC3: Tính Giá Average
-```
-Setup:
-  - Cấu hình: Tính giá = AVERAGE
-  - Database:
-    L1: 5 cái × 10,000
-    L2: 10 cái × 12,000
-
-Expected:
-  - Giá xuất = (50,000 + 120,000) / 15 = 11,333
-```
-
-### TC4: Tính Giá FIFO
-```
-Setup:
-  - Cấu hình: Tính giá = FIFO
-  - Database như TC3
-
-Expected:
-  - Giá xuất = Giá lô đầu tiên = 10,000
+  - MessageBox: "Không đủ hàng trong kho! Tồn: 50, Cần xuất: 100"
+  - Không thêm vào DataGridView
 ```
 
 ---
@@ -204,54 +221,98 @@ Expected:
 ## 📝 CHECKLIST HOÀN THÀNH
 
 **Code:**
-- [ ] frmBanLe.cs - Thêm logic FIFO
-- [ ] frmBanSi.cs - Thêm logic FIFO
-- [ ] Test với TuDongPhanLo = true
-- [ ] Test với TuDongPhanLo = false
-- [ ] Lưu CHI_TIET_PHIEU_BAN đúng (ID_MA_SAN_PHAM)
-- [ ] Giảm SO_LUONG trong MA_SAN_PHAM khi bán
-
-**Report:**
-- [ ] rptPhieuBan.rdlc - Thêm cột Số Lô
-- [ ] rptPhieuBan.rdlc - Thêm cột Ngày HSD
-- [ ] Query JOIN với MA_SAN_PHAM
-- [ ] Test in phiếu: Thấy số lô
+- [x] Strategy Pattern: 6 files
+- [x] MaSanPhamController: 3 factory methods
+- [x] XuatKhoResult class
+- [ ] Sửa XuatKho() - bỏ Bước 4
+- [ ] Sửa frmBanLe.cs - btnThem_Click()
+- [ ] Sửa frmBanSi.cs - btnThem_Click()
 
 **Testing:**
-- [ ] TC1: FIFO tự động OK
-- [ ] TC2: Chỉ định thủ công OK
-- [ ] TC3: Tính giá Average OK
-- [ ] TC4: Tính giá FIFO OK
-- [ ] Không crash khi hết hàng
-- [ ] Không crash khi NULL
+- [ ] TC1: FIFO + Weighted Average
+- [ ] TC2: FIFO + FIFO Price
+- [ ] TC3: Không đủ hàng
+- [ ] Admin đổi config → Hành vi thay đổi
+
+**Optional (nếu còn thời gian):**
+- [ ] Sửa report: Hiển thị số lô trong phiếu bán
+- [ ] UI: Ẩn/hiện ComboBox chọn lô theo config
 
 ---
 
 ## 💡 GHI NHỚ
 
-**Tên methods quan trọng:**
-```csharp
-ThamSo.TuDongPhanLo                        // Check có tự động không
-ThamSo.PhuongPhapTinhGiaXuat               // Check tính giá kiểu gì
+### **Kiến Trúc Strategy Pattern:**
 
-ctrlMaSanPham.ChonLoFIFO(id, qty)          // Chọn lô tự động
-ctrlMaSanPham.TinhGiaXuat(id)              // Tính giá
+```
+Admin thay đổi config (frmCauHinh)
+         ↓
+    THAM_SO table
+         ↓
+    ThamSo.cs (properties)
+         ↓
+MaSanPhamController.TaoXuatKhoStrategy()
+         ↓
+    IXuatKhoStrategy instance (FIFO hoặc CHI_DINH)
+         ↓
+    ChonLoXuat() → Return danh sách lô
+         ↓
+    ITinhGiaXuatStrategy.TinhGiaXuat() → Return giá
+         ↓
+    XuatKhoResult → Form nhận kết quả
+         ↓
+    Form thêm vào DataGridView
+         ↓
+    User bấm Lưu → Cập nhật database
 ```
 
-**Cột database:**
+### **Flow QUAN TRỌNG:**
+
+1. Method `XuatKho()` CHỈ TRẢ VỀ thông tin (KHÔNG sửa database)
+2. Form nhận result → Hiển thị trên DataGridView
+3. User bấm "Lưu" → Form mới cập nhật database
+
+### **Files Đã Tạo:**
+
 ```
-CHI_TIET_PHIEU_BAN.ID_MA_SAN_PHAM  → Lưu số lô
-MA_SAN_PHAM.SO_LUONG                → Giảm khi bán
+Strategy/
+├── IXuatKhoStrategy.cs
+├── FifoXuatKhoStrategy.cs
+├── ChiDinhXuatKhoStrategy.cs
+├── ITinhGiaXuatStrategy.cs
+├── WeightedAverageGiaStrategy.cs
+└── FifoGiaStrategy.cs
 ```
 
-**Order quan trọng:**
-```sql
-ORDER BY NGAY_HET_HAN ASC, NGAY_NHAP ASC
--- ↑ Hết hạn sớm nhất, nhập trước xuất trước
+### **Công Thức Tính Giá:**
+
+```
+Weighted Average = SUM(SoLuong × GiaNhap) / SUM(SoLuong)
+FIFO Price = GiaNhap của lô đầu tiên (danhSachLoXuat[0])
 ```
 
 ---
 
-**File tạo:** 14/11/2025
-**Mục đích:** Quick reference cho Task 5-6
-**Next session:** Làm Task 5 (frmBanLe, frmBanSi)
+## 🚨 LƯU Ý QUAN TRỌNG
+
+1. **KHÔNG cập nhật database trong method XuatKho()**
+   - Lý do: User có thể thêm/xóa nhiều lần trước khi lưu
+
+2. **Method XuatKho() KHÔNG dư thừa**
+   - Form CẦN gọi để có FIFO tự động
+   - Strategy Pattern cốt lõi nằm ở đây
+
+3. **XuatKhoResult class KHÔNG dư thừa**
+   - Form cần DanhSachLoXuat để hiển thị
+   - Form cần GiaXuat để tính tiền
+   - Form cần check ThanhCong/ErrorMessage
+
+4. **Form bán hàng CẦN SỬA**
+   - Logic cũ: User chọn LÔ
+   - Logic mới: User chọn SẢN PHẨM → Strategy tự chọn lô
+
+---
+
+**Cập nhật:** 17/11/2025 00:30
+**Next session:** Làm Task 1-4 (sửa controller + form)
+**Ước lượng:** 1-2 giờ hoàn thành tất cả
