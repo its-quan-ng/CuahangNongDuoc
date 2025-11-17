@@ -118,8 +118,7 @@ namespace CuahangNongduoc
                 // Ẩn tất cả các chức năng chính (chỉ giữ lại Đăng nhập/Thoát/Trợ giúp)
                 foreach (ToolStripItem item in menuStrip.Items) // Lặp qua tất cả menu cấp 1
                 {
-                    // Giả sử Menu 'Hệ thống' (menu cha của Đăng nhập/Đăng xuất) có tên mnuHeThong
-                    // và Menu 'Trợ giúp' có tên mnuTroGiup
+                    
                     if (item != mnuHeThong && item != mnuTrogiupHuongdan)
                     {
                         item.Visible = false;
@@ -146,17 +145,7 @@ namespace CuahangNongduoc
             CapNhatTrangThai();
         }
 
-       
 
-      
-
-      
-   
-
-
-        // ==========================================================
-        // CÁC SỰ KIỆN CLICK MENU (GIỮ NGUYÊN)
-        // ==========================================================
 
         private void mnuDonViTinh_Click(object sender, EventArgs e)
         {
@@ -170,9 +159,7 @@ namespace CuahangNongduoc
                 DonViTinh.Activate();
         }
 
-        // ... (Giữ nguyên tất cả các phương thức Click khác của bạn)
-        // ... (Ví dụ: mnuSanPham_Click, mnuKhachHang_Click, mnuNhaCungCap_Click, v.v.)
-
+   
         private void mnuSanPham_Click(object sender, EventArgs e)
         {
             if (SanPham == null || SanPham.IsDisposed)
