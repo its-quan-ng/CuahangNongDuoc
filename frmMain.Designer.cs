@@ -374,7 +374,7 @@
             this.mnuCauHinhKho.Name = "mnuCauHinhKho";
             this.mnuCauHinhKho.Size = new System.Drawing.Size(222, 26);
             this.mnuCauHinhKho.Text = "Cấu Hình";
-            this.mnuCauHinhKho.Click += new System.EventHandler(this.mnuCauHinhKho_Click_1);
+            this.mnuCauHinhKho.Click += new System.EventHandler(this.mnuCauHinhKho_Click);
             // 
             // mnuTrogiup
             // 

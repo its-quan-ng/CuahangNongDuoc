@@ -75,7 +75,7 @@
             this.label3.Text = "Mật khẩu:";
             // 
             // txtTenDangNhap
-            // 
+            //
             this.txtTenDangNhap.Font = new System.Drawing.Font("Calibri", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTenDangNhap.Location = new System.Drawing.Point(326, 119);
             this.txtTenDangNhap.MaxLength = 50;
@@ -83,6 +83,7 @@
             this.txtTenDangNhap.Name = "txtTenDangNhap";
             this.txtTenDangNhap.Size = new System.Drawing.Size(232, 31);
             this.txtTenDangNhap.TabIndex = 0;
+            this.txtTenDangNhap.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTenDangNhap_KeyPress);
             // 
             // txtMatKhau
             // 
@@ -92,6 +93,7 @@
             this.txtMatKhau.PasswordChar = '*';
             this.txtMatKhau.Size = new System.Drawing.Size(232, 28);
             this.txtMatKhau.TabIndex = 1;
+            this.txtMatKhau.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMatKhau_KeyPress);
             // 
             // btnDangNhap
             // 
@@ -104,7 +106,6 @@
             this.btnDangNhap.Text = "Đăng nhập";
             this.btnDangNhap.UseVisualStyleBackColor = false;
             this.btnDangNhap.Click += new System.EventHandler(this.btnDangNhap_Click);
-            this.btnDangNhap.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.btnDangNhap_KeyPress);
             // 
             // btnThoat
             // 
@@ -117,7 +118,6 @@
             this.btnThoat.Text = "Thoát";
             this.btnThoat.UseVisualStyleBackColor = false;
             this.btnThoat.Click += new System.EventHandler(this.btnThoat_Click);
-            this.btnThoat.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.btnThoat_KeyPress);
             // 
             // picHinhAnhCuaHang
             // 

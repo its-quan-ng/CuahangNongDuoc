@@ -30,6 +30,7 @@ namespace CuahangNongduoc
         frmNhaCungCap NhaCungCap = null;
         frmLyDoChi LyDoChi = null;
         frmPhieuChi PhieuChi = null;
+        frmCauHinh CauHinh = null;
 
         public frmMain()
         {
@@ -63,42 +64,38 @@ namespace CuahangNongduoc
                 mnuDangNhap.Enabled = false;
                 mnuDangXuat.Enabled = true;
 
-                // Kích hoạt tất cả menu chính (trước khi phân quyền)
-                foreach (ToolStripItem item in menuStrip.Items) // Giả sử menuStrip là tên MenuStrip của bạn
+                // 3. Hiển thị lại tất cả menu (cần thiết để reset state từ lần đăng xuất)
+                //    Khi đăng xuất, tất cả menu đã bị ẩn → Phải show lại
+                foreach (ToolStripItem item in menuStrip.Items)
                 {
                     item.Visible = true;
                 }
 
-               
-                if (!PhienDangNhap.LaAdmin)
-                {
-                    // Ẩn các mục Menu quản trị
-                    mnuSanPham.Visible = false;
-                    mnuDonViTinh.Visible = false;
-                    mnuLyDoChi.Visible = false;
-                    mnuNhaCungCap.Visible = false;
-                    mnuPhieuChi.Visible = false;
-                    mnuTonghopDuno.Visible = false;
-                    mnuSoLuongBan.Visible = false;
-                    mnuTuychinh.Visible = false;
-                    mnuCauHinhKho.Visible = false; 
+                // 4. Phân quyền: Chỉ Admin mới thấy các chức năng quản trị
+                //    Các chức năng chung (Khách hàng, Bán hàng, Nhập hàng...) luôn hiển thị
+                bool laAdmin = PhienDangNhap.LaAdmin;
 
-                 
-                       
-                        toolSanPham.Enabled = false;
+                // Menu: Chức năng Admin (chỉ Admin mới thấy)
+                mnuSanPham.Visible = laAdmin;
+                mnuDonViTinh.Visible = laAdmin;
+                mnuLyDoChi.Visible = laAdmin;
+                mnuNhaCungCap.Visible = laAdmin;
+                mnuPhieuChi.Visible = laAdmin;
+                mnuTonghopDuno.Visible = laAdmin;
+                mnuSoLuongBan.Visible = laAdmin;
+                mnuTuychinh.Visible = laAdmin;
+                mnuCauHinhKho.Visible = laAdmin;
 
-                        // Nhà Cung Cấp (Đã sửa theo tên bạn cung cấp: toolNhaCungCap)
-                        toolNhaCungCap.Enabled = false;
+                // Toolbar: Chức năng Admin
+                toolSanPham.Visible = laAdmin;
+                toolNhaCungCap.Visible = laAdmin;
+                toolPhieuChi.Visible = laAdmin;
 
-                        // Phiếu Chi
-                        toolPhieuChi.Enabled = false;
-
-                    itemSanPham.Enabled = false;
-                    itemNhaCungCap.Enabled = false;
-                    itemPhieuChi.Enabled =false;
-                    itemTonghopDoanhthu.Enabled = false;
-
-                }
+                // TaskPane: Chức năng Admin
+                itemSanPham.Visible = laAdmin;
+                itemNhaCungCap.Visible = laAdmin;
+                itemPhieuChi.Visible = laAdmin;
+                itemTonghopDoanhthu.Visible = laAdmin;
 
                 // Mở thanh công cụ/chức năng (Mặc định)
                 mnuThanhCongCu.Checked = true;
@@ -377,46 +374,42 @@ namespace CuahangNongduoc
 
         private void mnuTrogiupHuongdan_Click(object sender, EventArgs e)
         {
-            // Help.ShowHelp(this, "CPP.CHM");
+            MessageBox.Show(
+             "Chức năng hướng dẫn đang được phát triển.",
+             "Thông báo",
+            MessageBoxButtons.OK,
+             MessageBoxIcon.Information
+             );
         }
 
 
 
-        private void mnuCauHinhKho_Click_1(object sender, EventArgs e)
+        private void mnuCauHinhKho_Click(object sender, EventArgs e)
         {
-            // Kiểm tra quyền
-            if (!PhienDangNhap.LaAdmin)
+            // Không cần check quyền vì menu đã ẩn với user thường rồi
+            if (CauHinh == null || CauHinh.IsDisposed)
             {
-                MessageBox.Show(
-                    "Bạn không có quyền truy cập chức năng này!",
-                    "Thông báo",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-                return;
+                CauHinh = new frmCauHinh();
+                CauHinh.MdiParent = this;
+                CauHinh.Show();
             }
-
-            // Mở form
-            frmCauHinh frm = new frmCauHinh();
-            frm.ShowDialog();
+            else
+                CauHinh.Activate();
         }
 
         private void mnuDangXuat_Click(object sender, EventArgs e)
         {
-            PhienDangNhap.DangXuat(); // Giả sử PhienDangNhap có phương thức DangXuat()
+            PhienDangNhap.DangXuat(); 
             CapNhatTrangThai();
 
-            // Sau khi đăng xuất, tự động mở lại Form đăng nhập
             mnuDangNhap_Click(sender, e);
         }
 
         private void mnuDangNhap_Click(object sender, EventArgs e)
         {
-            // Mở form Đăng nhập (Dùng ShowDialog để bắt buộc đăng nhập)
             frmDangNhap frm = new frmDangNhap();
             if (frm.ShowDialog() == DialogResult.OK)
             {
-                // Nếu đăng nhập thành công, cập nhật giao diện
                 CapNhatTrangThai();
             }
             else if (!PhienDangNhap.DaDangNhap)
