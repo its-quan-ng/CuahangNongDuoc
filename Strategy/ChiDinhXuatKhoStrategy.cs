@@ -7,15 +7,19 @@ using System.Threading.Tasks;
 
 namespace CuahangNongduoc.Strategy
 {
-    internal class ChiDinhXuatKhoStrategy
+    /// <summary>
+    /// Strategy: CHỈ ĐỊNH (Manual Selection)
+    /// User tự chọn lô trong form (cmbMaSanPham) - KHÔNG dùng strategy để chọn tự động
+    /// Class này chỉ để hoàn thiện Strategy Pattern cho báo cáo đồ án
+    /// </summary>
+    public class ChiDinhXuatKhoStrategy : IXuatKhoStrategy
     {
         public IList<MaSanPham> ChonLoXuat(int idSanPham, int soLuongCanXuat)
         {
-            
-            return new List<MaSanPham>();
+            throw new NotImplementedException(
+                "Mode CHỈ ĐỊNH: User tự chọn lô trong form. Method này không được sử dụng."
+            );
         }
-
-        
         public bool ValidateDanhSachLoChon(IList<MaSanPham> danhSachLoUserChon, int soLuongCanXuat)
         {
             int tongSoLuong = 0;
@@ -33,6 +37,5 @@ namespace CuahangNongduoc.Strategy
 
             return true;
         }
-
     }
 }

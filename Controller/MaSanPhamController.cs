@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Data;
 using CuahangNongduoc.DataLayer;
 using CuahangNongduoc.BusinessObject;
+using CuahangNongduoc.Strategy;
 
 namespace CuahangNongduoc.Controller
 {
@@ -134,6 +135,141 @@ namespace CuahangNongduoc.Controller
                 ds.Add(sp);
             }
             return ds;
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // TASK 4: LOGIC FIFO CƠ BẢN (Wrapper methods)
+        // ═══════════════════════════════════════════════════════════════
+
+        /// <summary>
+        /// Chọn lô tự động theo FIFO (FEFO - hết hạn sớm nhất)
+        /// Wrapper method cho Strategy Pattern
+        /// </summary>
+        public IList<MaSanPham> ChonLoFIFO(int idSanPham, int soLuongCan)
+        {
+            // Gọi Strategy Pattern
+            IXuatKhoStrategy strategy = new FifoXuatKhoStrategy();
+            return strategy.ChonLoXuat(idSanPham, soLuongCan);
+        }
+
+        /// <summary>
+        /// Tính giá xuất cho 1 sản phẩm (tất cả lô còn hàng)
+        /// Sử dụng để hiển thị giá trong form (txtGiaBQGQ)
+        /// </summary>
+        public long TinhGiaXuat(int idSanPham)
+        {
+            if (idSanPham <= 0)
+            {
+                System.Diagnostics.Debug.WriteLine($"TinhGiaXuat: ID sản phẩm không hợp lệ ({idSanPham})");
+                return 0;
+            }
+
+            try
+            {
+                MaSanPhamFactory factory = new MaSanPhamFactory();
+                DataTable tblLo = factory.LayDanhSachLoConHang(idSanPham);
+
+                if (tblLo == null || tblLo.Rows.Count == 0)
+                {
+                    System.Diagnostics.Debug.WriteLine($"TinhGiaXuat: Sản phẩm ID {idSanPham} không có lô nào còn hàng");
+                    return 0;
+                }
+
+                // Chuyển DataTable → IList<MaSanPham>
+                IList<MaSanPham> danhSachLo = new List<MaSanPham>();
+
+                foreach (DataRow row in tblLo.Rows)
+                {
+                    MaSanPham msp = new MaSanPham
+                    {
+                        Id = Convert.ToString(row["ID"]),
+                        SoLuong = Convert.ToInt32(row["SO_LUONG"]),
+                        GiaNhap = Convert.ToInt64(row["DON_GIA_NHAP"]),
+                        NgayNhap = Convert.ToDateTime(row["NGAY_NHAP"]),
+                        NgayHetHan = Convert.ToDateTime(row["NGAY_HET_HAN"])
+                    };
+                    danhSachLo.Add(msp);
+                }
+
+                // Gọi Strategy tính giá
+                long giaXuat = TinhGiaTheoConfig(danhSachLo);
+                System.Diagnostics.Debug.WriteLine($"TinhGiaXuat: SP {idSanPham} → Giá xuất = {giaXuat:N0}đ");
+                return giaXuat;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"TinhGiaXuat: {ex.Message}");
+                return 0;  
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // STRATEGY PATTERN: XUẤT KHO VÀ TÍNH GIÁ
+        // ═══════════════════════════════════════════════════════════════
+
+        /// <summary>
+        /// Chọn lô xuất theo cấu hình (FIFO tự động hoặc CHI_DINH thủ công)
+        /// Sử dụng Strategy Pattern
+        /// </summary>
+        /// <param name="idSanPham">ID sản phẩm cần xuất</param>
+        /// <param name="soLuongCan">Số lượng cần xuất</param>
+        /// <returns>Danh sách lô đã chọn (mỗi lô chứa ID, số lượng, giá nhập...)</returns>
+        public IList<MaSanPham> ChonLoTheoConfig(int idSanPham, int soLuongCan)
+        {
+            if (idSanPham <= 0)
+            {
+                throw new ArgumentException("ID sản phẩm không hợp lệ!");
+            }
+
+            if (soLuongCan <= 0)
+            {
+                throw new ArgumentException("Số lượng cần xuất phải lớn hơn 0!");
+            }
+
+            string phuongPhap = ThamSo.PhuongPhapXuatKho;
+
+            System.Diagnostics.Debug.WriteLine(
+                $"ChonLoTheoConfig: ID={idSanPham}, SL={soLuongCan}, Mode={phuongPhap}"
+            );
+
+            if (phuongPhap == "FIFO")
+            {
+                IXuatKhoStrategy strategy = new FifoXuatKhoStrategy();
+                return strategy.ChonLoXuat(idSanPham, soLuongCan);
+            }
+            else
+            {
+                throw new NotImplementedException(
+                    "Mode CHỈ ĐỊNH: User tự chọn lô trong form. Method này không được gọi."
+                );
+            }
+        }
+
+        /// <summary>
+        /// Tính giá xuất (COGS) theo cấu hình (AVERAGE hoặc FIFO)
+        /// Sử dụng Strategy Pattern
+        /// </summary>
+        /// <param name="danhSachLo">Danh sách lô đã xuất</param>
+        /// <returns>Giá xuất trung bình (đơn vị: đồng)</returns>
+        public long TinhGiaTheoConfig(IList<MaSanPham> danhSachLo)
+        {
+            if (danhSachLo == null || danhSachLo.Count == 0)
+            {
+                throw new ArgumentException("Danh sách lô không được rỗng!");
+            }
+
+            string phuongPhap = ThamSo.PhuongPhapTinhGiaXuat;
+
+            if (phuongPhap == "AVERAGE")
+            {
+                ITinhGiaXuatStrategy strategy = new WeightedAverageGiaStrategy();
+                return strategy.TinhGiaXuat(danhSachLo);
+            }
+            else
+            {
+                ITinhGiaXuatStrategy strategy = new FifoGiaStrategy();
+                return strategy.TinhGiaXuat(danhSachLo);
+            }
         }
 
     }

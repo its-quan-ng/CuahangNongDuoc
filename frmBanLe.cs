@@ -36,32 +36,50 @@ namespace CuahangNongduoc
 
         private void frmNhapHang_Load(object sender, EventArgs e)
         {
-
-            ctrlSanPham.HienthiAutoComboBox(cmbSanPham);
-            ctrlMaSanPham.HienThiDataGridViewComboBox(colMaSanPham);
-
-            cmbSanPham.SelectedIndexChanged += new EventHandler(cmbSanPham_SelectedIndexChanged);
-
-            ctrlKhachHang.HienthiAutoComboBox(cmbKhachHang, false);
-
-            ctrlPhieuBan.HienthiPhieuBan(bindingNavigator,cmbKhachHang, txtMaPhieu, dtNgayLapPhieu, numTongTien, numDaTra, numConNo);
-
-            bindingNavigator.BindingSource.CurrentChanged -= new EventHandler(BindingSource_CurrentChanged);
-            bindingNavigator.BindingSource.CurrentChanged += new EventHandler(BindingSource_CurrentChanged);
-            
-            ctrlChiTiet.HienThiChiTiet(dgvDanhsachSP, Convert.ToInt32(txtMaPhieu.Text));
-
-
-            if (status == Controll.AddNew)
+            try
             {
-                txtMaPhieu.Text = ThamSo.LayMaPhieuBan().ToString();
+                System.Diagnostics.Debug.WriteLine("[frmBanLe] Form load started...");
+
+                ctrlSanPham.HienthiAutoComboBox(cmbSanPham);
+                ctrlMaSanPham.HienThiDataGridViewComboBox(colMaSanPham);
+
+                cmbSanPham.SelectedIndexChanged += new EventHandler(cmbSanPham_SelectedIndexChanged);
+
+                ctrlKhachHang.HienthiAutoComboBox(cmbKhachHang, false);
+
+                ctrlPhieuBan.HienthiPhieuBan(bindingNavigator, cmbKhachHang, txtMaPhieu, dtNgayLapPhieu, numTongTien, numDaTra, numConNo);
+
+                bindingNavigator.BindingSource.CurrentChanged -= new EventHandler(BindingSource_CurrentChanged);
+                bindingNavigator.BindingSource.CurrentChanged += new EventHandler(BindingSource_CurrentChanged);
+
+                ctrlChiTiet.HienThiChiTiet(dgvDanhsachSP, Convert.ToInt32(txtMaPhieu.Text));
+
+                if (status == Controll.AddNew)
+                {
+                    txtMaPhieu.Text = ThamSo.LayMaPhieuBan().ToString();
+                }
+                else
+                {
+                    this.Allow(false);
+                }
+
+                string phuongPhap = ThamSo.PhuongPhapXuatKho;
+                string tinhGia = ThamSo.PhuongPhapTinhGiaXuat;
+                System.Diagnostics.Debug.WriteLine(
+                    $"[frmBanLe] Cấu hình: Xuất kho = {phuongPhap}, Tính giá = {tinhGia}"
+                );
+                System.Diagnostics.Debug.WriteLine("[frmBanLe] Form load completed successfully.");
             }
-            else
+            catch (Exception ex)
             {
-                this.Allow(false);
+                System.Diagnostics.Debug.WriteLine($"[ERROR] frmBanLe.Load: {ex.Message}\n{ex.StackTrace}");
+                MessageBox.Show(
+                    $"Lỗi khi mở form:\n{ex.Message}",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
-
-
         }
 
         void BindingSource_CurrentChanged(object sender, EventArgs e)
@@ -87,33 +105,134 @@ namespace CuahangNongduoc
 
         void cmbMaSanPham_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (cmbMaSanPham.SelectedValue == null) return;
+
             MaSanPhamController ctrl = new MaSanPhamController();
             MaSanPham masp = ctrl.LayMaSanPham(cmbMaSanPham.SelectedValue.ToString());
+
+            if (masp == null || masp.SanPham == null) return;
+
             numDonGia.Value = masp.SanPham.GiaBanLe;
             txtGiaNhap.Text = masp.GiaNhap.ToString("#,###0");
             txtGiaBanSi.Text = masp.SanPham.GiaBanSi.ToString("#,###0");
             txtGiaBanLe.Text = masp.SanPham.GiaBanLe.ToString("#,###0");
-            txtGiaBQGQ.Text = masp.SanPham.DonGiaNhap.ToString("#,###0");
+
+    
+            try
+            {
+                int idSanPham = Convert.ToInt32(masp.SanPham.Id);
+                long giaXuat = ctrl.TinhGiaXuat(idSanPham);
+                txtGiaBQGQ.Text = giaXuat.ToString("#,###0");
+            }
+            catch (Exception ex)
+            {
+                // Nếu không tính được giá xuất, hiển thị 0
+                txtGiaBQGQ.Text = "0";
+                System.Diagnostics.Debug.WriteLine($"[WARNING] Không tính được giá xuất: {ex.Message}");
+            }
 
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            
-            if (cmbMaSanPham.SelectedValue == null)
+
+            // VALIDATION
+            if (cmbSanPham.SelectedValue == null)
             {
-                MessageBox.Show("Vui lòng chọn Mã sản phẩm !", "Phieu Nhap", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Vui lòng chọn sản phẩm!", "Phiếu Bán", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-            else if (numSoLuong.Value <= 0)
+            if (numSoLuong.Value <= 0)
             {
-                MessageBox.Show("Vui lòng nhập Số lượng !", "Phieu Nhap", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Vui lòng nhập số lượng!", "Phiếu Bán", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-            else if (numDonGia.Value * numSoLuong.Value != numThanhTien.Value)
+
+            int idSanPham = Convert.ToInt32(cmbSanPham.SelectedValue);
+            int soLuongCan = Convert.ToInt32(numSoLuong.Value);
+
+            // ⭐ CHECK CẤU HÌNH XUẤT KHO
+            if (ThamSo.PhuongPhapXuatKho == "FIFO")
             {
-                MessageBox.Show("Thành tiền sai!", "Phieu Nhap", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // ══════════════════════════════════════════════════
+                // MODE FIFO: TỰ ĐỘNG CHỌN LÔ (STRATEGY PATTERN)
+                // ══════════════════════════════════════════════════
+                try
+                {
+                    // ⭐ GỌI METHOD MỚI (Strategy Pattern)
+                    IList<MaSanPham> danhSachLo = ctrlMaSanPham.ChonLoTheoConfig(idSanPham, soLuongCan);
+
+                    if (danhSachLo == null || danhSachLo.Count == 0)
+                    {
+                        MessageBox.Show(
+                            "Không thể chọn lô xuất kho!\nVui lòng kiểm tra lại dữ liệu.",
+                            "Phiếu Bán",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning
+                        );
+                        return;
+                    }
+
+                    // THÊM TỪNG LÔ VÀO DATAGRIDVIEW
+                    foreach (MaSanPham maSp in danhSachLo)
+                    {
+                        DataRow row = ctrlChiTiet.NewRow();
+                        row["ID_MA_SAN_PHAM"] = maSp.Id;
+                        row["ID_PHIEU_BAN"] = txtMaPhieu.Text;
+                        row["DON_GIA"] = numDonGia.Value;
+                        row["SO_LUONG"] = maSp.SoLuong;
+                        row["THANH_TIEN"] = numDonGia.Value * maSp.SoLuong;
+
+                        ctrlChiTiet.Add(row);
+                        numTongTien.Value += Convert.ToDecimal(row["THANH_TIEN"]);
+                    }
+
+                    System.Diagnostics.Debug.WriteLine(
+                        $"[frmBanLe] Đã thêm {danhSachLo.Count} lô, tổng {soLuongCan} sản phẩm"
+                    );
+
+                    // Reset controls
+                    numSoLuong.Value = 0;
+                    numThanhTien.Value = 0;
+                    cmbSanPham.Focus();  // Focus về combobox để tiếp tục thêm
+                }
+                catch (InvalidOperationException ex)
+                {
+                    MessageBox.Show(
+                        ex.Message,
+                        "Không thể thêm sản phẩm",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[ERROR] frmBanLe.btnAdd_Click: {ex.Message}\n{ex.StackTrace}");
+                    MessageBox.Show(
+                        $"Đã xảy ra lỗi không mong muốn:\n{ex.Message}\n\nVui lòng liên hệ quản trị viên.",
+                        "Lỗi hệ thống",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                }
             }
-            else
+            else // CHI_DINH - THỦ CÔNG
             {
+                // ══════════════════════════════════════════════════
+                // MODE CHỈ ĐỊNH: USER CHỌN LÔ (LOGIC CŨ)
+                // ══════════════════════════════════════════════════
+                if (cmbMaSanPham.SelectedValue == null)
+                {
+                    MessageBox.Show("Vui lòng chọn lô!", "Phiếu Bán", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (numDonGia.Value * numSoLuong.Value != numThanhTien.Value)
+                {
+                    MessageBox.Show("Thành tiền sai!", "Phiếu Bán", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 numTongTien.Value += numThanhTien.Value;
                 DataRow row = ctrlChiTiet.NewRow();
                 row["ID_MA_SAN_PHAM"] = cmbMaSanPham.SelectedValue;
@@ -122,7 +241,6 @@ namespace CuahangNongduoc
                 row["SO_LUONG"] = numSoLuong.Value;
                 row["THANH_TIEN"] = numThanhTien.Value;
                 ctrlChiTiet.Add(row);
-
             }
 
         }
@@ -168,11 +286,10 @@ namespace CuahangNongduoc
             ctrlChiTiet.Save();
 
             ctrlPhieuBan.Update();
-
         }
+
         void ThemMoi()
         {
-
             DataRow row = ctrlPhieuBan.NewRow();
             row["ID"] = txtMaPhieu.Text;
             row["ID_KHACH_HANG"] = cmbKhachHang.SelectedValue;
@@ -201,7 +318,6 @@ namespace CuahangNongduoc
             ctrlPhieuBan.Save();
 
             ctrlChiTiet.Save();
-
         }
 
         private void toolLuu_Them_Click(object sender, EventArgs e)

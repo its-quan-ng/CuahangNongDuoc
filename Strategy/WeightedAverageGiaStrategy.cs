@@ -7,9 +7,13 @@ using System.Threading.Tasks;
 
 namespace CuahangNongduoc.Strategy
 {
-   
-        public class WeightedAverageGiaStrategy : ITinhGiaXuatStrategy
-        {
+    /// <summary>
+    /// Strategy: BÌNH QUÂN GIA QUYỀN (Weighted Average)
+    /// Tính giá xuất = SUM(số lượng × giá nhập) / SUM(số lượng)
+    /// Yêu cầu: "bình quân gia quyền"
+    /// </summary>
+    public class WeightedAverageGiaStrategy : ITinhGiaXuatStrategy
+    {
             public long TinhGiaXuat(IList<MaSanPham> danhSachLoXuat)
             {
                 if (danhSachLoXuat == null || danhSachLoXuat.Count == 0)

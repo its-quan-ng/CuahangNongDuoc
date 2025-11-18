@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace CuahangNongduoc.Strategy
 {
-    internal interface ITinhGiaXuatStrategy
+    public interface ITinhGiaXuatStrategy
     {
-        
         long TinhGiaXuat(IList<MaSanPham> danhSachLoXuat);
-
     }
 }

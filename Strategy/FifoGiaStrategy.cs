@@ -7,7 +7,12 @@ using System.Threading.Tasks;
 
 namespace CuahangNongduoc.Strategy
 {
-    internal class FifoGiaStrategy : ITinhGiaXuatStrategy
+    /// <summary>
+    /// Strategy: FIFO COSTING (First In First Out)
+    /// Tính giá xuất = Giá nhập của lô đầu tiên (ORDER BY NGAY_NHAP ASC)
+    /// Yêu cầu: "nhập trước xuất trước" (cho giá xuất)
+    /// </summary>
+    public class FifoGiaStrategy : ITinhGiaXuatStrategy
     {
         public long TinhGiaXuat(IList<MaSanPham> danhSachLoXuat)
         {
@@ -16,17 +21,10 @@ namespace CuahangNongduoc.Strategy
                 throw new ArgumentException("Danh sách lô xuất không được rỗng!");
             }
 
-            
             MaSanPham loXuatDauTien = danhSachLoXuat[0];
             long giaXuat = loXuatDauTien.GiaNhap;
 
-            System.Diagnostics.Debug.WriteLine(
-                $"FIFO Price: Lấy giá lô đầu tiên (Lô {loXuatDauTien.Id}): {giaXuat:N0}đ"
-            );
-
             return giaXuat;
         }
-
-
     }
 }
