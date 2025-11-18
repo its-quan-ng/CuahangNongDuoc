@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CuahangNongduoc.BusinessObject;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,8 @@ namespace CuahangNongduoc.Strategy
 {
     internal interface ITinhGiaXuatStrategy
     {
+        
+        long TinhGiaXuat(IList<MaSanPham> danhSachLoXuat);
+
     }
 }
