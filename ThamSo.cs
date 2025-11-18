@@ -249,53 +249,5 @@ namespace CuahangNongduoc
             }
         }
 
-  
-        public static bool TuDongPhanLo
-        {
-            get
-            {
-                DataService ds = new DataService();
-                SqlCommand cmd = new SqlCommand("SELECT TU_DONG_PHAN_LO FROM THAM_SO");
-                object obj = ds.ExecuteScalar(cmd);
-
-                if (obj != null && obj != DBNull.Value)
-                    return Convert.ToBoolean(obj);
-
-                return true; // Mặc định: bật
-            }
-            set
-            {
-                DataService ds = new DataService();
-                SqlCommand cmd = new SqlCommand("UPDATE THAM_SO SET TU_DONG_PHAN_LO = @value");
-                cmd.Parameters.Add("@value", SqlDbType.Bit).Value = value;
-                ds.ExecuteNoneQuery(cmd);
-            }
-        }
-
-     
-        public static bool HienThiLoPhieuXuat
-        {
-            get
-            {
-                DataService ds = new DataService();
-                SqlCommand cmd = new SqlCommand("SELECT HIEN_THI_LO_PHIEU_XUAT FROM THAM_SO");
-                object obj = ds.ExecuteScalar(cmd);
-
-                if (obj != null && obj != DBNull.Value)
-                    return Convert.ToBoolean(obj);
-
-                return true; // Mặc định: hiển thị
-            }
-            set
-            {
-                DataService ds = new DataService();
-                SqlCommand cmd = new SqlCommand("UPDATE THAM_SO SET HIEN_THI_LO_PHIEU_XUAT = @value");
-                cmd.Parameters.Add("@value", SqlDbType.Bit).Value = value;
-                ds.ExecuteNoneQuery(cmd);
-            }
-        }
-
-
-
     }
 }
