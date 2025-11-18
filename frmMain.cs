@@ -11,11 +11,138 @@ namespace CuahangNongduoc
 {
     public partial class frmMain : Form
     {
+       
+        frmDonViTinh DonViTinh = null;
+        frmSanPham SanPham = null;
+        frmKhachHang KhachHang = null;
+        frmDaiLy DaiLy = null;
+        frmDanhsachPhieuNhap NhapHang = null;
+        frmDanhsachPhieuBanLe BanLe = null;
+        frmDanhsachPhieuBanSi BanSi = null;
+        frmThanhToan ThanhToan = null;
+        frmDunoKhachhang DunoKhachhang = null;
+        frmDoanhThu DoanhThu = null;
+        frmSoLuongTon SoLuongTon = null;
+        frmSoLuongBan SoLuongBan = null;
+        frmSanphamHethan SanphamHethan = null;
+        frmThongtinCuahang ThongtinCuahang = null;
+        frmThongtinLienhe ThongtinLienhe = null;
+        frmNhaCungCap NhaCungCap = null;
+        frmLyDoChi LyDoChi = null;
+        frmPhieuChi PhieuChi = null;
+        frmCauHinh CauHinh = null;
+
         public frmMain()
         {
             InitializeComponent();
+           
+            this.IsMdiContainer = true;
         }
-        frmDonViTinh DonViTinh = null;
+
+  
+        private void CapNhatTrangThai()
+        {
+            // Ẩn tất cả các form con đang mở (nếu có, khi đăng xuất)
+            foreach (Form childForm in this.MdiChildren)
+            {
+                childForm.Close();
+            }
+
+            // Kiểm tra trạng thái đăng nhập
+            if (PhienDangNhap.DaDangNhap)
+            {
+                // ĐÃ ĐĂNG NHẬP
+
+                // 1. Cập nhật Title
+                this.Text = String.Format(
+                    "Cửa Hàng Nông Dược - {0} [{1}]",
+                    PhienDangNhap.LayTenHienThi(),
+                    PhienDangNhap.LaAdmin ? "Quản trị" : "Nhân viên"
+                );
+
+                // 2. Kích hoạt/Vô hiệu hóa Menu
+                mnuDangNhap.Enabled = false;
+                mnuDangXuat.Enabled = true;
+
+                // 3. Hiển thị lại tất cả menu (cần thiết để reset state từ lần đăng xuất)
+                //    Khi đăng xuất, tất cả menu đã bị ẩn → Phải show lại
+                foreach (ToolStripItem item in menuStrip.Items)
+                {
+                    item.Visible = true;
+                }
+
+                // 4. Phân quyền: Chỉ Admin mới thấy các chức năng quản trị
+                //    Các chức năng chung (Khách hàng, Bán hàng, Nhập hàng...) luôn hiển thị
+                bool laAdmin = PhienDangNhap.LaAdmin;
+
+                // Menu: Chức năng Admin (chỉ Admin mới thấy)
+                mnuSanPham.Visible = laAdmin;
+                mnuDonViTinh.Visible = laAdmin;
+                mnuLyDoChi.Visible = laAdmin;
+                mnuNhaCungCap.Visible = laAdmin;
+                mnuPhieuChi.Visible = laAdmin;
+                mnuTonghopDuno.Visible = laAdmin;
+                mnuSoLuongBan.Visible = laAdmin;
+                mnuTuychinh.Visible = laAdmin;
+                mnuCauHinhKho.Visible = laAdmin;
+
+                // Toolbar: Chức năng Admin
+                toolSanPham.Visible = laAdmin;
+                toolNhaCungCap.Visible = laAdmin;
+                toolPhieuChi.Visible = laAdmin;
+
+                // TaskPane: Chức năng Admin
+                itemSanPham.Visible = laAdmin;
+                itemNhaCungCap.Visible = laAdmin;
+                itemPhieuChi.Visible = laAdmin;
+                itemTonghopDoanhthu.Visible = laAdmin;
+
+                // Mở thanh công cụ/chức năng (Mặc định)
+                mnuThanhCongCu.Checked = true;
+                toolStrip.Visible = true;
+                mnuThanhChucNang.Checked = true;
+                taskPane.Visible = true;
+
+            }
+            else
+            {
+                // CHƯA ĐĂNG NHẬP (TRẠNG THÁI MẶC ĐỊNH)
+
+                this.Text = "Cửa Hàng Nông Dược - Vui lòng đăng nhập";
+                mnuDangNhap.Enabled = true;
+                mnuDangXuat.Enabled = false;
+
+                // Ẩn tất cả các chức năng chính (chỉ giữ lại Đăng nhập/Thoát/Trợ giúp)
+                foreach (ToolStripItem item in menuStrip.Items) // Lặp qua tất cả menu cấp 1
+                {
+                    
+                    if (item != mnuHeThong && item != mnuTrogiupHuongdan)
+                    {
+                        item.Visible = false;
+                    }
+                }
+
+                // Vô hiệu hóa thanh công cụ
+                toolStrip.Visible = false;
+                taskPane.Visible = false;
+            }
+        }
+
+ 
+        private void frmMain_Load(object sender, EventArgs e)
+        {
+            DataService.OpenConnection();
+
+            // Tự động mở form Đăng nhập nếu chưa đăng nhập
+            if (!PhienDangNhap.DaDangNhap)
+            {
+                mnuDangNhap_Click(sender, e);
+            }
+
+            CapNhatTrangThai();
+        }
+
+
 
         private void mnuDonViTinh_Click(object sender, EventArgs e)
         {
@@ -24,45 +151,12 @@ namespace CuahangNongduoc
                 DonViTinh = new frmDonViTinh();
                 DonViTinh.MdiParent = this;
                 DonViTinh.Show();
-                
             }
             else
                 DonViTinh.Activate();
         }
 
-        private void frmMain_Load(object sender, EventArgs e)
-        {
-            //RegistryKey regKey = Registry.CurrentUser.OpenSubKey("Software\\CoolSoft\\CuahangNongduoc");
-
-            //if (regKey == null)
-            //{
-            //    DataService.m_ConnectString = "";
-            //}
-            //else
-            //{
-            //    try
-            //    {
-            //        DataService.m_ConnectString = (String)regKey.GetValue("ConnectString");
-            //    }
-            //    catch
-            //    {
-            //    }
-            //    finally
-            //    {
-            //        regKey.Close();
-            //    }
-            //}
-
-            //if (DataService.OpenConnection() == false)
-            //{
-            //    MessageBox.Show("Không thể kết nối dữ liệu!", "Cua hang Nong duoc", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    this.Close();
-            //}
-
-            DataService.OpenConnection();
-            
-        }
-        frmSanPham SanPham = null;
+   
         private void mnuSanPham_Click(object sender, EventArgs e)
         {
             if (SanPham == null || SanPham.IsDisposed)
@@ -74,7 +168,7 @@ namespace CuahangNongduoc
             else
                 SanPham.Activate();
         }
-        frmKhachHang KhachHang = null;
+
         private void mnuKhachHang_Click(object sender, EventArgs e)
         {
             if (KhachHang == null || KhachHang.IsDisposed)
@@ -86,7 +180,7 @@ namespace CuahangNongduoc
             else
                 KhachHang.Activate();
         }
-        frmDaiLy DaiLy = null;
+
         private void mnuDaiLy_Click(object sender, EventArgs e)
         {
             if (DaiLy == null || DaiLy.IsDisposed)
@@ -99,7 +193,6 @@ namespace CuahangNongduoc
                 DaiLy.Activate();
 
         }
-        frmDanhsachPhieuNhap NhapHang = null;
         private void mnuNhapHang_Click(object sender, EventArgs e)
         {
             if (NhapHang == null || NhapHang.IsDisposed)
@@ -111,7 +204,6 @@ namespace CuahangNongduoc
             else
                 NhapHang.Activate();
         }
-        frmDanhsachPhieuBanLe BanLe = null;
         private void mnuBanHangKH_Click(object sender, EventArgs e)
         {
             if (BanLe == null || BanLe.IsDisposed)
@@ -123,7 +215,6 @@ namespace CuahangNongduoc
             else
                 BanLe.Activate();
         }
-        frmDanhsachPhieuBanSi BanSi = null;
         private void mnuBanHangDL_Click(object sender, EventArgs e)
         {
             if (BanSi == null || BanSi.IsDisposed)
@@ -147,7 +238,6 @@ namespace CuahangNongduoc
             mnuThanhChucNang.Checked = !mnuThanhChucNang.Checked;
             taskPane.Visible = mnuThanhChucNang.Checked;
         }
-        frmThanhToan ThanhToan = null;
         private void mnuThanhtoan_Click(object sender, EventArgs e)
         {
             if (ThanhToan == null || ThanhToan.IsDisposed)
@@ -159,7 +249,6 @@ namespace CuahangNongduoc
             else
                 ThanhToan.Activate();
         }
-        frmDunoKhachhang DunoKhachhang = null;
         private void mnuTonghopDuno_Click(object sender, EventArgs e)
         {
             if (DunoKhachhang == null || DunoKhachhang.IsDisposed)
@@ -171,7 +260,6 @@ namespace CuahangNongduoc
             else
                 DunoKhachhang.Activate();
         }
-        frmDoanhThu DoanhThu = null;
         private void mnuBaocaoDoanhThu_Click(object sender, EventArgs e)
         {
             if (DoanhThu == null || DoanhThu.IsDisposed)
@@ -185,7 +273,6 @@ namespace CuahangNongduoc
 
         }
 
-        frmSoLuongTon SoLuongTon = null;
         private void mnuBaocaoSoluongton_Click(object sender, EventArgs e)
         {
 
@@ -199,7 +286,6 @@ namespace CuahangNongduoc
                 SoLuongTon.Activate();
 
         }
-        frmSoLuongBan SoLuongBan = null;
         private void mnuSoLuongBan_Click(object sender, EventArgs e)
         {
             if (SoLuongBan == null || SoLuongBan.IsDisposed)
@@ -211,7 +297,6 @@ namespace CuahangNongduoc
             else
                 SoLuongBan.Activate();
         }
-        frmSanphamHethan SanphamHethan = null;
         private void mnuSanphamHethan_Click(object sender, EventArgs e)
         {
             if (SanphamHethan == null || SanphamHethan.IsDisposed)
@@ -228,7 +313,6 @@ namespace CuahangNongduoc
         {
             this.Close();
         }
-        frmThongtinCuahang ThongtinCuahang = null;
         private void mnuTuychinhThongtin_Click(object sender, EventArgs e)
         {
 
@@ -241,7 +325,6 @@ namespace CuahangNongduoc
             else
                 ThongtinCuahang.Activate();
         }
-        frmThongtinLienhe ThongtinLienhe = null;
         private void mnuTrogiupLienhe_Click(object sender, EventArgs e)
         {
             if (ThongtinLienhe == null || ThongtinLienhe.IsDisposed)
@@ -254,7 +337,6 @@ namespace CuahangNongduoc
                 ThongtinLienhe.Activate();
         }
 
-        frmNhaCungCap NhaCungCap = null;
         private void mnuNhaCungCap_Click(object sender, EventArgs e)
         {
             if (NhaCungCap == null || NhaCungCap.IsDisposed)
@@ -266,7 +348,6 @@ namespace CuahangNongduoc
             else
                 NhaCungCap.Activate();
         }
-        frmLyDoChi LyDoChi = null;
         private void mnuLyDoChi_Click(object sender, EventArgs e)
         {
             if (LyDoChi == null || LyDoChi.IsDisposed)
@@ -279,7 +360,6 @@ namespace CuahangNongduoc
                 LyDoChi.Activate();
         }
 
-        frmPhieuChi PhieuChi = null;
         private void mnuPhieuChi_Click(object sender, EventArgs e)
         {
             if (PhieuChi == null || PhieuChi.IsDisposed)
@@ -294,30 +374,50 @@ namespace CuahangNongduoc
 
         private void mnuTrogiupHuongdan_Click(object sender, EventArgs e)
         {
-           // Help.ShowHelp(this, "CPP.CHM");
+            MessageBox.Show(
+             "Chức năng hướng dẫn đang được phát triển.",
+             "Thông báo",
+            MessageBoxButtons.OK,
+             MessageBoxIcon.Information
+             );
         }
 
-        
 
-        private void mnuCauHinhKho_Click_1(object sender, EventArgs e)
+
+        private void mnuCauHinhKho_Click(object sender, EventArgs e)
         {
-            // Kiểm tra quyền
-            if (!PhienDangNhap.LaAdmin)
+            // Không cần check quyền vì menu đã ẩn với user thường rồi
+            if (CauHinh == null || CauHinh.IsDisposed)
             {
-                MessageBox.Show(
-                    "Bạn không có quyền truy cập chức năng này!",
-                    "Thông báo",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-                return;
+                CauHinh = new frmCauHinh();
+                CauHinh.MdiParent = this;
+                CauHinh.Show();
             }
+            else
+                CauHinh.Activate();
+        }
 
-            // Mở form
-            frmCauHinh frm = new frmCauHinh();
-            frm.ShowDialog();
+        private void mnuDangXuat_Click(object sender, EventArgs e)
+        {
+            PhienDangNhap.DangXuat(); 
+            CapNhatTrangThai();
 
+            mnuDangNhap_Click(sender, e);
+        }
 
+        private void mnuDangNhap_Click(object sender, EventArgs e)
+        {
+            frmDangNhap frm = new frmDangNhap();
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                CapNhatTrangThai();
+            }
+            else if (!PhienDangNhap.DaDangNhap)
+            {
+                // Nếu không đăng nhập được và nhấn Close/Cancel, đóng luôn chương trình
+                MessageBox.Show("Chương trình sẽ thoát nếu bạn không đăng nhập.", "Thông báo");
+                this.Close();
+            }
         }
     }
 }

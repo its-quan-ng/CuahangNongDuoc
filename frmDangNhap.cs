@@ -80,12 +80,8 @@ namespace CuahangNongduoc
                         MessageBoxIcon.Information
                     );
 
-                    // Mở form chính
-                    this.Hide();
-                    frmMain frmChinh = new frmMain();
-                    frmChinh.ShowDialog();
-
-                    // Sau khi đóng frmMain → Đóng form đăng nhập
+                    // Đóng form đăng nhập và return OK cho frmMain xử lý
+                    this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
                 else
@@ -135,20 +131,19 @@ namespace CuahangNongduoc
         /// <summary>
         /// Enter trong txtTenDangNhap → Focus sang txtMatKhau
         /// </summary>
-        private void btnDangNhap_KeyPress(object sender, KeyPressEventArgs e)
+        private void txtTenDangNhap_KeyPress(object sender, KeyPressEventArgs e)
         {
+            if (e.KeyChar == (char)Keys.Enter)
             {
-                if (e.KeyChar == (char)Keys.Enter)
-                {
-                    txtMatKhau.Focus();
-                    e.Handled = true;
-                }
+                txtMatKhau.Focus();
+                e.Handled = true;
             }
-
-
         }
 
-        private void btnThoat_KeyPress(object sender, KeyPressEventArgs e)
+        /// <summary>
+        /// Enter trong txtMatKhau → Click btnDangNhap
+        /// </summary>
+        private void txtMatKhau_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
