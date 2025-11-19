@@ -844,7 +844,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmBanSi";
             this.Text = "BAN SI";
-            this.Load += new System.EventHandler(this.frmNhapHang_Load);
+            this.Load += new System.EventHandler(this.frmBanSi_Load);
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator)).EndInit();
             this.bindingNavigator.ResumeLayout(false);
             this.bindingNavigator.PerformLayout();
