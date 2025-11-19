@@ -38,9 +38,27 @@ namespace CuahangNongduoc
         void BindingSource_CurrentChanged(object sender, EventArgs e)
         {
             if (status == Controll.Normal)
-                ctrlMaSP.HienThiChiTietPhieuNhap(Convert.ToInt32(txtMaPhieu.Text), dataGridView);
+            {
+                if (string.IsNullOrWhiteSpace(txtMaPhieu.Text))
+                    return;
+
+                if (!int.TryParse(txtMaPhieu.Text, out int maPhieu))
+                {
+                    System.Diagnostics.Debug.WriteLine($"Mã phiếu không hợp lệ: {txtMaPhieu.Text}");
+                    return;
+                }
+
+                if (colSanPham.DataSource == null)
+                {
+                    ctrlSanPham.HienthiDataGridViewComboBoxColumn(colSanPham);
+                }
+
+                ctrlMaSP.HienThiChiTietPhieuNhap(maPhieu, dataGridView);
+
+            }
         }
-      
+
+
         private void frmNhapHang_Load(object sender, EventArgs e)
         {
             
@@ -54,8 +72,7 @@ namespace CuahangNongduoc
             bindingNavigator.BindingSource.CurrentChanged -= new EventHandler(BindingSource_CurrentChanged);
             bindingNavigator.BindingSource.CurrentChanged += new EventHandler(BindingSource_CurrentChanged);
             
-            ctrlMaSP.HienThiChiTietPhieuNhap(Convert.ToInt32(txtMaPhieu.Text), dataGridView);
-
+           
             if (status == Controll.AddNew)
             {
                 txtMaPhieu.Text = ThamSo.LayMaPhieuNhap().ToString();
@@ -66,7 +83,7 @@ namespace CuahangNongduoc
                 Allow(false);
             }
 
-
+            ctrlMaSP.HienThiChiTietPhieuNhap(Convert.ToInt32(txtMaPhieu.Text), dataGridView);
         }
 
        
@@ -166,7 +183,9 @@ namespace CuahangNongduoc
         {
             DataRow row = ctrl.NewRow();
             row["ID"] = txtMaPhieu.Text;
-            row["NGAY_NHAP"] = dtNgayNhap.Value.Date;
+            row["NGAY_NHAP"] = dtNgayNhap.Value
+                
+               .Date;
             row["TONG_TIEN"] = numTongTien.Value;
             row["ID_NHA_CUNG_CAP"] = cmbNhaCungCap.SelectedValue;
             row["DA_TRA"] = numDaTra.Value;
@@ -326,6 +345,7 @@ namespace CuahangNongduoc
         }
     
      
+
 
     }
 }

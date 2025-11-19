@@ -11,6 +11,7 @@ namespace CuahangNongduoc.Controller
     
     public class PhieuNhapController
     {
+        
         PhieuNhapFactory factory = new PhieuNhapFactory();
         BindingSource bs = new BindingSource();
 
@@ -21,6 +22,7 @@ namespace CuahangNongduoc.Controller
 
         public DataRow NewRow()
         {
+            factory.LoadSchema();
             return factory.NewRow();
         }
         public void Add(DataRow row)
