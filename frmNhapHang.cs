@@ -49,11 +49,6 @@ namespace CuahangNongduoc
                     return;
                 }
 
-                if (colSanPham.DataSource == null)
-                {
-                    ctrlSanPham.HienthiDataGridViewComboBoxColumn(colSanPham);
-                }
-
                 ctrlMaSP.HienThiChiTietPhieuNhap(maPhieu, dataGridView);
 
             }
@@ -64,7 +59,6 @@ namespace CuahangNongduoc
         {
 
             ctrlSanPham.HienthiAutoComboBox(cmbSanPham);
-            ctrlSanPham.HienthiDataGridViewComboBoxColumn(colSanPham);
             ctrlNCC.HienthiAutoComboBox(cmbNhaCungCap);
 
 
