@@ -64,7 +64,7 @@ namespace CuahangNongduoc.Controller
             dg.DataSource = bs;
         }
 
-        public void HienthiPhieuBan(BindingNavigator bn,ComboBox cmb, TextBox txt, DateTimePicker dt, NumericUpDown numTongTien, NumericUpDown numDatra, NumericUpDown numConNo)
+        public void HienthiPhieuBan(BindingNavigator bn,ComboBox cmb, TextBox txt, DateTimePicker dt, NumericUpDown numTongTien, NumericUpDown numDatra, NumericUpDown numConNo, NumericUpDown numChiPhiVanChuyen, NumericUpDown numChiPhiDichVu)
         {
 
             bn.BindingSource = bs;
@@ -86,6 +86,12 @@ namespace CuahangNongduoc.Controller
 
             numConNo.DataBindings.Clear();
             numConNo.DataBindings.Add("Value", bs, "CON_NO");
+
+            numChiPhiVanChuyen.DataBindings.Clear();
+            numChiPhiVanChuyen.DataBindings.Add("Value", bs, "CHI_PHI_VAN_CHUYEN");
+
+            numChiPhiDichVu.DataBindings.Clear();
+            numChiPhiDichVu.DataBindings.Add("Value", bs, "CHI_PHI_DICH_VU");
 
 
         }

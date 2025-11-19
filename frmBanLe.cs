@@ -43,7 +43,7 @@ namespace CuahangNongduoc
 
             ctrlKhachHang.HienthiAutoComboBox(cmbKhachHang, false);
 
-            ctrlPhieuBan.HienthiPhieuBan(bindingNavigator, cmbKhachHang, txtMaPhieu, dtNgayLapPhieu, numTongTien, numDaTra, numConNo);
+            ctrlPhieuBan.HienthiPhieuBan(bindingNavigator, cmbKhachHang, txtMaPhieu, dtNgayLapPhieu, numTongTien, numDaTra, numConNo, numChiPhiVanChuyen, numChiPhiDichVu);
 
             bindingNavigator.BindingSource.CurrentChanged -= new EventHandler(BindingSource_CurrentChanged);
             bindingNavigator.BindingSource.CurrentChanged += new EventHandler(BindingSource_CurrentChanged);
@@ -200,6 +200,8 @@ namespace CuahangNongduoc
             row["TONG_TIEN"] = numTongTien.Value;
             row["DA_TRA"] = numDaTra.Value;
             row["CON_NO"] = numConNo.Value;
+            row["CHI_PHI_VAN_CHUYEN"] = numChiPhiVanChuyen.Value;
+            row["CHI_PHI_DICH_VU"] = numChiPhiDichVu.Value;
             ctrlPhieuBan.Add(row);
 
             PhieuBanController ctrl = new PhieuBanController();
@@ -230,6 +232,8 @@ namespace CuahangNongduoc
             status = Controll.AddNew;
             txtMaPhieu.Text = ThamSo.LayMaPhieuBan().ToString();
             numTongTien.Value = 0;
+            numChiPhiVanChuyen.Value = 0;
+            numChiPhiDichVu.Value = 0;
             ctrlChiTiet.HienThiChiTiet(dgvDanhsachSP, Convert.ToInt32(txtMaPhieu.Text));
             this.Allow(true);
         }
@@ -306,6 +310,8 @@ namespace CuahangNongduoc
             txtMaPhieu.Enabled = val;
             dtNgayLapPhieu.Enabled = val;
             numTongTien.Enabled = val;
+            numChiPhiVanChuyen.Enabled = val;
+            numChiPhiDichVu.Enabled = val;
             btnAdd.Enabled = val;
             btnRemove.Enabled = val;
             dgvDanhsachSP.Enabled = val;

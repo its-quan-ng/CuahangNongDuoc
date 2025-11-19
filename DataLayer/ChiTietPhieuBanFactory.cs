@@ -18,7 +18,10 @@ namespace CuahangNongduoc.DataLayer
         public DataTable LayChiTietPhieuBan(int idPhieuBan)
         {
             DataService ds = new DataService();
-            SqlCommand cmd = new SqlCommand("SELECT * FROM CHI_TIET_PHIEU_BAN WHERE ID_PHIEU_BAN = @id");
+            SqlCommand cmd = new SqlCommand("SELECT CT.*, SP.TEN_SAN_PHAM FROM CHI_TIET_PHIEU_BAN CT " +
+                "INNER JOIN MA_SAN_PHAM MSP ON CT.ID_MA_SAN_PHAM = MSP.ID " +
+                "INNER JOIN SAN_PHAM SP ON MSP.ID_SAN_PHAM = SP.ID " +
+                "WHERE CT.ID_PHIEU_BAN = @id");
             cmd.Parameters.Add("@id", SqlDbType.Int).Value = idPhieuBan;
             ds.Load(cmd);
             return ds;
@@ -49,6 +52,12 @@ namespace CuahangNongduoc.DataLayer
         
         public DataRow NewRow()
         {
+            // Đảm bảo DataTable có schema trước khi tạo row mới
+            if (m_Ds.Columns.Count == 0)
+            {
+                SqlCommand cmd = new SqlCommand("SELECT TOP 0 * FROM CHI_TIET_PHIEU_BAN");
+                m_Ds.Load(cmd);
+            }
             return m_Ds.NewRow();
         }
         public void Add(DataRow row)
@@ -57,14 +66,57 @@ namespace CuahangNongduoc.DataLayer
         }
        public bool Save()
         {
+            // Xử lý các dòng thêm mới
             foreach (DataRow row in m_Ds.Rows)
             {
                 if (row.RowState == DataRowState.Added)
                 {
+                    // Trừ số lượng khi thêm mới (bán hàng)
                     CuahangNongduoc.DataLayer.MaSanPhamFactory.CapNhatSoLuong(Convert.ToString(row["ID_MA_SAN_PHAM"]), -Convert.ToInt32(row["SO_LUONG"]));
                 }
             }
+            
+            // Xử lý các dòng bị xóa (cần lấy từ GetChanges vì các dòng đã xóa không có trong Rows)
+            DataTable deletedRows = m_Ds.GetChanges(DataRowState.Deleted);
+            if (deletedRows != null)
+            {
+                foreach (DataRow row in deletedRows.Rows)
+                {
+                    // Cộng lại số lượng khi xóa (hủy bán hàng)
+                    CuahangNongduoc.DataLayer.MaSanPhamFactory.CapNhatSoLuong(Convert.ToString(row["ID_MA_SAN_PHAM", DataRowVersion.Original]), Convert.ToInt32(row["SO_LUONG", DataRowVersion.Original]));
+                }
+            }
+            
             return m_Ds.ExecuteNoneQuery() > 0;
+        }
+
+        /// <summary>
+        /// Load data vào m_Ds để binding và save
+        /// </summary>
+        public void LoadData(int idPhieuBan)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT CT.*, SP.TEN_SAN_PHAM FROM CHI_TIET_PHIEU_BAN CT " +
+                "INNER JOIN MA_SAN_PHAM MSP ON CT.ID_MA_SAN_PHAM = MSP.ID " +
+                "INNER JOIN SAN_PHAM SP ON MSP.ID_SAN_PHAM = SP.ID " +
+                "WHERE CT.ID_PHIEU_BAN = @id");
+            cmd.Parameters.Add("@id", SqlDbType.Int).Value = idPhieuBan;
+            m_Ds.Load(cmd);
+        }
+
+        /// <summary>
+        /// Get m_Ds để binding
+        /// </summary>
+        public DataTable GetDataTable()
+        {
+            // Đảm bảo DataTable có schema trước khi trả về
+            if (m_Ds.Columns.Count == 0)
+            {
+                SqlCommand cmd = new SqlCommand("SELECT TOP 0 CT.*, SP.TEN_SAN_PHAM FROM CHI_TIET_PHIEU_BAN CT " +
+                    "LEFT JOIN MA_SAN_PHAM MSP ON CT.ID_MA_SAN_PHAM = MSP.ID " +
+                    "LEFT JOIN SAN_PHAM SP ON MSP.ID_SAN_PHAM = SP.ID");
+                m_Ds.Load(cmd);
+            }
+            return m_Ds;
         }
     }
 }
