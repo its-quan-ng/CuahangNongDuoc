@@ -122,6 +122,14 @@ namespace CuahangNongduoc
                 else
                 {
                     numTongTien.Value += numThanhTien.Value;
+
+                    DataTable dt = ctrlMaSP.GetCurrentDataTable();
+
+                    if (!dt.Columns.Contains("TEN_SAN_PHAM"))
+                    {
+                        dt.Columns.Add("TEN_SAN_PHAM", typeof(string));
+                    }
+
                     DataRow row = ctrlMaSP.NewRow();
                     row["ID_SAN_PHAM"] = cmbSanPham.SelectedValue;
                     row["ID_PHIEU_NHAP"] = txtMaPhieu.Text;
@@ -131,9 +139,12 @@ namespace CuahangNongduoc
                     row["NGAY_NHAP"] = dtNgaySanXuat.Value.Date;
                     row["NGAY_SAN_XUAT"] = dtNgaySanXuat.Value.Date;
                     row["NGAY_HET_HAN"] = dtNgayHetHan.Value.Date;
+                    row["TEN_SAN_PHAM"] = cmbSanPham.Text;
+
                     ctrlMaSP.Add(row);
+
                     dataGridView.DataSource = null;
-                    dataGridView.DataSource = ctrlMaSP.GetCurrentDataTable();
+                    dataGridView.DataSource = dt;
 
                     txtMaSo.Clear();
                     cmbSanPham.SelectedIndex = -1;
@@ -230,10 +241,15 @@ namespace CuahangNongduoc
             SanPhamController ctrlSP = new SanPhamController();
             foreach (DataGridViewRow view in dataGridView.Rows)
             {
-                ctrlSP.CapNhatGiaNhap(Convert.ToInt32(view.Cells["colSanPham"].Value),
-                    Convert.ToInt64(view.Cells["colDonGiaNhap"].Value),
-                Convert.ToInt64(view.Cells["colSoLuong"].Value));
+                if (view.DataBoundItem != null)
+                {
+                    DataRowView rowView = (DataRowView)view.DataBoundItem;
+                    int idSanPham = Convert.ToInt32(rowView["ID_SAN_PHAM"]);
+                    long giaNhap = Convert.ToInt64(rowView["DON_GIA_NHAP"]);
+                    long soLuong = Convert.ToInt64(rowView["SO_LUONG"]);
 
+                    ctrlSP.CapNhatGiaNhap(idSanPham, giaNhap, soLuong);
+                }
             }
 
         }
