@@ -77,6 +77,20 @@ namespace CuahangNongduoc.DataLayer
             return ds;
         }
 
+        public DataTable LayDanhSachLoConHang(int idSanPham)
+        {
+            DataService ds = new DataService();
+            SqlCommand cmd = new SqlCommand(
+                @"SELECT * FROM MA_SAN_PHAM
+                  WHERE ID_SAN_PHAM = @id AND SO_LUONG > 0
+                  ORDER BY NGAY_HET_HAN ASC, NGAY_NHAP ASC"
+            );
+            cmd.Parameters.Add("@id", SqlDbType.Int).Value = idSanPham;
+            ds.Load(cmd);
+
+            return ds;
+        }
+
         public static void CapNhatSoLuong(String masp, int so_luong)
         {
             DataService ds = new DataService();

@@ -281,7 +281,7 @@
             this.toolXemlai.Size = new System.Drawing.Size(50, 43);
             this.toolXemlai.Text = "Xem lại";
             this.toolXemlai.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolXemlai.Click += new System.EventHandler(this.frmNhapHang_Load);
+            this.toolXemlai.Click += new System.EventHandler(this.frmBanLe_Load);
             // 
             // toolThoat
             // 
@@ -831,7 +831,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmBanLe";
             this.Text = "BAN LE";
-            this.Load += new System.EventHandler(this.frmNhapHang_Load);
+            this.Load += new System.EventHandler(this.frmBanLe_Load);
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator)).EndInit();
             this.bindingNavigator.ResumeLayout(false);
             this.bindingNavigator.PerformLayout();

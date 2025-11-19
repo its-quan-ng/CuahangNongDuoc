@@ -44,9 +44,6 @@ namespace CuahangNongduoc
                     radFIFOGia.Checked = true;
                 }
 
-                chkTuDongPhanLo.Checked = ThamSo.TuDongPhanLo;
-                chkHienThiLo.Checked = ThamSo.HienThiLoPhieuXuat;
-
             }
             catch (Exception ex)
             {
@@ -81,9 +78,6 @@ namespace CuahangNongduoc
                 {
                     ThamSo.PhuongPhapTinhGiaXuat = "FIFO";
                 }
-
-                ThamSo.TuDongPhanLo = chkTuDongPhanLo.Checked;
-                ThamSo.HienThiLoPhieuXuat = chkHienThiLo.Checked;
 
                 MessageBox.Show(
                     "Lưu cấu hình thành công!",

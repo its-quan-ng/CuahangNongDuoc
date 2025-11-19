@@ -34,14 +34,10 @@
             this.grpPhuongPhapTinhGia = new System.Windows.Forms.GroupBox();
             this.radAverage = new System.Windows.Forms.RadioButton();
             this.radFIFOGia = new System.Windows.Forms.RadioButton();
-            this.grpTuyChon = new System.Windows.Forms.GroupBox();
-            this.chkHienThiLo = new System.Windows.Forms.CheckBox();
-            this.chkTuDongPhanLo = new System.Windows.Forms.CheckBox();
             this.btnLuu = new System.Windows.Forms.Button();
             this.btnHuy = new System.Windows.Forms.Button();
             this.grpPhuongPhapXuatKho.SuspendLayout();
             this.grpPhuongPhapTinhGia.SuspendLayout();
-            this.grpTuyChon.SuspendLayout();
             this.SuspendLayout();
             // 
             // grpPhuongPhapXuatKho
@@ -116,47 +112,11 @@
             this.radFIFOGia.Text = "FIFO (Theo giá nhập của lô)";
             this.radFIFOGia.UseVisualStyleBackColor = true;
             // 
-            // grpTuyChon
-            // 
-            this.grpTuyChon.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.grpTuyChon.Controls.Add(this.chkHienThiLo);
-            this.grpTuyChon.Controls.Add(this.chkTuDongPhanLo);
-            this.grpTuyChon.Location = new System.Drawing.Point(20, 200);
-            this.grpTuyChon.Name = "grpTuyChon";
-            this.grpTuyChon.Size = new System.Drawing.Size(400, 80);
-            this.grpTuyChon.TabIndex = 2;
-            this.grpTuyChon.TabStop = false;
-            this.grpTuyChon.Text = "Tùy chọn ";
-            // 
-            // chkHienThiLo
-            // 
-            this.chkHienThiLo.AutoSize = true;
-            this.chkHienThiLo.Checked = true;
-            this.chkHienThiLo.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkHienThiLo.Location = new System.Drawing.Point(15, 50);
-            this.chkHienThiLo.Name = "chkHienThiLo";
-            this.chkHienThiLo.Size = new System.Drawing.Size(193, 20);
-            this.chkHienThiLo.TabIndex = 0;
-            this.chkHienThiLo.Text = "Hiển thị số lô trên phiếu xuất";
-            this.chkHienThiLo.UseVisualStyleBackColor = true;
-            // 
-            // chkTuDongPhanLo
-            // 
-            this.chkTuDongPhanLo.AutoSize = true;
-            this.chkTuDongPhanLo.Checked = true;
-            this.chkTuDongPhanLo.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkTuDongPhanLo.Location = new System.Drawing.Point(15, 25);
-            this.chkTuDongPhanLo.Name = "chkTuDongPhanLo";
-            this.chkTuDongPhanLo.Size = new System.Drawing.Size(205, 20);
-            this.chkTuDongPhanLo.TabIndex = 0;
-            this.chkTuDongPhanLo.Text = "Tự động phân lô khi bán hàng";
-            this.chkTuDongPhanLo.UseVisualStyleBackColor = true;
-            // 
             // btnLuu
             // 
             this.btnLuu.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnLuu.BackColor = System.Drawing.Color.LightGreen;
-            this.btnLuu.Location = new System.Drawing.Point(97, 300);
+            this.btnLuu.Location = new System.Drawing.Point(97, 200);
             this.btnLuu.Name = "btnLuu";
             this.btnLuu.Size = new System.Drawing.Size(80, 30);
             this.btnLuu.TabIndex = 3;
@@ -169,7 +129,7 @@
             this.btnHuy.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnHuy.BackColor = System.Drawing.Color.OrangeRed;
             this.btnHuy.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnHuy.Location = new System.Drawing.Point(257, 300);
+            this.btnHuy.Location = new System.Drawing.Point(257, 200);
             this.btnHuy.Name = "btnHuy";
             this.btnHuy.Size = new System.Drawing.Size(80, 30);
             this.btnHuy.TabIndex = 3;
@@ -181,10 +141,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(432, 340);
+            this.ClientSize = new System.Drawing.Size(432, 240);
             this.Controls.Add(this.btnHuy);
             this.Controls.Add(this.btnLuu);
-            this.Controls.Add(this.grpTuyChon);
             this.Controls.Add(this.grpPhuongPhapTinhGia);
             this.Controls.Add(this.grpPhuongPhapXuatKho);
             this.Name = "frmCauHinh";
@@ -193,8 +152,6 @@
             this.grpPhuongPhapXuatKho.PerformLayout();
             this.grpPhuongPhapTinhGia.ResumeLayout(false);
             this.grpPhuongPhapTinhGia.PerformLayout();
-            this.grpTuyChon.ResumeLayout(false);
-            this.grpTuyChon.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -207,9 +164,6 @@
         private System.Windows.Forms.GroupBox grpPhuongPhapTinhGia;
         private System.Windows.Forms.RadioButton radAverage;
         private System.Windows.Forms.RadioButton radFIFOGia;
-        private System.Windows.Forms.GroupBox grpTuyChon;
-        private System.Windows.Forms.CheckBox chkHienThiLo;
-        private System.Windows.Forms.CheckBox chkTuDongPhanLo;
         private System.Windows.Forms.Button btnLuu;
         private System.Windows.Forms.Button btnHuy;
     }

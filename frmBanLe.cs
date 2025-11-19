@@ -34,23 +34,19 @@ namespace CuahangNongduoc
             status = Controll.Normal;
         }
 
-        private void frmNhapHang_Load(object sender, EventArgs e)
+        private void frmBanLe_Load(object sender, EventArgs e)
         {
-
             ctrlSanPham.HienthiAutoComboBox(cmbSanPham);
-            ctrlMaSanPham.HienThiDataGridViewComboBox(colMaSanPham);
 
             cmbSanPham.SelectedIndexChanged += new EventHandler(cmbSanPham_SelectedIndexChanged);
+            cmbMaSanPham.SelectedIndexChanged += new EventHandler(cmbMaSanPham_SelectedIndexChanged);
 
             ctrlKhachHang.HienthiAutoComboBox(cmbKhachHang, false);
 
-            ctrlPhieuBan.HienthiPhieuBan(bindingNavigator,cmbKhachHang, txtMaPhieu, dtNgayLapPhieu, numTongTien, numDaTra, numConNo);
+            ctrlPhieuBan.HienthiPhieuBan(bindingNavigator, cmbKhachHang, txtMaPhieu, dtNgayLapPhieu, numTongTien, numDaTra, numConNo);
 
             bindingNavigator.BindingSource.CurrentChanged -= new EventHandler(BindingSource_CurrentChanged);
             bindingNavigator.BindingSource.CurrentChanged += new EventHandler(BindingSource_CurrentChanged);
-            
-            ctrlChiTiet.HienThiChiTiet(dgvDanhsachSP, Convert.ToInt32(txtMaPhieu.Text));
-
 
             if (status == Controll.AddNew)
             {
@@ -60,8 +56,6 @@ namespace CuahangNongduoc
             {
                 this.Allow(false);
             }
-
-
         }
 
         void BindingSource_CurrentChanged(object sender, EventArgs e)
@@ -99,30 +93,56 @@ namespace CuahangNongduoc
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            
-            if (cmbMaSanPham.SelectedValue == null)
-            {
-                MessageBox.Show("Vui lòng chọn Mã sản phẩm !", "Phieu Nhap", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else if (numSoLuong.Value <= 0)
-            {
-                MessageBox.Show("Vui lòng nhập Số lượng !", "Phieu Nhap", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else if (numDonGia.Value * numSoLuong.Value != numThanhTien.Value)
-            {
-                MessageBox.Show("Thành tiền sai!", "Phieu Nhap", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-                numTongTien.Value += numThanhTien.Value;
-                DataRow row = ctrlChiTiet.NewRow();
-                row["ID_MA_SAN_PHAM"] = cmbMaSanPham.SelectedValue;
-                row["ID_PHIEU_BAN"] = txtMaPhieu.Text;
-                row["DON_GIA"] = numDonGia.Value;
-                row["SO_LUONG"] = numSoLuong.Value;
-                row["THANH_TIEN"] = numThanhTien.Value;
-                ctrlChiTiet.Add(row);
 
+            if (cmbSanPham.SelectedValue == null)
+            {
+                MessageBox.Show("Vui lòng chọn Sản phẩm!", "Bán lẻ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (numSoLuong.Value <= 0)
+            {
+                MessageBox.Show("Vui lòng nhập Số lượng!", "Bán lẻ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (numDonGia.Value <= 0)
+            {
+                MessageBox.Show("Vui lòng nhập Đơn giá!", "Bán lẻ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            try
+            {
+                int idSanPham = Convert.ToInt32(cmbSanPham.SelectedValue);
+                int soLuongCanBan = Convert.ToInt32(numSoLuong.Value);
+
+                IList<MaSanPham> danhSachLo = ctrlMaSanPham.ChonLoTheoConfig(idSanPham, soLuongCanBan);
+
+                if (danhSachLo == null || danhSachLo.Count == 0)
+                {
+                    return;
+                }
+
+                foreach (MaSanPham lo in danhSachLo)
+                {
+                    DataRow row = ctrlChiTiet.NewRow();
+                    row["ID_MA_SAN_PHAM"] = lo.Id;
+                    row["ID_PHIEU_BAN"] = txtMaPhieu.Text;
+                    row["DON_GIA"] = numDonGia.Value;
+                    row["SO_LUONG"] = lo.SoLuong;
+                    row["THANH_TIEN"] = numDonGia.Value * lo.SoLuong;
+                    ctrlChiTiet.Add(row);
+                }
+
+                numTongTien.Value += numThanhTien.Value;
+
+                numSoLuong.Value = 0;
+                numThanhTien.Value = 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi thêm sản phẩm: " + ex.Message, "Bán lẻ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
