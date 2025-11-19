@@ -84,7 +84,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.txtMaPhieu = new System.Windows.Forms.TextBox();
             this.colMaPhieu = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSanPham = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.colSanPham = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colMaSanPham = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDonGiaNhap = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSoLuong = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -295,7 +295,7 @@
             // 
             this.btnAdd.Image = global::CuahangNongduoc.Properties.Resources.down;
             this.btnAdd.Location = new System.Drawing.Point(55, 182);
-            this.btnAdd.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAdd.Margin = new System.Windows.Forms.Padding(4);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(63, 37);
             this.btnAdd.TabIndex = 15;
@@ -318,7 +318,7 @@
             this.colNgayHetHan});
             this.dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dataGridView.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RowHeadersWidth = 51;
@@ -332,7 +332,7 @@
             // 
             this.btnThemSanPham.Image = global::CuahangNongduoc.Properties.Resources.add_16;
             this.btnThemSanPham.Location = new System.Drawing.Point(303, 33);
-            this.btnThemSanPham.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnThemSanPham.Margin = new System.Windows.Forms.Padding(4);
             this.btnThemSanPham.Name = "btnThemSanPham";
             this.btnThemSanPham.Size = new System.Drawing.Size(32, 28);
             this.btnThemSanPham.TabIndex = 16;
@@ -343,7 +343,7 @@
             // 
             this.btnRemove.Image = global::CuahangNongduoc.Properties.Resources.up;
             this.btnRemove.Location = new System.Drawing.Point(139, 182);
-            this.btnRemove.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnRemove.Margin = new System.Windows.Forms.Padding(4);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(64, 38);
             this.btnRemove.TabIndex = 14;
@@ -354,7 +354,7 @@
             // 
             this.numThanhTien.BackColor = System.Drawing.Color.White;
             this.numThanhTien.Location = new System.Drawing.Point(417, 94);
-            this.numThanhTien.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numThanhTien.Margin = new System.Windows.Forms.Padding(4);
             this.numThanhTien.Maximum = new decimal(new int[] {
             1000000000,
             0,
@@ -382,7 +382,7 @@
             this.panel2.Controls.Add(this.dataGridView);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 277);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(975, 299);
             this.panel2.TabIndex = 19;
@@ -412,7 +412,7 @@
             this.dtNgayHetHan.CustomFormat = "dd/MM/yyyy";
             this.dtNgayHetHan.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtNgayHetHan.Location = new System.Drawing.Point(124, 130);
-            this.dtNgayHetHan.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dtNgayHetHan.Margin = new System.Windows.Forms.Padding(4);
             this.dtNgayHetHan.Name = "dtNgayHetHan";
             this.dtNgayHetHan.Size = new System.Drawing.Size(209, 22);
             this.dtNgayHetHan.TabIndex = 9;
@@ -422,7 +422,7 @@
             this.dtNgaySanXuat.CustomFormat = "dd/MM/yyyy";
             this.dtNgaySanXuat.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtNgaySanXuat.Location = new System.Drawing.Point(124, 98);
-            this.dtNgaySanXuat.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dtNgaySanXuat.Margin = new System.Windows.Forms.Padding(4);
             this.dtNgaySanXuat.Name = "dtNgaySanXuat";
             this.dtNgaySanXuat.Size = new System.Drawing.Size(209, 22);
             this.dtNgaySanXuat.TabIndex = 8;
@@ -430,7 +430,7 @@
             // numSoLuong
             // 
             this.numSoLuong.Location = new System.Drawing.Point(417, 62);
-            this.numSoLuong.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numSoLuong.Margin = new System.Windows.Forms.Padding(4);
             this.numSoLuong.Maximum = new decimal(new int[] {
             1000000000,
             0,
@@ -456,7 +456,7 @@
             // numGiaNhap
             // 
             this.numGiaNhap.Location = new System.Drawing.Point(417, 32);
-            this.numGiaNhap.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numGiaNhap.Margin = new System.Windows.Forms.Padding(4);
             this.numGiaNhap.Maximum = new decimal(new int[] {
             1000000000,
             0,
@@ -484,7 +484,7 @@
             this.dtNgayNhap.CustomFormat = "dd/MM/yyyy";
             this.dtNgayNhap.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtNgayNhap.Location = new System.Drawing.Point(103, 96);
-            this.dtNgayNhap.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dtNgayNhap.Margin = new System.Windows.Forms.Padding(4);
             this.dtNgayNhap.Name = "dtNgayNhap";
             this.dtNgayNhap.Size = new System.Drawing.Size(209, 22);
             this.dtNgayNhap.TabIndex = 12;
@@ -502,7 +502,7 @@
             // txtMaSo
             // 
             this.txtMaSo.Location = new System.Drawing.Point(124, 66);
-            this.txtMaSo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtMaSo.Margin = new System.Windows.Forms.Padding(4);
             this.txtMaSo.Name = "txtMaSo";
             this.txtMaSo.Size = new System.Drawing.Size(209, 22);
             this.txtMaSo.TabIndex = 2;
@@ -548,9 +548,9 @@
             this.grpThongtin.Controls.Add(this.cmbSanPham);
             this.grpThongtin.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpThongtin.Location = new System.Drawing.Point(319, 0);
-            this.grpThongtin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpThongtin.Margin = new System.Windows.Forms.Padding(4);
             this.grpThongtin.Name = "grpThongtin";
-            this.grpThongtin.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpThongtin.Padding = new System.Windows.Forms.Padding(4);
             this.grpThongtin.Size = new System.Drawing.Size(656, 226);
             this.grpThongtin.TabIndex = 12;
             this.grpThongtin.TabStop = false;
@@ -560,7 +560,7 @@
             // 
             this.cmbSanPham.FormattingEnabled = true;
             this.cmbSanPham.Location = new System.Drawing.Point(124, 36);
-            this.cmbSanPham.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbSanPham.Margin = new System.Windows.Forms.Padding(4);
             this.cmbSanPham.Name = "cmbSanPham";
             this.cmbSanPham.Size = new System.Drawing.Size(169, 24);
             this.cmbSanPham.TabIndex = 0;
@@ -572,7 +572,7 @@
             this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 51);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(975, 226);
             this.panel1.TabIndex = 18;
@@ -594,9 +594,9 @@
             this.groupBox1.Controls.Add(this.txtMaPhieu);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Left;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(319, 226);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
@@ -605,7 +605,7 @@
             // 
             this.btnThemNCC.Image = global::CuahangNongduoc.Properties.Resources.add_16;
             this.btnThemNCC.Location = new System.Drawing.Point(284, 62);
-            this.btnThemNCC.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnThemNCC.Margin = new System.Windows.Forms.Padding(4);
             this.btnThemNCC.Name = "btnThemNCC";
             this.btnThemNCC.Size = new System.Drawing.Size(32, 28);
             this.btnThemNCC.TabIndex = 32;
@@ -625,7 +625,7 @@
             // numConNo
             // 
             this.numConNo.Location = new System.Drawing.Point(101, 197);
-            this.numConNo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numConNo.Margin = new System.Windows.Forms.Padding(4);
             this.numConNo.Maximum = new decimal(new int[] {
             1316134912,
             2328,
@@ -650,7 +650,7 @@
             // numDaTra
             // 
             this.numDaTra.Location = new System.Drawing.Point(101, 165);
-            this.numDaTra.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numDaTra.Margin = new System.Windows.Forms.Padding(4);
             this.numDaTra.Maximum = new decimal(new int[] {
             1316134912,
             2328,
@@ -677,7 +677,7 @@
             // 
             this.cmbNhaCungCap.FormattingEnabled = true;
             this.cmbNhaCungCap.Location = new System.Drawing.Point(104, 63);
-            this.cmbNhaCungCap.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbNhaCungCap.Margin = new System.Windows.Forms.Padding(4);
             this.cmbNhaCungCap.Name = "cmbNhaCungCap";
             this.cmbNhaCungCap.Size = new System.Drawing.Size(181, 24);
             this.cmbNhaCungCap.TabIndex = 26;
@@ -695,7 +695,7 @@
             // numTongTien
             // 
             this.numTongTien.Location = new System.Drawing.Point(103, 132);
-            this.numTongTien.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numTongTien.Margin = new System.Windows.Forms.Padding(4);
             this.numTongTien.Maximum = new decimal(new int[] {
             1316134912,
             2328,
@@ -721,7 +721,7 @@
             // txtMaPhieu
             // 
             this.txtMaPhieu.Location = new System.Drawing.Point(104, 31);
-            this.txtMaPhieu.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtMaPhieu.Margin = new System.Windows.Forms.Padding(4);
             this.txtMaPhieu.Name = "txtMaPhieu";
             this.txtMaPhieu.Size = new System.Drawing.Size(205, 22);
             this.txtMaPhieu.TabIndex = 22;
@@ -736,16 +736,18 @@
             this.colMaPhieu.Width = 125;
             // 
             // colSanPham
-            //
+            // 
             this.colSanPham.DataPropertyName = "TEN_SAN_PHAM";
             this.colSanPham.HeaderText = "Sản phẩm";
             this.colSanPham.MinimumWidth = 6;
             this.colSanPham.Name = "colSanPham";
             this.colSanPham.ReadOnly = true;
+            this.colSanPham.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colSanPham.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.colSanPham.Width = 150;
             // 
             // colMaSanPham
-            //
+            // 
             this.colMaSanPham.DataPropertyName = "ID";
             this.colMaSanPham.HeaderText = "Mã lô";
             this.colMaSanPham.MinimumWidth = 6;
@@ -807,7 +809,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.bindingNavigator);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmNhapHang";
             this.Text = "NHAP HANG";
             this.Load += new System.EventHandler(this.frmNhapHang_Load);
@@ -888,7 +890,7 @@
         private System.Windows.Forms.ComboBox cmbNhaCungCap;
         private System.Windows.Forms.Button btnThemNCC;
         private System.Windows.Forms.DataGridViewTextBoxColumn colMaPhieu;
-        private System.Windows.Forms.DataGridViewComboBoxColumn colSanPham;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSanPham;
         private System.Windows.Forms.DataGridViewTextBoxColumn colMaSanPham;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDonGiaNhap;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSoLuong;
