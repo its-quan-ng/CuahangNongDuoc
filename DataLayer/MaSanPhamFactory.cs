@@ -1,8 +1,9 @@
+using CuahangNongduoc.BusinessObject;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Data;
 using System.Data.SqlClient;
+using System.Text;
 
 namespace CuahangNongduoc.DataLayer
 {
@@ -33,11 +34,15 @@ namespace CuahangNongduoc.DataLayer
         public DataTable DanhsachChiTiet(int sp)
         {
             DataService ds = new DataService();
-            SqlCommand cmd = new SqlCommand("SELECT * FROM MA_SAN_PHAM WHERE ID_PHIEU_NHAP=@id");
-            cmd.Parameters.Add("@id", SqlDbType.Int).Value = sp;
+            SqlCommand cmd = new SqlCommand(
+                @"SELECT MSP.*
+            FROM MA_SAN_PHAM MSP
+            WHERE MSP.ID = @id"
+            );
+            cmd.Parameters.Add("@id", SqlDbType.VarChar, 50).Value = sp;
             ds.Load(cmd);
-
             return ds;
+
         }
 
         public DataTable LaySanPham(String idMaSanPham)

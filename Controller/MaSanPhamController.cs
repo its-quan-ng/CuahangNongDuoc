@@ -12,9 +12,10 @@ namespace CuahangNongduoc.Controller
     public class MaSanPhamController
     {
         MaSanPhamFactory factory = new MaSanPhamFactory();
-
+        
         public DataRow NewRow()
         {
+            factory.LoadSchema();  
             return factory.NewRow();
         }
         public void Add(DataRow row)
@@ -127,6 +128,7 @@ namespace CuahangNongduoc.Controller
                 sp.Id = Convert.ToString(row["ID"]);
                 sp.SoLuong = Convert.ToInt32(row["SO_LUONG"]);
                 sp.GiaNhap = Convert.ToInt64(row["DON_GIA_NHAP"]);
+
                 sp.ThanhTien = sp.SoLuong * sp.GiaNhap;
                 sp.NgayNhap = Convert.ToDateTime(row["NGAY_NHAP"]);
                 sp.NgaySanXuat = Convert.ToDateTime(row["NGAY_SAN_XUAT"]);
