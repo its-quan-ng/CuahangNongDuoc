@@ -48,8 +48,6 @@ namespace CuahangNongduoc
             bindingNavigator.BindingSource.CurrentChanged -= new EventHandler(BindingSource_CurrentChanged);
             bindingNavigator.BindingSource.CurrentChanged += new EventHandler(BindingSource_CurrentChanged);
 
-            ctrlChiTiet.HienThiChiTiet(dgvDanhsachSP, Convert.ToInt32(txtMaPhieu.Text));
-
             if (status == Controll.AddNew)
             {
                 txtMaPhieu.Text = ThamSo.LayMaPhieuBan().ToString();
