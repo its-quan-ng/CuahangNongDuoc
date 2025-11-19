@@ -26,6 +26,7 @@ namespace CuahangNongduoc
         {
             InitializeComponent();
             status = Controll.AddNew;
+            dataGridView.AutoGenerateColumns = false;
         }
         public frmNhapHang(PhieuNhapController ctrlPN)
             : this()
@@ -61,18 +62,18 @@ namespace CuahangNongduoc
 
         private void frmNhapHang_Load(object sender, EventArgs e)
         {
-            
+
             ctrlSanPham.HienthiAutoComboBox(cmbSanPham);
             ctrlSanPham.HienthiDataGridViewComboBoxColumn(colSanPham);
             ctrlNCC.HienthiAutoComboBox(cmbNhaCungCap);
 
 
-            
-            ctrl.HienthiPhieuNhap(bindingNavigator, txtMaPhieu,cmbNhaCungCap, dtNgayNhap, numTongTien, numDaTra, numConNo);
+
+            ctrl.HienthiPhieuNhap(bindingNavigator, txtMaPhieu, cmbNhaCungCap, dtNgayNhap, numTongTien, numDaTra, numConNo);
             bindingNavigator.BindingSource.CurrentChanged -= new EventHandler(BindingSource_CurrentChanged);
             bindingNavigator.BindingSource.CurrentChanged += new EventHandler(BindingSource_CurrentChanged);
-            
-           
+
+
             if (status == Controll.AddNew)
             {
                 txtMaPhieu.Text = ThamSo.LayMaPhieuNhap().ToString();
@@ -84,16 +85,18 @@ namespace CuahangNongduoc
             }
 
             ctrlMaSP.HienThiChiTietPhieuNhap(Convert.ToInt32(txtMaPhieu.Text), dataGridView);
+
+            cmbSanPham.SelectedIndexChanged += cmbSanPham_SelectedIndexChanged;
+            dataGridView.SelectionChanged += dataGridView_SelectionChanged;
         }
 
-       
+
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            
+            string maLo = txtMaSo.Text.Trim();
+            MaSanPham masp = ctrlMaSP.LayMaSanPham(maLo);
 
-            MaSanPhamController ctrl = new MaSanPhamController();
-            MaSanPham masp  = ctrl.LayMaSanPham(txtMaSo.Text.Trim());
             if (masp == null)
             {
                 foreach (DataGridViewRow view in dataGridView.Rows)
@@ -106,7 +109,7 @@ namespace CuahangNongduoc
 
                 }
 
-                if (txtMaSo.Text.Trim().Length <=0)
+                if (txtMaSo.Text.Trim().Length <= 0)
                 {
                     MessageBox.Show("Vui lòng nhập Mã sản phẩm !", "Phieu Nhap", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -135,7 +138,25 @@ namespace CuahangNongduoc
                     row["NGAY_SAN_XUAT"] = dtNgaySanXuat.Value.Date;
                     row["NGAY_HET_HAN"] = dtNgayHetHan.Value.Date;
                     ctrlMaSP.Add(row);
-                    
+                    dataGridView.DataSource = null;
+                    dataGridView.DataSource = ctrlMaSP.GetCurrentDataTable();
+
+                    txtMaSo.Clear();
+                    cmbSanPham.SelectedIndex = -1;
+                    numGiaNhap.Value = 0;
+                    numSoLuong.Value = 0;
+                    numThanhTien.Value = 0;
+                    dtNgaySanXuat.Value = DateTime.Now;
+                    dtNgayHetHan.Value = DateTime.Now.AddMonths(12);
+
+                    cmbSanPham.Focus();
+
+                    MessageBox.Show(
+                        $"Đã thêm lô {row["ID"]} vào phiếu!",
+                        "Thành công",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
                 }
             }
             else
@@ -144,14 +165,14 @@ namespace CuahangNongduoc
             }
         }
 
-      
+
 
         private void numGiaNhap_ValueChanged(object sender, EventArgs e)
         {
             numThanhTien.Value = numGiaNhap.Value * numSoLuong.Value;
         }
 
-   
+
 
         private void toolLuuThoat_Click(object sender, EventArgs e)
         {
@@ -184,7 +205,7 @@ namespace CuahangNongduoc
             DataRow row = ctrl.NewRow();
             row["ID"] = txtMaPhieu.Text;
             row["NGAY_NHAP"] = dtNgayNhap.Value
-                
+
                .Date;
             row["TONG_TIEN"] = numTongTien.Value;
             row["ID_NHA_CUNG_CAP"] = cmbNhaCungCap.SelectedValue;
@@ -267,7 +288,7 @@ namespace CuahangNongduoc
                     this.Luu();
                 }
             }
-           
+
             this.Close();
         }
 
@@ -343,9 +364,118 @@ namespace CuahangNongduoc
             NCC.ShowDialog();
             ctrlNCC.HienthiAutoComboBox(cmbNhaCungCap);
         }
-    
-     
 
+        private void dataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            if (status != Controll.AddNew)
+            {
+                if (dataGridView.CurrentRow != null && dataGridView.CurrentRow.DataBoundItem != null)
+                {
+                    try
+                    {
+                        DataRowView row = (DataRowView)dataGridView.CurrentRow.DataBoundItem;
 
+                        txtMaSo.Text = row["ID"].ToString();
+                        if (row["ID_SAN_PHAM"] != DBNull.Value)
+                        {
+                            cmbSanPham.SelectedValue = Convert.ToInt32(row["ID_SAN_PHAM"]);
+                        }
+
+                        numGiaNhap.Value = Convert.ToDecimal(row["DON_GIA_NHAP"]);
+                        numSoLuong.Value = Convert.ToDecimal(row["SO_LUONG"]);
+                        dtNgaySanXuat.Value = Convert.ToDateTime(row["NGAY_SAN_XUAT"]);
+                        dtNgayHetHan.Value = Convert.ToDateTime(row["NGAY_HET_HAN"]);
+                        numThanhTien.Value = numGiaNhap.Value * numSoLuong.Value;
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"SelectionChanged Error: {ex.Message}");
+                    }
+                }
+            }
+        }
+
+        private void cmbSanPham_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (status != Controll.AddNew)
+                return;
+
+            if (cmbSanPham.SelectedIndex < 0)
+                return;
+
+            string maLoMoi = TaoMaLoTuDong();
+            txtMaSo.Text = maLoMoi;
+
+            dtNgaySanXuat.Value = DateTime.Now;
+            dtNgayHetHan.Value = DateTime.Now.AddMonths(12);
+
+            numGiaNhap.Focus();
+        }
+
+        private string TaoMaLoTuDong()
+        {
+            string maPhieu = txtMaPhieu.Text.Trim();
+
+            if (string.IsNullOrEmpty(maPhieu))
+            {
+                maPhieu = "TEMP";
+            }
+
+            int soLuongLo = 0;
+
+            if (dataGridView.DataSource != null)
+            {
+                DataTable dt = dataGridView.DataSource as DataTable;
+                if (dt != null)
+                {
+                    soLuongLo = dt.Rows.Count;
+                }
+            }
+            else
+            {
+                soLuongLo = dataGridView.Rows.Count;
+            }
+
+            int stt = soLuongLo + 1;
+            string maLo = $"LOT-{maPhieu}-{stt:D3}";
+
+            bool trung = true;
+            while (trung)
+            {
+                trung = false;
+
+                if (dataGridView.DataSource != null)
+                {
+                    DataTable dt = dataGridView.DataSource as DataTable;
+                    if (dt != null)
+                    {
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            if (row["ID"].ToString() == maLo)
+                            {
+                                trung = true;
+                                stt++;
+                                maLo = $"LOT-{maPhieu}-{stt:D3}";
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (DataGridViewRow row in dataGridView.Rows)
+                    {
+                        if (row.Cells["colMaSanPham"]?.Value?.ToString() == maLo)
+                        {
+                            trung = true;
+                            stt++;
+                            maLo = $"LOT-{maPhieu}-{stt:D3}";
+                            break;
+                        }
+                    }
+                }
+            }
+            return maLo;
+        }
     }
 }

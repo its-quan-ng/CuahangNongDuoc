@@ -18,6 +18,12 @@ namespace CuahangNongduoc.Controller
             factory.LoadSchema();  
             return factory.NewRow();
         }
+
+        public DataTable GetCurrentDataTable()
+        {
+            return factory.m_Ds;
+        }
+
         public void Add(DataRow row)
         {
             factory.Add(row);

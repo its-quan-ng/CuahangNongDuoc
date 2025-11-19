@@ -9,7 +9,7 @@ namespace CuahangNongduoc.DataLayer
 {
     public class MaSanPhamFactory
     {
-        DataService m_Ds = new DataService();
+        public DataService m_Ds = new DataService();
 
         public MaSanPhamFactory()
         {
@@ -35,11 +35,21 @@ namespace CuahangNongduoc.DataLayer
         {
             DataService ds = new DataService();
             SqlCommand cmd = new SqlCommand(
-                @"SELECT MSP.*
-            FROM MA_SAN_PHAM MSP
-            WHERE MSP.ID = @id"
+                @"SELECT MSP.ID,
+                         MSP.ID_PHIEU_NHAP,
+                         MSP.ID_SAN_PHAM,
+                         MSP.DON_GIA_NHAP,
+                         MSP.SO_LUONG,
+                         MSP.NGAY_NHAP,
+                         MSP.NGAY_SAN_XUAT,
+                         MSP.NGAY_HET_HAN,
+                         SP.TEN_SAN_PHAM
+                  FROM MA_SAN_PHAM MSP
+                  LEFT JOIN SAN_PHAM SP ON MSP.ID_SAN_PHAM = SP.ID
+                  WHERE MSP.ID_PHIEU_NHAP = @id
+                  ORDER BY MSP.ID"
             );
-            cmd.Parameters.Add("@id", SqlDbType.VarChar, 50).Value = sp;
+            cmd.Parameters.Add("@id", SqlDbType.Int).Value = sp;
             ds.Load(cmd);
             return ds;
 
