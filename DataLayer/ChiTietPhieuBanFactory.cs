@@ -87,6 +87,12 @@ namespace CuahangNongduoc.DataLayer
                 }
             }
             
+            // Xóa cột TEN_SAN_PHAM trước khi lưu (vì cột này không có trong DB)
+            if (m_Ds.Columns.Contains("TEN_SAN_PHAM"))
+            {
+                m_Ds.Columns.Remove("TEN_SAN_PHAM");
+            }
+            
             return m_Ds.ExecuteNoneQuery() > 0;
         }
 
@@ -95,12 +101,33 @@ namespace CuahangNongduoc.DataLayer
         /// </summary>
         public void LoadData(int idPhieuBan)
         {
-            SqlCommand cmd = new SqlCommand("SELECT CT.*, SP.TEN_SAN_PHAM FROM CHI_TIET_PHIEU_BAN CT " +
-                "INNER JOIN MA_SAN_PHAM MSP ON CT.ID_MA_SAN_PHAM = MSP.ID " +
-                "INNER JOIN SAN_PHAM SP ON MSP.ID_SAN_PHAM = SP.ID " +
-                "WHERE CT.ID_PHIEU_BAN = @id");
+            // Chỉ load từ bảng CHI_TIET_PHIEU_BAN để có thể save được
+            SqlCommand cmd = new SqlCommand("SELECT * FROM CHI_TIET_PHIEU_BAN WHERE ID_PHIEU_BAN = @id");
             cmd.Parameters.Add("@id", SqlDbType.Int).Value = idPhieuBan;
             m_Ds.Load(cmd);
+            
+            // Thêm cột TEN_SAN_PHAM để hiển thị (không lưu vào DB)
+            if (!m_Ds.Columns.Contains("TEN_SAN_PHAM"))
+            {
+                DataColumn col = new DataColumn("TEN_SAN_PHAM", typeof(string));
+                col.ReadOnly = false; // Cho phép gán giá trị
+                col.AllowDBNull = true;
+                m_Ds.Columns.Add(col);
+            }
+            
+            // Điền tên sản phẩm cho từng dòng
+            foreach (DataRow row in m_Ds.Rows)
+            {
+                string idMaSanPham = Convert.ToString(row["ID_MA_SAN_PHAM"]);
+                DataService ds = new DataService();
+                SqlCommand cmdTen = new SqlCommand(
+                    "SELECT SP.TEN_SAN_PHAM FROM MA_SAN_PHAM MSP " +
+                    "INNER JOIN SAN_PHAM SP ON MSP.ID_SAN_PHAM = SP.ID " +
+                    "WHERE MSP.ID = @idMaSP");
+                cmdTen.Parameters.Add("@idMaSP", SqlDbType.NVarChar).Value = idMaSanPham;
+                object tenSP = ds.ExecuteScalar(cmdTen);
+                row["TEN_SAN_PHAM"] = tenSP != null ? tenSP.ToString() : "";
+            }
         }
 
         /// <summary>
@@ -109,12 +136,18 @@ namespace CuahangNongduoc.DataLayer
         public DataTable GetDataTable()
         {
             // Đảm bảo DataTable có schema trước khi trả về
+            // Chỉ load từ bảng CHI_TIET_PHIEU_BAN để có thể save được
             if (m_Ds.Columns.Count == 0)
             {
-                SqlCommand cmd = new SqlCommand("SELECT TOP 0 CT.*, SP.TEN_SAN_PHAM FROM CHI_TIET_PHIEU_BAN CT " +
-                    "LEFT JOIN MA_SAN_PHAM MSP ON CT.ID_MA_SAN_PHAM = MSP.ID " +
-                    "LEFT JOIN SAN_PHAM SP ON MSP.ID_SAN_PHAM = SP.ID");
+                SqlCommand cmd = new SqlCommand("SELECT TOP 0 * FROM CHI_TIET_PHIEU_BAN");
                 m_Ds.Load(cmd);
+                
+                // Thêm cột TEN_SAN_PHAM để hiển thị (không lưu vào DB)
+                if (!m_Ds.Columns.Contains("TEN_SAN_PHAM"))
+                {
+                    DataColumn col = new DataColumn("TEN_SAN_PHAM", typeof(string));
+                    m_Ds.Columns.Add(col);
+                }
             }
             return m_Ds;
         }

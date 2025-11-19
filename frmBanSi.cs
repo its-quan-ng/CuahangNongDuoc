@@ -121,6 +121,12 @@ namespace CuahangNongduoc
                 return;
             }
 
+            if (cmbMaSanPham.SelectedValue == null)
+            {
+                MessageBox.Show("Vui lòng chọn Mã số sản phẩm!", "Bán sỉ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             if (numSoLuong.Value <= 0)
             {
                 MessageBox.Show("Vui lòng nhập Số lượng!", "Bán sỉ", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -137,27 +143,66 @@ namespace CuahangNongduoc
             {
                 int idSanPham = Convert.ToInt32(cmbSanPham.SelectedValue);
                 int soLuongCanBan = Convert.ToInt32(numSoLuong.Value);
+                string maSanPhamDaChon = cmbMaSanPham.SelectedValue.ToString();
 
-                IList<MaSanPham> danhSachLo = ctrlMaSanPham.ChonLoTheoConfig(idSanPham, soLuongCanBan);
-
-                if (danhSachLo == null || danhSachLo.Count == 0)
+                // Lấy thông tin mã sản phẩm đã chọn
+                MaSanPham maSPDaChon = ctrlMaSanPham.LayMaSanPham(maSanPhamDaChon);
+                
+                if (maSPDaChon == null)
                 {
+                    MessageBox.Show("Không tìm thấy thông tin mã sản phẩm!", "Bán sỉ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                // Load thông tin sản phẩm một lần để dùng cho tất cả các lô
-                SanPham sanPham = ctrlSanPham.LaySanPham(idSanPham);
-                string tenSanPham = sanPham != null ? sanPham.TenSanPham : "";
+                // Kiểm tra số lượng tồn kho
+                if (maSPDaChon.SoLuong < soLuongCanBan)
+                {
+                    MessageBox.Show($"Số lượng tồn kho không đủ!\nTồn kho: {maSPDaChon.SoLuong}\nYêu cầu: {soLuongCanBan}", 
+                        "Bán sỉ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-                foreach (MaSanPham lo in danhSachLo)
+                // Lấy tên sản phẩm từ mã số đã chọn
+                string tenSanPham = maSPDaChon.SanPham != null ? maSPDaChon.SanPham.TenSanPham : "";
+
+                // Kiểm tra xem mã sản phẩm đã tồn tại trong DataGridView chưa
+                BindingSource bs = (BindingSource)dgvDanhsachSP.DataSource;
+                DataTable dt = (DataTable)bs.DataSource;
+                bool daTonTai = false;
+                
+                foreach (DataRow existingRow in dt.Rows)
+                {
+                    if (Convert.ToString(existingRow["ID_MA_SAN_PHAM"]) == maSanPhamDaChon)
+                    {
+                        // Nếu đã tồn tại, cộng thêm số lượng
+                        int soLuongCu = Convert.ToInt32(existingRow["SO_LUONG"]);
+                        int soLuongMoi = soLuongCu + soLuongCanBan;
+                        
+                        // Kiểm tra tồn kho cho số lượng mới
+                        if (maSPDaChon.SoLuong < soLuongMoi)
+                        {
+                            MessageBox.Show($"Số lượng tồn kho không đủ!\nTồn kho: {maSPDaChon.SoLuong}\nĐã có trong phiếu: {soLuongCu}\nYêu cầu thêm: {soLuongCanBan}\nTổng: {soLuongMoi}", 
+                                "Bán sỉ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                        
+                        existingRow["SO_LUONG"] = soLuongMoi;
+                        existingRow["THANH_TIEN"] = numDonGia.Value * soLuongMoi;
+                        daTonTai = true;
+                        break;
+                    }
+                }
+                
+                // Nếu chưa tồn tại, thêm dòng mới
+                if (!daTonTai)
                 {
                     DataRow row = ctrlChiTiet.NewRow();
-                    row["ID_MA_SAN_PHAM"] = lo.Id;
+                    row["ID_MA_SAN_PHAM"] = maSanPhamDaChon;
                     row["ID_PHIEU_BAN"] = txtMaPhieu.Text;
                     row["DON_GIA"] = numDonGia.Value;
-                    row["SO_LUONG"] = lo.SoLuong;
-                    row["THANH_TIEN"] = numDonGia.Value * lo.SoLuong;
-                    // Thêm tên sản phẩm nếu cột tồn tại
+                    row["SO_LUONG"] = soLuongCanBan;
+                    row["THANH_TIEN"] = numDonGia.Value * soLuongCanBan;
+                    // Thêm tên sản phẩm từ mã số
                     if (row.Table.Columns.Contains("TEN_SAN_PHAM"))
                     {
                         row["TEN_SAN_PHAM"] = tenSanPham;
@@ -170,10 +215,8 @@ namespace CuahangNongduoc
 
                 // Cập nhật tổng tiền từ các dòng trong DataGridView
                 decimal tongTien = 0;
-                BindingSource bs = (BindingSource)dgvDanhsachSP.DataSource;
                 if (bs != null && bs.DataSource != null)
                 {
-                    DataTable dt = (DataTable)bs.DataSource;
                     foreach (DataRow dr in dt.Rows)
                     {
                         tongTien += Convert.ToDecimal(dr["THANH_TIEN"]);

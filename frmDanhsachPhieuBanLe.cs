@@ -23,6 +23,16 @@ namespace CuahangNongduoc
         {
             ctrlKH.HienthiKhachHangDataGridviewComboBox(colKhachhang);
             ctrl.HienthiPhieuBanLe(bindingNavigator, dataGridView);
+            
+            // Ẩn các cột chi phí vận chuyển và chi phí dịch vụ
+            if (dataGridView.Columns.Contains("CHI_PHI_VAN_CHUYEN"))
+            {
+                dataGridView.Columns["CHI_PHI_VAN_CHUYEN"].Visible = false;
+            }
+            if (dataGridView.Columns.Contains("CHI_PHI_DICH_VU"))
+            {
+                dataGridView.Columns["CHI_PHI_DICH_VU"].Visible = false;
+            }
         }
         frmBanLe BanLe = null;
         private void dataGridView_DoubleClick(object sender, EventArgs e)
