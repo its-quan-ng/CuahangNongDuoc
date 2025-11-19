@@ -58,6 +58,7 @@ namespace CuahangNongduoc
 
         private void toolTongHop_Click(object sender, EventArgs e)
         {
+            dataGridView.DataSource = null;
             toolProgress.Visible = true;
             ctrl.Tonghop(toolThang.SelectedIndex + 1, Convert.ToInt32(toolNam.Text), toolProgress, dataGridView, bindingNavigator);
             toolProgress.Visible = false;

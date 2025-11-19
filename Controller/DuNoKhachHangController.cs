@@ -22,7 +22,7 @@ namespace CuahangNongduoc.Controller
 
 
             BindingSource bs = new BindingSource();
-            bs.DataSource = factory.LayDuNoKhachHang(-1, 0, 0);
+            bs.DataSource = factory.GetDataSource();
             bn.BindingSource = bs;
             dg.DataSource = bs;
             

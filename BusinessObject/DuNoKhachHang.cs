@@ -58,5 +58,17 @@ namespace CuahangNongduoc.BusinessObject
         }
 
 
+        public String TenKhachHang
+        {
+            get { return m_KH.HoTen; }
+        }
+        public String DiaChi
+        {
+            get { return m_KH.DiaChi; }
+        }
+        public String DienThoai
+        {
+            get { return m_KH.DienThoai; }
+        }
     }
 }

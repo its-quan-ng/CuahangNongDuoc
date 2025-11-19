@@ -13,6 +13,12 @@ namespace CuahangNongduoc.DataLayer
         public DuNoKhachHangFactory()
         {
             m_Ds.TableName = "DU_NO_KH";
+            LoadSchema();
+        }
+
+        public DataTable GetDataSource()
+        {
+            return m_Ds;
         }
 
         public void LoadSchema()
