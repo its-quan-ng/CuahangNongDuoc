@@ -83,7 +83,11 @@ namespace CuahangNongduoc
         {
             if (status == Controll.Normal)
             {
-                ctrlChiTiet.HienThiChiTiet(dgvDanhsachSP, Convert.ToInt32(txtMaPhieu.Text));
+                // Kiểm tra txtMaPhieu.Text trước khi convert
+                if (!string.IsNullOrWhiteSpace(txtMaPhieu.Text) && int.TryParse(txtMaPhieu.Text, out int maPhieu))
+                {
+                    ctrlChiTiet.HienThiChiTiet(dgvDanhsachSP, maPhieu);
+                }
             }
         }
 
