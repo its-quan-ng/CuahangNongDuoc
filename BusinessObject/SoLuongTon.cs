@@ -21,6 +21,34 @@ namespace CuahangNongduoc.BusinessObject
             set { m_SoLuongTon = value; }
         }
 
-	
+        public String MaSanPham
+        {
+            get { return m_SanPham != null ? m_SanPham.Id : ""; }
+        }
+
+        public String TenSanPham
+        {
+            get { return m_SanPham != null ? m_SanPham.TenSanPham : ""; }
+        }
+
+        public long DonGiaNhap
+        {
+            get { return m_SanPham != null ? m_SanPham.DonGiaNhap : 0; }
+        }
+
+        public long GiaBanLe
+        {
+            get { return m_SanPham != null ? m_SanPham.GiaBanLe : 0; }
+        }
+
+        public long GiaBanSi
+        {
+            get { return m_SanPham != null ? m_SanPham.GiaBanSi : 0; }
+        }
+
+        public String DonViTinh
+        {
+            get { return m_SanPham != null && m_SanPham.DonViTinh != null ? m_SanPham.DonViTinh.Ten : ""; }
+        }
     }
 }
