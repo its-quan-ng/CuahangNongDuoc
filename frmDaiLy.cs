@@ -1,4 +1,7 @@
-﻿using System;
+﻿
+
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -26,6 +29,34 @@ namespace CuahangNongduoc
         {
             bindingNavigatorPositionItem.Focus();
             bindingNavigator.BindingSource.EndEdit();
+            
+            // Kiểm tra dữ liệu rỗng cho tất cả các dòng trước khi lưu
+            DataTable dataTable = ctrl.GetDataTable();
+            if (dataTable != null)
+            {
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    // Kiểm tra các dòng đã thêm mới hoặc đã sửa đổi
+                    if (row.RowState == DataRowState.Added || row.RowState == DataRowState.Modified)
+                    {
+                        // Kiểm tra các trường bắt buộc
+                        string hoTen = Convert.ToString(row["HO_TEN"]).Trim();
+                        string diaChi = Convert.ToString(row["DIA_CHI"]).Trim();
+
+                        if (string.IsNullOrEmpty(hoTen))
+                        {
+                            MessageBox.Show("Vui lòng nhập Họ tên cho các đại lý!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+
+                        if (string.IsNullOrEmpty(diaChi))
+                        {
+                            MessageBox.Show("Vui lòng nhập Địa chỉ cho các đại lý!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                    }
+                }
+            }
             
             if (ctrl.Save())
             {
