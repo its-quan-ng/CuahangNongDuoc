@@ -29,12 +29,5 @@ namespace CuahangNongduoc
         {
             this.Close();
         }
-
-        private void btnOK_Click(object sender, EventArgs e)
-        {
-
-            ctrlNCC.HienthiAutoComboBox(cmbNCC);
-            //ctrlPN.TimPhieuNhap(maNCC, dt);
-        }
     }
 }
