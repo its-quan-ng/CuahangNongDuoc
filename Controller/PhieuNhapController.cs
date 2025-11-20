@@ -22,7 +22,7 @@ namespace CuahangNongduoc.Controller
 
         public DataRow NewRow()
         {
-            factory.LoadSchema();
+            factory.LoadSchema();  // Factory tự check nếu đã load rồi
             return factory.NewRow();
         }
         public void Add(DataRow row)
