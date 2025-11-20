@@ -124,5 +124,68 @@ namespace CuahangNongduoc.DataLayer
         {
             return m_Ds.ExecuteNoneQuery() > 0;
         }
+
+        /// <summary>
+        /// Kiểm tra xem đại lý có được sử dụng trong các bảng khác không
+        /// </summary>
+        public bool KiemTraLienKet(int idKhachHang)
+        {
+            DataService ds = new DataService();
+
+            // Kiểm tra trong PHIEU_BAN
+            SqlCommand cmd1 = new SqlCommand("SELECT COUNT(*) FROM PHIEU_BAN WHERE ID_KHACH_HANG = @id");
+            cmd1.Parameters.Add("@id", SqlDbType.Int).Value = idKhachHang;
+            object count1 = ds.ExecuteScalar(cmd1);
+            if (count1 != null && Convert.ToInt32(count1) > 0)
+                return true;
+
+            // Kiểm tra trong DU_NO_KH
+            SqlCommand cmd2 = new SqlCommand("SELECT COUNT(*) FROM DU_NO_KH WHERE ID_KHACH_HANG = @id");
+            cmd2.Parameters.Add("@id", SqlDbType.Int).Value = idKhachHang;
+            object count2 = ds.ExecuteScalar(cmd2);
+            if (count2 != null && Convert.ToInt32(count2) > 0)
+                return true;
+
+            // Kiểm tra trong PHIEU_THANH_TOAN
+            SqlCommand cmd3 = new SqlCommand("SELECT COUNT(*) FROM PHIEU_THANH_TOAN WHERE ID_KHACH_HANG = @id");
+            cmd3.Parameters.Add("@id", SqlDbType.Int).Value = idKhachHang;
+            object count3 = ds.ExecuteScalar(cmd3);
+            if (count3 != null && Convert.ToInt32(count3) > 0)
+                return true;
+
+            return false;
+        }
+
+        /// <summary>
+        /// Lấy danh sách các bảng có liên kết với đại lý
+        /// </summary>
+        public List<string> LayDanhSachBangLienKet(int idKhachHang)
+        {
+            List<string> danhSachBang = new List<string>();
+            DataService ds = new DataService();
+
+            // Kiểm tra trong PHIEU_BAN
+            SqlCommand cmd1 = new SqlCommand("SELECT COUNT(*) FROM PHIEU_BAN WHERE ID_KHACH_HANG = @id");
+            cmd1.Parameters.Add("@id", SqlDbType.Int).Value = idKhachHang;
+            object count1 = ds.ExecuteScalar(cmd1);
+            if (count1 != null && Convert.ToInt32(count1) > 0)
+                danhSachBang.Add("Phiếu bán");
+
+            // Kiểm tra trong DU_NO_KH
+            SqlCommand cmd2 = new SqlCommand("SELECT COUNT(*) FROM DU_NO_KH WHERE ID_KHACH_HANG = @id");
+            cmd2.Parameters.Add("@id", SqlDbType.Int).Value = idKhachHang;
+            object count2 = ds.ExecuteScalar(cmd2);
+            if (count2 != null && Convert.ToInt32(count2) > 0)
+                danhSachBang.Add("Dư nợ khách hàng");
+
+            // Kiểm tra trong PHIEU_THANH_TOAN
+            SqlCommand cmd3 = new SqlCommand("SELECT COUNT(*) FROM PHIEU_THANH_TOAN WHERE ID_KHACH_HANG = @id");
+            cmd3.Parameters.Add("@id", SqlDbType.Int).Value = idKhachHang;
+            object count3 = ds.ExecuteScalar(cmd3);
+            if (count3 != null && Convert.ToInt32(count3) > 0)
+                danhSachBang.Add("Phiếu thanh toán");
+
+            return danhSachBang;
+        }
     }
 }

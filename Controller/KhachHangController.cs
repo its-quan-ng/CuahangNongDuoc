@@ -153,5 +153,21 @@ namespace CuahangNongduoc.Controller
         {
             return factory.Save();
         }
+
+        /// <summary>
+        /// Kiểm tra xem đại lý có được sử dụng trong các bảng khác không
+        /// </summary>
+        public bool KiemTraLienKet(int idKhachHang)
+        {
+            return factory.KiemTraLienKet(idKhachHang);
+        }
+
+        /// <summary>
+        /// Lấy danh sách các bảng có liên kết với đại lý
+        /// </summary>
+        public List<string> LayDanhSachBangLienKet(int idKhachHang)
+        {
+            return factory.LayDanhSachBangLienKet(idKhachHang);
+        }
     }
 }
