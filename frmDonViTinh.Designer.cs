@@ -176,7 +176,8 @@
             this.toolLuu.Click += new System.EventHandler(this.toolLuu_Click);
             // 
             // dataGridView
-            // 
+            //
+            this.dataGridView.AutoGenerateColumns = false;
             this.dataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {

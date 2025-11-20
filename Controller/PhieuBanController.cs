@@ -35,18 +35,7 @@ namespace CuahangNongduoc.Controller
         }
         public void Save()
         {
-            int n = PhieuBanFactory.LaySoPhieu();
-            if (n >= 50)
-            {
-                MessageBox.Show("Đây là bản dùng thử! Chỉ lưu được 50 phiếu bán!", "Phieu Ban", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            }
-            else
-            {
-                MessageBox.Show("Đây là bản dùng thử! Chỉ lưu được thêm " + Convert.ToString(50-n) + " phiếu bán!", "Phieu Ban", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                factory.Save();
-            }
-            
+            factory.Save();
         }
         public void HienthiPhieuBanLe(BindingNavigator bn, DataGridView dg)
         {
@@ -64,7 +53,7 @@ namespace CuahangNongduoc.Controller
             dg.DataSource = bs;
         }
 
-        public void HienthiPhieuBan(BindingNavigator bn,ComboBox cmb, TextBox txt, DateTimePicker dt, NumericUpDown numTongTien, NumericUpDown numDatra, NumericUpDown numConNo)
+        public void HienthiPhieuBan(BindingNavigator bn,ComboBox cmb, TextBox txt, DateTimePicker dt, NumericUpDown numTongTien, NumericUpDown numDatra, NumericUpDown numConNo, NumericUpDown numChiPhiVanChuyen, NumericUpDown numChiPhiDichVu)
         {
 
             bn.BindingSource = bs;
@@ -79,15 +68,39 @@ namespace CuahangNongduoc.Controller
             dt.DataBindings.Add("Value", bs, "NGAY_BAN");
 
             numTongTien.DataBindings.Clear();
-            numTongTien.DataBindings.Add("Value", bs, "TONG_TIEN");
+            Binding bindingTongTien = new Binding("Value", bs, "TONG_TIEN");
+            bindingTongTien.Format += new ConvertEventHandler(Binding_Format);
+            numTongTien.DataBindings.Add(bindingTongTien);
 
             numDatra.DataBindings.Clear();
-            numDatra.DataBindings.Add("Value", bs, "DA_TRA");
+            Binding bindingDaTra = new Binding("Value", bs, "DA_TRA");
+            bindingDaTra.Format += new ConvertEventHandler(Binding_Format);
+            numDatra.DataBindings.Add(bindingDaTra);
 
             numConNo.DataBindings.Clear();
-            numConNo.DataBindings.Add("Value", bs, "CON_NO");
+            Binding bindingConNo = new Binding("Value", bs, "CON_NO");
+            bindingConNo.Format += new ConvertEventHandler(Binding_Format);
+            numConNo.DataBindings.Add(bindingConNo);
 
+            numChiPhiVanChuyen.DataBindings.Clear();
+            Binding bindingChiPhiVanChuyen = new Binding("Value", bs, "CHI_PHI_VAN_CHUYEN");
+            bindingChiPhiVanChuyen.Format += new ConvertEventHandler(Binding_Format);
+            numChiPhiVanChuyen.DataBindings.Add(bindingChiPhiVanChuyen);
 
+            numChiPhiDichVu.DataBindings.Clear();
+            Binding bindingChiPhiDichVu = new Binding("Value", bs, "CHI_PHI_DICH_VU");
+            bindingChiPhiDichVu.Format += new ConvertEventHandler(Binding_Format);
+            numChiPhiDichVu.DataBindings.Add(bindingChiPhiDichVu);
+
+        }
+
+        // Hàm xử lý chuyển đổi DBNull thành 0
+        private void Binding_Format(object sender, ConvertEventArgs e)
+        {
+            if (e.Value == DBNull.Value || e.Value == null)
+            {
+                e.Value = 0;
+            }
         }
 
         public PhieuBan LayPhieuBan(int id)

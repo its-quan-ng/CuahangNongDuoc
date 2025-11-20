@@ -80,7 +80,7 @@ namespace CuahangNongduoc
                 mnuDonViTinh.Visible = laAdmin;
                 mnuLyDoChi.Visible = laAdmin;
                 mnuNhaCungCap.Visible = laAdmin;
-                mnuPhieuChi.Visible = laAdmin;
+               
                 mnuTonghopDuno.Visible = laAdmin;
                 mnuSoLuongBan.Visible = laAdmin;
                 mnuTuychinh.Visible = laAdmin;
@@ -89,12 +89,12 @@ namespace CuahangNongduoc
                 // Toolbar: Chức năng Admin
                 toolSanPham.Visible = laAdmin;
                 toolNhaCungCap.Visible = laAdmin;
-                toolPhieuChi.Visible = laAdmin;
+            
 
                 // TaskPane: Chức năng Admin
                 itemSanPham.Visible = laAdmin;
                 itemNhaCungCap.Visible = laAdmin;
-                itemPhieuChi.Visible = laAdmin;
+               
                 itemTonghopDoanhthu.Visible = laAdmin;
 
                 // Mở thanh công cụ/chức năng (Mặc định)

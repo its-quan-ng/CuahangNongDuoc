@@ -14,6 +14,8 @@ namespace CuahangNongduoc
         public frmNhaCungCap()
         {
             InitializeComponent();
+            // Đăng ký event FormClosing
+            this.FormClosing += new FormClosingEventHandler(frmNhaCungCap_FormClosing);
         }
 
         private void dataGridView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
@@ -49,9 +51,40 @@ namespace CuahangNongduoc
 
         private void toolLuu_Click(object sender, EventArgs e)
         {
+            // 1. EndEdit cell đang edit
+            if (dataGridView.CurrentCell != null)
+            {
+                dataGridView.EndEdit();
+            }
+
+            // 2. Focus ra ngoài
             bindingNavigatorPositionItem.Focus();
+
+            // 3. EndEdit row
             bindingNavigator.BindingSource.EndEdit();
-            
+
+            // 4. Validate từ DataTable - CHỈ bắt buộc Tên NCC
+            DataTable dt = ctrl.GetDataTable();
+            foreach (DataRow row in dt.Rows)
+            {
+                if (row.RowState == DataRowState.Deleted)
+                    continue;
+
+                // Chỉ check row mới hoặc đã sửa
+                if (row.RowState == DataRowState.Added || row.RowState == DataRowState.Modified)
+                {
+                    // CHỈ check HO_TEN (BẮT BUỘC)
+                    if (row["HO_TEN"] == DBNull.Value || string.IsNullOrWhiteSpace(row["HO_TEN"].ToString()))
+                    {
+                        MessageBox.Show("Vui lòng nhập tên Nhà cung cấp!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    // DIA_CHI và DIEN_THOAI là OPTIONAL - Không check
+                }
+            }
+
+            // 5. Save
             if (ctrl.Save())
             {
                 MessageBox.Show("Lưu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -61,6 +94,12 @@ namespace CuahangNongduoc
         private void toolThoat_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void frmNhaCungCap_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Không auto-delete khi đóng form
+            // Nếu user muốn xóa → Dùng button "Xóa" hoặc validation trong toolLuu_Click
         }
 
         private void toolTimNhaCungCap_Enter(object sender, EventArgs e)

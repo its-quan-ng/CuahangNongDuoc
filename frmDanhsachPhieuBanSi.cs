@@ -23,6 +23,16 @@ namespace CuahangNongduoc
         {
             ctrlKH.HienthiDaiLyDataGridviewComboBox(colKhachhang);
             ctrl.HienthiPhieuBanSi(bindingNavigator, dataGridView);
+            
+            // Ẩn các cột chi phí vận chuyển và chi phí dịch vụ
+            if (dataGridView.Columns.Contains("CHI_PHI_VAN_CHUYEN"))
+            {
+                dataGridView.Columns["CHI_PHI_VAN_CHUYEN"].Visible = false;
+            }
+            if (dataGridView.Columns.Contains("CHI_PHI_DICH_VU"))
+            {
+                dataGridView.Columns["CHI_PHI_DICH_VU"].Visible = false;
+            }
         }
         frmBanSi BanLe = null;
         private void dataGridView_DoubleClick(object sender, EventArgs e)
@@ -49,7 +59,7 @@ namespace CuahangNongduoc
 
         private void dataGridView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
-            if (MessageBox.Show("Bạn có chắc chắn xóa không?", "Phieu Ban Le", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            if (MessageBox.Show("Bạn có chắc chắn xóa không?", "Phieu Ban Si", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
             {
                 e.Cancel = true;
             }
@@ -71,7 +81,7 @@ namespace CuahangNongduoc
              DataRowView view =  (DataRowView)bindingNavigator.BindingSource.Current;
              if (view != null)
              {
-                 if (MessageBox.Show("Bạn có chắc chắn xóa không?", "Phieu Ban Le", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                 if (MessageBox.Show("Bạn có chắc chắn xóa không?", "Phieu Ban Si", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                  {
                      ChiTietPhieuBanController ctrl = new ChiTietPhieuBanController();
                      IList<ChiTietPhieuBan> ds = ctrl.ChiTietPhieuBan(Convert.ToInt32(view["ID"]));

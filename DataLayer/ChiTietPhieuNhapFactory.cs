@@ -17,6 +17,10 @@ namespace CuahangNongduoc.DataLayer
 
         public void LoadSchema()
         {
+            // Chỉ load 1 lần - nếu đã có columns thì return
+            if (m_Ds.Columns.Count > 0)
+                return;
+
             SqlCommand cmd = new SqlCommand("SELECT * FROM CHI_TIET_PHIEU_NHAP WHERE ID_PHIEU_NHAP = -1");
             m_Ds.Load(cmd);
         }
