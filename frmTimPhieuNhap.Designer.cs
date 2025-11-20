@@ -40,26 +40,29 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 28);
+            this.label1.Location = new System.Drawing.Point(16, 34);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(75, 13);
+            this.label1.Size = new System.Drawing.Size(90, 16);
             this.label1.TabIndex = 0;
             this.label1.Text = "Nhà cung cấp";
             // 
             // cmbNCC
             // 
             this.cmbNCC.FormattingEnabled = true;
-            this.cmbNCC.Location = new System.Drawing.Point(103, 25);
+            this.cmbNCC.Location = new System.Drawing.Point(137, 31);
+            this.cmbNCC.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cmbNCC.Name = "cmbNCC";
-            this.cmbNCC.Size = new System.Drawing.Size(188, 21);
+            this.cmbNCC.Size = new System.Drawing.Size(249, 24);
             this.cmbNCC.TabIndex = 1;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 67);
+            this.label2.Location = new System.Drawing.Point(16, 82);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(59, 13);
+            this.label2.Size = new System.Drawing.Size(73, 16);
             this.label2.TabIndex = 2;
             this.label2.Text = "Ngày nhập";
             // 
@@ -67,9 +70,10 @@
             // 
             this.dtNgayNhap.CustomFormat = "dd/MM/yyyy";
             this.dtNgayNhap.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtNgayNhap.Location = new System.Drawing.Point(104, 62);
+            this.dtNgayNhap.Location = new System.Drawing.Point(139, 76);
+            this.dtNgayNhap.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dtNgayNhap.Name = "dtNgayNhap";
-            this.dtNgayNhap.Size = new System.Drawing.Size(105, 20);
+            this.dtNgayNhap.Size = new System.Drawing.Size(139, 22);
             this.dtNgayNhap.TabIndex = 3;
             // 
             // btnOK
@@ -77,34 +81,38 @@
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnOK.Image = global::CuahangNongduoc.Properties.Resources.Ok;
             this.btnOK.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnOK.Location = new System.Drawing.Point(85, 108);
+            this.btnOK.Location = new System.Drawing.Point(113, 133);
+            this.btnOK.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(75, 35);
+            this.btnOK.Size = new System.Drawing.Size(100, 43);
             this.btnOK.TabIndex = 4;
             this.btnOK.Text = "Đồng ý";
             this.btnOK.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Image = global::CuahangNongduoc.Properties.Resources.stop;
             this.btnCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCancel.Location = new System.Drawing.Point(166, 108);
+            this.btnCancel.Location = new System.Drawing.Point(221, 133);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 35);
+            this.btnCancel.Size = new System.Drawing.Size(100, 43);
             this.btnCancel.TabIndex = 5;
             this.btnCancel.Text = "Hủy bỏ";
             this.btnCancel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // frmTimPhieuNhap
             // 
             this.AcceptButton = this.btnOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(311, 155);
+            this.ClientSize = new System.Drawing.Size(415, 191);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.dtNgayNhap);
@@ -113,6 +121,7 @@
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "frmTimPhieuNhap";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Tìm Phiếu Nhập";

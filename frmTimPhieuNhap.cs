@@ -11,7 +11,9 @@ namespace CuahangNongduoc
 {
     public partial class frmTimPhieuNhap : Form
     {
+        PhieuNhapController ctrl = new PhieuNhapController();
         NhaCungCapController ctrlNCC = new NhaCungCapController();
+
         public frmTimPhieuNhap()
         {
             InitializeComponent();
@@ -21,6 +23,18 @@ namespace CuahangNongduoc
         {
             ctrlNCC.HienthiAutoComboBox(cmbNCC);
 
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+
+            ctrlNCC.HienthiAutoComboBox(cmbNCC);
+            //ctrlPN.TimPhieuNhap(maNCC, dt);
         }
     }
 }

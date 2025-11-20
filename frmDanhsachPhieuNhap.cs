@@ -81,7 +81,12 @@ namespace CuahangNongduoc
             if (TimPhieu.DialogResult == DialogResult.OK)
             {
                 ctrl.TimPhieuNhap(Convert.ToInt32(TimPhieu.cmbNCC.SelectedValue), TimPhieu.dtNgayNhap.Value.Date);
+                if (bindingNavigator.BindingSource != null)
+                {
+                    bindingNavigator.BindingSource.DataSource = ctrl.GetDataTable();
+                }
             }
         }
+
     }
 }

@@ -15,6 +15,11 @@ namespace CuahangNongduoc.DataLayer
             m_Ds.TableName = "PHIEU_NHAP";
         }
 
+        public DataTable GetDataTable()
+        {
+            return m_Ds;
+        }
+
         public void LoadSchema()
         {
             // Chỉ load 1 lần - nếu đã có columns thì return
@@ -37,14 +42,23 @@ namespace CuahangNongduoc.DataLayer
         public DataTable TimPhieuNhap(int maNCC, DateTime dt)
         {
             DataService ds = new DataService();
-            String sql = "SELECT * FROM PHIEU_NHAP WHERE NGAY_NHAP = @ngay AND ID_NHA_CUNG_CAP = @ncc";
-            SqlCommand cmd = new SqlCommand(sql);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM PHIEU_NHAP WHERE NGAY_NHAP = @ngay AND ID_NHA_CUNG_CAP = @ncc");
             cmd.Parameters.Add("@ngay", SqlDbType.DateTime).Value = dt;
             cmd.Parameters.Add("@ncc", SqlDbType.Int).Value = maNCC;
             
             ds.Load(cmd);
 
             return ds;
+        }
+
+
+        public void TimPhieuNhapLoad(int maNCC, DateTime dt)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM PHIEU_NHAP WHERE NGAY_NHAP = @ngay AND ID_NHA_CUNG_CAP = @ncc");
+            cmd.Parameters.Add("@ngay", SqlDbType.DateTime).Value = dt;
+            cmd.Parameters.Add("@ncc", SqlDbType.Int).Value = maNCC;
+
+            m_Ds.Load(cmd);
         }
 
 
