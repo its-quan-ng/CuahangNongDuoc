@@ -1,19 +1,5 @@
--- =============================================
--- SAMPLE DATA ĐỂ TEST FIFO LOGIC
--- =============================================
--- Chạy script này để tạo data test đa dạng
--- =============================================
-
 USE [QLCHNongDuoc]
 GO
-
--- Xóa data cũ để test sạch (OPTIONAL - Cẩn thận!)
--- DELETE FROM MA_SAN_PHAM WHERE ID LIKE 'TEST-%'
--- DELETE FROM SAN_PHAM WHERE ID > 100
-
--- =============================================
--- 1. LẤY ID ĐƠN VỊ TÍNH VÀ PHIẾU NHẬP CÓ SẴN
--- =============================================
 
 DECLARE @IdDonViTinh INT, @IdPhieuNhap INT
 
@@ -43,10 +29,6 @@ PRINT 'Sử dụng: Đơn vị tính ID = ' + CAST(@IdDonViTinh AS VARCHAR)
 PRINT 'Sử dụng: Phiếu nhập ID = ' + CAST(@IdPhieuNhap AS VARCHAR)
 PRINT ''
 
--- =============================================
--- 2. TẠO SẢN PHẨM TEST (hoặc dùng có sẵn)
--- =============================================
-
 -- Xóa nếu đã tồn tại
 DELETE FROM MA_SAN_PHAM WHERE ID LIKE 'TEST-1%'
 DELETE FROM SAN_PHAM WHERE ID IN (101, 102)
@@ -68,10 +50,6 @@ DECLARE @IdPhieuNhap INT
 SELECT TOP 1 @IdPhieuNhap = ID FROM PHIEU_NHAP ORDER BY ID DESC
 
 GO
-
--- =============================================
--- 2. TẠO NHIỀU LÔ VỚI NGÀY HẾT HẠN KHÁC NHAU
--- =============================================
 
 -- Lấy ID phiếu nhập có sẵn
 DECLARE @IdPhieuNhap INT
@@ -135,10 +113,6 @@ SET SO_LUONG = (SELECT SUM(SO_LUONG) FROM MA_SAN_PHAM WHERE ID_SAN_PHAM = 102)
 WHERE ID = 102;
 
 GO
-
--- =============================================
--- 4. KIỂM TRA KẾT QUẢ
--- =============================================
 
 PRINT '========================================='
 PRINT 'SAMPLE DATA ĐÃ TẠO XONG!'

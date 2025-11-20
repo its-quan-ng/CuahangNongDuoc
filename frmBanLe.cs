@@ -207,7 +207,6 @@ namespace CuahangNongduoc
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Lỗi tính giá xuất: {ex.Message}");
                 txtGiaBQGQ.Text = "N/A";
             }
         }
