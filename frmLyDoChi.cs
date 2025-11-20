@@ -35,9 +35,34 @@ namespace CuahangNongduoc
         private void frmNhaCungCap_Load(object sender, EventArgs e)
         {
             ctrl.HienthiDataGridview(dataGridView, bindingNavigator);
+            
+            // Cấu hình cột ID là AutoIncrement
+            DataTable dt = ctrl.GetDataTable();
+            if (dt.Columns.Contains("ID"))
+            {
+                dt.Columns["ID"].AutoIncrement = true;
+                dt.Columns["ID"].AutoIncrementSeed = GetMaxId(dt) + 1;
+                dt.Columns["ID"].AutoIncrementStep = 1;
+                dt.Columns["ID"].ReadOnly = false;
+            }
         }
 
-      
+        private int GetMaxId(DataTable dt)
+        {
+            int maxId = 0;
+            foreach (DataRow row in dt.Rows)
+            {
+                if (row["ID"] != DBNull.Value)
+                {
+                    int currentId = Convert.ToInt32(row["ID"]);
+                    if (currentId > maxId)
+                    {
+                        maxId = currentId;
+                    }
+                }
+            }
+            return maxId;
+        }
 
         private void toolLuu_Click(object sender, EventArgs e)
         {

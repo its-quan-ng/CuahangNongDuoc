@@ -18,11 +18,9 @@ namespace CuahangNongduoc.DataLayer
 
         public DataTable DanhsachLyDo()
         {
-            DataService ds = new DataService();
             SqlCommand cmd = new SqlCommand("SELECT * FROM LY_DO_CHI");
-            ds.Load(cmd);
-
-            return ds;
+            m_Ds.Load(cmd);
+            return m_Ds;
         }
 
         public DataTable LayLyDoChi(long id)
@@ -50,6 +48,22 @@ namespace CuahangNongduoc.DataLayer
         public DataTable GetDataTable()
         {
             return m_Ds;
+        }
+
+        public DataRow NewRow()
+        {
+            // Load schema nếu m_Ds chưa có cột
+            if (m_Ds.Columns.Count == 0)
+            {
+                SqlCommand cmd = new SqlCommand("SELECT * FROM LY_DO_CHI WHERE 1=0");
+                m_Ds.Load(cmd);
+            }
+            return m_Ds.NewRow();
+        }
+
+        public void Add(DataRow row)
+        {
+            m_Ds.Rows.Add(row);
         }
 
         public bool Save()
