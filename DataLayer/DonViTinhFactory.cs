@@ -41,6 +41,15 @@ namespace CuahangNongduoc.DataLayer
         {
             SqlCommand cmd = new SqlCommand("SELECT * FROM DON_VI_TINH");
             m_Ds.Load(cmd);
+
+            // Set AutoIncrement cho ID column (IDENTITY trong database)
+            if (m_Ds.Columns.Contains("ID"))
+            {
+                m_Ds.Columns["ID"].AutoIncrement = true;
+                m_Ds.Columns["ID"].AutoIncrementSeed = -1;
+                m_Ds.Columns["ID"].AutoIncrementStep = -1;
+                m_Ds.Columns["ID"].ReadOnly = true;
+            }
         }
 
         /// <summary>
