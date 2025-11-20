@@ -57,6 +57,7 @@
             this.colDonGia = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSoLuong = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colThanhTien = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colNgayHetHan = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -339,11 +340,13 @@
             this.colSanPham,
             this.colDonGia,
             this.colSoLuong,
-            this.colThanhTien});
+            this.colThanhTien,
+            this.colNgayHetHan});
             this.dgvDanhsachSP.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvDanhsachSP.Location = new System.Drawing.Point(0, 0);
             this.dgvDanhsachSP.Margin = new System.Windows.Forms.Padding(4);
             this.dgvDanhsachSP.Name = "dgvDanhsachSP";
+            this.dgvDanhsachSP.AutoGenerateColumns = false;
             this.dgvDanhsachSP.ReadOnly = true;
             this.dgvDanhsachSP.RowHeadersWidth = 51;
             this.dgvDanhsachSP.Size = new System.Drawing.Size(1234, 222);
@@ -397,14 +400,24 @@
             this.colSoLuong.Width = 125;
             // 
             // colThanhTien
-            // 
+            //
             this.colThanhTien.DataPropertyName = "THANH_TIEN";
             this.colThanhTien.HeaderText = "Thành tiền";
             this.colThanhTien.MinimumWidth = 6;
             this.colThanhTien.Name = "colThanhTien";
             this.colThanhTien.ReadOnly = true;
             this.colThanhTien.Width = 125;
-            // 
+            //
+            // colNgayHetHan
+            //
+            this.colNgayHetHan.DataPropertyName = "NGAY_HET_HAN";
+            this.colNgayHetHan.DefaultCellStyle.Format = "dd/MM/yyyy";
+            this.colNgayHetHan.HeaderText = "Ngày hết hạn";
+            this.colNgayHetHan.MinimumWidth = 6;
+            this.colNgayHetHan.Name = "colNgayHetHan";
+            this.colNgayHetHan.ReadOnly = true;
+            this.colNgayHetHan.Width = 120;
+            //
             // panel1
             // 
             this.panel1.Controls.Add(this.groupBox2);
@@ -697,6 +710,7 @@
             0,
             -2147483648});
             this.numDonGia.Name = "numDonGia";
+            this.numDonGia.ReadOnly = true;
             this.numDonGia.Size = new System.Drawing.Size(203, 22);
             this.numDonGia.TabIndex = 54;
             this.numDonGia.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -1081,5 +1095,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colDonGia;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSoLuong;
         private System.Windows.Forms.DataGridViewTextBoxColumn colThanhTien;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colNgayHetHan;
     }
 }
