@@ -34,6 +34,18 @@
           <DataField>KhachHang</DataField>
           <rd:TypeName>CuahangNongduoc.BusinessObject.KhachHang</rd:TypeName>
         </Field>
+        <Field Name="TenKhachHang">
+          <DataField>TenKhachHang</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DiaChi">
+          <DataField>DiaChi</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DienThoai">
+          <DataField>DienThoai</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="Nam">
           <DataField>Nam</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
@@ -92,7 +104,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Fields!KhachHang.Value.HoTen</Value>
+                    <Value>=Fields!TenKhachHang.Value</Value>
                     <Style>
                       <FontFamily>Times New Roman</FontFamily>
                       <FontSize>11pt</FontSize>
@@ -264,7 +276,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Fields!KhachHang.Value.DiaChi</Value>
+                    <Value>=Fields!DiaChi.Value</Value>
                     <Style>
                       <FontFamily>Times New Roman</FontFamily>
                       <FontSize>11pt</FontSize>
@@ -321,7 +333,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Fields!KhachHang.Value.DienThoai</Value>
+                    <Value>=Fields!DienThoai.Value</Value>
                     <Style>
                       <FontFamily>Times New Roman</FontFamily>
                       <FontSize>11pt</FontSize>
