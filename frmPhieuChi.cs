@@ -35,6 +35,9 @@ namespace CuahangNongduoc
             row["NGAY_CHI"] = dtNgayChi.Value.Date;
             row["TONG_TIEN"] = numTongTien.Value;
             ctrl.Add(row);
+            
+            // Refresh BindingSource để hiển thị dòng mới
+            bindingNavigator.BindingSource.ResetBindings(false);
             bindingNavigator.BindingSource.MoveLast();
         }
 

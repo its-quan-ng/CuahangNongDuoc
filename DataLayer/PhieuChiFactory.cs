@@ -29,11 +29,9 @@ namespace CuahangNongduoc.DataLayer
 
         public DataTable DanhsachPhieuChi()
         {
-            DataService ds = new DataService();
-            SqlCommand cmd = new SqlCommand("SELECT * FROM PHIEU_CHI ");
-            ds.Load(cmd);
-
-            return ds;
+            SqlCommand cmd = new SqlCommand("SELECT * FROM PHIEU_CHI");
+            m_Ds.Load(cmd);
+            return m_Ds;
         }
       
         public DataTable LayPhieuChi(int id)
@@ -62,8 +60,16 @@ namespace CuahangNongduoc.DataLayer
                 return Convert.ToInt64(obj);
         }
         
+        
+        
         public DataRow NewRow()
         {
+            // Load schema nếu m_Ds chưa có cột
+            if (m_Ds.Columns.Count == 0)
+            {
+                SqlCommand cmd = new SqlCommand("SELECT * FROM PHIEU_CHI WHERE 1=0");
+                m_Ds.Load(cmd);
+            }
             return m_Ds.NewRow();
         }
         public void Add(DataRow row)
