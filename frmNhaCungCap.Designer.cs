@@ -60,8 +60,9 @@
             this.SuspendLayout();
             // 
             // dataGridView
-            // 
+            //
             this.dataGridView.AllowUserToAddRows = false;
+            this.dataGridView.AutoGenerateColumns = false;
             this.dataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {

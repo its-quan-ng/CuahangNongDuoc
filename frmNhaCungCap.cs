@@ -49,43 +49,6 @@ namespace CuahangNongduoc
             
         }
 
-        // Hàm kiểm tra một dòng dữ liệu có hợp lệ không
-        private bool IsRowValid(DataGridViewRow row)
-        {
-            if (row.IsNewRow) return true; // Dòng mới (trống) thì bỏ qua
-            
-            // Kiểm tra Nhà cung cấp (HO_TEN)
-            if (row.Cells["colHoTen"].Value == null || string.IsNullOrWhiteSpace(row.Cells["colHoTen"].Value.ToString()))
-            {
-                return false;
-            }
-            
-            // Kiểm tra Địa chỉ (DIA_CHI)
-            if (row.Cells["colDiaChi"].Value == null || string.IsNullOrWhiteSpace(row.Cells["colDiaChi"].Value.ToString()))
-            {
-                return false;
-            }
-            
-            // Kiểm tra Điện thoại (DIEN_THOAI)
-            if (row.Cells["colDienThoai"].Value == null || string.IsNullOrWhiteSpace(row.Cells["colDienThoai"].Value.ToString()))
-            {
-                return false;
-            }
-            
-            // Kiểm tra Điện thoại chỉ được chứa số
-            string dienThoai = row.Cells["colDienThoai"].Value.ToString().Trim();
-            foreach (char c in dienThoai)
-            {
-                // Chỉ cho phép số (0-9), khoảng trắng, dấu gạch ngang (-), và dấu ngoặc đơn ()
-                if (!char.IsDigit(c) && c != ' ' && c != '-' && c != '(' && c != ')')
-                {
-                    return false;
-                }
-            }
-            
-            return true; // Tất cả đều hợp lệ
-        }
-
         private void toolLuu_Click(object sender, EventArgs e)
         {
             // 1. EndEdit cell đang edit
@@ -100,7 +63,7 @@ namespace CuahangNongduoc
             // 3. EndEdit row
             bindingNavigator.BindingSource.EndEdit();
 
-            // 4. Validate từ DataTable (chính xác nhất)
+            // 4. Validate từ DataTable - CHỈ bắt buộc Tên NCC
             DataTable dt = ctrl.GetDataTable();
             foreach (DataRow row in dt.Rows)
             {
@@ -110,37 +73,14 @@ namespace CuahangNongduoc
                 // Chỉ check row mới hoặc đã sửa
                 if (row.RowState == DataRowState.Added || row.RowState == DataRowState.Modified)
                 {
-                    // Check HO_TEN
+                    // CHỈ check HO_TEN (BẮT BUỘC)
                     if (row["HO_TEN"] == DBNull.Value || string.IsNullOrWhiteSpace(row["HO_TEN"].ToString()))
                     {
                         MessageBox.Show("Vui lòng nhập tên Nhà cung cấp!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
 
-                    // Check DIA_CHI
-                    if (row["DIA_CHI"] == DBNull.Value || string.IsNullOrWhiteSpace(row["DIA_CHI"].ToString()))
-                    {
-                        MessageBox.Show("Vui lòng nhập Địa chỉ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-
-                    // Check DIEN_THOAI
-                    if (row["DIEN_THOAI"] == DBNull.Value || string.IsNullOrWhiteSpace(row["DIEN_THOAI"].ToString()))
-                    {
-                        MessageBox.Show("Vui lòng nhập Điện thoại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-
-                    // Validate phone format
-                    string dienThoai = row["DIEN_THOAI"].ToString().Trim();
-                    foreach (char c in dienThoai)
-                    {
-                        if (!char.IsDigit(c) && c != ' ' && c != '-' && c != '(' && c != ')')
-                        {
-                            MessageBox.Show("Số điện thoại chỉ được chứa chữ số, khoảng trắng, dấu gạch ngang và dấu ngoặc đơn!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
-                        }
-                    }
+                    // DIA_CHI và DIEN_THOAI là OPTIONAL - Không check
                 }
             }
 
@@ -158,34 +98,8 @@ namespace CuahangNongduoc
 
         private void frmNhaCungCap_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // Xóa các dòng không hợp lệ trước khi đóng form
-            List<DataRowView> rowsToDelete = new List<DataRowView>();
-            
-            // Duyệt qua BindingSource để tìm các dòng không hợp lệ
-            foreach (DataGridViewRow gridRow in dataGridView.Rows)
-            {
-                if (!IsRowValid(gridRow) && !gridRow.IsNewRow)
-                {
-                    // Lấy DataRowView từ BindingSource
-                    if (gridRow.DataBoundItem != null)
-                    {
-                        DataRowView dataRow = (DataRowView)gridRow.DataBoundItem;
-                        rowsToDelete.Add(dataRow);
-                    }
-                }
-            }
-            
-            // Xóa các dòng không hợp lệ từ BindingSource
-            foreach (DataRowView dataRow in rowsToDelete)
-            {
-                dataRow.Delete(); // Xóa khỏi DataTable
-            }
-            
-            // Lưu thay đổi nếu có dòng bị xóa
-            if (rowsToDelete.Count > 0)
-            {
-                ctrl.Save(); // Lưu vào database để xóa vĩnh viễn
-            }
+            // Không auto-delete khi đóng form
+            // Nếu user muốn xóa → Dùng button "Xóa" hoặc validation trong toolLuu_Click
         }
 
         private void toolTimNhaCungCap_Enter(object sender, EventArgs e)
