@@ -71,7 +71,7 @@ namespace CuahangNongduoc
 
         private void toolTimKiem_Click(object sender, EventArgs e)
         {
-            
+
             frmTimPhieuNhap TimPhieu = new frmTimPhieuNhap();
             Point p = PointToScreen(toolTimKiem.Bounds.Location);
             p.X += toolTimKiem.Width;
@@ -80,8 +80,31 @@ namespace CuahangNongduoc
             TimPhieu.ShowDialog();
             if (TimPhieu.DialogResult == DialogResult.OK)
             {
-                ctrl.TimPhieuNhap(Convert.ToInt32(TimPhieu.cmbNCC.SelectedValue), TimPhieu.dtNgayNhap.Value.Date);
+                if (TimPhieu.cmbNCC.SelectedValue == null)
+                {
+                    MessageBox.Show("Vui lòng chọn nhà cung cấp!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                int maNCC = Convert.ToInt32(TimPhieu.cmbNCC.SelectedValue);
+                ctrl.TimPhieuNhap(maNCC, TimPhieu.dtTuNgay.Value.Date, TimPhieu.dtDenNgay.Value.Date);
+
+                if (bindingNavigator.BindingSource != null)
+                {
+                    bindingNavigator.BindingSource.DataSource = ctrl.GetDataTable();
+                }
+
+                DataTable dt = ctrl.GetDataTable();
+                if (dt.Rows.Count == 0)
+                {
+                    MessageBox.Show("Không tìm thấy phiếu nhập nào!", "Kết quả tìm kiếm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show($"Tìm thấy {dt.Rows.Count} phiếu nhập!", "Kết quả tìm kiếm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
         }
+
     }
 }

@@ -40,7 +40,11 @@ namespace CuahangNongduoc.Controller
             factory.Save();
         }
 
-    
+        public DataTable GetDataTable()
+        {
+            return factory.GetDataTable();
+        }
+
         public PhieuNhap LayPhieuNhap(int id)
         {
             DataTable tbl = factory.LayPhieuNhap(id);
@@ -94,9 +98,9 @@ namespace CuahangNongduoc.Controller
             
         }
 
-        public void TimPhieuNhap(int maNCC, DateTime dt)
+        public void TimPhieuNhap(int maNCC, DateTime tuNgay, DateTime denNgay)
         {
-            factory.TimPhieuNhap(maNCC, dt);
+            factory.TimPhieuNhapLoad(maNCC, tuNgay, denNgay);
         }
    
     }
