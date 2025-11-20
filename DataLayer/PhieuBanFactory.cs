@@ -15,6 +15,12 @@ namespace CuahangNongduoc.DataLayer
             m_Ds.TableName = "PHIEU_BAN";
         }
 
+        public void LoadData()
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM PHIEU_BAN WHERE ID=-1");
+            m_Ds.Load(cmd);
+        }
+
         public DataTable TimPhieuBan(int idKh, DateTime dt)
         {
             DataService ds = new DataService();
@@ -93,6 +99,11 @@ namespace CuahangNongduoc.DataLayer
         
         public DataRow NewRow()
         {
+            // Ensure schema is loaded before creating a new row
+            if (m_Ds.Columns.Count == 0)
+            {
+                LoadData();
+            }
             return m_Ds.NewRow();
         }
         public void Add(DataRow row)

@@ -34,6 +34,21 @@ namespace CuahangNongduoc.Controller
             factory.Save();
         }
 
+        /// <summary>
+        /// Load data vào Factory để binding và save
+        /// </summary>
+        public void LoadData(int idPhieuBan)
+        {
+            factory.LoadData(idPhieuBan);
+        }
+
+        /// <summary>
+        /// Get DataTable từ Factory để refresh binding
+        /// </summary>
+        public DataTable GetDataTable()
+        {
+            return factory.GetDataTable();
+        }
 
         public IList<ChiTietPhieuBan> ChiTietPhieuBan(int idPhieuBan)
         {

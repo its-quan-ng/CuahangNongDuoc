@@ -35,18 +35,7 @@ namespace CuahangNongduoc.Controller
         }
         public void Save()
         {
-            int n = PhieuBanFactory.LaySoPhieu();
-            if (n >= 50)
-            {
-                MessageBox.Show("Đây là bản dùng thử! Chỉ lưu được 50 phiếu bán!", "Phieu Ban", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            }
-            else
-            {
-                MessageBox.Show("Đây là bản dùng thử! Chỉ lưu được thêm " + Convert.ToString(50-n) + " phiếu bán!", "Phieu Ban", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                factory.Save();
-            }
-            
+            factory.Save();
         }
         public void HienthiPhieuBanLe(BindingNavigator bn, DataGridView dg)
         {
@@ -64,7 +53,7 @@ namespace CuahangNongduoc.Controller
             dg.DataSource = bs;
         }
 
-        public void HienthiPhieuBan(BindingNavigator bn,ComboBox cmb, TextBox txt, DateTimePicker dt, NumericUpDown numTongTien, NumericUpDown numDatra, NumericUpDown numConNo)
+        public void HienthiPhieuBan(BindingNavigator bn,ComboBox cmb, TextBox txt, DateTimePicker dt, NumericUpDown numTongTien, NumericUpDown numDatra, NumericUpDown numConNo, NumericUpDown numChiPhiVanChuyen, NumericUpDown numChiPhiDichVu)
         {
 
             bn.BindingSource = bs;
@@ -86,6 +75,12 @@ namespace CuahangNongduoc.Controller
 
             numConNo.DataBindings.Clear();
             numConNo.DataBindings.Add("Value", bs, "CON_NO");
+
+            numChiPhiVanChuyen.DataBindings.Clear();
+            numChiPhiVanChuyen.DataBindings.Add("Value", bs, "CHI_PHI_VAN_CHUYEN");
+
+            numChiPhiDichVu.DataBindings.Clear();
+            numChiPhiDichVu.DataBindings.Add("Value", bs, "CHI_PHI_DICH_VU");
 
 
         }
