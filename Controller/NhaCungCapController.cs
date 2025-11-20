@@ -111,5 +111,10 @@ namespace CuahangNongduoc.Controller
         {
             return factory.Save();
         }
+
+        public bool HasLinkedRecords(int nccId)
+        {
+            return factory.HasLinkedRecords(nccId);
+        }
     }
 }
