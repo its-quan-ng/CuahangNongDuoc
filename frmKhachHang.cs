@@ -26,7 +26,25 @@ namespace CuahangNongduoc
         {
             bindingNavigatorPositionItem.Focus();
             bindingNavigator.BindingSource.EndEdit();
-            
+
+
+            DataRowView currentRow = (DataRowView)bindingNavigator.BindingSource.Current;
+
+
+            if (currentRow != null)
+            {
+                object hoTenValue = currentRow["HO_TEN"];
+                string hoTen = (hoTenValue == DBNull.Value || hoTenValue == null) ? string.Empty : hoTenValue.ToString();
+
+                if (string.IsNullOrWhiteSpace(hoTen))
+                {
+                    MessageBox.Show("Tên khách hàng không được để trống!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    dataGridView.Focus();
+                    return;
+                }
+            }
+
+           
             if (ctrl.Save())
             {
                 MessageBox.Show("Lưu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
