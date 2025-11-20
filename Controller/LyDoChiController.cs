@@ -61,6 +61,12 @@ namespace CuahangNongduoc.Controller
             return lydo;
         }
 
+        
+        public LyDoChiFactory GetFactory()
+        {
+            return factory;
+        }
+
         public bool Save()
         {
             return factory.Save();
