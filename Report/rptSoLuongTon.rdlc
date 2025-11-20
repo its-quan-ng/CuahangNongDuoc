@@ -26,6 +26,30 @@
           <DataField>SoLuong</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="MaSanPham">
+          <DataField>MaSanPham</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TenSanPham">
+          <DataField>TenSanPham</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DonGiaNhap">
+          <DataField>DonGiaNhap</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="GiaBanLe">
+          <DataField>GiaBanLe</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="GiaBanSi">
+          <DataField>GiaBanSi</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="DonViTinh">
+          <DataField>DonViTinh</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>CuahangNongduoc.BusinessObject</rd:DataSetName>
@@ -773,14 +797,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="SanPham_1">
+                        <Textbox Name="SanPham1">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!SanPham.Value.Id</Value>
+                                  <Value>=Fields!MaSanPham.Value</Value>
                                   <Style>
                                     <FontFamily />
                                   </Style>
@@ -789,7 +813,7 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>SanPham_1</rd:DefaultName>
+                          <rd:DefaultName>SanPham1</rd:DefaultName>
                           <ZIndex>6</ZIndex>
                           <Style>
                             <Border>
@@ -802,6 +826,7 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -813,7 +838,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!SanPham.Value.TenSanPham</Value>
+                                  <Value>=Fields!TenSanPham.Value</Value>
                                   <Style>
                                     <FontFamily />
                                   </Style>
@@ -846,7 +871,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!SanPham.Value.DonGiaNhap</Value>
+                                  <Value>=Fields!DonGiaNhap.Value</Value>
                                   <Style>
                                     <FontFamily />
                                     <Format>#,###0</Format>
@@ -880,7 +905,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!SanPham.Value.GiaBanLe</Value>
+                                  <Value>=Fields!GiaBanLe.Value</Value>
                                   <Style>
                                     <FontFamily />
                                     <Format>#,###0</Format>
@@ -914,7 +939,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!SanPham.Value.GiaBanSi</Value>
+                                  <Value>=Fields!GiaBanSi.Value</Value>
                                   <Style>
                                     <FontFamily />
                                     <Format>#,###0</Format>
@@ -948,7 +973,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!SanPham.Value.DonViTinh.Ten</Value>
+                                  <Value>=Fields!DonViTinh.Value</Value>
                                   <Style>
                                     <FontFamily />
                                   </Style>
@@ -981,7 +1006,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!SoLuong.Value</Value>
+                                  <Value>=IIf(IsNothing(Fields!SoLuong.Value), 0, Fields!SoLuong.Value)</Value>
                                   <Style>
                                     <FontFamily />
                                     <Format>#,###0</Format>
