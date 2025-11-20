@@ -15,13 +15,13 @@ namespace CuahangNongduoc.Controller
         
         public DataRow NewRow()
         {
-            factory.LoadSchema();  
+            factory.LoadSchema();  // Factory tự check nếu đã load rồi
             return factory.NewRow();
         }
 
         public DataTable GetCurrentDataTable()
         {
-            return factory.m_Ds;
+            return factory.GetCurrentDataTable();
         }
 
         public void Add(DataRow row)

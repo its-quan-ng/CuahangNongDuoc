@@ -16,7 +16,7 @@ namespace CuahangNongduoc.Controller
 
         public void ThemChiTietPhieuNhap(int idPhieuNhap, String idMaSP)
         {
-            factory.LoadSchema();
+            factory.LoadSchema();  // Factory tự check nếu đã load rồi
             DataRow row = factory.NewRow();
             row["ID_PHIEU_NHAP"] = idPhieuNhap;
             row["ID_MA_SAN_PHAM"] = idMaSP;

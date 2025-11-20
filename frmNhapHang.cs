@@ -72,13 +72,15 @@ namespace CuahangNongduoc
             {
                 txtMaPhieu.Text = ThamSo.LayMaPhieuNhap().ToString();
                 Allow(true);
+                // Phiếu mới → DataGridView trống (không query)
+                dataGridView.DataSource = null;
             }
             else
             {
                 Allow(false);
+                // Phiếu cũ → Load chi tiết từ database
+                ctrlMaSP.HienThiChiTietPhieuNhap(Convert.ToInt32(txtMaPhieu.Text), dataGridView);
             }
-
-            ctrlMaSP.HienThiChiTietPhieuNhap(Convert.ToInt32(txtMaPhieu.Text), dataGridView);
 
             cmbSanPham.SelectedIndexChanged += cmbSanPham_SelectedIndexChanged;
             dataGridView.SelectionChanged += dataGridView_SelectionChanged;
@@ -123,6 +125,10 @@ namespace CuahangNongduoc
                 {
                     numTongTien.Value += numThanhTien.Value;
 
+                    // Gọi NewRow() TRƯỚC để trigger LoadSchema()
+                    DataRow row = ctrlMaSP.NewRow();
+
+                    // SAU ĐÓ mới lấy DataTable (đã có columns)
                     DataTable dt = ctrlMaSP.GetCurrentDataTable();
 
                     if (!dt.Columns.Contains("TEN_SAN_PHAM"))
@@ -130,7 +136,7 @@ namespace CuahangNongduoc
                         dt.Columns.Add("TEN_SAN_PHAM", typeof(string));
                     }
 
-                    DataRow row = ctrlMaSP.NewRow();
+                    // Fill data vào row
                     row["ID_SAN_PHAM"] = cmbSanPham.SelectedValue;
                     row["ID_PHIEU_NHAP"] = txtMaPhieu.Text;
                     row["ID"] = txtMaSo.Text;
@@ -256,7 +262,9 @@ namespace CuahangNongduoc
 
         private void toolLuuThem_Click(object sender, EventArgs e)
         {
+            // Tạo Controller MỚI cho phiếu mới
             ctrl = new PhieuNhapController();
+            ctrlMaSP = new MaSanPhamController();  // ← Tạo MaSanPhamController mới!
 
             status = Controll.AddNew;
 
@@ -264,7 +272,10 @@ namespace CuahangNongduoc
             numTongTien.Value = 0;
             numDaTra.Value = 0;
             numConNo.Value = 0;
-            ctrlMaSP.HienThiChiTietPhieuNhap(Convert.ToInt32(txtMaPhieu.Text), dataGridView);
+
+            // Khi thêm phiếu mới → DataGridView trống (không query)
+            dataGridView.DataSource = null;
+
             this.Allow(true);
         }
 
@@ -311,7 +322,20 @@ namespace CuahangNongduoc
 
         private void dataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
+            // Log chi tiết để debug
+            System.Diagnostics.Debug.WriteLine($"DataGridView DataError: {e.Exception?.Message}");
+            System.Diagnostics.Debug.WriteLine($"Row: {e.RowIndex}, Column: {e.ColumnIndex}");
+
+            // Cancel để không crash app
             e.Cancel = true;
+
+            // Thông báo user
+            MessageBox.Show(
+                "Có lỗi khi hiển thị dữ liệu trong bảng.\nVui lòng kiểm tra lại giá trị đã chọn.",
+                "Cảnh báo",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning
+            );
         }
 
         void Allow(bool val)

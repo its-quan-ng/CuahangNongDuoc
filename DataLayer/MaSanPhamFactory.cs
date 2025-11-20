@@ -9,7 +9,7 @@ namespace CuahangNongduoc.DataLayer
 {
     public class MaSanPhamFactory
     {
-        public DataService m_Ds = new DataService();
+        DataService m_Ds = new DataService();
 
         public MaSanPhamFactory()
         {
@@ -18,6 +18,10 @@ namespace CuahangNongduoc.DataLayer
 
         public void LoadSchema()
         {
+            // Chỉ load 1 lần - nếu đã có columns thì return
+            if (m_Ds.Columns.Count > 0)
+                return;
+
             SqlCommand cmd = new SqlCommand("SELECT * FROM MA_SAN_PHAM WHERE ID = '-1'");
             m_Ds.Load(cmd);
         }
@@ -113,6 +117,11 @@ namespace CuahangNongduoc.DataLayer
             cmd.Parameters.Add("@so", SqlDbType.Int).Value = so_luong;
             cmd.Parameters.Add("@id", SqlDbType.VarChar, 50).Value = masp;
             ds.ExecuteNoneQuery(cmd);
+        }
+
+        public DataTable GetCurrentDataTable()
+        {
+            return m_Ds;
         }
 
         public DataRow NewRow()
