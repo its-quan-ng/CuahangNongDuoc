@@ -20,6 +20,14 @@ namespace CuahangNongduoc
 
         private void dataGridView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
+            DataRowView deletingRow = e.Row?.DataBoundItem as DataRowView;
+
+            if (!CanDeleteSupplier(deletingRow))
+            {
+                e.Cancel = true;
+                return;
+            }
+
             if (MessageBox.Show("Bạn có chắc chắn xóa không?", "Nha Cung Cap", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
             {
                 e.Cancel = true;
@@ -28,6 +36,12 @@ namespace CuahangNongduoc
 
         private void bindingNavigatorDeleteItem_Click(object sender, EventArgs e)
         {
+            DataRowView currentRow = bindingNavigator.BindingSource.Current as DataRowView;
+            if (!CanDeleteSupplier(currentRow))
+            {
+                return;
+            }
+
             if (MessageBox.Show("Bạn có chắc chắn xóa không?", "Nha Cung Cap", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 bindingNavigator.BindingSource.RemoveCurrent();
@@ -147,6 +161,38 @@ namespace CuahangNongduoc
             toolTimDiaChi.Checked = !toolTimHoTen.Checked;
             toolTimNhaCungCap.Text = "Tìm theo Địa chỉ";
             bindingNavigator.Focus();
+        }
+
+        private bool CanDeleteSupplier(DataRowView rowView)
+        {
+            if (rowView == null)
+            {
+                return false;
+            }
+
+            // Cho phép xóa các dòng mới thêm nhưng chưa lưu xuống DB
+            if (rowView.Row.RowState == DataRowState.Added)
+            {
+                return true;
+            }
+
+            if (!int.TryParse(Convert.ToString(rowView["ID"]), out int id))
+            {
+                return true;
+            }
+
+            if (ctrl.HasLinkedRecords(id))
+            {
+                MessageBox.Show(
+                    "Không thể xóa Nhà cung cấp này vì đang được sử dụng trong các phiếu nhập.\n" +
+                    "Vui lòng kiểm tra và xóa các dữ liệu liên quan trước.",
+                    "Cảnh báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return false;
+            }
+
+            return true;
         }
     }
 }

@@ -109,5 +109,31 @@ namespace CuahangNongduoc.DataLayer
         {
             return m_Ds.ExecuteNoneQuery() > 0;
         }
+
+        /// <summary>
+        /// Kiểm tra xem nhà cung cấp đã được sử dụng ở bảng khác chưa
+        /// </summary>
+        /// <param name="nccId">ID nhà cung cấp</param>
+        /// <returns>true nếu đã có dữ liệu liên kết</returns>
+        public bool HasLinkedRecords(int nccId)
+        {
+            DataService ds = new DataService();
+            DataService.OpenConnection();
+
+            // Hiện tại chỉ có bảng PHIEU_NHAP tham chiếu trực tiếp tới NHA_CUNG_CAP
+            SqlCommand cmd = new SqlCommand(@"
+                SELECT CASE 
+                    WHEN EXISTS (SELECT 1 FROM PHIEU_NHAP WHERE ID_NHA_CUNG_CAP = @id) 
+                    THEN 1 ELSE 0 END");
+            cmd.Parameters.Add("@id", SqlDbType.Int).Value = nccId;
+
+            object result = ds.ExecuteScalar(cmd);
+            if (result == null || result == DBNull.Value)
+            {
+                return false;
+            }
+
+            return Convert.ToInt32(result) > 0;
+        }
     }
 }
