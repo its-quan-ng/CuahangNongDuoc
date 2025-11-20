@@ -98,9 +98,9 @@ namespace CuahangNongduoc.Controller
             
         }
 
-        public void TimPhieuNhap(int maNCC, DateTime dt)
+        public void TimPhieuNhap(int maNCC, DateTime tuNgay, DateTime denNgay)
         {
-            factory.TimPhieuNhapLoad(maNCC, dt);
+            factory.TimPhieuNhapLoad(maNCC, tuNgay, denNgay);
         }
    
     }

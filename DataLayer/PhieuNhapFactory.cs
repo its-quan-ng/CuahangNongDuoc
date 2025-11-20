@@ -39,23 +39,25 @@ namespace CuahangNongduoc.DataLayer
             return ds;
         }
 
-        public DataTable TimPhieuNhap(int maNCC, DateTime dt)
+        public DataTable TimPhieuNhap(int maNCC, DateTime tuNgay, DateTime denNgay)
         {
             DataService ds = new DataService();
-            SqlCommand cmd = new SqlCommand("SELECT * FROM PHIEU_NHAP WHERE NGAY_NHAP = @ngay AND ID_NHA_CUNG_CAP = @ncc");
-            cmd.Parameters.Add("@ngay", SqlDbType.DateTime).Value = dt;
+            SqlCommand cmd = new SqlCommand("SELECT * FROM PHIEU_NHAP WHERE NGAY_NHAP BETWEEN @tu_ngay AND @den_ngay AND ID_NHA_CUNG_CAP = @ncc");
+            cmd.Parameters.Add("@tu_ngay", SqlDbType.DateTime).Value = tuNgay.Date;
+            cmd.Parameters.Add("@den_ngay", SqlDbType.DateTime).Value = denNgay.Date;
             cmd.Parameters.Add("@ncc", SqlDbType.Int).Value = maNCC;
-            
+
             ds.Load(cmd);
 
             return ds;
         }
 
 
-        public void TimPhieuNhapLoad(int maNCC, DateTime dt)
+        public void TimPhieuNhapLoad(int maNCC, DateTime tuNgay, DateTime denNgay)
         {
-            SqlCommand cmd = new SqlCommand("SELECT * FROM PHIEU_NHAP WHERE NGAY_NHAP = @ngay AND ID_NHA_CUNG_CAP = @ncc");
-            cmd.Parameters.Add("@ngay", SqlDbType.DateTime).Value = dt;
+            SqlCommand cmd = new SqlCommand("SELECT * FROM PHIEU_NHAP WHERE NGAY_NHAP BETWEEN @tu_ngay AND @den_ngay AND ID_NHA_CUNG_CAP = @ncc");
+            cmd.Parameters.Add("@tu_ngay", SqlDbType.DateTime).Value = tuNgay.Date;
+            cmd.Parameters.Add("@den_ngay", SqlDbType.DateTime).Value = denNgay.Date;
             cmd.Parameters.Add("@ncc", SqlDbType.Int).Value = maNCC;
 
             m_Ds.Load(cmd);
