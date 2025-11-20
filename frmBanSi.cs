@@ -70,12 +70,16 @@ namespace CuahangNongduoc
         {
             if (status == Controll.Normal)
             {
-                ctrlChiTiet.HienThiChiTiet(dgvDanhsachSP, Convert.ToInt32(txtMaPhieu.Text));
-                // Cập nhật DataSource của ComboBoxColumn với tất cả mã sản phẩm khi xem dữ liệu
-                CuahangNongduoc.DataLayer.MaSanPhamFactory factory = new CuahangNongduoc.DataLayer.MaSanPhamFactory();
-                colMaSanPham.DataSource = factory.DanhsachMaSanPham();
-                colMaSanPham.DisplayMember = "ID";
-                colMaSanPham.ValueMember = "ID";
+                // Kiểm tra txtMaPhieu.Text trước khi convert
+                if (!string.IsNullOrWhiteSpace(txtMaPhieu.Text) && int.TryParse(txtMaPhieu.Text, out int maPhieu))
+                {
+                    ctrlChiTiet.HienThiChiTiet(dgvDanhsachSP, maPhieu);
+                    // Cập nhật DataSource của ComboBoxColumn với tất cả mã sản phẩm khi xem dữ liệu
+                    CuahangNongduoc.DataLayer.MaSanPhamFactory factory = new CuahangNongduoc.DataLayer.MaSanPhamFactory();
+                    colMaSanPham.DataSource = factory.DanhsachMaSanPham();
+                    colMaSanPham.DisplayMember = "ID";
+                    colMaSanPham.ValueMember = "ID";
+                }
             }
         }
 
