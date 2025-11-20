@@ -33,7 +33,42 @@ namespace CuahangNongduoc
             bindingNavigatorPositionItem.Focus();
             
             bindingNavigator.BindingSource.EndEdit();
-            
+
+            // Kiểm tra dữ liệu rỗng trước khi lưu
+            DataTable dt = ctrl.GetDataTable();
+            bool hasError = false;
+            string errorMessage = "";
+
+            foreach (DataRow row in dt.Rows)
+            {
+                // Kiểm tra tên sản phẩm không được rỗng
+                if (row.RowState == DataRowState.Added || row.RowState == DataRowState.Modified)
+                {
+                    if (row["TEN_SAN_PHAM"] == DBNull.Value ||
+                        string.IsNullOrWhiteSpace(row["TEN_SAN_PHAM"].ToString()))
+                    {
+                        hasError = true;
+                        errorMessage = "Tên sản phẩm không được để trống!";
+                        break;
+                    }
+
+                    // Kiểm tra đơn vị tính phải được chọn
+                    if (row["ID_DON_VI_TINH"] == DBNull.Value ||
+                        row["ID_DON_VI_TINH"].ToString() == "0" ||
+                        string.IsNullOrWhiteSpace(row["ID_DON_VI_TINH"].ToString()))
+                    {
+                        hasError = true;
+                        errorMessage = "Đơn vị tính không được để trống!";
+                        break;
+                    }
+                }
+            }
+
+            if (hasError)
+            {
+                MessageBox.Show(errorMessage, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             if (ctrl.Save())
             {
                 MessageBox.Show("Lưu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
