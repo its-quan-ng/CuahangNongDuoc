@@ -28,19 +28,15 @@ namespace CuahangNongduoc
 
         }
 
-        private void btnTongHop_Click(object sender, EventArgs e)
-        {
-            
-            
-        }
 
         private void toolNam_Validating(object sender, CancelEventArgs e)
         {
             bool ok = true;
             try
             {
-                long nam = Convert.ToInt32(toolNam.Text);
-                if (nam < 2000 || nam > 9999)
+                int nam = Convert.ToInt32(toolNam.Text);
+                int namHienTai = DateTime.Now.Year;
+                if (nam < 2000 || nam > namHienTai + 5)
                 {
                     ok = false;
                 }
@@ -51,13 +47,15 @@ namespace CuahangNongduoc
             }
             if (!ok)
             {
-                MessageBox.Show("Thông tin năm không hợp lệ!", "Tong Hop Du No", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Năm không hợp lệ! Vui lòng nhập năm từ 2000 đến " + (DateTime.Now.Year + 5),
+                    "Tổng hợp dư nợ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 e.Cancel = true;
             }
         }
 
         private void toolTongHop_Click(object sender, EventArgs e)
         {
+            dataGridView.DataSource = null;
             toolProgress.Visible = true;
             ctrl.Tonghop(toolThang.SelectedIndex + 1, Convert.ToInt32(toolNam.Text), toolProgress, dataGridView, bindingNavigator);
             toolProgress.Visible = false;

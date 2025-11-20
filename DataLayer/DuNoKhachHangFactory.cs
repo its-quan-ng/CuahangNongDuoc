@@ -13,6 +13,12 @@ namespace CuahangNongduoc.DataLayer
         public DuNoKhachHangFactory()
         {
             m_Ds.TableName = "DU_NO_KH";
+            LoadSchema();
+        }
+
+        public DataTable GetDataSource()
+        {
+            return m_Ds;
         }
 
         public void LoadSchema()
@@ -68,11 +74,14 @@ namespace CuahangNongduoc.DataLayer
 
         public void Clear(int thang, int nam)
         {
+            // Xóa dữ liệu trong database
             SqlCommand cmd = new SqlCommand("DELETE FROM DU_NO_KH WHERE THANG=@thang AND NAM=@nam");
             cmd.Parameters.Add("@thang", SqlDbType.Int).Value = thang;
             cmd.Parameters.Add("@nam", SqlDbType.Int).Value = nam;
-
             m_Ds.ExecuteNoneQuery(cmd);
+
+            // Clear DataTable trong memory để tránh data cũ tích lũy
+            m_Ds.Clear();
         }
 
         public DataRow NewRow()
