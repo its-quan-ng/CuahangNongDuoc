@@ -51,7 +51,27 @@ namespace CuahangNongduoc
         {
             bindingNavigatorPositionItem.Focus();
             bindingNavigator.BindingSource.EndEdit();
-            
+
+            // Kiểm tra dữ liệu rỗng trước khi lưu
+            DataTable dt = ctrl.GetDataTable();
+            if (dt != null)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    // Kiểm tra nếu dòng đã bị xóa thì bỏ qua
+                    if (row.RowState == DataRowState.Deleted)
+                        continue;
+
+                    // Kiểm tra HO_TEN (tên nhà cung cấp) không được rỗng
+                    if (row["HO_TEN"] == DBNull.Value || string.IsNullOrWhiteSpace(row["HO_TEN"].ToString()))
+                    {
+                        MessageBox.Show("Vui lòng nhập tên nhà cung cấp!", "Nhà Cung Cấp", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+            }
+
+
             if (ctrl.Save())
             {
                 MessageBox.Show("Lưu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
