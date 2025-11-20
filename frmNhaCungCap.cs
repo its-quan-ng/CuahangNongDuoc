@@ -88,85 +88,63 @@ namespace CuahangNongduoc
 
         private void toolLuu_Click(object sender, EventArgs e)
         {
-            bindingNavigatorPositionItem.Focus();
-            
-            // Kiểm tra validation TRƯỚC KHI EndEdit
-            foreach (DataGridViewRow row in dataGridView.Rows)
+            // 1. EndEdit cell đang edit
+            if (dataGridView.CurrentCell != null)
             {
-                if (row.IsNewRow) continue;
-                
-                // Kiểm tra Nhà cung cấp (HO_TEN)
-                if (row.Cells["colHoTen"].Value == null || string.IsNullOrWhiteSpace(row.Cells["colHoTen"].Value.ToString()))
-                {
-                    MessageBox.Show("Vui lòng nhập tên Nhà cung cấp!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    dataGridView.CurrentCell = row.Cells["colHoTen"];
-                    bindingNavigator.BindingSource.CancelEdit(); // Hủy thay đổi
-                    return;
-                }
-                
-                // Kiểm tra Địa chỉ (DIA_CHI)
-                if (row.Cells["colDiaChi"].Value == null || string.IsNullOrWhiteSpace(row.Cells["colDiaChi"].Value.ToString()))
-                {
-                    MessageBox.Show("Vui lòng nhập Địa chỉ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    dataGridView.CurrentCell = row.Cells["colDiaChi"];
-                    bindingNavigator.BindingSource.CancelEdit(); // Hủy thay đổi
-                    return;
-                }
-                
-                // Kiểm tra Điện thoại (DIEN_THOAI)
-                if (row.Cells["colDienThoai"].Value == null || string.IsNullOrWhiteSpace(row.Cells["colDienThoai"].Value.ToString()))
-                {
-                    MessageBox.Show("Vui lòng nhập Điện thoại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    dataGridView.CurrentCell = row.Cells["colDienThoai"];
-                    bindingNavigator.BindingSource.CancelEdit(); // Hủy thay đổi
-                    return;
-                }
-                
-                // Kiểm tra Điện thoại chỉ được chứa số
-                string dienThoai = row.Cells["colDienThoai"].Value.ToString().Trim();
-                bool isValidPhone = true;
-                foreach (char c in dienThoai)
-                {
-                    // Chỉ cho phép số (0-9), khoảng trắng, dấu gạch ngang (-), và dấu ngoặc đơn ()
-                    if (!char.IsDigit(c) && c != ' ' && c != '-' && c != '(' && c != ')')
-                    {
-                        isValidPhone = false;
-                        break;
-                    }
-                }
-                
-                if (!isValidPhone)
-                {
-                    MessageBox.Show("Số điện thoại chỉ được chứa chữ số, khoảng trắng, dấu gạch ngang và dấu ngoặc đơn!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    dataGridView.CurrentCell = row.Cells["colDienThoai"];
-                    bindingNavigator.BindingSource.CancelEdit(); // Hủy thay đổi
-                    return;
-                }
+                dataGridView.EndEdit();
             }
-            
-            // Chỉ EndEdit khi tất cả validation đã pass
+
+            // 2. Focus ra ngoài
+            bindingNavigatorPositionItem.Focus();
+
+            // 3. EndEdit row
             bindingNavigator.BindingSource.EndEdit();
 
-            // Kiểm tra dữ liệu rỗng trước khi lưu
+            // 4. Validate từ DataTable (chính xác nhất)
             DataTable dt = ctrl.GetDataTable();
-            if (dt != null)
+            foreach (DataRow row in dt.Rows)
             {
-                foreach (DataRow row in dt.Rows)
-                {
-                    // Kiểm tra nếu dòng đã bị xóa thì bỏ qua
-                    if (row.RowState == DataRowState.Deleted)
-                        continue;
+                if (row.RowState == DataRowState.Deleted)
+                    continue;
 
-                    // Kiểm tra HO_TEN (tên nhà cung cấp) không được rỗng
+                // Chỉ check row mới hoặc đã sửa
+                if (row.RowState == DataRowState.Added || row.RowState == DataRowState.Modified)
+                {
+                    // Check HO_TEN
                     if (row["HO_TEN"] == DBNull.Value || string.IsNullOrWhiteSpace(row["HO_TEN"].ToString()))
                     {
-                        MessageBox.Show("Vui lòng nhập tên nhà cung cấp!", "Nhà Cung Cấp", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Vui lòng nhập tên Nhà cung cấp!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
+                    }
+
+                    // Check DIA_CHI
+                    if (row["DIA_CHI"] == DBNull.Value || string.IsNullOrWhiteSpace(row["DIA_CHI"].ToString()))
+                    {
+                        MessageBox.Show("Vui lòng nhập Địa chỉ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    // Check DIEN_THOAI
+                    if (row["DIEN_THOAI"] == DBNull.Value || string.IsNullOrWhiteSpace(row["DIEN_THOAI"].ToString()))
+                    {
+                        MessageBox.Show("Vui lòng nhập Điện thoại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    // Validate phone format
+                    string dienThoai = row["DIEN_THOAI"].ToString().Trim();
+                    foreach (char c in dienThoai)
+                    {
+                        if (!char.IsDigit(c) && c != ' ' && c != '-' && c != '(' && c != ')')
+                        {
+                            MessageBox.Show("Số điện thoại chỉ được chứa chữ số, khoảng trắng, dấu gạch ngang và dấu ngoặc đơn!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
                     }
                 }
             }
 
-
+            // 5. Save
             if (ctrl.Save())
             {
                 MessageBox.Show("Lưu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
