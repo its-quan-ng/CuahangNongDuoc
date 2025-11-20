@@ -12,7 +12,7 @@ namespace CuahangNongduoc
 		private static SqlConnection	m_Connection;
 
         //
-        public static String m_ConnectString = "Server=LAPTOP-MV0TC9Q6\\SQLEXPRESS;Initial Catalog=QLCHNongDuoc;Integrated Security=SSPI;TrustServerCertificate=True;";
+        public static String m_ConnectString = "Server=.\\SQLEXPRESS;Initial Catalog=QLCHNongDuoc;Integrated Security=SSPI;TrustServerCertificate=True;";
 		// The command to execute query or non-query command on a database of this data service.
 		private SqlCommand		m_Command;
       
