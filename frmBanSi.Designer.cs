@@ -639,9 +639,9 @@
             this.label12.Location = new System.Drawing.Point(8, 33);
             this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(64, 16);
+            this.label12.Size = new System.Drawing.Size(61, 16);
             this.label12.TabIndex = 53;
-            this.label12.Text = "Giá nhập:";
+            this.label12.Text = "Giá nhập";
             // 
             // btnAdd
             // 
@@ -822,7 +822,7 @@
             this.grpPhieuBanLe.Size = new System.Drawing.Size(323, 242);
             this.grpPhieuBanLe.TabIndex = 60;
             this.grpPhieuBanLe.TabStop = false;
-            this.grpPhieuBanLe.Text = "Phiếu bán lẽ";
+            this.grpPhieuBanLe.Text = "Phiếu bán sỉ";
             // 
             // btnThemDaiLy
             // 
@@ -992,13 +992,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1251, 538);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.bindingNavigator);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmBanSi";
-            this.Text = "BAN SI";
+            this.Text = "BÁN SỈ";
             this.Load += new System.EventHandler(this.frmBanSi_Load);
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator)).EndInit();
             this.bindingNavigator.ResumeLayout(false);
