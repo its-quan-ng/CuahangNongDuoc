@@ -46,8 +46,9 @@ namespace CuahangNongduoc.Controller
         
         public void HienthiPhieuChi(BindingNavigator bn, DataGridView dg,ComboBox cmb, TextBox txt, DateTimePicker dt, NumericUpDown numTongTien, TextBox txtGhichu)
         {
+            factory.LoadData();
             BindingSource bs = new BindingSource();
-            bs.DataSource = factory.DanhsachPhieuChi();
+            bs.DataSource = factory.GetDataTable();
             bn.BindingSource = bs;
             dg.DataSource = bs;
 
@@ -94,6 +95,22 @@ namespace CuahangNongduoc.Controller
 
             txtGhichu.DataBindings.Clear();
             txtGhichu.DataBindings.Add("Text", bs, "GHI_CHU");
+        }
+
+        /// <summary>
+        /// Kiểm tra xem phiếu chi có được sử dụng trong các bảng khác không
+        /// </summary>
+        public bool KiemTraLienKet(int idPhieuChi)
+        {
+            return factory.KiemTraLienKet(idPhieuChi);
+        }
+
+        /// <summary>
+        /// Lấy danh sách các bảng có liên kết với phiếu chi
+        /// </summary>
+        public List<string> LayDanhSachBangLienKet(int idPhieuChi)
+        {
+            return factory.LayDanhSachBangLienKet(idPhieuChi);
         }
     }
 }

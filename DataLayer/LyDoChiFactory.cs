@@ -56,5 +56,40 @@ namespace CuahangNongduoc.DataLayer
         {
             return m_Ds.ExecuteNoneQuery() > 0;
         }
+
+        /// <summary>
+        /// Kiểm tra xem lý do chi có được sử dụng trong các bảng khác không
+        /// </summary>
+        public bool KiemTraLienKet(int idLyDoChi)
+        {
+            DataService ds = new DataService();
+
+            // Kiểm tra trong PHIEU_CHI
+            SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM PHIEU_CHI WHERE ID_LY_DO_CHI = @id");
+            cmd.Parameters.Add("@id", SqlDbType.Int).Value = idLyDoChi;
+            object count = ds.ExecuteScalar(cmd);
+            if (count != null && Convert.ToInt32(count) > 0)
+                return true;
+
+            return false;
+        }
+
+        /// <summary>
+        /// Lấy danh sách các bảng có liên kết với lý do chi
+        /// </summary>
+        public List<string> LayDanhSachBangLienKet(int idLyDoChi)
+        {
+            List<string> danhSachBang = new List<string>();
+            DataService ds = new DataService();
+
+            // Kiểm tra trong PHIEU_CHI
+            SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM PHIEU_CHI WHERE ID_LY_DO_CHI = @id");
+            cmd.Parameters.Add("@id", SqlDbType.Int).Value = idLyDoChi;
+            object count = ds.ExecuteScalar(cmd);
+            if (count != null && Convert.ToInt32(count) > 0)
+                danhSachBang.Add("Phiếu chi");
+
+            return danhSachBang;
+        }
     }
 }

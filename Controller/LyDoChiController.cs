@@ -65,5 +65,21 @@ namespace CuahangNongduoc.Controller
         {
             return factory.Save();
         }
+
+        /// <summary>
+        /// Kiểm tra xem lý do chi có được sử dụng trong các bảng khác không
+        /// </summary>
+        public bool KiemTraLienKet(int idLyDoChi)
+        {
+            return factory.KiemTraLienKet(idLyDoChi);
+        }
+
+        /// <summary>
+        /// Lấy danh sách các bảng có liên kết với lý do chi
+        /// </summary>
+        public List<string> LayDanhSachBangLienKet(int idLyDoChi)
+        {
+            return factory.LayDanhSachBangLienKet(idLyDoChi);
+        }
     }
 }

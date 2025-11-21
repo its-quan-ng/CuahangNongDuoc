@@ -62,6 +62,23 @@ namespace CuahangNongduoc.DataLayer
                 return Convert.ToInt64(obj);
         }
         
+        /// <summary>
+        /// Load data vào m_Ds để binding và save
+        /// </summary>
+        public void LoadData()
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM PHIEU_CHI");
+            m_Ds.Load(cmd);
+        }
+
+        /// <summary>
+        /// Get m_Ds để binding
+        /// </summary>
+        public DataTable GetDataTable()
+        {
+            return m_Ds;
+        }
+
         public DataRow NewRow()
         {
             return m_Ds.NewRow();
@@ -74,6 +91,26 @@ namespace CuahangNongduoc.DataLayer
         {
            
             return m_Ds.ExecuteNoneQuery() > 0;
+        }
+
+        /// <summary>
+        /// Kiểm tra xem phiếu chi có được sử dụng trong các bảng khác không
+        /// </summary>
+        public bool KiemTraLienKet(int idPhieuChi)
+        {
+            // Hiện tại chưa có bảng nào tham chiếu đến PHIEU_CHI
+            // Giữ phương thức này để dễ mở rộng trong tương lai
+            return false;
+        }
+
+        /// <summary>
+        /// Lấy danh sách các bảng có liên kết với phiếu chi
+        /// </summary>
+        public List<string> LayDanhSachBangLienKet(int idPhieuChi)
+        {
+            List<string> danhSachBang = new List<string>();
+            // Hiện tại chưa có bảng nào tham chiếu đến PHIEU_CHI
+            return danhSachBang;
         }
     }
 }

@@ -131,5 +131,21 @@ namespace CuahangNongduoc.Controller
 
         }
 
+        /// <summary>
+        /// Kiểm tra xem phiếu bán có được sử dụng trong các bảng khác không
+        /// </summary>
+        public bool KiemTraLienKet(int idPhieuBan)
+        {
+            return factory.KiemTraLienKet(idPhieuBan);
+        }
+
+        /// <summary>
+        /// Lấy danh sách các bảng có liên kết với phiếu bán
+        /// </summary>
+        public List<string> LayDanhSachBangLienKet(int idPhieuBan)
+        {
+            return factory.LayDanhSachBangLienKet(idPhieuBan);
+        }
+
     }
 }
