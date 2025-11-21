@@ -471,11 +471,27 @@ namespace CuahangNongduoc
              DataRowView view =  (DataRowView)bindingNavigator.BindingSource.Current;
              if (view != null)
              {
+                 // Lấy ID của phiếu bán hiện tại
+                 int idPhieuBan = Convert.ToInt32(view["ID"]);
+
+                 // Kiểm tra xem phiếu bán có liên kết với bảng khác không
+                 if (ctrlPhieuBan.KiemTraLienKet(idPhieuBan))
+                 {
+                     List<string> danhSachBang = ctrlPhieuBan.LayDanhSachBangLienKet(idPhieuBan);
+                     string thongBao = "Không thể xóa phiếu bán này vì đang được sử dụng trong:\n\n";
+                     foreach (string tenBang in danhSachBang)
+                     {
+                         thongBao += "- " + tenBang + "\n";
+                     }
+                     thongBao += "\nVui lòng xóa các bản ghi liên quan trước!";
+                     MessageBox.Show(thongBao, "Không thể xóa", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                     return;
+                 }
 
                  if (MessageBox.Show("Bạn có chắc chắn xóa không?", "Phieu Ban Si", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                  {
                      ChiTietPhieuBanController ctrl = new ChiTietPhieuBanController();
-                     IList<ChiTietPhieuBan> ds = ctrl.ChiTietPhieuBan(Convert.ToInt32(view["ID"]));
+                     IList<ChiTietPhieuBan> ds = ctrl.ChiTietPhieuBan(idPhieuBan);
                      foreach (ChiTietPhieuBan ct in ds)
                      {
                          CuahangNongduoc.DataLayer.MaSanPhamFactory.CapNhatSoLuong(ct.MaSanPham.Id, ct.SoLuong);

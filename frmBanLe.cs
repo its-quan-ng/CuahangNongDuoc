@@ -436,7 +436,33 @@ namespace CuahangNongduoc
 
         private void bindingNavigatorDeleteItem_Click(object sender, EventArgs e)
         {
+            // Lấy ID của phiếu bán hiện tại
+            if (string.IsNullOrWhiteSpace(txtMaPhieu.Text) || !int.TryParse(txtMaPhieu.Text, out int idPhieuBan))
+            {
+                MessageBox.Show("Vui lòng chọn phiếu bán cần xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
+            // Kiểm tra xem phiếu bán có liên kết với bảng khác không
+            if (ctrlPhieuBan.KiemTraLienKet(idPhieuBan))
+            {
+                List<string> danhSachBang = ctrlPhieuBan.LayDanhSachBangLienKet(idPhieuBan);
+                string thongBao = "Không thể xóa phiếu bán này vì đang được sử dụng trong:\\n\\n";
+                foreach (string tenBang in danhSachBang)
+                {
+                    thongBao += "- " + tenBang + "\\n";
+                }
+                thongBao += "\\nVui lòng xóa các bản ghi liên quan trước!";
+                MessageBox.Show(thongBao, "Không thể xóa", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Xác nhận xóa
+            if (MessageBox.Show("Bạn có chắc chắn muốn xóa phiếu bán này?", "Xác nhận xóa", 
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                bindingNavigator.BindingSource.RemoveCurrent();
+            }
         }
 
         private void toolChinhSua_Click(object sender, EventArgs e)
@@ -481,10 +507,27 @@ namespace CuahangNongduoc
             DataRowView view =  (DataRowView)bindingNavigator.BindingSource.Current;
             if (view != null)
             {
+                // Lấy ID của phiếu bán hiện tại
+                int idPhieuBan = Convert.ToInt32(view["ID"]);
+
+                // Kiểm tra xem phiếu bán có liên kết với bảng khác không
+                if (ctrlPhieuBan.KiemTraLienKet(idPhieuBan))
+                {
+                    List<string> danhSachBang = ctrlPhieuBan.LayDanhSachBangLienKet(idPhieuBan);
+                    string thongBao = "Không thể xóa phiếu bán này vì đang được sử dụng trong:\n\n";
+                    foreach (string tenBang in danhSachBang)
+                    {
+                        thongBao += "- " + tenBang + "\n";
+                    }
+                    thongBao += "\nVui lòng xóa các bản ghi liên quan trước!";
+                    MessageBox.Show(thongBao, "Không thể xóa", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 if (MessageBox.Show("Bạn có chắc chắn xóa không?", "Phieu Ban Le", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     ChiTietPhieuBanController ctrl = new ChiTietPhieuBanController();
-                    IList<ChiTietPhieuBan> ds = ctrl.ChiTietPhieuBan(Convert.ToInt32(view["ID"]));
+                    IList<ChiTietPhieuBan> ds = ctrl.ChiTietPhieuBan(idPhieuBan);
                     foreach (ChiTietPhieuBan ct in ds)
                     {
                         CuahangNongduoc.DataLayer.MaSanPhamFactory.CapNhatSoLuong(ct.MaSanPham.Id, ct.SoLuong);
