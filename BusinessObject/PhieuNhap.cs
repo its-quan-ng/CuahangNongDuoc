@@ -56,6 +56,11 @@ namespace CuahangNongduoc.BusinessObject
             set { m_NCC = value; }
         }
 
+        public String TenNhaCungCap
+        {
+            get { return m_NCC != null ? m_NCC.HoTen : ""; }
+        }
+
 	
 
         private IList<MaSanPham> m_ChiTiet;
