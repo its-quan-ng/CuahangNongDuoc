@@ -18,26 +18,34 @@ namespace CuahangNongduoc
 
         private void dataGridView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
-            if (MessageBox.Show("Bạn có chắc chắn xóa không?", "Ly Do Chi", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            // Lấy ID của lý do chi hiện tại
+            DataGridViewRow row = e.Row;
+            if (row.DataBoundItem != null)
+            {
+                DataRowView view = (DataRowView)row.DataBoundItem;
+                int idLyDoChi = Convert.ToInt32(view["ID"]);
+
+                // Kiểm tra xem lý do chi có liên kết với bảng khác không
+                if (ctrl.KiemTraLienKet(idLyDoChi))
+                {
+                    List<string> danhSachBang = ctrl.LayDanhSachBangLienKet(idLyDoChi);
+                    string thongBao = "Không thể xóa lý do chi này vì đang được sử dụng trong:\n\n";
+                    foreach (string tenBang in danhSachBang)
+                    {
+                        thongBao += "- " + tenBang + "\n";
+                    }
+                    thongBao += "\nVui lòng xóa các bản ghi liên quan trước!";
+                    MessageBox.Show(thongBao, "Không thể xóa", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    e.Cancel = true;
+                    return;
+                }
+            }
+
+            if (MessageBox.Show("Bạn chắc chắn xóa lý do chi này không?", "Ly Do Chi", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
             {
                 e.Cancel = true;
             }
         }
-
-        private void bindingNavigatorDeleteItem_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Bạn có chắc chắn xóa không?", "Ly Do Chi", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                bindingNavigator.BindingSource.RemoveCurrent();
-            }
-        }
-
-        private void frmNhaCungCap_Load(object sender, EventArgs e)
-        {
-            ctrl.HienthiDataGridview(dataGridView, bindingNavigator);
-        }
-
-      
 
         private void toolLuu_Click(object sender, EventArgs e)
         {
@@ -53,6 +61,20 @@ namespace CuahangNongduoc
         private void toolThoat_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void frmNhaCungCap_Load(object sender, EventArgs e)
+        {
+            ctrl.HienthiDataGridview(dataGridView, bindingNavigator);
+        }
+
+        private void bindingNavigatorDeleteItem_Click(object sender, EventArgs e)
+        {
+            // Xử lý xóa thông qua DataGridView event
+            if (bindingNavigator.BindingSource != null && bindingNavigator.BindingSource.Current != null)
+            {
+                bindingNavigator.BindingSource.RemoveCurrent();
+            }
         }
     }
 }

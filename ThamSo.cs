@@ -249,5 +249,31 @@ namespace CuahangNongduoc
             }
         }
 
+        public static string LayTenPhuongPhapTinhGia()
+        {
+            string phuongPhap = PhuongPhapTinhGiaXuat;
+            return phuongPhap == "FIFO" ? "Giá FIFO" : "Giá BQGQ";
+        }
+
+        public static string LayTooltipPhuongPhapTinhGia(string loaiTooltip = "label")
+        {
+            string phuongPhap = PhuongPhapTinhGiaXuat;
+
+            if (phuongPhap == "FIFO")
+            {
+                if (loaiTooltip == "textbox")
+                    return "Giá của lô có ngày hết hạn sớm nhất";
+                else
+                    return "Giá xuất theo lô hết hạn sớm nhất (FEFO - First Expired First Out)";
+            }
+            else
+            {
+                if (loaiTooltip == "textbox")
+                    return "Giá trung bình có tính trọng số theo số lượng";
+                else
+                    return "Giá bình quân gia quyền (Weighted Average)";
+            }
+        }
+
     }
 }

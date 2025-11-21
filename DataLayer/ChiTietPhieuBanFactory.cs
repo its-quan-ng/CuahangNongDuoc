@@ -18,10 +18,15 @@ namespace CuahangNongduoc.DataLayer
         public DataTable LayChiTietPhieuBan(int idPhieuBan)
         {
             DataService ds = new DataService();
-            SqlCommand cmd = new SqlCommand("SELECT CT.*, SP.TEN_SAN_PHAM FROM CHI_TIET_PHIEU_BAN CT " +
-                "INNER JOIN MA_SAN_PHAM MSP ON CT.ID_MA_SAN_PHAM = MSP.ID " +
-                "INNER JOIN SAN_PHAM SP ON MSP.ID_SAN_PHAM = SP.ID " +
-                "WHERE CT.ID_PHIEU_BAN = @id");
+            SqlCommand cmd = new SqlCommand(
+                @"SELECT CT.*,
+                         SP.TEN_SAN_PHAM,
+                         MSP.NGAY_HET_HAN
+                  FROM CHI_TIET_PHIEU_BAN CT
+                  INNER JOIN MA_SAN_PHAM MSP ON CT.ID_MA_SAN_PHAM = MSP.ID
+                  INNER JOIN SAN_PHAM SP ON MSP.ID_SAN_PHAM = SP.ID
+                  WHERE CT.ID_PHIEU_BAN = @id
+                  ORDER BY CT.ID_MA_SAN_PHAM");
             cmd.Parameters.Add("@id", SqlDbType.Int).Value = idPhieuBan;
             ds.Load(cmd);
             return ds;
@@ -87,13 +92,32 @@ namespace CuahangNongduoc.DataLayer
                 }
             }
             
-            // Xóa cột TEN_SAN_PHAM trước khi lưu (vì cột này không có trong DB)
+            // Set ColumnMapping = Hidden cho columns không có trong DB
+            // SqlDataAdapter sẽ tự động ignore khi UPDATE, KHÔNG cần xóa!
             if (m_Ds.Columns.Contains("TEN_SAN_PHAM"))
             {
-                m_Ds.Columns.Remove("TEN_SAN_PHAM");
+                m_Ds.Columns["TEN_SAN_PHAM"].ColumnMapping = MappingType.Hidden;
             }
-            
-            return m_Ds.ExecuteNoneQuery() > 0;
+
+            if (m_Ds.Columns.Contains("NGAY_HET_HAN"))
+            {
+                m_Ds.Columns["NGAY_HET_HAN"].ColumnMapping = MappingType.Hidden;
+            }
+
+            bool result = m_Ds.ExecuteNoneQuery() > 0;
+
+            // Restore ColumnMapping về Element (để binding lại)
+            if (m_Ds.Columns.Contains("TEN_SAN_PHAM"))
+            {
+                m_Ds.Columns["TEN_SAN_PHAM"].ColumnMapping = MappingType.Element;
+            }
+
+            if (m_Ds.Columns.Contains("NGAY_HET_HAN"))
+            {
+                m_Ds.Columns["NGAY_HET_HAN"].ColumnMapping = MappingType.Element;
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -114,19 +138,49 @@ namespace CuahangNongduoc.DataLayer
                 col.AllowDBNull = true;
                 m_Ds.Columns.Add(col);
             }
-            
-            // Điền tên sản phẩm cho từng dòng
+
+            // Thêm cột NGAY_HET_HAN để hiển thị (không lưu vào DB)
+            if (!m_Ds.Columns.Contains("NGAY_HET_HAN"))
+            {
+                DataColumn col = new DataColumn("NGAY_HET_HAN", typeof(DateTime));
+                col.ReadOnly = false;
+                col.AllowDBNull = true;
+                m_Ds.Columns.Add(col);
+            }
+
+            // Query JOIN lấy tất cả thông tin cần thiết (1 query duy nhất thay vì N queries)
+            DataService dsJoin = new DataService();
+            SqlCommand cmdJoin = new SqlCommand(
+                @"SELECT CT.ID_MA_SAN_PHAM, SP.TEN_SAN_PHAM, MSP.NGAY_HET_HAN
+                  FROM CHI_TIET_PHIEU_BAN CT
+                  INNER JOIN MA_SAN_PHAM MSP ON CT.ID_MA_SAN_PHAM = MSP.ID
+                  INNER JOIN SAN_PHAM SP ON MSP.ID_SAN_PHAM = SP.ID
+                  WHERE CT.ID_PHIEU_BAN = @id");
+            cmdJoin.Parameters.Add("@id", SqlDbType.Int).Value = idPhieuBan;
+            dsJoin.Load(cmdJoin);
+
+            // Tạo Dictionary để lookup nhanh
+            Dictionary<string, DataRow> dictMaSanPham = new Dictionary<string, DataRow>();
+            foreach (DataRow joinRow in dsJoin.Rows)
+            {
+                string idMaSP = Convert.ToString(joinRow["ID_MA_SAN_PHAM"]);
+                if (!dictMaSanPham.ContainsKey(idMaSP))
+                {
+                    dictMaSanPham[idMaSP] = joinRow;
+                }
+            }
+
+            // Điền tên sản phẩm và ngày hết hạn cho từng dòng từ Dictionary
             foreach (DataRow row in m_Ds.Rows)
             {
                 string idMaSanPham = Convert.ToString(row["ID_MA_SAN_PHAM"]);
-                DataService ds = new DataService();
-                SqlCommand cmdTen = new SqlCommand(
-                    "SELECT SP.TEN_SAN_PHAM FROM MA_SAN_PHAM MSP " +
-                    "INNER JOIN SAN_PHAM SP ON MSP.ID_SAN_PHAM = SP.ID " +
-                    "WHERE MSP.ID = @idMaSP");
-                cmdTen.Parameters.Add("@idMaSP", SqlDbType.NVarChar).Value = idMaSanPham;
-                object tenSP = ds.ExecuteScalar(cmdTen);
-                row["TEN_SAN_PHAM"] = tenSP != null ? tenSP.ToString() : "";
+
+                if (dictMaSanPham.ContainsKey(idMaSanPham))
+                {
+                    DataRow joinRow = dictMaSanPham[idMaSanPham];
+                    row["TEN_SAN_PHAM"] = joinRow["TEN_SAN_PHAM"];
+                    row["NGAY_HET_HAN"] = joinRow["NGAY_HET_HAN"];
+                }
             }
         }
 
@@ -146,6 +200,14 @@ namespace CuahangNongduoc.DataLayer
                 if (!m_Ds.Columns.Contains("TEN_SAN_PHAM"))
                 {
                     DataColumn col = new DataColumn("TEN_SAN_PHAM", typeof(string));
+                    m_Ds.Columns.Add(col);
+                }
+
+                // Thêm cột NGAY_HET_HAN để hiển thị (không lưu vào DB)
+                if (!m_Ds.Columns.Contains("NGAY_HET_HAN"))
+                {
+                    DataColumn col = new DataColumn("NGAY_HET_HAN", typeof(DateTime));
+                    col.AllowDBNull = true;
                     m_Ds.Columns.Add(col);
                 }
             }
