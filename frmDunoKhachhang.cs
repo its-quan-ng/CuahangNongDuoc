@@ -19,6 +19,10 @@ namespace CuahangNongduoc
         }
         DuNoKhachHangController ctrl = new DuNoKhachHangController();
         KhachHangController ctrlKH = new KhachHangController();
+
+        // Biến cờ để theo dõi trạng thái dữ liệu
+        private bool daTongHopChuaLuu = false;
+
         private void frmDunoKhachhang_Load(object sender, EventArgs e)
         {
 
@@ -55,10 +59,41 @@ namespace CuahangNongduoc
 
         private void toolTongHop_Click(object sender, EventArgs e)
         {
+            // Kiểm tra nếu đã tổng hợp trước đó mà chưa lưu
+            if (daTongHopChuaLuu)
+            {
+                DialogResult result = MessageBox.Show("Dữ liệu lần tổng hợp trước chưa được lưu.\nBạn có muốn lưu lại không?",
+                    "Cảnh báo chưa lưu", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+
+                if (result == DialogResult.Yes)
+                {
+                    // Người dùng chọn Lưu
+                    if (ctrl.Save())
+                    {
+                        MessageBox.Show("Lưu dữ liệu cũ thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        daTongHopChuaLuu = false;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Lưu thất bại! Vui lòng kiểm tra lại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return; // Dừng lại, không tổng hợp mới
+                    }
+                }
+                else if (result == DialogResult.Cancel)
+                {
+                    // Người dùng chọn Hủy -> Không làm gì cả
+                    return;
+                }
+                // Nếu chọn No -> Tiếp tục tổng hợp mới (bỏ qua dữ liệu cũ)
+            }
+
             dataGridView.DataSource = null;
             toolProgress.Visible = true;
             ctrl.Tonghop(toolThang.SelectedIndex + 1, Convert.ToInt32(toolNam.Text), toolProgress, dataGridView, bindingNavigator);
             toolProgress.Visible = false;
+
+            // Đánh dấu là đã tổng hợp nhưng chưa lưu
+            daTongHopChuaLuu = true;
         }
 
         private void toolLuu_Click(object sender, EventArgs e)
@@ -67,6 +102,8 @@ namespace CuahangNongduoc
             if (ctrl.Save())
             {
                 MessageBox.Show("Lưu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // Đánh dấu đã lưu
+                daTongHopChuaLuu = false;
             }
             else
             {
@@ -76,11 +113,44 @@ namespace CuahangNongduoc
 
         private void toolThoat_Click(object sender, EventArgs e)
         {
-            this.Close();
+            // Kiểm tra khi thoát
+            if (daTongHopChuaLuu)
+            {
+                DialogResult result = MessageBox.Show("Dữ liệu chưa được lưu. Bạn có muốn lưu trước khi thoát không?",
+                    "Cảnh báo", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+
+                if (result == DialogResult.Yes)
+                {
+                    if (ctrl.Save())
+                    {
+                        MessageBox.Show("Lưu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Lưu thất bại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return; // Không đóng form nếu lưu lỗi
+                    }
+                }
+                else if (result == DialogResult.No)
+                {
+                    this.Close();
+                }
+                // Cancel -> Không đóng form
+            }
+            else
+            {
+                this.Close();
+            }
         }
 
         private void toolIn_Click(object sender, EventArgs e)
         {
+            if (bindingNavigator.BindingSource == null || bindingNavigator.BindingSource.Current == null)
+            {
+                return;
+            }
+
             DataRowView row = (DataRowView)bindingNavigator.BindingSource.Current;
             KhachHangController ctrlKH = new KhachHangController();
             DuNoKhachHang dn = new DuNoKhachHang();
