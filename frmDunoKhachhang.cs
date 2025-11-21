@@ -64,7 +64,14 @@ namespace CuahangNongduoc
         private void toolLuu_Click(object sender, EventArgs e)
         {
             toolThang.Focus();
-            ctrl.Save();
+            if (ctrl.Save())
+            {
+                MessageBox.Show("Lưu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Lưu thất bại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void toolThoat_Click(object sender, EventArgs e)
