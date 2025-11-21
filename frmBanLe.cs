@@ -673,6 +673,55 @@ namespace CuahangNongduoc
             ctrlSanPham.HienthiAutoComboBox(cmbSanPham);
         }
 
+        // Public method để refresh UI khi config thay đổi
+        public void RefreshConfigUI()
+        {
+            try
+            {
+                // Clear cache giá xuất
+                cacheGiaXuat.Clear();
+
+                // Cập nhật label và tooltip
+                label15.Text = ThamSo.LayTenPhuongPhapTinhGia();
+                toolTip.SetToolTip(label15, ThamSo.LayTooltipPhuongPhapTinhGia("label"));
+                toolTip.SetToolTip(txtGiaBQGQ, ThamSo.LayTooltipPhuongPhapTinhGia("textbox"));
+
+                // Ẩn/Hiện combo Mã số và cột trong DataGridView
+                string phuongPhapXuatKho = ThamSo.PhuongPhapXuatKho;
+                if (phuongPhapXuatKho == "FIFO")
+                {
+                    cmbMaSanPham.Visible = false;
+                    label4.Visible = false;
+
+                    if (dgvDanhsachSP.Columns.Contains("colMaSanPham"))
+                    {
+                        dgvDanhsachSP.Columns["colMaSanPham"].Visible = false;
+                    }
+                }
+                else
+                {
+                    cmbMaSanPham.Visible = true;
+                    label4.Visible = true;
+
+                    if (dgvDanhsachSP.Columns.Contains("colMaSanPham"))
+                    {
+                        dgvDanhsachSP.Columns["colMaSanPham"].Visible = true;
+                    }
+                }
+
+                // Refresh giá xuất nếu đang chọn sản phẩm
+                if (cmbSanPham.SelectedValue != null)
+                {
+                    int idSanPham = Convert.ToInt32(cmbSanPham.SelectedValue);
+                    FillGiaXuat(idSanPham);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"RefreshConfigUI Error: {ex.Message}");
+            }
+        }
+
 
      }
 }
