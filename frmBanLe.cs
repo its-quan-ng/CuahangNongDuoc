@@ -19,6 +19,8 @@ namespace CuahangNongduoc
         ChiTietPhieuBanController ctrlChiTiet = new ChiTietPhieuBanController();
         IList<MaSanPham> deleted = new List<MaSanPham>();
         Controll status = Controll.Normal;
+        ToolTip toolTip = new ToolTip();
+        Dictionary<int, long> cacheGiaXuat = new Dictionary<int, long>();
 
         public frmBanLe()
         {
@@ -48,6 +50,9 @@ namespace CuahangNongduoc
             bindingNavigator.BindingSource.CurrentChanged -= new EventHandler(BindingSource_CurrentChanged);
             bindingNavigator.BindingSource.CurrentChanged += new EventHandler(BindingSource_CurrentChanged);
 
+            // Thêm SelectionChanged event cho DataGridView để fill fields khi click row
+            dgvDanhsachSP.SelectionChanged += dgvDanhsachSP_SelectionChanged;
+
             // Cấu hình DataGridView columns
             dgvDanhsachSP.AutoGenerateColumns = false;
             
@@ -65,6 +70,24 @@ namespace CuahangNongduoc
                 dgvDanhsachSP.Columns["colSanPham"].Width = 200;
             }
 
+            // Cập nhật label và tooltip giá xuất theo config
+            label15.Text = ThamSo.LayTenPhuongPhapTinhGia();
+            toolTip.SetToolTip(label15, ThamSo.LayTooltipPhuongPhapTinhGia("label"));
+            toolTip.SetToolTip(txtGiaBQGQ, ThamSo.LayTooltipPhuongPhapTinhGia("textbox"));
+
+            // Ẩn/Hiện combo Mã số theo config xuất kho
+            string phuongPhapXuatKho = ThamSo.PhuongPhapXuatKho;
+            if (phuongPhapXuatKho == "FIFO")
+            {
+                cmbMaSanPham.Visible = false;
+                label4.Visible = false;
+            }
+            else
+            {
+                cmbMaSanPham.Visible = true;
+                label4.Visible = true;
+            }
+
             if (status == Controll.AddNew)
             {
                 txtMaPhieu.Text = ThamSo.LayMaPhieuBan().ToString();
@@ -76,6 +99,12 @@ namespace CuahangNongduoc
             else
             {
                 this.Allow(false);
+
+                // Load chi tiết phiếu hiện tại ngay khi mở form (không đợi event)
+                if (!string.IsNullOrWhiteSpace(txtMaPhieu.Text) && int.TryParse(txtMaPhieu.Text, out int maPhieu))
+                {
+                    ctrlChiTiet.HienThiChiTiet(dgvDanhsachSP, maPhieu);
+                }
             }
         }
 
@@ -96,38 +125,97 @@ namespace CuahangNongduoc
         {
             if (cmbSanPham.SelectedValue != null)
             {
+                int idSanPham = Convert.ToInt32(cmbSanPham.SelectedValue);
                 MaSanPhamController ctrlMSP = new MaSanPhamController();
 
-                cmbMaSanPham.SelectedIndexChanged -= new EventHandler(cmbMaSanPham_SelectedIndexChanged);
-                ctrlMSP.HienThiAutoComboBox(Convert.ToInt32(cmbSanPham.SelectedValue), cmbMaSanPham);
-                cmbMaSanPham.SelectedIndexChanged += new EventHandler(cmbMaSanPham_SelectedIndexChanged);
+                string phuongPhapXuatKho = ThamSo.PhuongPhapXuatKho;
+
+                if (phuongPhapXuatKho == "CHI_DINH")
+                {
+                    cmbMaSanPham.SelectedIndexChanged -= new EventHandler(cmbMaSanPham_SelectedIndexChanged);
+                    ctrlMSP.HienThiAutoComboBox(idSanPham, cmbMaSanPham);
+                    cmbMaSanPham.SelectedIndexChanged += new EventHandler(cmbMaSanPham_SelectedIndexChanged);
+
+                    if (cmbMaSanPham.Items.Count > 0 && cmbMaSanPham.SelectedValue != null)
+                    {
+                        FillThongTinSanPhamTheoMaLo(cmbMaSanPham.SelectedValue.ToString());
+                    }
+                }
+                else
+                {
+                    FillThongTinSanPhamTheoId(idSanPham);
+                }
             }
         }
 
         void cmbMaSanPham_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MaSanPhamController ctrl = new MaSanPhamController();
-            MaSanPham masp = ctrl.LayMaSanPham(cmbMaSanPham.SelectedValue.ToString());
-            numDonGia.Value = masp.SanPham.GiaBanLe;
-            txtGiaNhap.Text = masp.GiaNhap.ToString("#,###0");
-            txtGiaBanSi.Text = masp.SanPham.GiaBanSi.ToString("#,###0");
-            txtGiaBanLe.Text = masp.SanPham.GiaBanLe.ToString("#,###0");
-            txtGiaBQGQ.Text = masp.SanPham.DonGiaNhap.ToString("#,###0");
+            if (cmbMaSanPham.SelectedValue != null)
+            {
+                FillThongTinSanPhamTheoMaLo(cmbMaSanPham.SelectedValue.ToString());
+            }
+        }
 
+        void FillThongTinSanPhamTheoMaLo(string idMaLo)
+        {
+            MaSanPhamController ctrl = new MaSanPhamController();
+            MaSanPham masp = ctrl.LayMaSanPham(idMaLo);
+            if (masp != null && masp.SanPham != null)
+            {
+                numDonGia.Value = masp.SanPham.GiaBanLe;
+                txtGiaNhap.Text = masp.GiaNhap.ToString("#,###0");
+                txtGiaBanSi.Text = masp.SanPham.GiaBanSi.ToString("#,###0");
+                txtGiaBanLe.Text = masp.SanPham.GiaBanLe.ToString("#,###0");
+
+                int idSanPham = Convert.ToInt32(masp.SanPham.Id);
+                FillGiaXuat(idSanPham);
+            }
+        }
+
+        void FillThongTinSanPhamTheoId(int idSanPham)
+        {
+            SanPhamController ctrlSP = new SanPhamController();
+            SanPham sp = ctrlSP.LaySanPham(idSanPham);
+            if (sp != null)
+            {
+                numDonGia.Value = sp.GiaBanLe;
+                txtGiaNhap.Text = sp.DonGiaNhap.ToString("#,###0");
+                txtGiaBanSi.Text = sp.GiaBanSi.ToString("#,###0");
+                txtGiaBanLe.Text = sp.GiaBanLe.ToString("#,###0");
+
+                FillGiaXuat(idSanPham);
+            }
+        }
+
+        void FillGiaXuat(int idSanPham)
+        {
+            try
+            {
+                long giaXuat;
+
+                if (cacheGiaXuat.ContainsKey(idSanPham))
+                {
+                    giaXuat = cacheGiaXuat[idSanPham];
+                }
+                else
+                {
+                    giaXuat = ctrlMaSanPham.TinhGiaXuat(idSanPham);
+                    cacheGiaXuat[idSanPham] = giaXuat;
+                }
+
+                txtGiaBQGQ.Text = giaXuat > 0 ? giaXuat.ToString("#,###0") : "N/A";
+            }
+            catch (Exception ex)
+            {
+                txtGiaBQGQ.Text = "N/A";
+            }
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-
             if (cmbSanPham.SelectedValue == null)
             {
                 MessageBox.Show("Vui lòng chọn Sản phẩm!", "Bán lẻ", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (cmbMaSanPham.SelectedValue == null)
-            {
-                MessageBox.Show("Vui lòng chọn Mã số sản phẩm!", "Bán lẻ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -143,79 +231,119 @@ namespace CuahangNongduoc
                 return;
             }
 
+            string phuongPhapXuatKho = ThamSo.PhuongPhapXuatKho;
+
             try
             {
                 int idSanPham = Convert.ToInt32(cmbSanPham.SelectedValue);
                 int soLuongCanBan = Convert.ToInt32(numSoLuong.Value);
-                string maSanPhamDaChon = cmbMaSanPham.SelectedValue.ToString();
-
-                // Lấy thông tin mã sản phẩm đã chọn
-                MaSanPham maSPDaChon = ctrlMaSanPham.LayMaSanPham(maSanPhamDaChon);
-                
-                if (maSPDaChon == null)
-                {
-                    MessageBox.Show("Không tìm thấy thông tin mã sản phẩm!", "Bán lẻ", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                // Kiểm tra số lượng tồn kho
-                if (maSPDaChon.SoLuong < soLuongCanBan)
-                {
-                    MessageBox.Show($"Số lượng tồn kho không đủ!\nTồn kho: {maSPDaChon.SoLuong}\nYêu cầu: {soLuongCanBan}", 
-                        "Bán lẻ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // Lấy tên sản phẩm từ mã số đã chọn
-                string tenSanPham = maSPDaChon.SanPham != null ? maSPDaChon.SanPham.TenSanPham : "";
-
-                // Kiểm tra xem mã sản phẩm đã tồn tại trong DataGridView chưa
                 BindingSource bs = (BindingSource)dgvDanhsachSP.DataSource;
                 DataTable dt = (DataTable)bs.DataSource;
-                bool daTonTai = false;
-                
-                foreach (DataRow existingRow in dt.Rows)
+
+                if (phuongPhapXuatKho == "FIFO")
                 {
-                    if (Convert.ToString(existingRow["ID_MA_SAN_PHAM"]) == maSanPhamDaChon)
+                    // Tự động chọn lô theo FEFO
+                    IList<MaSanPham> danhSachLo = ctrlMaSanPham.ChonLoTheoConfig(idSanPham, soLuongCanBan);
+
+                    // Lấy tên sản phẩm từ cmbSanPham (đã có sẵn)
+                    string tenSanPham = cmbSanPham.Text;
+
+                    foreach (MaSanPham lo in danhSachLo)
                     {
-                        // Nếu đã tồn tại, cộng thêm số lượng
-                        int soLuongCu = Convert.ToInt32(existingRow["SO_LUONG"]);
-                        int soLuongMoi = soLuongCu + soLuongCanBan;
-                        
-                        // Kiểm tra tồn kho cho số lượng mới
-                        if (maSPDaChon.SoLuong < soLuongMoi)
+                        DataRow row = ctrlChiTiet.NewRow();
+                        row["ID_MA_SAN_PHAM"] = lo.Id;
+                        row["ID_PHIEU_BAN"] = txtMaPhieu.Text;
+                        row["DON_GIA"] = numDonGia.Value;
+                        row["SO_LUONG"] = lo.SoLuong;
+                        row["THANH_TIEN"] = numDonGia.Value * lo.SoLuong;
+
+                        if (row.Table.Columns.Contains("TEN_SAN_PHAM"))
                         {
-                            MessageBox.Show($"Số lượng tồn kho không đủ!\nTồn kho: {maSPDaChon.SoLuong}\nĐã có trong phiếu: {soLuongCu}\nYêu cầu thêm: {soLuongCanBan}\nTổng: {soLuongMoi}", 
-                                "Bán lẻ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
+                            row["TEN_SAN_PHAM"] = tenSanPham;
                         }
-                        
-                        existingRow["SO_LUONG"] = soLuongMoi;
-                        existingRow["THANH_TIEN"] = numDonGia.Value * soLuongMoi;
-                        daTonTai = true;
-                        break;
+
+                        if (row.Table.Columns.Contains("NGAY_HET_HAN") && lo.NgayHetHan != DateTime.MinValue)
+                        {
+                            row["NGAY_HET_HAN"] = lo.NgayHetHan;
+                        }
+
+                        ctrlChiTiet.Add(row);
                     }
                 }
-                
-                // Nếu chưa tồn tại, thêm dòng mới
-                if (!daTonTai)
+                else
                 {
-                    DataRow row = ctrlChiTiet.NewRow();
-                    row["ID_MA_SAN_PHAM"] = maSanPhamDaChon;
-                    row["ID_PHIEU_BAN"] = txtMaPhieu.Text;
-                    row["DON_GIA"] = numDonGia.Value;
-                    row["SO_LUONG"] = soLuongCanBan;
-                    row["THANH_TIEN"] = numDonGia.Value * soLuongCanBan;
-                    // Thêm tên sản phẩm từ mã số
-                    if (row.Table.Columns.Contains("TEN_SAN_PHAM"))
+                    // Chọn lô thủ công
+                    if (cmbMaSanPham.SelectedValue == null)
                     {
-                        row["TEN_SAN_PHAM"] = tenSanPham;
+                        MessageBox.Show("Vui lòng chọn Mã số sản phẩm!", "Bán lẻ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                     }
-                    ctrlChiTiet.Add(row);
+
+                    string maSanPhamDaChon = cmbMaSanPham.SelectedValue.ToString();
+                    MaSanPham maSPDaChon = ctrlMaSanPham.LayMaSanPham(maSanPhamDaChon);
+
+                    if (maSPDaChon == null)
+                    {
+                        MessageBox.Show("Không tìm thấy thông tin mã sản phẩm!", "Bán lẻ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    if (maSPDaChon.SoLuong < soLuongCanBan)
+                    {
+                        MessageBox.Show($"Số lượng tồn kho không đủ!\nTồn kho: {maSPDaChon.SoLuong}\nYêu cầu: {soLuongCanBan}",
+                            "Bán lẻ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    string tenSanPham = maSPDaChon.SanPham != null ? maSPDaChon.SanPham.TenSanPham : "";
+
+                    bool daTonTai = false;
+                    foreach (DataRow existingRow in dt.Rows)
+                    {
+                        if (Convert.ToString(existingRow["ID_MA_SAN_PHAM"]) == maSanPhamDaChon)
+                        {
+                            int soLuongCu = Convert.ToInt32(existingRow["SO_LUONG"]);
+                            int soLuongMoi = soLuongCu + soLuongCanBan;
+
+                            if (maSPDaChon.SoLuong < soLuongMoi)
+                            {
+                                MessageBox.Show($"Số lượng tồn kho không đủ!\nTồn kho: {maSPDaChon.SoLuong}\nĐã có trong phiếu: {soLuongCu}\nYêu cầu thêm: {soLuongCanBan}\nTổng: {soLuongMoi}",
+                                    "Bán lẻ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                return;
+                            }
+
+                            existingRow["SO_LUONG"] = soLuongMoi;
+                            existingRow["THANH_TIEN"] = numDonGia.Value * soLuongMoi;
+                            daTonTai = true;
+                            break;
+                        }
+                    }
+
+                    if (!daTonTai)
+                    {
+                        DataRow row = ctrlChiTiet.NewRow();
+                        row["ID_MA_SAN_PHAM"] = maSanPhamDaChon;
+                        row["ID_PHIEU_BAN"] = txtMaPhieu.Text;
+                        row["DON_GIA"] = numDonGia.Value;
+                        row["SO_LUONG"] = soLuongCanBan;
+                        row["THANH_TIEN"] = numDonGia.Value * soLuongCanBan;
+
+                        if (row.Table.Columns.Contains("TEN_SAN_PHAM"))
+                        {
+                            row["TEN_SAN_PHAM"] = tenSanPham;
+                        }
+
+                        if (row.Table.Columns.Contains("NGAY_HET_HAN") && maSPDaChon.NgayHetHan != DateTime.MinValue)
+                        {
+                            row["NGAY_HET_HAN"] = maSPDaChon.NgayHetHan;
+                        }
+
+                        ctrlChiTiet.Add(row);
+                    }
                 }
-                
-                // Refresh DataGridView để hiển thị giá trị mới
-                dgvDanhsachSP.Refresh();
+
+                // Refresh DataGridView
+                bs.ResetBindings(false);
 
                 // Cập nhật tổng tiền từ các dòng trong DataGridView
                 decimal tongTien = 0;
@@ -228,8 +356,14 @@ namespace CuahangNongduoc
                 }
                 numTongTien.Value = tongTien + numChiPhiDichVu.Value + numChiPhiVanChuyen.Value;
 
+                // Clear fields sau khi Add thành công
                 numSoLuong.Value = 0;
+                numDonGia.Value = 0;
                 numThanhTien.Value = 0;
+                if (phuongPhapXuatKho == "CHI_DINH")
+                {
+                    cmbMaSanPham.SelectedIndex = -1;
+                }
             }
             catch (Exception ex)
             {
@@ -353,6 +487,7 @@ namespace CuahangNongduoc
         {
             ctrlPhieuBan = new PhieuBanController();
             ctrlChiTiet = new ChiTietPhieuBanController();
+            cacheGiaXuat.Clear();
             status = Controll.AddNew;
             txtMaPhieu.Text = ThamSo.LayMaPhieuBan().ToString();
             numTongTien.Value = 0;
@@ -431,7 +566,35 @@ namespace CuahangNongduoc
         private void dgvDanhsachSP_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
             e.Cancel = true;
+        }
 
+        private void dgvDanhsachSP_SelectionChanged(object sender, EventArgs e)
+        {
+            if (status != Controll.AddNew && dgvDanhsachSP.CurrentRow != null && dgvDanhsachSP.CurrentRow.DataBoundItem != null)
+            {
+                try
+                {
+                    DataRowView row = (DataRowView)dgvDanhsachSP.CurrentRow.DataBoundItem;
+
+                    string phuongPhapXuatKho = ThamSo.PhuongPhapXuatKho;
+
+                    if (phuongPhapXuatKho == "CHI_DINH")
+                    {
+                        if (row["ID_MA_SAN_PHAM"] != DBNull.Value)
+                        {
+                            cmbMaSanPham.SelectedValue = row["ID_MA_SAN_PHAM"];
+                        }
+                    }
+
+                    numDonGia.Value = row["DON_GIA"] != DBNull.Value ? Convert.ToDecimal(row["DON_GIA"]) : 0;
+                    numSoLuong.Value = row["SO_LUONG"] != DBNull.Value ? Convert.ToDecimal(row["SO_LUONG"]) : 0;
+                    numThanhTien.Value = numDonGia.Value * numSoLuong.Value;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"SelectionChanged Error: {ex.Message}");
+                }
+            }
         }
 
         private void bindingNavigatorDeleteItem_Click(object sender, EventArgs e)
@@ -468,13 +631,14 @@ namespace CuahangNongduoc
         private void toolChinhSua_Click(object sender, EventArgs e)
         {
             status = Controll.Edit;
-            // Load dữ liệu từ database vào factory để có thể chỉnh sửa
-            ctrlChiTiet = new ChiTietPhieuBanController();
-            ctrlChiTiet.LoadData(Convert.ToInt32(txtMaPhieu.Text));
-            // Bind DataGridView với DataTable từ factory
-            BindingSource bs = new BindingSource();
-            bs.DataSource = ctrlChiTiet.GetDataTable();
-            dgvDanhsachSP.DataSource = bs;
+            // KHÔNG reset Controller - Dùng data hiện tại trong memory
+            // Nếu đã có data trong m_Ds thì giữ nguyên, nếu chưa thì load từ DB
+            DataTable dt = ctrlChiTiet.GetDataTable();
+            if (dt.Rows.Count == 0)
+            {
+                // Chưa có data trong memory → Load từ DB
+                ctrlChiTiet.LoadData(Convert.ToInt32(txtMaPhieu.Text));
+            }
             this.Allow(true);
         }
 
@@ -550,6 +714,55 @@ namespace CuahangNongduoc
             frmSanPham SanPham = new frmSanPham();
             SanPham.ShowDialog();
             ctrlSanPham.HienthiAutoComboBox(cmbSanPham);
+        }
+
+        // Public method để refresh UI khi config thay đổi
+        public void RefreshConfigUI()
+        {
+            try
+            {
+                // Clear cache giá xuất
+                cacheGiaXuat.Clear();
+
+                // Cập nhật label và tooltip
+                label15.Text = ThamSo.LayTenPhuongPhapTinhGia();
+                toolTip.SetToolTip(label15, ThamSo.LayTooltipPhuongPhapTinhGia("label"));
+                toolTip.SetToolTip(txtGiaBQGQ, ThamSo.LayTooltipPhuongPhapTinhGia("textbox"));
+
+                // Ẩn/Hiện combo Mã số và cột trong DataGridView
+                string phuongPhapXuatKho = ThamSo.PhuongPhapXuatKho;
+                if (phuongPhapXuatKho == "FIFO")
+                {
+                    cmbMaSanPham.Visible = false;
+                    label4.Visible = false;
+
+                    if (dgvDanhsachSP.Columns.Contains("colMaSanPham"))
+                    {
+                        dgvDanhsachSP.Columns["colMaSanPham"].Visible = false;
+                    }
+                }
+                else
+                {
+                    cmbMaSanPham.Visible = true;
+                    label4.Visible = true;
+
+                    if (dgvDanhsachSP.Columns.Contains("colMaSanPham"))
+                    {
+                        dgvDanhsachSP.Columns["colMaSanPham"].Visible = true;
+                    }
+                }
+
+                // Refresh giá xuất nếu đang chọn sản phẩm
+                if (cmbSanPham.SelectedValue != null)
+                {
+                    int idSanPham = Convert.ToInt32(cmbSanPham.SelectedValue);
+                    FillGiaXuat(idSanPham);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"RefreshConfigUI Error: {ex.Message}");
+            }
         }
 
 

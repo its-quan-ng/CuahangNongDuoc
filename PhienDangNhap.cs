@@ -85,8 +85,6 @@ namespace CuahangNongduoc
             m_HoTen = String.Empty;
             m_QuyenHan = String.Empty;
             m_DaDangNhap = false;
-
-            System.Diagnostics.Debug.WriteLine("PhienDangNhap.DangXuat: Đã xóa phiên");
         }
 
         /// <summary>
