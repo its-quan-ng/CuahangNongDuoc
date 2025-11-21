@@ -45,7 +45,7 @@
             // 
             // MaSanPhamBindingSource
             // 
-            this.MaSanPhamBindingSource.DataSource = typeof(CuahangNongduoc.BusinessObject.MaSanPham);
+            this.MaSanPhamBindingSource.DataSource = typeof(CuahangNongduoc.BusinessObject.MaSanPham_DBO);
             // 
             // panel1
             // 

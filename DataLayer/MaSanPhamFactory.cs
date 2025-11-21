@@ -80,7 +80,8 @@ namespace CuahangNongduoc.DataLayer
         public DataTable DanhsachMaSanPhamHetHan(DateTime dt)
         {
             DataService ds = new DataService();
-            SqlCommand cmd = new SqlCommand("SELECT * FROM MA_SAN_PHAM WHERE SO_LUONG > 0 AND NGAY_HET_HAN <= @ngay");
+            // SqlCommand cmd = new SqlCommand("SELECT * FROM MA_SAN_PHAM WHERE SO_LUONG > 0 AND NGAY_HET_HAN <= @ngay");
+            SqlCommand cmd = new SqlCommand("SELECT MSP.*,SP.TEN_SAN_PHAM FROM MA_SAN_PHAM MSP INNER JOIN SAN_PHAM SP ON SP.ID = MSP.ID_SAN_PHAM WHERE MSP.SO_LUONG > 0 AND MSP.NGAY_HET_HAN <= @ngay");
             cmd.Parameters.Add("@ngay", SqlDbType.DateTime).Value = dt;
             ds.Load(cmd);
 
