@@ -81,6 +81,11 @@ namespace CuahangNongduoc.BusinessObject
             set { m_PhieuNhap = value; }
         }
 
+        public String TenSanPham
+        {
+            get { return m_SanPham != null ? m_SanPham.TenSanPham : ""; }
+        }
+
 	
     }
 }

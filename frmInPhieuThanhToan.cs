@@ -29,7 +29,7 @@ namespace CuahangNongduoc
             param.Add(new Microsoft.Reporting.WinForms.ReportParameter("bang_chu", num.NumberToString(m_PhieuThanhToan.TongTien.ToString())));
 
             this.reportViewer.LocalReport.SetParameters(param);
-            this.PhieuThanhToanBindingSource.DataSource = m_PhieuThanhToan; 
+            this.PhieuThanhToanBindingSource.DataSource = m_PhieuThanhToan;
             this.reportViewer.RefreshReport();
         }
     }
