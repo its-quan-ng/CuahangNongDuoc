@@ -46,8 +46,9 @@ namespace CuahangNongduoc.Controller
         
         public void HienthiPhieuThanhToan(BindingNavigator bn, DataGridView dg,ComboBox cmb, TextBox txt, DateTimePicker dt, NumericUpDown numTongTien, TextBox txtGhichu)
         {
+            factory.LoadData();
             BindingSource bs = new BindingSource();
-            bs.DataSource = factory.DanhsachPhieuThanhToan();
+            bs.DataSource = factory.GetDataTable();
             bn.BindingSource = bs;
             dg.DataSource = bs;
 

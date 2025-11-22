@@ -22,7 +22,15 @@ namespace CuahangNongduoc
         {
             try
             {
+                // Đọc cấu hình từ database
                 String phuongPhapXuatKho = ThamSo.PhuongPhapXuatKho;
+
+                // Debug: Log giá trị đọc được
+                System.Diagnostics.Debug.WriteLine($"[frmCauHinh] Load - PhuongPhapXuatKho: '{phuongPhapXuatKho}'");
+
+                // Reset tất cả radio trước khi set
+                radFIFO.Checked = false;
+                radChiDinh.Checked = false;
 
                 if (phuongPhapXuatKho == "FIFO")
                 {
@@ -34,6 +42,13 @@ namespace CuahangNongduoc
                 }
 
                 String phuongPhapTinhGia = ThamSo.PhuongPhapTinhGiaXuat;
+
+                // Debug: Log giá trị đọc được
+                System.Diagnostics.Debug.WriteLine($"[frmCauHinh] Load - PhuongPhapTinhGia: '{phuongPhapTinhGia}'");
+
+                // Reset tất cả radio trước khi set
+                radAverage.Checked = false;
+                radFIFOGia.Checked = false;
 
                 if (phuongPhapTinhGia == "AVERAGE")
                 {
@@ -69,6 +84,7 @@ namespace CuahangNongduoc
                 {
                     ThamSo.PhuongPhapXuatKho = "CHI_DINH";
                 }
+                string savedValue = ThamSo.PhuongPhapXuatKho;
 
                 if (radAverage.Checked)
                 {
@@ -79,12 +95,24 @@ namespace CuahangNongduoc
                     ThamSo.PhuongPhapTinhGiaXuat = "FIFO";
                 }
 
+                string savedGia = ThamSo.PhuongPhapTinhGiaXuat;
+
+                string tenXuatKho = savedValue == "FIFO" ? "FIFO (Nhập trước xuất trước)" : "Chỉ định (Chọn lô thủ công)";
+                string tenTinhGia = savedGia == "FIFO" ? "Giá FIFO (Giá lô đầu tiên)" : "Giá bình quân gia quyền";
+
+                string message = "Lưu cấu hình thành công!\n\n" +
+                                $"Phương pháp xuất kho: {tenXuatKho}\n" +
+                                $"Phương pháp tính giá: {tenTinhGia}";
+
                 MessageBox.Show(
-                    "Lưu cấu hình thành công!",
+                    message,
                     "Thông báo",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information
                 );
+
+                // Refresh UI cho tất cả form đang mở
+                RefreshAllOpenForms();
 
                 this.Close();
             }
@@ -112,6 +140,27 @@ namespace CuahangNongduoc
         private void btnHuy_Click(object sender, EventArgs e)
         {
             this.Close( );
+        }
+        private void RefreshAllOpenForms()
+        {
+            try
+            {
+                foreach (Form form in Application.OpenForms)
+                {
+                    if (form is frmBanLe)
+                    {
+                        ((frmBanLe)form).RefreshConfigUI();
+                    }
+                    else if (form is frmBanSi)
+                    {
+                        ((frmBanSi)form).RefreshConfigUI();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"RefreshAllOpenForms Error: {ex.Message}");
+            }
         }
     }
 }

@@ -64,6 +64,10 @@
           <DataField>TongTien</DataField>
           <rd:TypeName>System.Int64</rd:TypeName>
         </Field>
+        <Field Name="TenLyDoChi">
+          <DataField>TenLyDoChi</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <Query>
         <DataSourceName>DummyDataSource</DataSourceName>
@@ -177,7 +181,7 @@
         <CanGrow>true</CanGrow>
         <Left>4cm</Left>
         <Height>0.63492cm</Height>
-        <Value>=Fields!LyDoChi.Value.LyDo</Value>
+        <Value>=Fields!TenLyDoChi.Value</Value>
       </Textbox>
       <Textbox Name="textbox6">
         <Top>3.5cm</Top>

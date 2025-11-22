@@ -63,11 +63,6 @@ namespace CuahangNongduoc.Strategy
                 };
 
                 ds.Add(msp);
-
-                System.Diagnostics.Debug.WriteLine(
-                    $"[FEFO] Chọn lô {msp.Id}: {soLuongXuatTuLo} sản phẩm (HSD: {msp.NgayHetHan:dd/MM/yyyy})"
-                );
-
                 soLuongConLai -= soLuongXuatTuLo;
             }
 
@@ -82,9 +77,6 @@ namespace CuahangNongduoc.Strategy
                     $"Thiếu: {soLuongConLai}"
                 );
             }
-
-            System.Diagnostics.Debug.WriteLine($"[FEFO] Đã chọn {ds.Count} lô, tổng {soLuongCanXuat} sản phẩm");
-
             return ds;
         }
     }

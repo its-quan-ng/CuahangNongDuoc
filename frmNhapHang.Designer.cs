@@ -50,6 +50,14 @@
             this.toolThoat = new System.Windows.Forms.ToolStripButton();
             this.btnAdd = new System.Windows.Forms.Button();
             this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.colMaPhieu = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSanPham = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colMaSanPham = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDonGiaNhap = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSoLuong = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colNgayNhap = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colNgaySanXuat = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colNgayHetHan = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnThemSanPham = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
             this.numThanhTien = new System.Windows.Forms.NumericUpDown();
@@ -83,14 +91,6 @@
             this.numTongTien = new System.Windows.Forms.NumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
             this.txtMaPhieu = new System.Windows.Forms.TextBox();
-            this.colMaPhieu = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSanPham = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colMaSanPham = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDonGiaNhap = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSoLuong = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colNgayNhap = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colNgaySanXuat = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colNgayHetHan = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator)).BeginInit();
             this.bindingNavigator.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
@@ -305,6 +305,7 @@
             // dataGridView
             // 
             this.dataGridView.AllowUserToAddRows = false;
+            this.dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -327,6 +328,72 @@
             this.dataGridView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dataGridView_DataError);
             this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
             this.dataGridView.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.dataGridView_UserDeletingRow);
+            // 
+            // colMaPhieu
+            // 
+            this.colMaPhieu.DataPropertyName = "ID_PHIEU_NHAP";
+            this.colMaPhieu.HeaderText = "Mã Phiếu";
+            this.colMaPhieu.MinimumWidth = 6;
+            this.colMaPhieu.Name = "colMaPhieu";
+            this.colMaPhieu.ReadOnly = true;
+            // 
+            // colSanPham
+            // 
+            this.colSanPham.DataPropertyName = "TEN_SAN_PHAM";
+            this.colSanPham.HeaderText = "Sản phẩm";
+            this.colSanPham.MinimumWidth = 6;
+            this.colSanPham.Name = "colSanPham";
+            this.colSanPham.ReadOnly = true;
+            this.colSanPham.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colSanPham.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // colMaSanPham
+            // 
+            this.colMaSanPham.DataPropertyName = "ID";
+            this.colMaSanPham.HeaderText = "Mã lô";
+            this.colMaSanPham.MinimumWidth = 6;
+            this.colMaSanPham.Name = "colMaSanPham";
+            this.colMaSanPham.ReadOnly = true;
+            // 
+            // colDonGiaNhap
+            // 
+            this.colDonGiaNhap.DataPropertyName = "DON_GIA_NHAP";
+            this.colDonGiaNhap.HeaderText = "Giá nhập";
+            this.colDonGiaNhap.MinimumWidth = 6;
+            this.colDonGiaNhap.Name = "colDonGiaNhap";
+            this.colDonGiaNhap.ReadOnly = true;
+            // 
+            // colSoLuong
+            // 
+            this.colSoLuong.DataPropertyName = "SO_LUONG";
+            this.colSoLuong.HeaderText = "Số lượng";
+            this.colSoLuong.MinimumWidth = 6;
+            this.colSoLuong.Name = "colSoLuong";
+            this.colSoLuong.ReadOnly = true;
+            // 
+            // colNgayNhap
+            // 
+            this.colNgayNhap.DataPropertyName = "NGAY_NHAP";
+            this.colNgayNhap.HeaderText = "Ngày nhập";
+            this.colNgayNhap.MinimumWidth = 6;
+            this.colNgayNhap.Name = "colNgayNhap";
+            this.colNgayNhap.ReadOnly = true;
+            // 
+            // colNgaySanXuat
+            // 
+            this.colNgaySanXuat.DataPropertyName = "NGAY_SAN_XUAT";
+            this.colNgaySanXuat.HeaderText = "Ngày sản xuất";
+            this.colNgaySanXuat.MinimumWidth = 6;
+            this.colNgaySanXuat.Name = "colNgaySanXuat";
+            this.colNgaySanXuat.ReadOnly = true;
+            // 
+            // colNgayHetHan
+            // 
+            this.colNgayHetHan.DataPropertyName = "NGAY_HET_HAN";
+            this.colNgayHetHan.HeaderText = "Ngày hết hạn";
+            this.colNgayHetHan.MinimumWidth = 6;
+            this.colNgayHetHan.Name = "colNgayHetHan";
+            this.colNgayHetHan.ReadOnly = true;
             // 
             // btnThemSanPham
             // 
@@ -529,6 +596,7 @@
             // 
             // grpThongtin
             // 
+            this.grpThongtin.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.grpThongtin.Controls.Add(this.btnThemSanPham);
             this.grpThongtin.Controls.Add(this.btnAdd);
             this.grpThongtin.Controls.Add(this.btnRemove);
@@ -546,7 +614,6 @@
             this.grpThongtin.Controls.Add(this.txtMaSo);
             this.grpThongtin.Controls.Add(this.label1);
             this.grpThongtin.Controls.Add(this.cmbSanPham);
-            this.grpThongtin.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpThongtin.Location = new System.Drawing.Point(319, 0);
             this.grpThongtin.Margin = new System.Windows.Forms.Padding(4);
             this.grpThongtin.Name = "grpThongtin";
@@ -579,6 +646,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.groupBox1.Controls.Add(this.btnThemNCC);
             this.groupBox1.Controls.Add(this.label13);
             this.groupBox1.Controls.Add(this.numConNo);
@@ -592,7 +660,6 @@
             this.groupBox1.Controls.Add(this.dtNgayNhap);
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.txtMaPhieu);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Left;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
@@ -726,80 +793,6 @@
             this.txtMaPhieu.Size = new System.Drawing.Size(205, 22);
             this.txtMaPhieu.TabIndex = 22;
             // 
-            // colMaPhieu
-            // 
-            this.colMaPhieu.DataPropertyName = "ID_PHIEU_NHAP";
-            this.colMaPhieu.HeaderText = "Mã Phiếu";
-            this.colMaPhieu.MinimumWidth = 6;
-            this.colMaPhieu.Name = "colMaPhieu";
-            this.colMaPhieu.ReadOnly = true;
-            this.colMaPhieu.Width = 125;
-            // 
-            // colSanPham
-            // 
-            this.colSanPham.DataPropertyName = "TEN_SAN_PHAM";
-            this.colSanPham.HeaderText = "Sản phẩm";
-            this.colSanPham.MinimumWidth = 6;
-            this.colSanPham.Name = "colSanPham";
-            this.colSanPham.ReadOnly = true;
-            this.colSanPham.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colSanPham.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colSanPham.Width = 150;
-            // 
-            // colMaSanPham
-            // 
-            this.colMaSanPham.DataPropertyName = "ID";
-            this.colMaSanPham.HeaderText = "Mã lô";
-            this.colMaSanPham.MinimumWidth = 6;
-            this.colMaSanPham.Name = "colMaSanPham";
-            this.colMaSanPham.ReadOnly = true;
-            this.colMaSanPham.Width = 125;
-            // 
-            // colDonGiaNhap
-            // 
-            this.colDonGiaNhap.DataPropertyName = "DON_GIA_NHAP";
-            this.colDonGiaNhap.HeaderText = "Giá nhập";
-            this.colDonGiaNhap.MinimumWidth = 6;
-            this.colDonGiaNhap.Name = "colDonGiaNhap";
-            this.colDonGiaNhap.ReadOnly = true;
-            this.colDonGiaNhap.Width = 125;
-            // 
-            // colSoLuong
-            // 
-            this.colSoLuong.DataPropertyName = "SO_LUONG";
-            this.colSoLuong.HeaderText = "Số lượng";
-            this.colSoLuong.MinimumWidth = 6;
-            this.colSoLuong.Name = "colSoLuong";
-            this.colSoLuong.ReadOnly = true;
-            this.colSoLuong.Width = 125;
-            // 
-            // colNgayNhap
-            // 
-            this.colNgayNhap.DataPropertyName = "NGAY_NHAP";
-            this.colNgayNhap.HeaderText = "Ngày nhập";
-            this.colNgayNhap.MinimumWidth = 6;
-            this.colNgayNhap.Name = "colNgayNhap";
-            this.colNgayNhap.ReadOnly = true;
-            this.colNgayNhap.Width = 125;
-            // 
-            // colNgaySanXuat
-            // 
-            this.colNgaySanXuat.DataPropertyName = "NGAY_SAN_XUAT";
-            this.colNgaySanXuat.HeaderText = "Ngày sản xuất";
-            this.colNgaySanXuat.MinimumWidth = 6;
-            this.colNgaySanXuat.Name = "colNgaySanXuat";
-            this.colNgaySanXuat.ReadOnly = true;
-            this.colNgaySanXuat.Width = 125;
-            // 
-            // colNgayHetHan
-            // 
-            this.colNgayHetHan.DataPropertyName = "NGAY_HET_HAN";
-            this.colNgayHetHan.HeaderText = "Ngày hết hạn";
-            this.colNgayHetHan.MinimumWidth = 6;
-            this.colNgayHetHan.Name = "colNgayHetHan";
-            this.colNgayHetHan.ReadOnly = true;
-            this.colNgayHetHan.Width = 125;
-            // 
             // frmNhapHang
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -811,7 +804,9 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmNhapHang";
-            this.Text = "NHAP HANG";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Phiếu nhập hàng";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.frmNhapHang_Load);
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator)).EndInit();
             this.bindingNavigator.ResumeLayout(false);

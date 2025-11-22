@@ -40,6 +40,29 @@ namespace CuahangNongduoc
 
         private void dataGridView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
+            // Lấy ID của phiếu chi hiện tại
+            DataGridViewRow row = e.Row;
+            if (row.DataBoundItem != null)
+            {
+                DataRowView view = (DataRowView)row.DataBoundItem;
+                int idPhieuChi = Convert.ToInt32(view["ID"]);
+
+                // Kiểm tra xem phiếu chi có liên kết với bảng khác không
+                if (ctrl.KiemTraLienKet(idPhieuChi))
+                {
+                    List<string> danhSachBang = ctrl.LayDanhSachBangLienKet(idPhieuChi);
+                    string thongBao = "Không thể xóa phiếu chi này vì đang được sử dụng trong:\n\n";
+                    foreach (string tenBang in danhSachBang)
+                    {
+                        thongBao += "- " + tenBang + "\n";
+                    }
+                    thongBao += "\nVui lòng xóa các bản ghi liên quan trước!";
+                    MessageBox.Show(thongBao, "Không thể xóa", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    e.Cancel = true;
+                    return;
+                }
+            }
+
             if (MessageBox.Show("Bạn chắc chắn xóa phiếu chi này không?", "Phieu Chi",   MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
             {
                 e.Cancel = true;
@@ -48,10 +71,31 @@ namespace CuahangNongduoc
 
         private void toolDelete_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Bạn chắc chắn xóa phiếu chi này không?", "Phieu Chi", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            DataRowView view = (DataRowView)bindingNavigator.BindingSource.Current;
+            if (view != null)
             {
-                bindingNavigator.BindingSource.RemoveCurrent();
-                ctrl.Save();
+                // Lấy ID của phiếu chi hiện tại
+                int idPhieuChi = Convert.ToInt32(view["ID"]);
+
+                // Kiểm tra xem phiếu chi có liên kết với bảng khác không
+                if (ctrl.KiemTraLienKet(idPhieuChi))
+                {
+                    List<string> danhSachBang = ctrl.LayDanhSachBangLienKet(idPhieuChi);
+                    string thongBao = "Không thể xóa phiếu chi này vì đang được sử dụng trong:\n\n";
+                    foreach (string tenBang in danhSachBang)
+                    {
+                        thongBao += "- " + tenBang + "\n";
+                    }
+                    thongBao += "\nVui lòng xóa các bản ghi liên quan trước!";
+                    MessageBox.Show(thongBao, "Không thể xóa", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (MessageBox.Show("Bạn chắc chắn xóa phiếu chi này không?", "Phieu Chi", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    bindingNavigator.BindingSource.RemoveCurrent();
+                    ctrl.Save();
+                }
             }
         }
 

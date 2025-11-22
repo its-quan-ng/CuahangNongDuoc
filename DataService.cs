@@ -46,7 +46,6 @@ namespace CuahangNongduoc
             }
             catch (Exception e) 
             {
-                // Log error để dễ debug
                 System.Diagnostics.Debug.WriteLine("DataService.Load Error: " + e.Message);
                 System.Windows.Forms.MessageBox.Show("Lỗi kết nối database:\n" + e.Message + "\n\nConnection: " + m_ConnectString, "Lỗi", 
                     System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
@@ -123,7 +122,6 @@ namespace CuahangNongduoc
 			catch ( Exception e)
             {
                 if (tr != null) tr.Rollback();
-                System.Diagnostics.Debug.WriteLine("DataService.ExecuteNoneQuery Error: " + e.Message);
                 System.Windows.Forms.MessageBox.Show("Lỗi khi lưu dữ liệu:\n" + e.Message, "Lỗi", 
                     System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
                 throw; 

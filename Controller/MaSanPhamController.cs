@@ -173,7 +173,6 @@ namespace CuahangNongduoc.Controller
         {
             if (idSanPham <= 0)
             {
-                System.Diagnostics.Debug.WriteLine($"TinhGiaXuat: ID sản phẩm không hợp lệ ({idSanPham})");
                 return 0;
             }
 
@@ -184,7 +183,6 @@ namespace CuahangNongduoc.Controller
 
                 if (tblLo == null || tblLo.Rows.Count == 0)
                 {
-                    System.Diagnostics.Debug.WriteLine($"TinhGiaXuat: Sản phẩm ID {idSanPham} không có lô nào còn hàng");
                     return 0;
                 }
 
@@ -206,12 +204,10 @@ namespace CuahangNongduoc.Controller
 
                 // Gọi Strategy tính giá
                 long giaXuat = TinhGiaTheoConfig(danhSachLo);
-                System.Diagnostics.Debug.WriteLine($"TinhGiaXuat: SP {idSanPham} → Giá xuất = {giaXuat:N0}đ");
                 return giaXuat;
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"TinhGiaXuat: {ex.Message}");
                 return 0;  
             }
         }
@@ -240,10 +236,6 @@ namespace CuahangNongduoc.Controller
             }
 
             string phuongPhap = ThamSo.PhuongPhapXuatKho;
-
-            System.Diagnostics.Debug.WriteLine(
-                $"ChonLoTheoConfig: ID={idSanPham}, SL={soLuongCan}, Mode={phuongPhap}"
-            );
 
             if (phuongPhap == "FIFO")
             {
