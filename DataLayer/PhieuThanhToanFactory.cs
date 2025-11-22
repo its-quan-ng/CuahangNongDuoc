@@ -42,6 +42,7 @@ namespace CuahangNongduoc.DataLayer
             cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
             ds.Load(cmd);
             return ds;
+
         }
 
 

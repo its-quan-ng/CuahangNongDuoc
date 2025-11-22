@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmThanhToan));
             this.panel1 = new System.Windows.Forms.Panel();
             this.grpThongtin = new System.Windows.Forms.GroupBox();
@@ -260,6 +260,7 @@
             this.colMaPhieu.HeaderText = "Mã phiếu";
             this.colMaPhieu.MinimumWidth = 6;
             this.colMaPhieu.Name = "colMaPhieu";
+            this.colMaPhieu.Width = 150;
             // 
             // colKhachHang
             // 
@@ -271,13 +272,14 @@
             // colSotien
             // 
             this.colSotien.DataPropertyName = "TONG_TIEN";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.Format = "N0";
-            dataGridViewCellStyle2.NullValue = "0";
-            this.colSotien.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle3.Format = "N0";
+            dataGridViewCellStyle3.NullValue = "0";
+            this.colSotien.DefaultCellStyle = dataGridViewCellStyle3;
             this.colSotien.HeaderText = "Số tiền";
             this.colSotien.MinimumWidth = 6;
             this.colSotien.Name = "colSotien";
+            this.colSotien.Width = 150;
             // 
             // colNgayThanhToan
             // 
@@ -285,6 +287,7 @@
             this.colNgayThanhToan.HeaderText = "Ngày thu";
             this.colNgayThanhToan.MinimumWidth = 6;
             this.colNgayThanhToan.Name = "colNgayThanhToan";
+            this.colNgayThanhToan.Width = 150;
             // 
             // colGhiChu
             // 
@@ -321,6 +324,7 @@
             this.bindingNavigator.MoveNextItem = this.bindingNavigatorMoveNextItem;
             this.bindingNavigator.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.bindingNavigator.Name = "bindingNavigator";
+            this.bindingNavigator.Padding = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.bindingNavigator.PositionItem = this.bindingNavigatorPositionItem;
             this.bindingNavigator.Size = new System.Drawing.Size(860, 51);
             this.bindingNavigator.TabIndex = 0;
