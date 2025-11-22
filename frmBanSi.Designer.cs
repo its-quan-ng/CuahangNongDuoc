@@ -115,11 +115,17 @@
             this.numDaTra = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.dgvDanhsachSP = new System.Windows.Forms.DataGridView();
+            this.colMaPhieuBan = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colMaSanPham = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.colDonGia = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSoLuong = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colThanhTien = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator)).BeginInit();
             this.bindingNavigator.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDanhsachSP)).BeginInit();
             this.panel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupbox7.SuspendLayout();
@@ -137,6 +143,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.numConNo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numTongTien)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numDaTra)).BeginInit();
+            this.panel2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDanhsachSP)).BeginInit();
             this.SuspendLayout();
             // 
             // bindingNavigator
@@ -970,7 +980,6 @@
             this.grpPhieuBanLe.Controls.Add(this.numDaTra);
             this.grpPhieuBanLe.Controls.Add(this.label6);
             this.grpPhieuBanLe.Controls.Add(this.label8);
-            this.grpPhieuBanLe.Dock = System.Windows.Forms.DockStyle.Left;
             this.grpPhieuBanLe.Location = new System.Drawing.Point(0, 0);
             this.grpPhieuBanLe.Margin = new System.Windows.Forms.Padding(4);
             this.grpPhieuBanLe.Name = "grpPhieuBanLe";
@@ -1173,6 +1182,101 @@
             this.label8.TabIndex = 42;
             this.label8.Text = "Tổng tiền";
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.groupBox1);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(0, 283);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1251, 255);
+            this.panel2.TabIndex = 62;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.panel3);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Size = new System.Drawing.Size(1251, 255);
+            this.groupBox1.TabIndex = 61;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Danh sách Sản phẩm";
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.dgvDanhsachSP);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(4, 19);
+            this.panel3.Margin = new System.Windows.Forms.Padding(4);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(1243, 232);
+            this.panel3.TabIndex = 1;
+            // 
+            // dgvDanhsachSP
+            // 
+            this.dgvDanhsachSP.AllowUserToAddRows = false;
+            this.dgvDanhsachSP.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvDanhsachSP.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dgvDanhsachSP.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvDanhsachSP.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colMaPhieuBan,
+            this.colMaSanPham,
+            this.colDonGia,
+            this.colSoLuong,
+            this.colThanhTien});
+            this.dgvDanhsachSP.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvDanhsachSP.Location = new System.Drawing.Point(0, 0);
+            this.dgvDanhsachSP.Margin = new System.Windows.Forms.Padding(4);
+            this.dgvDanhsachSP.Name = "dgvDanhsachSP";
+            this.dgvDanhsachSP.ReadOnly = true;
+            this.dgvDanhsachSP.RowHeadersWidth = 51;
+            this.dgvDanhsachSP.Size = new System.Drawing.Size(1243, 232);
+            this.dgvDanhsachSP.TabIndex = 6;
+            // 
+            // colMaPhieuBan
+            // 
+            this.colMaPhieuBan.DataPropertyName = "ID_PHIEU_BAN";
+            this.colMaPhieuBan.HeaderText = "MaPhieuBan";
+            this.colMaPhieuBan.MinimumWidth = 6;
+            this.colMaPhieuBan.Name = "colMaPhieuBan";
+            this.colMaPhieuBan.ReadOnly = true;
+            this.colMaPhieuBan.Visible = false;
+            // 
+            // colMaSanPham
+            // 
+            this.colMaSanPham.DataPropertyName = "ID_MA_SAN_PHAM";
+            this.colMaSanPham.HeaderText = "Mã số";
+            this.colMaSanPham.MinimumWidth = 6;
+            this.colMaSanPham.Name = "colMaSanPham";
+            this.colMaSanPham.ReadOnly = true;
+            this.colMaSanPham.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // colDonGia
+            // 
+            this.colDonGia.DataPropertyName = "DON_GIA";
+            this.colDonGia.HeaderText = "Đơn giá";
+            this.colDonGia.MinimumWidth = 6;
+            this.colDonGia.Name = "colDonGia";
+            this.colDonGia.ReadOnly = true;
+            // 
+            // colSoLuong
+            // 
+            this.colSoLuong.DataPropertyName = "SO_LUONG";
+            this.colSoLuong.HeaderText = "Số lượng";
+            this.colSoLuong.MinimumWidth = 6;
+            this.colSoLuong.Name = "colSoLuong";
+            this.colSoLuong.ReadOnly = true;
+            // 
+            // colThanhTien
+            // 
+            this.colThanhTien.DataPropertyName = "THANH_TIEN";
+            this.colThanhTien.HeaderText = "Thành tiền";
+            this.colThanhTien.MinimumWidth = 6;
+            this.colThanhTien.Name = "colThanhTien";
+            this.colThanhTien.ReadOnly = true;
+            // 
             // frmBanSi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1184,14 +1288,13 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmBanSi";
-            this.Text = "BÁN SỈ";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Phiếu bán sỉ";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.frmBanSi_Load);
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator)).EndInit();
             this.bindingNavigator.ResumeLayout(false);
             this.bindingNavigator.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDanhsachSP)).EndInit();
             this.panel1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
@@ -1215,6 +1318,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.numConNo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numTongTien)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numDaTra)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDanhsachSP)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1233,11 +1340,8 @@
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveNextItem;
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveLastItem;
         private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator2;
-        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ToolStripButton toolLuu;
         private System.Windows.Forms.ToolStripButton toolThem;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.DataGridView dgvDanhsachSP;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox grpPhieuBanLe;
@@ -1265,12 +1369,7 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnRemove;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colMaPhieuBan;
-        private System.Windows.Forms.DataGridViewComboBoxColumn colMaSanPham;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSanPham;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colDonGia;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colSoLuong;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colThanhTien;
         private System.Windows.Forms.DataGridViewTextBoxColumn colNgayHetHan;
         private System.Windows.Forms.ToolStripButton toolIn;
         private System.Windows.Forms.ToolStripButton toolChinhSua;

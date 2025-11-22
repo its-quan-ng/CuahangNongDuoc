@@ -1,4 +1,4 @@
-namespace CuahangNongduoc
+﻿namespace CuahangNongduoc
 {
     partial class frmInPhieuBan
     {
@@ -31,14 +31,10 @@ namespace CuahangNongduoc
             this.components = new System.ComponentModel.Container();
             Microsoft.Reporting.WinForms.ReportDataSource reportDataSource1 = new Microsoft.Reporting.WinForms.ReportDataSource();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmInPhieuBan));
-            this.PhieuBanBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.reportViewer = new Microsoft.Reporting.WinForms.ReportViewer();
+            this.PhieuBanBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.PhieuBanBindingSource)).BeginInit();
             this.SuspendLayout();
-            // 
-            // PhieuBanBindingSource
-            // 
-            this.PhieuBanBindingSource.DataSource = typeof(CuahangNongduoc.BusinessObject.PhieuBan);
             // 
             // reportViewer
             // 
@@ -48,19 +44,28 @@ namespace CuahangNongduoc
             this.reportViewer.LocalReport.DataSources.Add(reportDataSource1);
             this.reportViewer.LocalReport.ReportEmbeddedResource = "CuahangNongduoc.Report.rptPhieuBan.rdlc";
             this.reportViewer.Location = new System.Drawing.Point(0, 0);
+            this.reportViewer.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.reportViewer.Name = "reportViewer";
-            this.reportViewer.Size = new System.Drawing.Size(506, 380);
+            this.reportViewer.ServerReport.BearerToken = null;
+            this.reportViewer.Size = new System.Drawing.Size(675, 468);
             this.reportViewer.TabIndex = 0;
+            // 
+            // PhieuBanBindingSource
+            // 
+            this.PhieuBanBindingSource.DataSource = typeof(CuahangNongduoc.BusinessObject.PhieuBan);
             // 
             // frmInPhieuBan
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(506, 380);
+            this.ClientSize = new System.Drawing.Size(675, 468);
             this.Controls.Add(this.reportViewer);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "frmInPhieuBan";
-            this.Text = "frmInPhieuBan";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "In phiếu bán";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.frmInPhieuBan_Load);
             ((System.ComponentModel.ISupportInitialize)(this.PhieuBanBindingSource)).EndInit();
             this.ResumeLayout(false);
