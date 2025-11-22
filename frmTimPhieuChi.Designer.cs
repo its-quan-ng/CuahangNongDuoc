@@ -32,8 +32,10 @@
             this.cmbLyDo = new System.Windows.Forms.ComboBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
-            this.dtNgayChi = new System.Windows.Forms.DateTimePicker();
+            this.dtTuNgay = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
+            this.dtDenNgay = new System.Windows.Forms.DateTimePicker();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -71,6 +73,7 @@
             this.btnCancel.Text = "Hủy bỏ";
             this.btnCancel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnOK
             // 
@@ -87,7 +90,7 @@
             this.btnOK.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnOK.UseVisualStyleBackColor = true;
             // 
-            // dtNgayChi
+            // dtTuNgay
             // 
             this.dtNgayChi.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.dtNgayChi.CustomFormat = "dd/MM/yyyy";
@@ -107,7 +110,27 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(69, 16);
             this.label2.TabIndex = 12;
-            this.label2.Text = "Ngày mua";
+            this.label2.Text = "Từ Ngày";
+            // 
+            // dtDenNgay
+            // 
+            this.dtDenNgay.CustomFormat = "dd/MM/yyyy";
+            this.dtDenNgay.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtDenNgay.Location = new System.Drawing.Point(128, 104);
+            this.dtDenNgay.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dtDenNgay.Name = "dtDenNgay";
+            this.dtDenNgay.Size = new System.Drawing.Size(156, 26);
+            this.dtDenNgay.TabIndex = 17;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(29, 111);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(77, 20);
+            this.label3.TabIndex = 16;
+            this.label3.Text = "Đến ngày";
             // 
             // frmTimPhieuChi
             // 
@@ -118,7 +141,7 @@
             this.ClientSize = new System.Drawing.Size(371, 170);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.dtNgayChi);
+            this.Controls.Add(this.dtTuNgay);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.cmbLyDo);
             this.Controls.Add(this.label1);
@@ -138,8 +161,10 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOK;
-        public System.Windows.Forms.DateTimePicker dtNgayChi;
+        public System.Windows.Forms.DateTimePicker dtTuNgay;
         private System.Windows.Forms.Label label2;
         public System.Windows.Forms.ComboBox cmbLyDo;
+        public System.Windows.Forms.DateTimePicker dtDenNgay;
+        private System.Windows.Forms.Label label3;
     }
 }
