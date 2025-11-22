@@ -388,15 +388,15 @@
             // 
             this.mnuTuychinhThongtin.Image = global::CuahangNongduoc.Properties.Resources.info;
             this.mnuTuychinhThongtin.Name = "mnuTuychinhThongtin";
-            this.mnuTuychinhThongtin.Size = new System.Drawing.Size(222, 26);
-            this.mnuTuychinhThongtin.Text = "Thông tin Cửa hàng";
+            this.mnuTuychinhThongtin.Size = new System.Drawing.Size(224, 26);
+            this.mnuTuychinhThongtin.Text = "Thông tin cửa hàng";
             this.mnuTuychinhThongtin.Click += new System.EventHandler(this.mnuTuychinhThongtin_Click);
             // 
             // mnuCauHinhKho
             // 
             this.mnuCauHinhKho.Name = "mnuCauHinhKho";
-            this.mnuCauHinhKho.Size = new System.Drawing.Size(222, 26);
-            this.mnuCauHinhKho.Text = "Cấu Hình";
+            this.mnuCauHinhKho.Size = new System.Drawing.Size(224, 26);
+            this.mnuCauHinhKho.Text = "Cấu hình";
             this.mnuCauHinhKho.Click += new System.EventHandler(this.mnuCauHinhKho_Click);
             // 
             // mnuTrogiup
@@ -481,7 +481,7 @@
             this.toolBanSi.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolBanSi.Name = "toolBanSi";
             this.toolBanSi.Size = new System.Drawing.Size(52, 48);
-            this.toolBanSi.Text = "Bán sĩ";
+            this.toolBanSi.Text = "Bán sỉ";
             this.toolBanSi.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolBanSi.Click += new System.EventHandler(this.mnuBanHangDL_Click);
             // 
@@ -908,7 +908,8 @@
             this.MainMenuStrip = this.menuStrip;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmMain";
-            this.Text = "QUAN LY CUA HANG NONG DUOC";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Quản lý cửa hàng nông dược";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.menuStrip.ResumeLayout(false);
