@@ -596,6 +596,7 @@
             // 
             // grpThongtin
             // 
+            this.grpThongtin.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.grpThongtin.Controls.Add(this.btnThemSanPham);
             this.grpThongtin.Controls.Add(this.btnAdd);
             this.grpThongtin.Controls.Add(this.btnRemove);
@@ -613,7 +614,6 @@
             this.grpThongtin.Controls.Add(this.txtMaSo);
             this.grpThongtin.Controls.Add(this.label1);
             this.grpThongtin.Controls.Add(this.cmbSanPham);
-            this.grpThongtin.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpThongtin.Location = new System.Drawing.Point(319, 0);
             this.grpThongtin.Margin = new System.Windows.Forms.Padding(4);
             this.grpThongtin.Name = "grpThongtin";
@@ -646,6 +646,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.groupBox1.Controls.Add(this.btnThemNCC);
             this.groupBox1.Controls.Add(this.label13);
             this.groupBox1.Controls.Add(this.numConNo);
@@ -659,7 +660,6 @@
             this.groupBox1.Controls.Add(this.dtNgayNhap);
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.txtMaPhieu);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Left;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
@@ -804,7 +804,9 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmNhapHang";
-            this.Text = "NHAP HANG";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Phiếu nhập hàng";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.frmNhapHang_Load);
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator)).EndInit();
             this.bindingNavigator.ResumeLayout(false);

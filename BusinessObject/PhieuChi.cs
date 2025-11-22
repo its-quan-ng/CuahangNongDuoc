@@ -48,6 +48,11 @@ namespace CuahangNongduoc.BusinessObject
             get { return m_GhiChu; }
             set { m_GhiChu = value; }
         }
+
+        public String TenLyDoChi
+        {
+            get { return m_LyDo != null ? m_LyDo.LyDo : ""; }
+        }
 	
 
 	

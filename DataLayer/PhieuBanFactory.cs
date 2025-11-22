@@ -36,7 +36,13 @@ namespace CuahangNongduoc.DataLayer
         public DataTable DanhsachPhieuBanLe()
         {
             DataService ds = new DataService();
-            SqlCommand cmd = new SqlCommand("SELECT PB.* FROM PHIEU_BAN PB INNER JOIN KHACH_HANG KH ON PB.ID_KHACH_HANG=KH.ID WHERE KH.LOAI_KH=0");
+            SqlCommand cmd = new SqlCommand(
+                @"SELECT PB.*, KM.TEN_KHUYEN_MAI
+                  FROM PHIEU_BAN PB
+                  INNER JOIN KHACH_HANG KH ON PB.ID_KHACH_HANG = KH.ID
+                  LEFT JOIN KHUYEN_MAI KM ON PB.ID_KHUYEN_MAI = KM.ID
+                  WHERE KH.LOAI_KH = 0
+                  ORDER BY PB.ID DESC");
             ds.Load(cmd);
 
             return ds;
@@ -44,7 +50,13 @@ namespace CuahangNongduoc.DataLayer
         public DataTable DanhsachPhieuBanSi()
         {
             DataService ds = new DataService();
-            SqlCommand cmd = new SqlCommand("SELECT PB.* FROM PHIEU_BAN PB INNER JOIN KHACH_HANG KH ON PB.ID_KHACH_HANG=KH.ID WHERE KH.LOAI_KH=1");
+            SqlCommand cmd = new SqlCommand(
+                @"SELECT PB.*, KM.TEN_KHUYEN_MAI
+                  FROM PHIEU_BAN PB
+                  INNER JOIN KHACH_HANG KH ON PB.ID_KHACH_HANG = KH.ID
+                  LEFT JOIN KHUYEN_MAI KM ON PB.ID_KHUYEN_MAI = KM.ID
+                  WHERE KH.LOAI_KH = 1
+                  ORDER BY PB.ID DESC");
             ds.Load(cmd);
 
             return ds;

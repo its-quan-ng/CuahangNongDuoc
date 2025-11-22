@@ -51,13 +51,35 @@ namespace CuahangNongduoc
                 e.Cancel = true;
             }
         }
-
+        
         private void toolDelete_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Bạn chắc chắn xóa phiếu thanh toán này không?", "Phieu Thanh Toan", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            DataRowView currentRow = (DataRowView)bindingNavigator.BindingSource.Current;
+            if (currentRow != null)
             {
-                bindingNavigator.BindingSource.RemoveCurrent();
-                ctrl.Save();
+                int idPhieuThanhToan = Convert.ToInt32(currentRow["ID"]);
+
+                // Kiểm tra xem phiếu thanh toán có liên kết với khách hàng không
+                PhieuThanhToanController ctrlPTT = new PhieuThanhToanController();
+                BusinessObject.PhieuThanhToan ptt = ctrlPTT.LayPhieuThanhToan(idPhieuThanhToan);
+
+                if (ptt != null && ptt.KhachHang != null)
+                {
+                    MessageBox.Show("Không thể xóa phiếu thanh toán này vì đã liên kết với khách hàng: " + ptt.KhachHang.HoTen,
+                                  "Không thể xóa",
+                                  MessageBoxButtons.OK,
+                                  MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (MessageBox.Show("Bạn chắc chắn xóa phiếu thanh toán này không?",
+                                 "Xác nhận xóa",
+                                 MessageBoxButtons.YesNo,
+                                 MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    bindingNavigator.BindingSource.RemoveCurrent();
+                    ctrl.Save();
+                }
             }
         }
 

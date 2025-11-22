@@ -33,6 +33,23 @@ namespace CuahangNongduoc
             {
                 dataGridView.Columns["CHI_PHI_DICH_VU"].Visible = false;
             }
+
+            // YC4: Đổi tên và ẩn cột khuyến mãi
+            if (dataGridView.Columns.Contains("CHIET_KHAU"))
+            {
+                dataGridView.Columns["CHIET_KHAU"].HeaderText = "Chiết khấu (%)";
+            }
+
+            if (dataGridView.Columns.Contains("ID_KHUYEN_MAI"))
+            {
+                dataGridView.Columns["ID_KHUYEN_MAI"].Visible = false;
+            }
+
+            if (dataGridView.Columns.Contains("TEN_KHUYEN_MAI"))
+            {
+                dataGridView.Columns["TEN_KHUYEN_MAI"].HeaderText = "Khuyến mãi";
+                dataGridView.Columns["TEN_KHUYEN_MAI"].Width = 200;
+            }
         }
         frmBanLe BanLe = null;
         private void dataGridView_DoubleClick(object sender, EventArgs e)

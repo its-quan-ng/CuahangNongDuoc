@@ -31,6 +31,7 @@ namespace CuahangNongduoc
         frmLyDoChi LyDoChi = null;
         frmPhieuChi PhieuChi = null;
         frmCauHinh CauHinh = null;
+        frmKhuyenMai KhuyenMai = null;
 
         public frmMain()
         {
@@ -78,6 +79,7 @@ namespace CuahangNongduoc
                 // Menu: Chức năng Admin (chỉ Admin mới thấy)
                 mnuSanPham.Visible = laAdmin;
                 mnuDonViTinh.Visible = laAdmin;
+                mnuKhuyenMai.Visible = laAdmin;
                 mnuLyDoChi.Visible = laAdmin;
                 mnuNhaCungCap.Visible = laAdmin;
                
@@ -156,7 +158,19 @@ namespace CuahangNongduoc
                 DonViTinh.Activate();
         }
 
-   
+        private void mnuKhuyenMai_Click(object sender, EventArgs e)
+        {
+            if (KhuyenMai == null || KhuyenMai.IsDisposed)
+            {
+                KhuyenMai = new frmKhuyenMai();
+                KhuyenMai.MdiParent = this;
+                KhuyenMai.Show();
+            }
+            else
+                KhuyenMai.Activate();
+        }
+
+
         private void mnuSanPham_Click(object sender, EventArgs e)
         {
             if (SanPham == null || SanPham.IsDisposed)

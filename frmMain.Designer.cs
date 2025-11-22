@@ -41,6 +41,7 @@
             this.mnuQuanLy = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLyDoChi = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDonViTinh = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuKhuyenMai = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSanPham = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuKhachHang = new System.Windows.Forms.ToolStripMenuItem();
@@ -189,6 +190,7 @@
             this.mnuQuanLy.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuLyDoChi,
             this.mnuDonViTinh,
+            this.mnuKhuyenMai,
             this.mnuSanPham,
             this.toolStripSeparator2,
             this.mnuKhachHang,
@@ -207,13 +209,20 @@
             this.mnuLyDoChi.Click += new System.EventHandler(this.mnuLyDoChi_Click);
             // 
             // mnuDonViTinh
-            // 
+            //
             this.mnuDonViTinh.Image = global::CuahangNongduoc.Properties.Resources.DonViTinh;
             this.mnuDonViTinh.Name = "mnuDonViTinh";
             this.mnuDonViTinh.Size = new System.Drawing.Size(183, 26);
             this.mnuDonViTinh.Text = "Đơn vị tính";
             this.mnuDonViTinh.Click += new System.EventHandler(this.mnuDonViTinh_Click);
-            // 
+            //
+            // mnuKhuyenMai
+            //
+            this.mnuKhuyenMai.Name = "mnuKhuyenMai";
+            this.mnuKhuyenMai.Size = new System.Drawing.Size(183, 26);
+            this.mnuKhuyenMai.Text = "Khuyến mãi";
+            this.mnuKhuyenMai.Click += new System.EventHandler(this.mnuKhuyenMai_Click);
+            //
             // mnuSanPham
             // 
             this.mnuSanPham.Image = global::CuahangNongduoc.Properties.Resources.SanPham;
@@ -379,15 +388,15 @@
             // 
             this.mnuTuychinhThongtin.Image = global::CuahangNongduoc.Properties.Resources.info;
             this.mnuTuychinhThongtin.Name = "mnuTuychinhThongtin";
-            this.mnuTuychinhThongtin.Size = new System.Drawing.Size(222, 26);
-            this.mnuTuychinhThongtin.Text = "Thông tin Cửa hàng";
+            this.mnuTuychinhThongtin.Size = new System.Drawing.Size(224, 26);
+            this.mnuTuychinhThongtin.Text = "Thông tin cửa hàng";
             this.mnuTuychinhThongtin.Click += new System.EventHandler(this.mnuTuychinhThongtin_Click);
             // 
             // mnuCauHinhKho
             // 
             this.mnuCauHinhKho.Name = "mnuCauHinhKho";
-            this.mnuCauHinhKho.Size = new System.Drawing.Size(222, 26);
-            this.mnuCauHinhKho.Text = "Cấu Hình";
+            this.mnuCauHinhKho.Size = new System.Drawing.Size(224, 26);
+            this.mnuCauHinhKho.Text = "Cấu hình";
             this.mnuCauHinhKho.Click += new System.EventHandler(this.mnuCauHinhKho_Click);
             // 
             // mnuTrogiup
@@ -472,7 +481,7 @@
             this.toolBanSi.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolBanSi.Name = "toolBanSi";
             this.toolBanSi.Size = new System.Drawing.Size(52, 48);
-            this.toolBanSi.Text = "Bán sĩ";
+            this.toolBanSi.Text = "Bán sỉ";
             this.toolBanSi.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolBanSi.Click += new System.EventHandler(this.mnuBanHangDL_Click);
             // 
@@ -899,7 +908,8 @@
             this.MainMenuStrip = this.menuStrip;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmMain";
-            this.Text = "QUAN LY CUA HANG NONG DUOC";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Quản lý cửa hàng nông dược";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.menuStrip.ResumeLayout(false);
@@ -933,6 +943,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuTuychinh;
         private System.Windows.Forms.ToolStripMenuItem mnuTrogiup;
         private System.Windows.Forms.ToolStripMenuItem mnuDonViTinh;
+        private System.Windows.Forms.ToolStripMenuItem mnuKhuyenMai;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem mnuNhapHang;
         private System.Windows.Forms.ToolStripMenuItem mnuBanHang;
