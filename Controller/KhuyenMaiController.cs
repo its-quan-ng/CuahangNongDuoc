@@ -91,5 +91,13 @@ namespace CuahangNongduoc.Controller
         {
             return factory.Save();
         }
+
+        /// <summary>
+        /// Lấy DataTable hiện tại trong Factory (dùng cho refresh DataGridView khi Add)
+        /// </summary>
+        public DataTable GetCurrentDataTable()
+        {
+            return factory.GetCurrentDataTable();
+        }
     }
 }

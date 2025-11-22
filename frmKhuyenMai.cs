@@ -20,6 +20,7 @@ namespace CuahangNongduoc
 
         private void frmKhuyenMai_Load(object sender, EventArgs e)
         {
+            dataGridView.AutoGenerateColumns = false;
             // Load danh sách khuyến mãi
             ctrl.HienthiDataGridview(bindingNavigator, dataGridView);
 
@@ -150,33 +151,44 @@ namespace CuahangNongduoc
 
         private void dataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (dataGridView.Columns[e.ColumnIndex].Name == "colDieuKien" && e.RowIndex >= 0)
+            if (e.RowIndex < 0)
+                return;
+
+            try
             {
-                try
-                {
-                    DataGridViewRow row = dataGridView.Rows[e.RowIndex];
-                    DataRowView rowView = (DataRowView)row.DataBoundItem;
+                DataGridViewRow row = dataGridView.Rows[e.RowIndex];
+                DataRowView rowView = (DataRowView)row.DataBoundItem;
+                if (rowView == null)
+                    return;
 
-                    if (rowView != null)
+                // Format cột Điều kiện
+                if (dataGridView.Columns[e.ColumnIndex].Name == "colDieuKien")
+                {
+                    string loai = rowView["DIEU_KIEN_LOAI"].ToString();
+                    decimal giaTri = Convert.ToDecimal(rowView["DIEU_KIEN_GIA_TRI"]);
+
+                    if (loai == "TONG_TIEN")
                     {
-                        string loai = rowView["DIEU_KIEN_LOAI"].ToString();
-                        decimal giaTri = Convert.ToDecimal(rowView["DIEU_KIEN_GIA_TRI"]);
-
-                        if (loai == "TONG_TIEN")
-                        {
-                            e.Value = $"Tổng tiền: {giaTri:N0} đ";
-                        }
-                        else if (loai == "SO_LUONG")
-                        {
-                            e.Value = $"Số lượng: {giaTri:N0} SP";
-                        }
-
-                        e.FormattingApplied = true;
+                        e.Value = $"Tổng tiền: {giaTri:N0} đ";
                     }
+                    else if (loai == "SO_LUONG")
+                    {
+                        e.Value = $"Số lượng: {giaTri:N0} SP";
+                    }
+
+                    e.FormattingApplied = true;
                 }
-                catch
+
+                // Format cột Trạng thái
+                if (dataGridView.Columns[e.ColumnIndex].Name == "colTinhTrang")
                 {
+                    bool trangThai = Convert.ToBoolean(rowView["TRANG_THAI"]);
+                    e.Value = trangThai ? "Hoạt động" : "Vô hiệu hóa";
+                    e.FormattingApplied = true;
                 }
+            }
+            catch
+            {
             }
         }
 
@@ -326,7 +338,108 @@ namespace CuahangNongduoc
 
         private void btnThem_Click(object sender, EventArgs e)
         {
+            try
+            {
+                // Tạo row mới
+                DataRow row = ctrl.NewRow();
 
+                // Gán giá trị mặc định
+                row["TEN_KHUYEN_MAI"] = "";
+                row["TY_LE_GIAM"] = 0;
+                row["TU_NGAY"] = DateTime.Now.Date;
+                row["DEN_NGAY"] = DateTime.Now.Date.AddMonths(1);
+                row["TRANG_THAI"] = true;
+                row["GHI_CHU"] = "";
+
+                // Mặc định: Tổng tiền >= 100,000đ
+                row["DIEU_KIEN_LOAI"] = "TONG_TIEN";
+                row["DIEU_KIEN_GIA_TRI"] = 100000;
+
+                // Thêm vào DataTable
+                ctrl.Add(row);
+
+                // Refresh DataGridView
+                DataTable dt = ctrl.GetCurrentDataTable();
+                bindingNavigator.BindingSource.DataSource = dt;
+                bindingNavigator.BindingSource.MoveLast();
+
+                // Focus vào textbox đầu tiên
+                txtTenKhuyenMai.Focus();
+
+                MessageBox.Show("Đã thêm chương trình khuyến mãi mới.\nVui lòng nhập thông tin và bấm 'Lưu'.",
+                    "Khuyến mãi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi thêm: " + ex.Message,
+                    "Khuyến mãi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnXoa_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                BindingSource bs = bindingNavigator.BindingSource;
+                if (bs.Current == null)
+                {
+                    MessageBox.Show("Vui lòng chọn chương trình khuyến mãi cần xóa!",
+                        "Khuyến mãi",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
+
+                DataRowView rowView = (DataRowView)bs.Current;
+                string tenKM = rowView["TEN_KHUYEN_MAI"].ToString();
+
+                DialogResult result = MessageBox.Show(
+                    $"Bạn có chắc muốn xóa chương trình '{tenKM}'?",
+                    "Xác nhận xóa",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    // Xóa row
+                    rowView.Row.Delete();
+
+                    // Lưu thay đổi
+                    if (ctrl.Save())
+                    {
+                        MessageBox.Show("Xóa thành công!",
+                            "Khuyến mãi",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
+
+                        // Refresh DataGridView
+                        ctrl.HienthiDataGridview(bindingNavigator, dataGridView);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Không thể xóa chương trình này!",
+                            "Khuyến mãi",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi xóa: " + ex.Message,
+                    "Khuyến mãi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void toolThoat_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

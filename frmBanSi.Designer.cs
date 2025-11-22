@@ -53,7 +53,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.dgvDanhsachSP = new System.Windows.Forms.DataGridView();
             this.colMaPhieuBan = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colMaSanPham = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.colMaSanPham = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDonGia = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSoLuong = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colThanhTien = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -120,7 +120,7 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.dgvDanhsachSP = new System.Windows.Forms.DataGridView();
             this.colMaPhieuBan = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colMaSanPham = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.colMaSanPham = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDonGia = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSoLuong = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colThanhTien = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -339,53 +339,7 @@
             this.toolThoat.Text = "Thoát";
             this.toolThoat.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolThoat.Click += new System.EventHandler(this.toolThoat_Click);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.panel2);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox1.Location = new System.Drawing.Point(0, 293);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(1346, 245);
-            this.groupBox1.TabIndex = 60;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Danh sách Sản phẩm";
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.dgvDanhsachSP);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(4, 19);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1338, 222);
-            this.panel2.TabIndex = 1;
-            // 
-            // dgvDanhsachSP
-            // 
-            this.dgvDanhsachSP.AllowUserToAddRows = false;
-            this.dgvDanhsachSP.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvDanhsachSP.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.dgvDanhsachSP.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDanhsachSP.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colMaPhieuBan,
-            this.colMaSanPham,
-            this.colDonGia,
-            this.colSoLuong,
-            this.colThanhTien});
-            this.dgvDanhsachSP.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvDanhsachSP.Location = new System.Drawing.Point(0, 0);
-            this.dgvDanhsachSP.Margin = new System.Windows.Forms.Padding(4);
-            this.dgvDanhsachSP.Name = "dgvDanhsachSP";
-            this.dgvDanhsachSP.ReadOnly = true;
-            this.dgvDanhsachSP.RowHeadersWidth = 51;
-            this.dgvDanhsachSP.Size = new System.Drawing.Size(1338, 222);
-            this.dgvDanhsachSP.TabIndex = 6;
-            this.dgvDanhsachSP.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvDanhsachSP_DataError);
-            this.dgvDanhsachSP.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.dgvDanhsachSP_UserDeletingRow);
-            // 
+            //
             // colMaPhieuBan
             // 
             this.colMaPhieuBan.DataPropertyName = "ID_PHIEU_BAN";
@@ -1282,7 +1236,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1346, 538);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.bindingNavigator);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1408,5 +1362,14 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.NumericUpDown txtTongTienGiam;
         private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.DataGridView dgvDanhsachSP;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colMaPhieuBan;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colMaSanPham;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSoLuong;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDonGia;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colThanhTien;
     }
 }

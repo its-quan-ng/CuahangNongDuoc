@@ -65,7 +65,8 @@
             this.btnHuy.TabIndex = 6;
             this.btnHuy.Text = "Hủy";
             this.btnHuy.UseVisualStyleBackColor = false;
-            // 
+            this.btnHuy.Click += new System.EventHandler(this.btnHuy_Click);
+            //
             // btnLuu
             // 
             this.btnLuu.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -76,7 +77,8 @@
             this.btnLuu.TabIndex = 7;
             this.btnLuu.Text = "Lưu";
             this.btnLuu.UseVisualStyleBackColor = false;
-            // 
+            this.btnLuu.Click += new System.EventHandler(this.btnLuu_Click);
+            //
             // grpPhuongPhapTinhGia
             // 
             this.grpPhuongPhapTinhGia.Anchor = System.Windows.Forms.AnchorStyles.None;

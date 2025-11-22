@@ -42,6 +42,16 @@ namespace CuahangNongduoc
 
         private void frmBanSi_Load(object sender, EventArgs e)
         {
+            // QUAN TRỌNG: Đăng ký events TRƯỚC KHI bind data
+            // Đăng ký events tính Còn nợ
+            numTongTien.ValueChanged += numTongTien_ValueChanged;
+            numDaTra.ValueChanged += numDaTra_ValueChanged;
+
+            // YC4: Đăng ký events khuyến mãi
+            numChietKhau.ValueChanged += numChietKhau_ValueChanged;
+            chkApDung.CheckedChanged += chkApDung_CheckedChanged;
+            cboCTKM.SelectedIndexChanged += cboCTKM_SelectedIndexChanged;
+
             ctrlSanPham.HienthiAutoComboBox(cmbSanPham);
 
             cmbSanPham.SelectedIndexChanged += new EventHandler(cmbSanPham_SelectedIndexChanged);
@@ -49,14 +59,19 @@ namespace CuahangNongduoc
 
             ctrlKhachHang.HienthiAutoComboBox(cmbKhachHang, true);
 
+            if (status == Controll.Normal)
+            {
+                ctrlPhieuBan.Refresh(false);
+            }
+
             ctrlPhieuBan.HienthiPhieuBan(bindingNavigator, cmbKhachHang, txtMaPhieu, dtNgayLapPhieu, numTongTien, numDaTra, numConNo, numChiPhiVanChuyen, numChiPhiDichVu, numChietKhau);
             bindingNavigator.BindingSource.CurrentChanged += new EventHandler(BindingSource_CurrentChanged);
 
             // Thêm SelectionChanged event cho DataGridView để fill fields khi click row
             dgvDanhsachSP.SelectionChanged += dgvDanhsachSP_SelectionChanged;
 
-            // Populate ComboBoxColumn cho cột Mã số
-            ctrlMaSanPham.HienThiDataGridViewComboBox(colMaSanPham);
+            // colMaSanPham đã đổi sang TextBoxColumn, không cần populate DataSource
+            // ctrlMaSanPham.HienThiDataGridViewComboBox(colMaSanPham);
 
             // Cập nhật label và tooltip giá xuất theo config
             label15.Text = ThamSo.LayTenPhuongPhapTinhGia();
@@ -85,11 +100,6 @@ namespace CuahangNongduoc
             chkApDung.Checked = false;
             cboCTKM.Enabled = false;
 
-            // YC4: Đăng ký events
-            numChietKhau.ValueChanged += numChietKhau_ValueChanged;
-            chkApDung.CheckedChanged += chkApDung_CheckedChanged;
-            cboCTKM.SelectedIndexChanged += cboCTKM_SelectedIndexChanged;
-
             if (status == Controll.AddNew)
             {
                 txtMaPhieu.Text = ThamSo.LayMaPhieuBan().ToString();
@@ -107,6 +117,9 @@ namespace CuahangNongduoc
                 {
                     ctrlChiTiet.HienThiChiTiet(dgvDanhsachSP, maPhieu);
                 }
+
+                // Load thông tin khuyến mãi
+                LoadKhuyenMaiInfo();
             }
         }
 
@@ -118,11 +131,7 @@ namespace CuahangNongduoc
                 if (!string.IsNullOrWhiteSpace(txtMaPhieu.Text) && int.TryParse(txtMaPhieu.Text, out int maPhieu))
                 {
                     ctrlChiTiet.HienThiChiTiet(dgvDanhsachSP, maPhieu);
-                    // Cập nhật DataSource của ComboBoxColumn với tất cả mã sản phẩm khi xem dữ liệu
-                    CuahangNongduoc.DataLayer.MaSanPhamFactory factory = new CuahangNongduoc.DataLayer.MaSanPhamFactory();
-                    colMaSanPham.DataSource = factory.DanhsachMaSanPham();
-                    colMaSanPham.DisplayMember = "ID";
-                    colMaSanPham.ValueMember = "ID";
+                    // colMaSanPham đã đổi sang TextBoxColumn, không cần DataSource nữa
                 }
 
                 // YC4: Load thông tin khuyến mãi khi chuyển phiếu
@@ -149,9 +158,17 @@ namespace CuahangNongduoc
 
                     if (km != null)
                     {
+                        // Tạm thời unregister event để tránh trigger TinhTongTien()
+                        chkApDung.CheckedChanged -= chkApDung_CheckedChanged;
+                        cboCTKM.SelectedIndexChanged -= cboCTKM_SelectedIndexChanged;
+
                         cboCTKM.SelectedValue = idKM;
                         chkApDung.Checked = true;
                         txtKhuyenMai.Text = $"{km.TyLeGiam}%";
+
+                        // Register lại events
+                        chkApDung.CheckedChanged += chkApDung_CheckedChanged;
+                        cboCTKM.SelectedIndexChanged += cboCTKM_SelectedIndexChanged;
 
                         if (km.DieuKienLoai == "TONG_TIEN")
                         {
@@ -165,10 +182,18 @@ namespace CuahangNongduoc
                 }
                 else
                 {
+                    // Tạm thời unregister event
+                    chkApDung.CheckedChanged -= chkApDung_CheckedChanged;
+                    cboCTKM.SelectedIndexChanged -= cboCTKM_SelectedIndexChanged;
+
                     chkApDung.Checked = false;
                     cboCTKM.SelectedIndex = -1;
                     txtKhuyenMai.Text = "";
                     lblDieuKienKM.Text = "";
+
+                    // Register lại events
+                    chkApDung.CheckedChanged += chkApDung_CheckedChanged;
+                    cboCTKM.SelectedIndexChanged += cboCTKM_SelectedIndexChanged;
                 }
             }
             catch
@@ -192,10 +217,7 @@ namespace CuahangNongduoc
                     ctrlMSP.HienThiAutoComboBox(idSanPham, cmbMaSanPham);
                     cmbMaSanPham.SelectedIndexChanged += new EventHandler(cmbMaSanPham_SelectedIndexChanged);
 
-                    CuahangNongduoc.DataLayer.MaSanPhamFactory factory = new CuahangNongduoc.DataLayer.MaSanPhamFactory();
-                    colMaSanPham.DataSource = factory.DanhsachMaSanPham(idSanPham);
-                    colMaSanPham.DisplayMember = "ID";
-                    colMaSanPham.ValueMember = "ID";
+                    // colMaSanPham đã đổi sang TextBoxColumn, không cần DataSource nữa
 
                     if (cmbMaSanPham.Items.Count > 0 && cmbMaSanPham.SelectedValue != null)
                     {
@@ -436,6 +458,11 @@ namespace CuahangNongduoc
             numConNo.Value = numTongTien.Value - numDaTra.Value;
         }
 
+        private void numDaTra_ValueChanged(object sender, EventArgs e)
+        {
+            numConNo.Value = numTongTien.Value - numDaTra.Value;
+        }
+
         private void numChiPhiVanChuyen_ValueChanged(object sender, EventArgs e)
         {
             TinhTongTien();
@@ -517,6 +544,7 @@ namespace CuahangNongduoc
                 else
                 {
                     lblTienKM.Text = "";
+                    lblDieuKienKM.Text = "";
                 }
 
                 // Bước 5: Tính tổng tiền giảm (CK + KM)
@@ -536,7 +564,6 @@ namespace CuahangNongduoc
 
         private void toolLuu_Click(object sender, EventArgs e)
         {
-            bindingNavigatorPositionItem.Focus();
             this.Luu();
             status = Controll.Normal;
             this.Allow(false);
@@ -574,7 +601,7 @@ namespace CuahangNongduoc
 
             ctrlChiTiet.Save();
 
-            ctrlPhieuBan.Update();
+            ctrlPhieuBan.Save();
 
         }
         void ThemMoi()
@@ -805,7 +832,8 @@ namespace CuahangNongduoc
         private void toolXemLai_Click(object sender, EventArgs e)
         {
             ctrlSanPham.HienthiAutoComboBox(cmbSanPham);
-            ctrlMaSanPham.HienThiDataGridViewComboBox(colMaSanPham);
+            // colMaSanPham đã đổi sang TextBoxColumn, không cần populate DataSource
+            // ctrlMaSanPham.HienThiDataGridViewComboBox(colMaSanPham);
             ctrlKhachHang.HienthiAutoComboBox(cmbKhachHang, true);
         }
 

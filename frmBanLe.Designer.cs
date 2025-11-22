@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmBanLe));
+            this.panel3 = new System.Windows.Forms.Panel();
             this.bindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
             this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
             this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
@@ -74,7 +75,6 @@
             this.label19 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.numChiPhiVanChuyen = new System.Windows.Forms.NumericUpDown();
             this.numChiPhiDichVu = new System.Windows.Forms.NumericUpDown();
             this.label16 = new System.Windows.Forms.Label();
@@ -101,7 +101,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.cmbSanPham = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.grpPhieuBanLe = new System.Windows.Forms.GroupBox();
             this.txtTongTienGiam = new System.Windows.Forms.NumericUpDown();
             this.label22 = new System.Windows.Forms.Label();
             this.btnThemDaiLy = new System.Windows.Forms.Button();
@@ -117,16 +116,6 @@
             this.numDaTra = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.dgvDanhsachSP = new System.Windows.Forms.DataGridView();
-            this.colMaPhieuBan = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colMaSanPham = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSanPham = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDonGia = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSoLuong = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colThanhTien = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator)).BeginInit();
             this.bindingNavigator.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -337,55 +326,7 @@
             this.toolThoat.Text = "Thoát";
             this.toolThoat.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolThoat.Click += new System.EventHandler(this.toolThoat_Click);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.panel2);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox1.Location = new System.Drawing.Point(0, 297);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(1364, 245);
-            this.groupBox1.TabIndex = 60;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Danh sách Sản phẩm";
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.dgvDanhsachSP);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(4, 19);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1356, 222);
-            this.panel2.TabIndex = 1;
-            // 
-            // dgvDanhsachSP
-            // 
-            this.dgvDanhsachSP.AllowUserToAddRows = false;
-            this.dgvDanhsachSP.AllowUserToOrderColumns = true;
-            this.dgvDanhsachSP.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvDanhsachSP.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.dgvDanhsachSP.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDanhsachSP.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colMaPhieuBan,
-            this.colMaSanPham,
-            this.colSanPham,
-            this.colDonGia,
-            this.colSoLuong,
-            this.colThanhTien});
-            this.dgvDanhsachSP.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvDanhsachSP.Location = new System.Drawing.Point(0, 0);
-            this.dgvDanhsachSP.Margin = new System.Windows.Forms.Padding(4);
-            this.dgvDanhsachSP.Name = "dgvDanhsachSP";
-            this.dgvDanhsachSP.ReadOnly = true;
-            this.dgvDanhsachSP.RowHeadersWidth = 51;
-            this.dgvDanhsachSP.Size = new System.Drawing.Size(1356, 222);
-            this.dgvDanhsachSP.TabIndex = 6;
-            this.dgvDanhsachSP.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvDanhsachSP_DataError);
-            this.dgvDanhsachSP.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.dgvDanhsachSP_UserDeletingRow);
-            // 
+            //
             // colMaPhieuBan
             // 
             this.colMaPhieuBan.DataPropertyName = "ID_PHIEU_BAN";
@@ -433,9 +374,10 @@
             this.colThanhTien.MinimumWidth = 6;
             this.colThanhTien.Name = "colThanhTien";
             this.colThanhTien.ReadOnly = true;
-            // 
+            //
             // panel1
-            // 
+            //
+            this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Controls.Add(this.grpPhieuBanLe);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 51);
@@ -617,10 +559,9 @@
             this.label18.Size = new System.Drawing.Size(69, 16);
             this.label18.TabIndex = 0;
             this.label18.Text = "Chiết khấu";
-            // 
+            //
             // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.groupBox6);
+            //
             this.groupBox4.Controls.Add(this.numChiPhiVanChuyen);
             this.groupBox4.Controls.Add(this.numChiPhiDichVu);
             this.groupBox4.Controls.Add(this.label16);
@@ -631,16 +572,7 @@
             this.groupBox4.TabIndex = 64;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Chi phí phụ";
-            // 
-            // groupBox6
-            // 
-            this.groupBox6.Location = new System.Drawing.Point(-44, 284);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(200, 100);
-            this.groupBox6.TabIndex = 65;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "groupBox5";
-            // 
+            //
             // numChiPhiVanChuyen
             // 
             this.numChiPhiVanChuyen.Location = new System.Drawing.Point(130, 25);
@@ -823,7 +755,8 @@
             this.btnAdd.Size = new System.Drawing.Size(63, 37);
             this.btnAdd.TabIndex = 60;
             this.btnAdd.UseVisualStyleBackColor = true;
-            // 
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            //
             // btnRemove
             // 
             this.btnRemove.Image = global::CuahangNongduoc.Properties.Resources.up;
@@ -833,7 +766,8 @@
             this.btnRemove.Size = new System.Drawing.Size(64, 38);
             this.btnRemove.TabIndex = 59;
             this.btnRemove.UseVisualStyleBackColor = true;
-            // 
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
+            //
             // numThanhTien
             // 
             this.numThanhTien.Location = new System.Drawing.Point(97, 153);
@@ -1284,6 +1218,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1364, 542);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.bindingNavigator);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1355,7 +1290,6 @@
         private System.Windows.Forms.GroupBox grpPhieuBanLe;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.NumericUpDown numChiPhiVanChuyen;
         private System.Windows.Forms.NumericUpDown numChiPhiDichVu;
         private System.Windows.Forms.Label label16;
@@ -1405,7 +1339,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colDonGia;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSoLuong;
         private System.Windows.Forms.DataGridViewTextBoxColumn colThanhTien;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colNgayHetHan;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label18;

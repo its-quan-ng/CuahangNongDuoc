@@ -101,5 +101,13 @@ namespace CuahangNongduoc.DataLayer
         {
             return m_Ds.ExecuteNoneQuery() > 0;
         }
+
+        /// <summary>
+        /// Lấy DataTable hiện tại trong m_Ds (dùng cho refresh DataGridView)
+        /// </summary>
+        public DataTable GetCurrentDataTable()
+        {
+            return m_Ds;
+        }
     }
 }

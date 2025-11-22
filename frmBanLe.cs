@@ -39,12 +39,27 @@ namespace CuahangNongduoc
 
         private void frmBanLe_Load(object sender, EventArgs e)
         {
+            // QUAN TRỌNG: Đăng ký events TRƯỚC KHI bind data
+            // Đăng ký events tính Còn nợ
+            numTongTien.ValueChanged += numTongTien_ValueChanged;
+            numDaTra.ValueChanged += numDaTra_ValueChanged;
+
+            // YC4: Đăng ký events khuyến mãi
+            numChietKhau.ValueChanged += numChietKhau_ValueChanged;
+            chkApDung.CheckedChanged += chkApDung_CheckedChanged;
+            cboCTKM.SelectedIndexChanged += cboCTKM_SelectedIndexChanged;
+
             ctrlSanPham.HienthiAutoComboBox(cmbSanPham);
 
             cmbSanPham.SelectedIndexChanged += new EventHandler(cmbSanPham_SelectedIndexChanged);
             cmbMaSanPham.SelectedIndexChanged += new EventHandler(cmbMaSanPham_SelectedIndexChanged);
 
             ctrlKhachHang.HienthiAutoComboBox(cmbKhachHang, false);
+
+            if (status == Controll.Normal)
+            {
+                ctrlPhieuBan.Refresh(true);
+            }
 
             ctrlPhieuBan.HienthiPhieuBan(bindingNavigator, cmbKhachHang, txtMaPhieu, dtNgayLapPhieu, numTongTien, numDaTra, numConNo, numChiPhiVanChuyen, numChiPhiDichVu, numChietKhau);
 
@@ -55,13 +70,13 @@ namespace CuahangNongduoc
             dgvDanhsachSP.SelectionChanged += dgvDanhsachSP_SelectionChanged;
 
             dgvDanhsachSP.AutoGenerateColumns = false;
-            
+
             // Ẩn cột ID_PHIEU_BAN nếu tồn tại
             if (dgvDanhsachSP.Columns.Contains("ID_PHIEU_BAN"))
             {
                 dgvDanhsachSP.Columns["ID_PHIEU_BAN"].Visible = false;
             }
-            
+
             // Đảm bảo cột TEN_SAN_PHAM hiển thị nếu có trong Designer
             if (dgvDanhsachSP.Columns.Contains("colSanPham"))
             {
@@ -97,11 +112,6 @@ namespace CuahangNongduoc
             chkApDung.Checked = false;
             cboCTKM.Enabled = false;
 
-            // YC4: Đăng ký events
-            numChietKhau.ValueChanged += numChietKhau_ValueChanged;
-            chkApDung.CheckedChanged += chkApDung_CheckedChanged;
-            cboCTKM.SelectedIndexChanged += cboCTKM_SelectedIndexChanged;
-
             if (status == Controll.AddNew)
             {
                 txtMaPhieu.Text = ThamSo.LayMaPhieuBan().ToString();
@@ -119,6 +129,9 @@ namespace CuahangNongduoc
                 {
                     ctrlChiTiet.HienThiChiTiet(dgvDanhsachSP, maPhieu);
                 }
+
+                // Load thông tin khuyến mãi
+                LoadKhuyenMaiInfo();
             }
         }
 
@@ -156,9 +169,17 @@ namespace CuahangNongduoc
 
                     if (km != null)
                     {
+                        // Tạm thời unregister event để tránh trigger TinhTongTien()
+                        chkApDung.CheckedChanged -= chkApDung_CheckedChanged;
+                        cboCTKM.SelectedIndexChanged -= cboCTKM_SelectedIndexChanged;
+
                         cboCTKM.SelectedValue = idKM;
                         chkApDung.Checked = true;
                         txtKhuyenMai.Text = $"{km.TyLeGiam}%";
+
+                        // Register lại events
+                        chkApDung.CheckedChanged += chkApDung_CheckedChanged;
+                        cboCTKM.SelectedIndexChanged += cboCTKM_SelectedIndexChanged;
 
                         if (km.DieuKienLoai == "TONG_TIEN")
                         {
@@ -172,10 +193,18 @@ namespace CuahangNongduoc
                 }
                 else
                 {
+                    // Tạm thời unregister event
+                    chkApDung.CheckedChanged -= chkApDung_CheckedChanged;
+                    cboCTKM.SelectedIndexChanged -= cboCTKM_SelectedIndexChanged;
+
                     chkApDung.Checked = false;
                     cboCTKM.SelectedIndex = -1;
                     txtKhuyenMai.Text = "";
                     lblDieuKienKM.Text = "";
+
+                    // Register lại events
+                    chkApDung.CheckedChanged += chkApDung_CheckedChanged;
+                    cboCTKM.SelectedIndexChanged += cboCTKM_SelectedIndexChanged;
                 }
             }
             catch
@@ -437,6 +466,11 @@ namespace CuahangNongduoc
             numConNo.Value = numTongTien.Value - numDaTra.Value;
         }
 
+        private void numDaTra_ValueChanged(object sender, EventArgs e)
+        {
+            numConNo.Value = numTongTien.Value - numDaTra.Value;
+        }
+
         private void numChiPhiVanChuyen_ValueChanged(object sender, EventArgs e)
         {
             TinhTongTien();
@@ -520,7 +554,7 @@ namespace CuahangNongduoc
                 else
                 {
                     lblTienKM.Text = "";
-                lblDieuKienKM.Text = "";
+                    lblDieuKienKM.Text = "";
                 }
 
                 // Bước 5: Tính tổng tiền giảm (CK + KM)
@@ -540,7 +574,6 @@ namespace CuahangNongduoc
 
         private void toolLuu_Click(object sender, EventArgs e)
         {
-            bindingNavigatorPositionItem.Focus();
             this.Luu();
             status = Controll.Normal;
             this.Allow(false);
@@ -580,7 +613,7 @@ namespace CuahangNongduoc
 
             ctrlChiTiet.Save();
 
-            ctrlPhieuBan.Update();
+            ctrlPhieuBan.Save();
 
         }
         void ThemMoi()

@@ -37,6 +37,20 @@ namespace CuahangNongduoc.Controller
         {
             factory.Save();
         }
+
+        public void Refresh(bool isPhieuLe)
+        {
+            int currentPosition = bs.Position;
+
+            if (isPhieuLe)
+                bs.DataSource = factory.DanhsachPhieuBanLe();
+            else
+                bs.DataSource = factory.DanhsachPhieuBanSi();
+
+            if (currentPosition < bs.Count)
+                bs.Position = currentPosition;
+        }
+
         public void HienthiPhieuBanLe(BindingNavigator bn, DataGridView dg)
         {
 
