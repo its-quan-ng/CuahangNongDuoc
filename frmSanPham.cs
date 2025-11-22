@@ -143,37 +143,46 @@ namespace CuahangNongduoc
             if (e.KeyCode == Keys.Enter)
             {
                 TimSanPham();
+                e.Handled = true; // Prevent the beep sound
+                e.SuppressKeyPress = true; // Prevent the ding sound
             }
         }
 
         private void toolTimSanPham_Leave(object sender, EventArgs e)
         {
-            TimSanPham();
+            if (string.IsNullOrWhiteSpace(toolTimSanPham.Text))
+            {
+                ctrl.HienthiDataGridview(dataGridView, bindingNavigator,
+                    txtMaSanPham, txtTenSanPham, cmbDVT, numSoLuong, numDonGiaNhap, numGiaBanSi, numGiaBanLe);
+            }
         }
 
         void TimSanPham()
         {
-            if (toolTimMaSanPham.Checked == true)
+            if (string.IsNullOrWhiteSpace(toolTimSanPham.Text))
             {
-                if (!string.IsNullOrEmpty(toolTimSanPham.Text))
+                // Reload all products
+                ctrl.HienthiDataGridview(dataGridView, bindingNavigator,
+                    txtMaSanPham, txtTenSanPham, cmbDVT, numSoLuong, numDonGiaNhap, numGiaBanSi, numGiaBanLe);
+                return;
+            }
+
+            if (toolTimMaSanPham.Checked)
+            {
+                if (int.TryParse(toolTimSanPham.Text, out int maSanPham))
                 {
-                    ctrl.TimMaSanPham(Convert.ToInt32(toolTimSanPham.Text));
-                    if (bindingNavigator.BindingSource != null)
-                    {
-                        bindingNavigator.BindingSource.DataSource = ctrl.GetDataTable();
-                    }
+                    ctrl.TimMaSanPham(maSanPham);
                 }
             }
             else
             {
-                if (!string.IsNullOrEmpty(toolTimSanPham.Text))
-                {
-                    ctrl.TimTenSanPham(toolTimSanPham.Text);
-                    if (bindingNavigator.BindingSource != null)
-                    {
-                        bindingNavigator.BindingSource.DataSource = ctrl.GetDataTable();
-                    }
-                }
+                ctrl.TimTenSanPham(toolTimSanPham.Text.Trim());
+            }
+
+            // Update the grid with search results
+            if (bindingNavigator.BindingSource != null)
+            {
+                bindingNavigator.BindingSource.DataSource = ctrl.GetDataTable();
             }
         }
 
@@ -182,8 +191,13 @@ namespace CuahangNongduoc
             toolTimSanPham.Text = "";
             toolTimSanPham.ForeColor = Color.Black;
         }
-      
 
+
+        private void TaiLaiDanhSachSanPham()
+        {
+            ctrl.HienthiDataGridview(dataGridView, bindingNavigator,
+                txtMaSanPham, txtTenSanPham, cmbDVT, numSoLuong, numDonGiaNhap, numGiaBanSi, numGiaBanLe);
+        }
 
     }
 }
