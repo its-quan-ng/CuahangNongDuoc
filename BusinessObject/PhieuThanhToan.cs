@@ -48,6 +48,21 @@ namespace CuahangNongduoc.BusinessObject
             get { return m_GhiChu; }
             set { m_GhiChu = value; }
         }
+
+        public String TenKhachHang
+        {
+            get { return m_KH != null ? m_KH.HoTen : ""; }
+        }
+
+        public String DiaChiKhachHang
+        {
+            get { return m_KH != null ? m_KH.DiaChi : ""; }
+        }
+
+        public String DienThoaiKhachHang
+        {
+            get { return m_KH != null ? m_KH.DienThoai : ""; }
+        }
 	
 
 	

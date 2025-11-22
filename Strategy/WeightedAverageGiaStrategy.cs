@@ -30,19 +30,8 @@ namespace CuahangNongduoc.Strategy
                     tongThanhTien += thanhTien;
                     tongSoLuong += maSp.SoLuong;
 
-                    
-                    System.Diagnostics.Debug.WriteLine(
-                        $"Lô {maSp.Id}: {maSp.SoLuong} × {maSp.GiaNhap:N0}đ = {thanhTien:N0}đ"
-                    );
                 }
-
-                
                 long giaXuatTrungBinh = tongThanhTien / tongSoLuong;
-
-                System.Diagnostics.Debug.WriteLine(
-                    $"→ Giá xuất TB: {tongThanhTien:N0}đ / {tongSoLuong} = {giaXuatTrungBinh:N0}đ"
-                );
-
                 return giaXuatTrungBinh;
             }
 

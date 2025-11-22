@@ -62,6 +62,23 @@ namespace CuahangNongduoc.DataLayer
                 return Convert.ToInt64(obj);
         }
         
+        /// <summary>
+        /// Load data vào m_Ds để binding và save
+        /// </summary>
+        public void LoadData()
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM PHIEU_THANH_TOAN");
+            m_Ds.Load(cmd);
+        }
+
+        /// <summary>
+        /// Get m_Ds để binding
+        /// </summary>
+        public DataTable GetDataTable()
+        {
+            return m_Ds;
+        }
+
         public DataRow NewRow()
         {
             return m_Ds.NewRow();
