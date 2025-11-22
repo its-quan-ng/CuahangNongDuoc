@@ -141,5 +141,8 @@
         public System.Windows.Forms.DateTimePicker dtNgayChi;
         private System.Windows.Forms.Label label2;
         public System.Windows.Forms.ComboBox cmbLyDo;
+        public System.Windows.Forms.DateTimePicker dtDenNgay;
+        private System.Windows.Forms.Label label3;
+        public System.Windows.Forms.DateTimePicker dtNgayChi;
     }
 }
