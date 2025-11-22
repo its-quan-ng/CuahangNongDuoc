@@ -243,6 +243,16 @@ namespace CuahangNongduoc.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap NguoiDung {
+            get {
+                object obj = ResourceManager.GetObject("NguoiDung", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap NhaCungCap {
             get {
                 object obj = ResourceManager.GetObject("NhaCungCap", resourceCulture);

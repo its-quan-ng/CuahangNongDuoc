@@ -18,12 +18,13 @@ namespace CuahangNongduoc.BusinessObject
                 m_TenDangNhap = tenDangNhap;
             }
 
-            public NguoiDung(int id, String tenDangNhap, String hoTen, String quyenHan)
+            public NguoiDung(int id, String tenDangNhap, String hoTen, String quyenHan,String trangThai)
             {
                 m_Id = id;
                 m_TenDangNhap = tenDangNhap;
                 m_HoTen = hoTen;
                 m_QuyenHan = quyenHan;
+            m_TrangThai= trangThai;
             }
 
             private int m_Id;
@@ -72,6 +73,12 @@ namespace CuahangNongduoc.BusinessObject
                 get { return m_QuyenHan; }
                 set { m_QuyenHan = value; }
             }
+        private String m_TrangThai;
+        public String TrangThai
+        {
+            get { return m_TrangThai;}
+            set { m_TrangThai = value;}
+        }
         }
     }
 
