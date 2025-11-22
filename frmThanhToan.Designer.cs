@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmThanhToan));
             this.panel1 = new System.Windows.Forms.Panel();
             this.grpThongtin = new System.Windows.Forms.GroupBox();
@@ -66,6 +66,7 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolIn = new System.Windows.Forms.ToolStripButton();
             this.toolTimKiem = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.panel1.SuspendLayout();
             this.grpThongtin.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTongTien)).BeginInit();
@@ -80,7 +81,7 @@
             this.panel1.Controls.Add(this.grpThongtin);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(868, 149);
             this.panel1.TabIndex = 0;
@@ -99,9 +100,9 @@
             this.grpThongtin.Controls.Add(this.cmbKhachHang);
             this.grpThongtin.Dock = System.Windows.Forms.DockStyle.Top;
             this.grpThongtin.Location = new System.Drawing.Point(0, 0);
-            this.grpThongtin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpThongtin.Margin = new System.Windows.Forms.Padding(4);
             this.grpThongtin.Name = "grpThongtin";
-            this.grpThongtin.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpThongtin.Padding = new System.Windows.Forms.Padding(4);
             this.grpThongtin.Size = new System.Drawing.Size(868, 149);
             this.grpThongtin.TabIndex = 5;
             this.grpThongtin.TabStop = false;
@@ -111,7 +112,7 @@
             // 
             this.txtMaPhieu.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.txtMaPhieu.Location = new System.Drawing.Point(152, 36);
-            this.txtMaPhieu.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtMaPhieu.Margin = new System.Windows.Forms.Padding(4);
             this.txtMaPhieu.Name = "txtMaPhieu";
             this.txtMaPhieu.Size = new System.Drawing.Size(203, 22);
             this.txtMaPhieu.TabIndex = 14;
@@ -131,7 +132,7 @@
             // 
             this.txtGhiChu.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.txtGhiChu.Location = new System.Drawing.Point(524, 71);
-            this.txtGhiChu.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtGhiChu.Margin = new System.Windows.Forms.Padding(4);
             this.txtGhiChu.Multiline = true;
             this.txtGhiChu.Name = "txtGhiChu";
             this.txtGhiChu.Size = new System.Drawing.Size(148, 54);
@@ -165,7 +166,7 @@
             this.dtNgayThanhToan.CustomFormat = "dd/MM/yyyy";
             this.dtNgayThanhToan.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtNgayThanhToan.Location = new System.Drawing.Point(524, 36);
-            this.dtNgayThanhToan.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dtNgayThanhToan.Margin = new System.Windows.Forms.Padding(4);
             this.dtNgayThanhToan.Name = "dtNgayThanhToan";
             this.dtNgayThanhToan.Size = new System.Drawing.Size(140, 22);
             this.dtNgayThanhToan.TabIndex = 8;
@@ -174,7 +175,7 @@
             // 
             this.numTongTien.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.numTongTien.Location = new System.Drawing.Point(153, 101);
-            this.numTongTien.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numTongTien.Margin = new System.Windows.Forms.Padding(4);
             this.numTongTien.Maximum = new decimal(new int[] {
             1000000000,
             0,
@@ -213,7 +214,7 @@
             this.cmbKhachHang.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cmbKhachHang.FormattingEnabled = true;
             this.cmbKhachHang.Location = new System.Drawing.Point(153, 68);
-            this.cmbKhachHang.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbKhachHang.Margin = new System.Windows.Forms.Padding(4);
             this.cmbKhachHang.Name = "cmbKhachHang";
             this.cmbKhachHang.Size = new System.Drawing.Size(201, 24);
             this.cmbKhachHang.TabIndex = 0;
@@ -224,9 +225,9 @@
             this.groupBox1.Controls.Add(this.bindingNavigator);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 149);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(868, 320);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
@@ -246,7 +247,7 @@
             this.colGhiChu});
             this.dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView.Location = new System.Drawing.Point(4, 70);
-            this.dataGridView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dataGridView.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.RowHeadersWidth = 51;
             this.dataGridView.Size = new System.Drawing.Size(860, 246);
@@ -260,7 +261,6 @@
             this.colMaPhieu.HeaderText = "Mã phiếu";
             this.colMaPhieu.MinimumWidth = 6;
             this.colMaPhieu.Name = "colMaPhieu";
-            this.colMaPhieu.Width = 150;
             // 
             // colKhachHang
             // 
@@ -272,14 +272,13 @@
             // colSotien
             // 
             this.colSotien.DataPropertyName = "TONG_TIEN";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Format = "N0";
-            dataGridViewCellStyle3.NullValue = "0";
-            this.colSotien.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Format = "N0";
+            dataGridViewCellStyle2.NullValue = "0";
+            this.colSotien.DefaultCellStyle = dataGridViewCellStyle2;
             this.colSotien.HeaderText = "Số tiền";
             this.colSotien.MinimumWidth = 6;
             this.colSotien.Name = "colSotien";
-            this.colSotien.Width = 150;
             // 
             // colNgayThanhToan
             // 
@@ -287,7 +286,6 @@
             this.colNgayThanhToan.HeaderText = "Ngày thu";
             this.colNgayThanhToan.MinimumWidth = 6;
             this.colNgayThanhToan.Name = "colNgayThanhToan";
-            this.colNgayThanhToan.Width = 150;
             // 
             // colGhiChu
             // 
@@ -317,7 +315,8 @@
             this.toolSave,
             this.toolStripSeparator1,
             this.toolIn,
-            this.toolTimKiem});
+            this.toolTimKiem,
+            this.toolStripButton1});
             this.bindingNavigator.Location = new System.Drawing.Point(4, 19);
             this.bindingNavigator.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
             this.bindingNavigator.MoveLastItem = this.bindingNavigatorMoveLastItem;
@@ -458,6 +457,16 @@
             this.toolTimKiem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolTimKiem.Click += new System.EventHandler(this.toolTimKiem_Click);
             // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.Image = global::CuahangNongduoc.Properties.Resources.reload;
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(63, 48);
+            this.toolStripButton1.Text = "Xem lại";
+            this.toolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolStripButton1.Click += new System.EventHandler(this.frmThanhToan_Load);
+            // 
             // frmThanhToan
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -466,7 +475,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmThanhToan";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Phiết thu";
@@ -523,5 +532,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colNgayThanhToan;
         private System.Windows.Forms.DataGridViewTextBoxColumn colGhiChu;
         private System.Windows.Forms.ToolStripButton toolTimKiem;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
     }
 }
