@@ -102,6 +102,14 @@ namespace CuahangNongduoc.Controller
         {
             factory.TimPhieuNhapLoad(maNCC, tuNgay, denNgay);
         }
+
+        public bool HasRelatedRecords(int phieuNhapId)
+        {
+            ChiTietPhieuNhapFactory chiTietFactory = new ChiTietPhieuNhapFactory();
+            DataTable chiTiet = chiTietFactory.LayChiTietPhieuNhap(phieuNhapId);
+
+            return chiTiet.Rows.Count > 0;
+        }
    
     }
 }
