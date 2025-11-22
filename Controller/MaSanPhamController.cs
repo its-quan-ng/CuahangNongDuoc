@@ -55,6 +55,7 @@ namespace CuahangNongduoc.Controller
         }
 
 
+
         public MaSanPham LayMaSanPham(String idMaSanPham)
         {
             MaSanPhamFactory f = new MaSanPhamFactory();
@@ -71,23 +72,23 @@ namespace CuahangNongduoc.Controller
                 sp.NgaySanXuat = Convert.ToDateTime(tbl.Rows[0]["NGAY_SAN_XUAT"]);
                 sp.NgayHetHan = Convert.ToDateTime(tbl.Rows[0]["NGAY_HET_HAN"]);
                 sp.SanPham = ctrlSanPham.LaySanPham(Convert.ToInt32(tbl.Rows[0]["ID_SAN_PHAM"]));
-                
             }
             return sp;
-
         }
 
-        public static IList<MaSanPham> LayMaSanPhamHetHan(DateTime dt)
+
+        public static IList<MaSanPham_DBO> LayMaSanPhamHetHan(DateTime dt)
         {
-            IList<MaSanPham> ds = new List<MaSanPham>();
+            IList<MaSanPham_DBO> ds = new List<MaSanPham_DBO>();
             MaSanPhamFactory f = new MaSanPhamFactory();
             DataTable tbl = f.DanhsachMaSanPhamHetHan(dt);
 
-            MaSanPham sp = null;
+            MaSanPham_DBO sp = null;
             SanPhamController ctrlSanPham = new SanPhamController();
+
             foreach  ( DataRow row in tbl.Rows)
             {
-                sp = new MaSanPham();
+                sp = new MaSanPham_DBO();
                 sp.Id = Convert.ToString(row["ID"]);
                 sp.SoLuong = Convert.ToInt32(row["SO_LUONG"]);
                 sp.GiaNhap = Convert.ToInt64(row["DON_GIA_NHAP"]);
@@ -95,6 +96,10 @@ namespace CuahangNongduoc.Controller
                 sp.NgaySanXuat = Convert.ToDateTime(row["NGAY_SAN_XUAT"]);
                 sp.NgayHetHan = Convert.ToDateTime(row["NGAY_HET_HAN"]);
                 sp.SanPham = ctrlSanPham.LaySanPham(Convert.ToInt32(row["ID_SAN_PHAM"]));
+                if (row.Table.Columns.Contains("TEN_SAN_PHAM"))
+                {
+                    sp.TenSanPham = Convert.ToString(row["TEN_SAN_PHAM"]);
+                }
                 ds.Add(sp);
             }
             return ds;

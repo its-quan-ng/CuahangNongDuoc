@@ -43,6 +43,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.MaSanPhamBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
+            // MaSanPhamBindingSource
+            // 
+            this.MaSanPhamBindingSource.DataSource = typeof(CuahangNongduoc.BusinessObject.MaSanPham_DBO);
+            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.btnXem);
