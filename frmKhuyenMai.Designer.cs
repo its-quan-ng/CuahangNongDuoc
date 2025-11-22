@@ -85,6 +85,7 @@ namespace CuahangNongduoc
             // 
             // label7
             // 
+            this.label7.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(13, 89);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -95,6 +96,7 @@ namespace CuahangNongduoc
             // 
             // label6
             // 
+            this.label6.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(13, 59);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -105,6 +107,7 @@ namespace CuahangNongduoc
             // 
             // numTyLeGiam
             // 
+            this.numTyLeGiam.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.numTyLeGiam.Location = new System.Drawing.Point(128, 56);
             this.numTyLeGiam.Margin = new System.Windows.Forms.Padding(4);
             this.numTyLeGiam.Maximum = new decimal(new int[] {
@@ -130,6 +133,7 @@ namespace CuahangNongduoc
             // 
             // txtTenKhuyenMai
             // 
+            this.txtTenKhuyenMai.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.txtTenKhuyenMai.Location = new System.Drawing.Point(126, 22);
             this.txtTenKhuyenMai.Margin = new System.Windows.Forms.Padding(4);
             this.txtTenKhuyenMai.Name = "txtTenKhuyenMai";
@@ -444,6 +448,7 @@ namespace CuahangNongduoc
             // 
             // label2
             // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(13, 25);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -480,6 +485,7 @@ namespace CuahangNongduoc
             // 
             // rtxtGhiChu
             // 
+            this.rtxtGhiChu.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.rtxtGhiChu.Location = new System.Drawing.Point(395, 145);
             this.rtxtGhiChu.Name = "rtxtGhiChu";
             this.rtxtGhiChu.Size = new System.Drawing.Size(194, 64);
@@ -498,6 +504,7 @@ namespace CuahangNongduoc
             // 
             // groupBox3
             // 
+            this.groupBox3.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Controls.Add(this.numSoLuong);
             this.groupBox3.Controls.Add(this.txtTongTien);
@@ -559,6 +566,7 @@ namespace CuahangNongduoc
             // 
             // cboTrangThai
             // 
+            this.cboTrangThai.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cboTrangThai.FormattingEnabled = true;
             this.cboTrangThai.Items.AddRange(new object[] {
             "Hoạt động",
@@ -570,6 +578,7 @@ namespace CuahangNongduoc
             // 
             // label3
             // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Blue;
@@ -581,6 +590,7 @@ namespace CuahangNongduoc
             // 
             // label1
             // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(366, 89);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -591,6 +601,7 @@ namespace CuahangNongduoc
             // 
             // dtDenNgay
             // 
+            this.dtDenNgay.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.dtDenNgay.CustomFormat = "dd/MM/yyyy";
             this.dtDenNgay.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtDenNgay.Location = new System.Drawing.Point(451, 86);
@@ -601,6 +612,7 @@ namespace CuahangNongduoc
             // 
             // dtTuNgay
             // 
+            this.dtTuNgay.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.dtTuNgay.CustomFormat = "dd/MM/yyyy";
             this.dtTuNgay.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtTuNgay.Location = new System.Drawing.Point(129, 86);
