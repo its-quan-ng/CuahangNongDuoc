@@ -1,4 +1,4 @@
-namespace CuahangNongduoc
+﻿namespace CuahangNongduoc
 {
     partial class frmInPhieuThanhToan
     {
@@ -31,14 +31,10 @@ namespace CuahangNongduoc
             this.components = new System.ComponentModel.Container();
             Microsoft.Reporting.WinForms.ReportDataSource reportDataSource1 = new Microsoft.Reporting.WinForms.ReportDataSource();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmInPhieuThanhToan));
-            this.PhieuThanhToanBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.reportViewer = new Microsoft.Reporting.WinForms.ReportViewer();
+            this.PhieuThanhToanBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.PhieuThanhToanBindingSource)).BeginInit();
             this.SuspendLayout();
-            // 
-            // PhieuThanhToanBindingSource
-            // 
-            this.PhieuThanhToanBindingSource.DataSource = typeof(CuahangNongduoc.BusinessObject.PhieuThanhToan);
             // 
             // reportViewer
             // 
@@ -48,19 +44,28 @@ namespace CuahangNongduoc
             this.reportViewer.LocalReport.DataSources.Add(reportDataSource1);
             this.reportViewer.LocalReport.ReportEmbeddedResource = "CuahangNongduoc.Report.rptThanhToan.rdlc";
             this.reportViewer.Location = new System.Drawing.Point(0, 0);
+            this.reportViewer.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.reportViewer.Name = "reportViewer";
-            this.reportViewer.Size = new System.Drawing.Size(638, 445);
+            this.reportViewer.ServerReport.BearerToken = null;
+            this.reportViewer.Size = new System.Drawing.Size(851, 548);
             this.reportViewer.TabIndex = 0;
+            // 
+            // PhieuThanhToanBindingSource
+            // 
+            this.PhieuThanhToanBindingSource.DataSource = typeof(CuahangNongduoc.BusinessObject.PhieuThanhToan);
             // 
             // frmInPhieuThanhToan
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(638, 445);
+            this.ClientSize = new System.Drawing.Size(851, 548);
             this.Controls.Add(this.reportViewer);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "frmInPhieuThanhToan";
-            this.Text = "In Phieu Thanh Toan";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "In phiếu thu";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.frmPhieuThanhToan_Load);
             ((System.ComponentModel.ISupportInitialize)(this.PhieuThanhToanBindingSource)).EndInit();
             this.ResumeLayout(false);
