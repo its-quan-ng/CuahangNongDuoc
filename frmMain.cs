@@ -32,6 +32,7 @@ namespace CuahangNongduoc
         frmPhieuChi PhieuChi = null;
         frmCauHinh CauHinh = null;
         frmKhuyenMai KhuyenMai = null;
+        frmNguoiDung nguoiDung = null;
 
         public frmMain()
         {
@@ -43,41 +44,30 @@ namespace CuahangNongduoc
   
         private void CapNhatTrangThai()
         {
-            // Ẩn tất cả các form con đang mở (nếu có, khi đăng xuất)
             foreach (Form childForm in this.MdiChildren)
             {
                 childForm.Close();
             }
 
-            // Kiểm tra trạng thái đăng nhập
             if (PhienDangNhap.DaDangNhap)
             {
-                // ĐÃ ĐĂNG NHẬP
-
-                // 1. Cập nhật Title
                 this.Text = String.Format(
                     "Cửa Hàng Nông Dược - {0} [{1}]",
                     PhienDangNhap.LayTenHienThi(),
                     PhienDangNhap.LaAdmin ? "Quản trị" : "Nhân viên"
                 );
 
-                // 2. Kích hoạt/Vô hiệu hóa Menu
                 mnuDangNhap.Enabled = false;
                 mnuDangXuat.Enabled = true;
 
-                // 3. Hiển thị lại tất cả menu (cần thiết để reset state từ lần đăng xuất)
-                //    Khi đăng xuất, tất cả menu đã bị ẩn → Phải show lại
                 foreach (ToolStripItem item in menuStrip.Items)
                 {
                     item.Visible = true;
                 }
 
-                // 4. Phân quyền: Chỉ Admin mới thấy các chức năng quản trị
-                //    Các chức năng chung (Khách hàng, Bán hàng, Nhập hàng...) luôn hiển thị
                 bool laAdmin = PhienDangNhap.LaAdmin;
 
-                // Menu: Chức năng Admin (chỉ Admin mới thấy)
-                mnuSanPham.Visible = laAdmin;
+                mnuNguoiDung.Visible = laAdmin;
                 mnuDonViTinh.Visible = laAdmin;
                 mnuKhuyenMai.Visible = laAdmin;
                 mnuLyDoChi.Visible = laAdmin;
@@ -88,18 +78,13 @@ namespace CuahangNongduoc
                 mnuTuychinh.Visible = laAdmin;
                 mnuCauHinhKho.Visible = laAdmin;
 
-                // Toolbar: Chức năng Admin
-                toolSanPham.Visible = laAdmin;
                 toolNhaCungCap.Visible = laAdmin;
-            
+                toolNguoiDung.Visible = laAdmin;
 
-                // TaskPane: Chức năng Admin
-                itemSanPham.Visible = laAdmin;
                 itemNhaCungCap.Visible = laAdmin;
-               
+
                 itemTonghopDoanhthu.Visible = laAdmin;
 
-                // Mở thanh công cụ/chức năng (Mặc định)
                 mnuThanhCongCu.Checked = true;
                 toolStrip.Visible = true;
                 mnuThanhChucNang.Checked = true;
@@ -108,14 +93,12 @@ namespace CuahangNongduoc
             }
             else
             {
-                // CHƯA ĐĂNG NHẬP (TRẠNG THÁI MẶC ĐỊNH)
 
                 this.Text = "Cửa Hàng Nông Dược - Vui lòng đăng nhập";
                 mnuDangNhap.Enabled = true;
                 mnuDangXuat.Enabled = false;
 
-                // Ẩn tất cả các chức năng chính (chỉ giữ lại Đăng nhập/Thoát/Trợ giúp)
-                foreach (ToolStripItem item in menuStrip.Items) // Lặp qua tất cả menu cấp 1
+                foreach (ToolStripItem item in menuStrip.Items)
                 {
                     
                     if (item != mnuHeThong && item != mnuTrogiupHuongdan)
@@ -135,7 +118,6 @@ namespace CuahangNongduoc
         {
             DataService.OpenConnection();
 
-            // Tự động mở form Đăng nhập nếu chưa đăng nhập
             if (!PhienDangNhap.DaDangNhap)
             {
                 mnuDangNhap_Click(sender, e);
@@ -434,9 +416,28 @@ namespace CuahangNongduoc
             }
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        private void toolNguoiDung_Click(object sender, EventArgs e)
         {
+            if (nguoiDung == null || nguoiDung.IsDisposed)
+            {
+                nguoiDung = new frmNguoiDung();
+                nguoiDung.MdiParent = this;
+                nguoiDung.Show();
+            }
+            else
+                nguoiDung.Activate();
+        }
 
+        private void mnuNguoiDung_Click(object sender, EventArgs e)
+        {
+            if (nguoiDung == null || nguoiDung.IsDisposed)
+            {
+                nguoiDung = new frmNguoiDung();
+                nguoiDung.MdiParent = this;
+                nguoiDung.Show();
+            }
+            else
+                nguoiDung.Activate();
         }
     }
 }
