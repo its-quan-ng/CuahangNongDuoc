@@ -215,10 +215,9 @@ namespace CuahangNongduoc
             this.colTyLe.MinimumWidth = 6;
             this.colTyLe.Name = "colTyLe";
             this.colTyLe.ReadOnly = true;
-            // 
+            //
             // colDieuKien
-            // 
-            this.colDieuKien.DataPropertyName = "DON_GIA_NHAP";
+            //
             this.colDieuKien.HeaderText = "Điều kiện";
             this.colDieuKien.MinimumWidth = 6;
             this.colDieuKien.Name = "colDieuKien";

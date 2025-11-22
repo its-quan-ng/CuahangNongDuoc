@@ -22,6 +22,10 @@ namespace CuahangNongduoc.DataLayer
         /// </summary>
         public void LoadData()
         {
+            // Guard: Chỉ load 1 lần, tránh Clear() data cũ
+            if (m_Ds.Columns.Count > 0)
+                return;
+
             SqlCommand cmd = new SqlCommand("SELECT * FROM KHUYEN_MAI WHERE ID = -1");
             m_Ds.Load(cmd);
 

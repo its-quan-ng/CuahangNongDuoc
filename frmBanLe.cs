@@ -39,16 +39,6 @@ namespace CuahangNongduoc
 
         private void frmBanLe_Load(object sender, EventArgs e)
         {
-            // QUAN TRỌNG: Đăng ký events TRƯỚC KHI bind data
-            // Đăng ký events tính Còn nợ
-            numTongTien.ValueChanged += numTongTien_ValueChanged;
-            numDaTra.ValueChanged += numDaTra_ValueChanged;
-
-            // YC4: Đăng ký events khuyến mãi
-            numChietKhau.ValueChanged += numChietKhau_ValueChanged;
-            chkApDung.CheckedChanged += chkApDung_CheckedChanged;
-            cboCTKM.SelectedIndexChanged += cboCTKM_SelectedIndexChanged;
-
             ctrlSanPham.HienthiAutoComboBox(cmbSanPham);
 
             cmbSanPham.SelectedIndexChanged += new EventHandler(cmbSanPham_SelectedIndexChanged);
@@ -109,6 +99,15 @@ namespace CuahangNongduoc
             // YC4: Set mặc định cho controls khuyến mãi
             txtKhuyenMai.ReadOnly = true;
             txtTongTienGiam.ReadOnly = true;
+
+            // Đăng ký events SAU KHI load ComboBox
+            numTongTien.ValueChanged += numTongTien_ValueChanged;
+            numDaTra.ValueChanged += numDaTra_ValueChanged;
+            numChietKhau.ValueChanged += numChietKhau_ValueChanged;
+            chkApDung.CheckedChanged += chkApDung_CheckedChanged;
+            cboCTKM.SelectedIndexChanged += cboCTKM_SelectedIndexChanged;
+
+            // Set mặc định SAU KHI đăng ký events
             chkApDung.Checked = false;
             cboCTKM.Enabled = false;
 
