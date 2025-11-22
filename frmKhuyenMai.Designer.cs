@@ -48,15 +48,12 @@ namespace CuahangNongduoc
             this.bindingNavigatorMoveNextItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
-            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
+            this.btnThem = new System.Windows.Forms.ToolStripButton();
+            this.btnXoa = new System.Windows.Forms.ToolStripButton();
             this.toolLuu = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolThoat = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.toolTimMaSanPham = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolTimTenSanPham = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTimSanPham = new System.Windows.Forms.ToolStripTextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -277,13 +274,12 @@ namespace CuahangNongduoc
             this.bindingNavigatorMoveNextItem,
             this.bindingNavigatorMoveLastItem,
             this.bindingNavigatorSeparator2,
-            this.bindingNavigatorAddNewItem,
-            this.bindingNavigatorDeleteItem,
+            this.btnThem,
+            this.btnXoa,
             this.toolLuu,
             this.toolStripSeparator1,
             this.toolThoat,
             this.toolStripSeparator2,
-            this.toolStripTextBox1,
             this.toolTimSanPham});
             this.bindingNavigator.Location = new System.Drawing.Point(4, 19);
             this.bindingNavigator.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
@@ -364,25 +360,26 @@ namespace CuahangNongduoc
             this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
             this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 51);
             // 
-            // bindingNavigatorAddNewItem
+            // btnThem
             // 
-            this.bindingNavigatorAddNewItem.Image = global::CuahangNongduoc.Properties.Resources.add;
-            this.bindingNavigatorAddNewItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
-            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(58, 48);
-            this.bindingNavigatorAddNewItem.Text = " Thêm ";
-            this.bindingNavigatorAddNewItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnThem.Image = global::CuahangNongduoc.Properties.Resources.add;
+            this.btnThem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnThem.Name = "btnThem";
+            this.btnThem.RightToLeftAutoMirrorImage = true;
+            this.btnThem.Size = new System.Drawing.Size(58, 48);
+            this.btnThem.Text = " Thêm ";
+            this.btnThem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnThem.Click += new System.EventHandler(this.btnThem_Click);
             // 
-            // bindingNavigatorDeleteItem
+            // btnXoa
             // 
-            this.bindingNavigatorDeleteItem.Image = global::CuahangNongduoc.Properties.Resources.remove;
-            this.bindingNavigatorDeleteItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
-            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(55, 48);
-            this.bindingNavigatorDeleteItem.Text = "  Xóa  ";
-            this.bindingNavigatorDeleteItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnXoa.Image = global::CuahangNongduoc.Properties.Resources.remove;
+            this.btnXoa.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnXoa.Name = "btnXoa";
+            this.btnXoa.RightToLeftAutoMirrorImage = true;
+            this.btnXoa.Size = new System.Drawing.Size(55, 48);
+            this.btnXoa.Text = "  Xóa  ";
+            this.btnXoa.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // toolLuu
             // 
@@ -413,30 +410,6 @@ namespace CuahangNongduoc
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 51);
-            // 
-            // toolStripTextBox1
-            // 
-            this.toolStripTextBox1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolTimMaSanPham,
-            this.toolTimTenSanPham});
-            this.toolStripTextBox1.Image = global::CuahangNongduoc.Properties.Resources.find;
-            this.toolStripTextBox1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.Size = new System.Drawing.Size(38, 48);
-            // 
-            // toolTimMaSanPham
-            // 
-            this.toolTimMaSanPham.Checked = true;
-            this.toolTimMaSanPham.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toolTimMaSanPham.Name = "toolTimMaSanPham";
-            this.toolTimMaSanPham.Size = new System.Drawing.Size(183, 26);
-            this.toolTimMaSanPham.Text = "Mã sản phẩm";
-            // 
-            // toolTimTenSanPham
-            // 
-            this.toolTimTenSanPham.Name = "toolTimTenSanPham";
-            this.toolTimTenSanPham.Size = new System.Drawing.Size(183, 26);
-            this.toolTimTenSanPham.Text = "Tên sản phẩm";
             // 
             // toolTimSanPham
             // 
@@ -676,15 +649,12 @@ namespace CuahangNongduoc
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveNextItem;
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveLastItem;
         private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator2;
-        private System.Windows.Forms.ToolStripButton bindingNavigatorAddNewItem;
-        private System.Windows.Forms.ToolStripButton bindingNavigatorDeleteItem;
+        private System.Windows.Forms.ToolStripButton btnThem;
+        private System.Windows.Forms.ToolStripButton btnXoa;
         private System.Windows.Forms.ToolStripButton toolLuu;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton toolThoat;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripTextBox1;
-        private System.Windows.Forms.ToolStripMenuItem toolTimMaSanPham;
-        private System.Windows.Forms.ToolStripMenuItem toolTimTenSanPham;
         private System.Windows.Forms.ToolStripTextBox toolTimSanPham;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox2;
