@@ -53,7 +53,7 @@ namespace CuahangNongduoc.Controller
             dg.DataSource = bs;
         }
 
-        public void HienthiPhieuBan(BindingNavigator bn,ComboBox cmb, TextBox txt, DateTimePicker dt, NumericUpDown numTongTien, NumericUpDown numDatra, NumericUpDown numConNo, NumericUpDown numChiPhiVanChuyen, NumericUpDown numChiPhiDichVu)
+        public void HienthiPhieuBan(BindingNavigator bn,ComboBox cmb, TextBox txt, DateTimePicker dt, NumericUpDown numTongTien, NumericUpDown numDatra, NumericUpDown numConNo, NumericUpDown numChiPhiVanChuyen, NumericUpDown numChiPhiDichVu, NumericUpDown numChietKhau)
         {
 
             bn.BindingSource = bs;
@@ -91,6 +91,11 @@ namespace CuahangNongduoc.Controller
             Binding bindingChiPhiDichVu = new Binding("Value", bs, "CHI_PHI_DICH_VU");
             bindingChiPhiDichVu.Format += new ConvertEventHandler(Binding_Format);
             numChiPhiDichVu.DataBindings.Add(bindingChiPhiDichVu);
+
+            numChietKhau.DataBindings.Clear();
+            Binding bindingChietKhau = new Binding("Value", bs, "CHIET_KHAU");
+            bindingChietKhau.Format += new ConvertEventHandler(Binding_Format);
+            numChietKhau.DataBindings.Add(bindingChietKhau);
 
         }
 
@@ -145,6 +150,159 @@ namespace CuahangNongduoc.Controller
         public List<string> LayDanhSachBangLienKet(int idPhieuBan)
         {
             return factory.LayDanhSachBangLienKet(idPhieuBan);
+        }
+
+        // =============================================
+        // YC4: CHIẾT KHẤU VÀ KHUYẾN MÃI
+        // =============================================
+
+        /// <summary>
+        /// Tính tổng tiền hóa đơn sử dụng Decorator Pattern
+        /// </summary>
+        /// <param name="tongHang">Tổng tiền hàng (SUM THANH_TIEN)</param>
+        /// <param name="chiPhiVC">Chi phí vận chuyển</param>
+        /// <param name="chiPhiDV">Chi phí dịch vụ</param>
+        /// <param name="chietKhau">% chiết khấu (0-100)</param>
+        /// <param name="idKhuyenMai">ID khuyến mãi (nullable)</param>
+        /// <param name="soLuongSanPham">Tổng số lượng sản phẩm</param>
+        /// <returns>Tổng tiền cuối cùng</returns>
+        public decimal TinhTongTien(
+            decimal tongHang,
+            decimal chiPhiVC,
+            decimal chiPhiDV,
+            decimal chietKhau,
+            int? idKhuyenMai,
+            int soLuongSanPham)
+        {
+            try
+            {
+                // Bước 1: Tạo base component
+                Decorator.ITongTienComponent component = new Decorator.TongTienBase(tongHang);
+
+                // Bước 2: Decorate chi phí (nếu có)
+                if (chiPhiVC > 0 || chiPhiDV > 0)
+                    component = new Decorator.ChiPhiDecorator(component, chiPhiVC, chiPhiDV);
+
+                // Bước 3: Decorate chiết khấu (nếu có)
+                if (chietKhau > 0)
+                    component = new Decorator.ChietKhauDecorator(component, chietKhau, tongHang);
+
+                // Bước 4: Decorate khuyến mãi (nếu có)
+                if (idKhuyenMai.HasValue)
+                {
+                    KhuyenMaiController ctrlKM = new KhuyenMaiController();
+                    KhuyenMai km = ctrlKM.LayKhuyenMai(idKhuyenMai.Value);
+
+                    if (km != null)
+                    {
+                        component = new Decorator.KhuyenMaiDecorator(component, km, tongHang, soLuongSanPham);
+                    }
+                }
+
+                return component.TinhTongTien();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("Lỗi khi tính tổng tiền: " + ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// Tính số tiền chiết khấu (để UI hiển thị)
+        /// </summary>
+        public decimal TinhTienChietKhau(decimal tongHang, decimal chietKhau)
+        {
+            if (chietKhau == 0)
+                return 0;
+
+            return tongHang * chietKhau / 100;
+        }
+
+        /// <summary>
+        /// Kiểm tra điều kiện khuyến mãi (không throw exception)
+        /// </summary>
+        /// <param name="idKhuyenMai">ID khuyến mãi</param>
+        /// <param name="tongHang">Tổng tiền hàng</param>
+        /// <param name="soLuongSanPham">Tổng số lượng sản phẩm</param>
+        /// <param name="errorMessage">Output: Message lỗi nếu không đủ điều kiện</param>
+        /// <returns>True nếu đủ điều kiện, False nếu không đủ</returns>
+        public bool KiemTraDieuKienKhuyenMai(
+            int idKhuyenMai,
+            decimal tongHang,
+            int soLuongSanPham,
+            out string errorMessage)
+        {
+            errorMessage = "";
+
+            KhuyenMaiController ctrlKM = new KhuyenMaiController();
+            KhuyenMai km = ctrlKM.LayKhuyenMai(idKhuyenMai);
+
+            if (km == null)
+            {
+                errorMessage = "Không tìm thấy khuyến mãi!";
+                return false;
+            }
+
+            Specification.IKhuyenMaiSpecification spec;
+
+            if (km.DieuKienLoai == "TONG_TIEN")
+            {
+                spec = new Specification.TongTienToiThieuSpecification(km.DieuKienGiaTri);
+            }
+            else if (km.DieuKienLoai == "SO_LUONG")
+            {
+                spec = new Specification.SoLuongToiThieuSpecification((int)km.DieuKienGiaTri);
+            }
+            else
+            {
+                errorMessage = "Loại điều kiện không hợp lệ!";
+                return false;
+            }
+
+            bool isValid = spec.IsSatisfiedBy(tongHang, soLuongSanPham);
+            if (!isValid)
+            {
+                errorMessage = spec.GetErrorMessage(tongHang, soLuongSanPham);
+            }
+
+            return isValid;
+        }
+
+        /// <summary>
+        /// Tính tổng tiền giảm (Chiết khấu + Khuyến mãi)
+        /// Dùng để hiển thị trên UI
+        /// </summary>
+        public decimal TinhTongTienGiam(
+            decimal tongHang,
+            decimal chietKhau,
+            int? idKhuyenMai,
+            int soLuongSanPham)
+        {
+            decimal tongGiam = 0;
+
+            // Tiền chiết khấu
+            if (chietKhau > 0)
+            {
+                tongGiam += tongHang * chietKhau / 100;
+            }
+
+            // Tiền khuyến mãi
+            if (idKhuyenMai.HasValue)
+            {
+                KhuyenMaiController ctrlKM = new KhuyenMaiController();
+                KhuyenMai km = ctrlKM.LayKhuyenMai(idKhuyenMai.Value);
+
+                if (km != null)
+                {
+                    string error;
+                    if (KiemTraDieuKienKhuyenMai(idKhuyenMai.Value, tongHang, soLuongSanPham, out error))
+                    {
+                        tongGiam += tongHang * km.TyLeGiam / 100;
+                    }
+                }
+            }
+
+            return tongGiam;
         }
 
     }

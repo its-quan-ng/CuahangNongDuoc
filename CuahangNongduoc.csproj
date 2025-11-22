@@ -55,20 +55,33 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.Data.Desktop.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Data.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Drawing.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Printing.v24.1.Core, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Sparkline.v24.1.Core, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Utils.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraEditors.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.ReportViewer.WinForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1484.0\lib\net40\Microsoft.ReportViewer.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationClient" />
+    <Reference Include="WindowsBase" />
     <Reference Include="XPExplorerBar, Version=3.3.0.0, Culture=neutral, PublicKeyToken=26272737b5f33015">
       <HintPath>lib\XPExplorerBar.dll</HintPath>
       <Private>True</Private>
@@ -90,6 +103,7 @@
     <Compile Include="BusinessObject\PhieuNhap.cs" />
     <Compile Include="BusinessObject\SanPham.cs" />
     <Compile Include="BusinessObject\SoLuongTon.cs" />
+    <Compile Include="BusinessObject\KhuyenMai.cs" />
     <Compile Include="Controller\ChiTietPhieuBanController.cs" />
     <Compile Include="Controller\NguoiDungController.cs" />
     <Compile Include="Controller\PhieuChiController.cs" />
@@ -103,7 +117,9 @@
     <Compile Include="Controller\PhieuBanController.cs" />
     <Compile Include="Controller\SanPhamController.cs" />
     <Compile Include="Controller\DonViTinhController.cs" />
+    <Compile Include="Controller\KhuyenMaiController.cs" />
     <Compile Include="DataLayer\NguoiDungFactory.cs" />
+    <Compile Include="DataLayer\KhuyenMaiFactory.cs" />
     <Compile Include="DataLayer\PhieuChiFactory.cs" />
     <Compile Include="frmCauHinh.cs">
       <SubType>Form</SubType>
@@ -122,6 +138,12 @@
     </Compile>
     <Compile Include="frmInPhieuChi.Designer.cs">
       <DependentUpon>frmInPhieuChi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmKhuyenMai.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmKhuyenMai.Designer.cs">
+      <DependentUpon>frmKhuyenMai.cs</DependentUpon>
     </Compile>
     <Compile Include="frmPhieuChi.cs">
       <SubType>Form</SubType>
@@ -332,6 +354,9 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmInPhieuChi.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmKhuyenMai.resx">
+      <DependentUpon>frmKhuyenMai.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmPhieuChi.resx">
       <DependentUpon>frmPhieuChi.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -491,6 +516,15 @@
     <Compile Include="Strategy\ITinhGiaXuatStrategy.cs" />
     <Compile Include="Strategy\IXuatKhoStrategy.cs" />
     <Compile Include="Strategy\WeightedAverageGiaStrategy.cs" />
+    <Compile Include="Decorator\ITongTienComponent.cs" />
+    <Compile Include="Decorator\TongTienBase.cs" />
+    <Compile Include="Decorator\TongTienDecorator.cs" />
+    <Compile Include="Decorator\ChiPhiDecorator.cs" />
+    <Compile Include="Decorator\ChietKhauDecorator.cs" />
+    <Compile Include="Decorator\KhuyenMaiDecorator.cs" />
+    <Compile Include="Specification\IKhuyenMaiSpecification.cs" />
+    <Compile Include="Specification\TongTienToiThieuSpecification.cs" />
+    <Compile Include="Specification\SoLuongToiThieuSpecification.cs" />
     <Compile Include="ThamSo.cs" />
   </ItemGroup>
   <ItemGroup>

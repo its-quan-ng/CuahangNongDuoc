@@ -17,6 +17,7 @@ namespace CuahangNongduoc
         MaSanPhamController ctrlMaSanPham = new MaSanPhamController();
         PhieuBanController ctrlPhieuBan = new PhieuBanController();
         ChiTietPhieuBanController ctrlChiTiet = new ChiTietPhieuBanController();
+        KhuyenMaiController ctrlKhuyenMai = new KhuyenMaiController();
         IList<MaSanPham> deleted = new List<MaSanPham>();
         ToolTip toolTip = new ToolTip();
         Dictionary<int, long> cacheGiaXuat = new Dictionary<int, long>();
@@ -28,6 +29,7 @@ namespace CuahangNongduoc
             InitializeComponent();
             
             status = Controll.AddNew;
+            dgvDanhsachSP.AutoGenerateColumns = false;
         }
 
 
@@ -47,7 +49,7 @@ namespace CuahangNongduoc
 
             ctrlKhachHang.HienthiAutoComboBox(cmbKhachHang, true);
 
-            ctrlPhieuBan.HienthiPhieuBan(bindingNavigator, cmbKhachHang, txtMaPhieu, dtNgayLapPhieu, numTongTien, numDaTra, numConNo, numChiPhiVanChuyen, numChiPhiDichVu);
+            ctrlPhieuBan.HienthiPhieuBan(bindingNavigator, cmbKhachHang, txtMaPhieu, dtNgayLapPhieu, numTongTien, numDaTra, numConNo, numChiPhiVanChuyen, numChiPhiDichVu, numChietKhau);
             bindingNavigator.BindingSource.CurrentChanged += new EventHandler(BindingSource_CurrentChanged);
 
             // Thêm SelectionChanged event cho DataGridView để fill fields khi click row
@@ -73,6 +75,20 @@ namespace CuahangNongduoc
                 cmbMaSanPham.Visible = true;
                 label4.Visible = true;
             }
+
+            // YC4: Load ComboBox khuyến mãi
+            ctrlKhuyenMai.HienthiComboBoxDangApDung(cboCTKM);
+
+            // YC4: Set mặc định cho controls khuyến mãi
+            txtKhuyenMai.ReadOnly = true;
+            txtTongTienGiam.ReadOnly = true;
+            chkApDung.Checked = false;
+            cboCTKM.Enabled = false;
+
+            // YC4: Đăng ký events
+            numChietKhau.ValueChanged += numChietKhau_ValueChanged;
+            chkApDung.CheckedChanged += chkApDung_CheckedChanged;
+            cboCTKM.SelectedIndexChanged += cboCTKM_SelectedIndexChanged;
 
             if (status == Controll.AddNew)
             {
@@ -108,6 +124,55 @@ namespace CuahangNongduoc
                     colMaSanPham.DisplayMember = "ID";
                     colMaSanPham.ValueMember = "ID";
                 }
+
+                // YC4: Load thông tin khuyến mãi khi chuyển phiếu
+                LoadKhuyenMaiInfo();
+            }
+        }
+
+        // YC4: Load thông tin khuyến mãi từ BindingSource
+        private void LoadKhuyenMaiInfo()
+        {
+            try
+            {
+                BindingSource bs = bindingNavigator.BindingSource;
+                if (bs == null || bs.Current == null)
+                    return;
+
+                DataRowView rowView = (DataRowView)bs.Current;
+
+                // Load ID_KHUYEN_MAI
+                if (rowView["ID_KHUYEN_MAI"] != DBNull.Value)
+                {
+                    int idKM = Convert.ToInt32(rowView["ID_KHUYEN_MAI"]);
+                    KhuyenMai km = ctrlKhuyenMai.LayKhuyenMai(idKM);
+
+                    if (km != null)
+                    {
+                        cboCTKM.SelectedValue = idKM;
+                        chkApDung.Checked = true;
+                        txtKhuyenMai.Text = $"{km.TyLeGiam}%";
+
+                        if (km.DieuKienLoai == "TONG_TIEN")
+                        {
+                            lblDieuKienKM.Text = $"(Mua từ {km.DieuKienGiaTri:N0} đ giảm {km.TyLeGiam}%)";
+                        }
+                        else
+                        {
+                            lblDieuKienKM.Text = $"(Mua từ {km.DieuKienGiaTri:N0} SP giảm {km.TyLeGiam}%)";
+                        }
+                    }
+                }
+                else
+                {
+                    chkApDung.Checked = false;
+                    cboCTKM.SelectedIndex = -1;
+                    txtKhuyenMai.Text = "";
+                    lblDieuKienKM.Text = "";
+                }
+            }
+            catch
+            {
             }
         }
 
@@ -342,16 +407,8 @@ namespace CuahangNongduoc
                 // Refresh DataGridView
                 bs.ResetBindings(false);
 
-                // Cập nhật tổng tiền từ các dòng trong DataGridView
-                decimal tongTien = 0;
-                if (bs != null && bs.DataSource != null)
-                {
-                    foreach (DataRow dr in dt.Rows)
-                    {
-                        tongTien += Convert.ToDecimal(dr["THANH_TIEN"]);
-                    }
-                }
-                numTongTien.Value = tongTien + numChiPhiDichVu.Value + numChiPhiVanChuyen.Value;
+                // YC4: Tính tổng tiền (Decorator Pattern)
+                TinhTongTien();
 
                 // Clear fields sau khi Add thành công
                 numSoLuong.Value = 0;
@@ -381,34 +438,100 @@ namespace CuahangNongduoc
 
         private void numChiPhiVanChuyen_ValueChanged(object sender, EventArgs e)
         {
-            // Cập nhật tổng tiền khi chi phí vận chuyển thay đổi
-            decimal tongTienSP = 0;
-            BindingSource bs = (BindingSource)dgvDanhsachSP.DataSource;
-            if (bs != null && bs.DataSource != null)
-            {
-                DataTable dt = (DataTable)bs.DataSource;
-                foreach (DataRow dr in dt.Rows)
-                {
-                    tongTienSP += Convert.ToDecimal(dr["THANH_TIEN"]);
-                }
-            }
-            numTongTien.Value = tongTienSP + numChiPhiDichVu.Value + numChiPhiVanChuyen.Value;
+            TinhTongTien();
         }
 
         private void numChiPhiDichVu_ValueChanged(object sender, EventArgs e)
         {
-            // Cập nhật tổng tiền khi chi phí dịch vụ thay đổi
-            decimal tongTienSP = 0;
-            BindingSource bs = (BindingSource)dgvDanhsachSP.DataSource;
-            if (bs != null && bs.DataSource != null)
+            TinhTongTien();
+        }
+
+        // YC4: Tính tổng tiền với Decorator Pattern
+        private void TinhTongTien()
+        {
+            try
             {
-                DataTable dt = (DataTable)bs.DataSource;
-                foreach (DataRow dr in dt.Rows)
+                // Bước 1: Tính tổng tiền hàng + số lượng sản phẩm
+                decimal tongHang = 0;
+                int soLuongSP = 0;
+                BindingSource bs = (BindingSource)dgvDanhsachSP.DataSource;
+                if (bs != null && bs.DataSource != null)
                 {
-                    tongTienSP += Convert.ToDecimal(dr["THANH_TIEN"]);
+                    DataTable dt = (DataTable)bs.DataSource;
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        // Skip deleted rows
+                        if (dr.RowState == DataRowState.Deleted)
+                            continue;
+
+                        tongHang += Convert.ToDecimal(dr["THANH_TIEN"]);
+                        soLuongSP += Convert.ToInt32(dr["SO_LUONG"]);
+                    }
                 }
+
+                // Bước 2: Lấy các giá trị chi phí và giảm giá
+                decimal chiPhiVC = numChiPhiVanChuyen.Value;
+                decimal chiPhiDV = numChiPhiDichVu.Value;
+                decimal chietKhau = numChietKhau.Value;
+                int? idKhuyenMai = (chkApDung.Checked && cboCTKM.SelectedValue != null)
+                    ? (int?)Convert.ToInt32(cboCTKM.SelectedValue)
+                    : null;
+
+                // Bước 3: Tính và hiển thị tiền chiết khấu
+                decimal tienCK = ctrlPhieuBan.TinhTienChietKhau(tongHang, chietKhau);
+                if (tienCK > 0)
+                {
+                    lblTienChietKhau.Text = $"(-{tienCK:N0} đ)";
+                }
+                else
+                {
+                    lblTienChietKhau.Text = "";
+                }
+
+                // Bước 4: Validate và hiển thị tiền khuyến mãi
+                decimal tienKM = 0;
+                if (idKhuyenMai.HasValue)
+                {
+                    string error;
+                    bool isValid = ctrlPhieuBan.KiemTraDieuKienKhuyenMai(
+                        idKhuyenMai.Value, tongHang, soLuongSP, out error);
+
+                    if (isValid)
+                    {
+                        KhuyenMai km = ctrlKhuyenMai.LayKhuyenMai(idKhuyenMai.Value);
+                        if (km != null)
+                        {
+                            tienKM = tongHang * km.TyLeGiam / 100;
+                            lblTienKM.Text = $"(-{tienKM:N0} đ)";
+                        }
+                    }
+                    else
+                    {
+                        lblTienKM.Text = "✗ Không đủ điều kiện";
+                        lblTienKM.ForeColor = System.Drawing.Color.Red;
+                        chkApDung.Checked = false;
+                        MessageBox.Show(error, "Khuyến mãi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                }
+                else
+                {
+                    lblTienKM.Text = "";
+                }
+
+                // Bước 5: Tính tổng tiền giảm (CK + KM)
+                decimal tongTienGiam = tienCK + tienKM;
+                txtTongTienGiam.Value = tongTienGiam;
+
+                // Bước 6: Tính tổng tiền cuối (Decorator Pattern)
+                decimal tongTien = ctrlPhieuBan.TinhTongTien(
+                    tongHang, chiPhiVC, chiPhiDV, chietKhau, idKhuyenMai, soLuongSP);
+                numTongTien.Value = tongTien;
             }
-            numTongTien.Value = tongTienSP + numChiPhiDichVu.Value + numChiPhiVanChuyen.Value;
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tính tổng tiền: " + ex.Message, "Bán sỉ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void toolLuu_Click(object sender, EventArgs e)
@@ -431,6 +554,17 @@ namespace CuahangNongduoc
         }
         void CapNhat()
         {
+            // YC4: Update CHIET_KHAU và ID_KHUYEN_MAI vào current row
+            bindingNavigator.BindingSource.EndEdit();
+            DataTable dt = (DataTable)bindingNavigator.BindingSource.DataSource;
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                DataRow row = dt.Rows[bindingNavigator.BindingSource.Position];
+                row["CHIET_KHAU"] = numChietKhau.Value;
+                row["ID_KHUYEN_MAI"] = (chkApDung.Checked && cboCTKM.SelectedValue != null)
+                    ? cboCTKM.SelectedValue
+                    : DBNull.Value;
+            }
 
             foreach (MaSanPham masp in deleted)
             {
@@ -454,6 +588,10 @@ namespace CuahangNongduoc
             row["CON_NO"] = numConNo.Value;
             row["CHI_PHI_VAN_CHUYEN"] = numChiPhiVanChuyen.Value;
             row["CHI_PHI_DICH_VU"] = numChiPhiDichVu.Value;
+            row["CHIET_KHAU"] = numChietKhau.Value;
+            row["ID_KHUYEN_MAI"] = (chkApDung.Checked && cboCTKM.SelectedValue != null)
+                ? cboCTKM.SelectedValue
+                : DBNull.Value;
             ctrlPhieuBan.Add(row);
 
             PhieuBanController ctrl = new PhieuBanController();
@@ -732,6 +870,68 @@ namespace CuahangNongduoc
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"RefreshConfigUI Error: {ex.Message}");
+            }
+        }
+        // YC4: Event - Thay đổi chiết khấu
+        private void numChietKhau_ValueChanged(object sender, EventArgs e)
+        {
+            TinhTongTien();
+        }
+
+        // YC4: Event - Check/Uncheck áp dụng CTKM
+        private void chkApDung_CheckedChanged(object sender, EventArgs e)
+        {
+            cboCTKM.Enabled = chkApDung.Checked;
+
+            if (!chkApDung.Checked)
+            {
+                cboCTKM.SelectedIndex = -1;
+                txtKhuyenMai.Text = "";
+                lblTienKM.Text = "";
+                lblDieuKienKM.Text = "";
+            }
+
+            TinhTongTien();
+        }
+
+        // YC4: Event - Chọn chương trình khuyến mãi
+        private void cboCTKM_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboCTKM.SelectedValue == null)
+            {
+                txtKhuyenMai.Text = "";
+                lblTienKM.Text = "";
+                lblDieuKienKM.Text = "";
+                return;
+            }
+
+            try
+            {
+                int idKM = Convert.ToInt32(cboCTKM.SelectedValue);
+                KhuyenMai km = ctrlKhuyenMai.LayKhuyenMai(idKM);
+
+                if (km == null)
+                    return;
+
+                // Hiển thị tỷ lệ khuyến mãi
+                txtKhuyenMai.Text = $"{km.TyLeGiam}%";
+
+                // Hiển thị điều kiện
+                if (km.DieuKienLoai == "TONG_TIEN")
+                {
+                    lblDieuKienKM.Text = $"(Mua từ {km.DieuKienGiaTri:N0} đ giảm {km.TyLeGiam}%)";
+                }
+                else if (km.DieuKienLoai == "SO_LUONG")
+                {
+                    lblDieuKienKM.Text = $"(Mua từ {km.DieuKienGiaTri:N0} SP giảm {km.TyLeGiam}%)";
+                }
+
+                // Tính lại tổng tiền (sẽ validate điều kiện)
+                TinhTongTien();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi áp dụng khuyến mãi: " + ex.Message, "Bán sỉ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
