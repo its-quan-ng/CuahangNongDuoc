@@ -41,6 +41,7 @@
             this.mnuQuanLy = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLyDoChi = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDonViTinh = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuKhuyenMai = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSanPham = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuKhachHang = new System.Windows.Forms.ToolStripMenuItem();
@@ -189,6 +190,7 @@
             this.mnuQuanLy.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuLyDoChi,
             this.mnuDonViTinh,
+            this.mnuKhuyenMai,
             this.mnuSanPham,
             this.toolStripSeparator2,
             this.mnuKhachHang,
@@ -207,13 +209,20 @@
             this.mnuLyDoChi.Click += new System.EventHandler(this.mnuLyDoChi_Click);
             // 
             // mnuDonViTinh
-            // 
+            //
             this.mnuDonViTinh.Image = global::CuahangNongduoc.Properties.Resources.DonViTinh;
             this.mnuDonViTinh.Name = "mnuDonViTinh";
             this.mnuDonViTinh.Size = new System.Drawing.Size(183, 26);
             this.mnuDonViTinh.Text = "Đơn vị tính";
             this.mnuDonViTinh.Click += new System.EventHandler(this.mnuDonViTinh_Click);
-            // 
+            //
+            // mnuKhuyenMai
+            //
+            this.mnuKhuyenMai.Name = "mnuKhuyenMai";
+            this.mnuKhuyenMai.Size = new System.Drawing.Size(183, 26);
+            this.mnuKhuyenMai.Text = "Khuyến mãi";
+            this.mnuKhuyenMai.Click += new System.EventHandler(this.mnuKhuyenMai_Click);
+            //
             // mnuSanPham
             // 
             this.mnuSanPham.Image = global::CuahangNongduoc.Properties.Resources.SanPham;
@@ -934,6 +943,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuTuychinh;
         private System.Windows.Forms.ToolStripMenuItem mnuTrogiup;
         private System.Windows.Forms.ToolStripMenuItem mnuDonViTinh;
+        private System.Windows.Forms.ToolStripMenuItem mnuKhuyenMai;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem mnuNhapHang;
         private System.Windows.Forms.ToolStripMenuItem mnuBanHang;

@@ -59,6 +59,23 @@ namespace CuahangNongduoc.BusinessObject
             set { m_ChiTiet = value; }
         }
 
-	
+        // YC4: Chiết khấu và Khuyến mãi
+        private decimal m_ChietKhau;
+
+        public decimal ChietKhau
+        {
+            get { return m_ChietKhau; }
+            set { m_ChietKhau = value; }
+        }
+
+        private int? m_IdKhuyenMai;
+
+        public int? IdKhuyenMai
+        {
+            get { return m_IdKhuyenMai; }
+            set { m_IdKhuyenMai = value; }
+        }
+
+
     }
 }

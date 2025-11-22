@@ -200,6 +200,7 @@
             this.colId.MinimumWidth = 6;
             this.colId.Name = "colId";
             this.colId.Visible = false;
+            this.colId.Width = 125;
             // 
             // colTenDV
             // 
