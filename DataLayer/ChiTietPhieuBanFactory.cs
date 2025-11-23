@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Data;
 using System.Data.SqlClient;
+using CuahangNongduoc.BusinessObject;
+using System.Reflection;
+using System.Windows.Forms;
+using System.Windows.Interop;
 
 namespace CuahangNongduoc.DataLayer
 {
@@ -32,12 +36,16 @@ namespace CuahangNongduoc.DataLayer
             return ds;
         }
 
-        public DataTable LayChiTietPhieuBan(DateTime dtNgayBan)
+        public DataTable LayChiTietPhieuBan(DateTime dtTuNgay, DateTime dtDenNgay)
         {
             DataService ds = new DataService();
-            SqlCommand cmd = new SqlCommand("SELECT CT.* FROM CHI_TIET_PHIEU_BAN CT INNER JOIN PHIEU_BAN PB ON CT.ID_PHIEU_BAN = PB.ID " +
-                    " WHERE PB.NGAY_BAN = @ngayban");
-            cmd.Parameters.Add("@ngayban", SqlDbType.DateTime).Value = dtNgayBan;
+            SqlCommand cmd = new SqlCommand("SELECT CT.*, SP.TEN_SAN_PHAM FROM CHI_TIET_PHIEU_BAN CT"+
+                                             " INNER JOIN PHIEU_BAN PB ON CT.ID_PHIEU_BAN = PB.ID" +
+                                             " INNER JOIN MA_SAN_PHAM MSP ON MSP.ID = CT.ID_MA_SAN_PHAM"+
+                                            " INNER JOIN SAN_PHAM SP ON SP.ID = MSP.ID_SAN_PHAM"+
+                                            " WHERE PB.NGAY_BAN BETWEEN @tungayban AND @denngayban");
+            cmd.Parameters.Add("@tungayban", SqlDbType.DateTime).Value = dtTuNgay;
+            cmd.Parameters.Add("@denngayban", SqlDbType.DateTime).Value = dtDenNgay;
             ds.Load(cmd);
             return ds;
         }
@@ -45,8 +53,11 @@ namespace CuahangNongduoc.DataLayer
         public DataTable LayChiTietPhieuBan(int thang, int nam)
         {
             DataService ds = new DataService();
-            SqlCommand cmd = new SqlCommand("SELECT CT.* FROM CHI_TIET_PHIEU_BAN CT INNER JOIN PHIEU_BAN PB ON CT.ID_PHIEU_BAN = PB.ID " +
-                    " WHERE MONTH(PB.NGAY_BAN) = @thang AND YEAR(PB.NGAY_BAN)= @nam");
+            SqlCommand cmd = new SqlCommand("SELECT CT.*, SP.TEN_SAN_PHAM FROM CHI_TIET_PHIEU_BAN CT" +
+                                             " INNER JOIN PHIEU_BAN PB ON CT.ID_PHIEU_BAN = PB.ID" +
+                                             " INNER JOIN MA_SAN_PHAM MSP ON MSP.ID = CT.ID_MA_SAN_PHAM" +
+                                            " INNER JOIN SAN_PHAM SP ON SP.ID = MSP.ID_SAN_PHAM" +
+                                            " WHERE MONTH(PB.NGAY_BAN) = @thang AND YEAR(PB.NGAY_BAN)= @nam");
             cmd.Parameters.Add("@thang", SqlDbType.Int).Value = thang;
             cmd.Parameters.Add("@nam", SqlDbType.Int).Value = nam;
             ds.Load(cmd);
