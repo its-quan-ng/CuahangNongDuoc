@@ -44,15 +44,15 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dgvChiPhiVC = new System.Windows.Forms.DataGridView();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.dgvChiPhiDV = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.STT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NgayBan = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MaPhieu = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.KhachHang = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ChiPhi = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.dgvChiPhiDV = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTongPhieu)).BeginInit();
@@ -77,6 +77,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.btnThoat);
@@ -94,7 +95,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(223, 31);
+            this.label4.Location = new System.Drawing.Point(244, 32);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(34, 16);
             this.label4.TabIndex = 3;
@@ -144,39 +145,42 @@
             this.dtpDenNgay.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpDenNgay.Location = new System.Drawing.Point(293, 32);
             this.dtpDenNgay.Name = "dtpDenNgay";
-            this.dtpDenNgay.Size = new System.Drawing.Size(88, 22);
+            this.dtpDenNgay.Size = new System.Drawing.Size(117, 22);
             this.dtpDenNgay.TabIndex = 0;
             // 
             // dtpTuNgay
             // 
             this.dtpTuNgay.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpTuNgay.Location = new System.Drawing.Point(96, 32);
+            this.dtpTuNgay.Location = new System.Drawing.Point(100, 32);
             this.dtpTuNgay.Name = "dtpTuNgay";
-            this.dtpTuNgay.Size = new System.Drawing.Size(91, 22);
+            this.dtpTuNgay.Size = new System.Drawing.Size(120, 22);
             this.dtpTuNgay.TabIndex = 0;
             // 
             // numTongPhieu
             // 
-            this.numTongPhieu.Location = new System.Drawing.Point(149, 22);
+            this.numTongPhieu.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.numTongPhieu.Location = new System.Drawing.Point(525, 26);
             this.numTongPhieu.Name = "numTongPhieu";
             this.numTongPhieu.Size = new System.Drawing.Size(120, 22);
             this.numTongPhieu.TabIndex = 1;
             // 
             // numTongCP
             // 
-            this.numTongCP.Location = new System.Drawing.Point(395, 24);
+            this.numTongCP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.numTongCP.Location = new System.Drawing.Point(197, 26);
             this.numTongCP.Name = "numTongCP";
             this.numTongCP.Size = new System.Drawing.Size(120, 22);
             this.numTongCP.TabIndex = 1;
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(50, 22);
+            this.label2.Location = new System.Drawing.Point(34, 28);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(93, 16);
+            this.label2.Size = new System.Drawing.Size(102, 16);
             this.label2.TabIndex = 0;
-            this.label2.Text = "Tổng số phiếu";
+            this.label2.Text = "Tổng chi phí DV";
             // 
             // panel3
             // 
@@ -188,9 +192,9 @@
             // 
             // tabControl
             // 
+            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.tabControl.Controls.Add(this.tabPage1);
             this.tabControl.Controls.Add(this.tabPage2);
-            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
@@ -205,13 +209,14 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(792, 205);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.Text = "Chi phí VC";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // dgvChiPhiVC
             // 
             this.dgvChiPhiVC.AllowUserToAddRows = false;
             this.dgvChiPhiVC.AllowUserToDeleteRows = false;
+            this.dgvChiPhiVC.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvChiPhiVC.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvChiPhiVC.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.STT,
@@ -227,6 +232,45 @@
             this.dgvChiPhiVC.Size = new System.Drawing.Size(786, 199);
             this.dgvChiPhiVC.TabIndex = 0;
             // 
+            // STT
+            // 
+            this.STT.HeaderText = "STT";
+            this.STT.MinimumWidth = 6;
+            this.STT.Name = "STT";
+            this.STT.ReadOnly = true;
+            // 
+            // NgayBan
+            // 
+            this.NgayBan.DataPropertyName = "NgayBan";
+            this.NgayBan.HeaderText = "Ngày bán";
+            this.NgayBan.MinimumWidth = 6;
+            this.NgayBan.Name = "NgayBan";
+            this.NgayBan.ReadOnly = true;
+            // 
+            // MaPhieu
+            // 
+            this.MaPhieu.DataPropertyName = "MaPhieu";
+            this.MaPhieu.HeaderText = "Mã phiếu";
+            this.MaPhieu.MinimumWidth = 6;
+            this.MaPhieu.Name = "MaPhieu";
+            this.MaPhieu.ReadOnly = true;
+            // 
+            // KhachHang
+            // 
+            this.KhachHang.DataPropertyName = "KhachHang";
+            this.KhachHang.HeaderText = "Khách hàng";
+            this.KhachHang.MinimumWidth = 6;
+            this.KhachHang.Name = "KhachHang";
+            this.KhachHang.ReadOnly = true;
+            // 
+            // ChiPhi
+            // 
+            this.ChiPhi.DataPropertyName = "ChiPhiVanChuyen";
+            this.ChiPhi.HeaderText = "Chi phí";
+            this.ChiPhi.MinimumWidth = 6;
+            this.ChiPhi.Name = "ChiPhi";
+            this.ChiPhi.ReadOnly = true;
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.dgvChiPhiDV);
@@ -235,13 +279,14 @@
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(792, 205);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Text = "Chi phí DV";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // dgvChiPhiDV
             // 
             this.dgvChiPhiDV.AllowUserToAddRows = false;
             this.dgvChiPhiDV.AllowUserToDeleteRows = false;
+            this.dgvChiPhiDV.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvChiPhiDV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvChiPhiDV.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvChiPhiDV.Location = new System.Drawing.Point(3, 3);
@@ -254,12 +299,13 @@
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(312, 24);
+            this.label1.Location = new System.Drawing.Point(413, 32);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(80, 16);
+            this.label1.Size = new System.Drawing.Size(60, 16);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Tổng chi phí";
+            this.label1.Text = "Số phiếu";
             // 
             // panel2
             // 
@@ -273,50 +319,6 @@
             this.panel2.Size = new System.Drawing.Size(800, 64);
             this.panel2.TabIndex = 7;
             // 
-            // STT
-            // 
-            this.STT.HeaderText = "STT";
-            this.STT.MinimumWidth = 6;
-            this.STT.Name = "STT";
-            this.STT.ReadOnly = true;
-            this.STT.Width = 125;
-            // 
-            // NgayBan
-            // 
-            this.NgayBan.DataPropertyName = "NgayBan";
-            this.NgayBan.HeaderText = "Ngày bán";
-            this.NgayBan.MinimumWidth = 6;
-            this.NgayBan.Name = "NgayBan";
-            this.NgayBan.ReadOnly = true;
-            this.NgayBan.Width = 125;
-            // 
-            // MaPhieu
-            // 
-            this.MaPhieu.DataPropertyName = "MaPhieu";
-            this.MaPhieu.HeaderText = "Mã phiếu";
-            this.MaPhieu.MinimumWidth = 6;
-            this.MaPhieu.Name = "MaPhieu";
-            this.MaPhieu.ReadOnly = true;
-            this.MaPhieu.Width = 125;
-            // 
-            // KhachHang
-            // 
-            this.KhachHang.DataPropertyName = "KhachHang";
-            this.KhachHang.HeaderText = "Khách hàng";
-            this.KhachHang.MinimumWidth = 6;
-            this.KhachHang.Name = "KhachHang";
-            this.KhachHang.ReadOnly = true;
-            this.KhachHang.Width = 125;
-            // 
-            // ChiPhi
-            // 
-            this.ChiPhi.DataPropertyName = "ChiPhiVanChuyen";
-            this.ChiPhi.HeaderText = "Chi phí";
-            this.ChiPhi.MinimumWidth = 6;
-            this.ChiPhi.Name = "ChiPhi";
-            this.ChiPhi.ReadOnly = true;
-            this.ChiPhi.Width = 125;
-            // 
             // frmThongKeChiPhiPhu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -326,6 +328,7 @@
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Name = "frmThongKeChiPhiPhu";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmThongKeChiPhiPhu";
             this.Load += new System.EventHandler(this.frmThongKeChiPhiPhu_Load);
             this.panel1.ResumeLayout(false);

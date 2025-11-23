@@ -26,7 +26,7 @@ namespace CuahangNongduoc
         {
             // Thiết lập form
             this.Text = "Thống kê chi phí phụ";
-            this.WindowState = FormWindowState.Maximized;
+            // this.WindowState = FormWindowState.Maximized; // Đã tắt để form hiển thị đúng kích thước thiết kế
 
             // Thiết lập DateTimePicker
             dtpTuNgay.Format = DateTimePickerFormat.Custom;
@@ -37,30 +37,21 @@ namespace CuahangNongduoc
             dtpDenNgay.CustomFormat = "dd/MM/yyyy";
             dtpDenNgay.Value = DateTime.Now;
 
-            // Thiết lập labels
-            label3.Text = "Từ ngày:";
-            label4.Text = "Đến ngày:";
 
-            // Thiết lập buttons
-            btnXemBC.Text = "Xem báo cáo";
-            
-            btnInBC.Text = "In báo cáo";
-            
-            btnThoat.Text = "Đóng";
-
-            // Thiết lập TabControl
-            tabPage1.Text = "Chi phí vận chuyển";
-            tabPage2.Text = "Chi phí dịch vụ";
-
+            numTongCP.Enabled = false;
+            numTongPhieu.Enabled = false;
+      
             // Thiết lập DataGridView
             SetupDataGridView(dgvChiPhiVC, "Chi phí VC");
             SetupDataGridView(dgvChiPhiDV, "Chi phí DV");
 
-            // Ẩn các control không dùng
-            numTongPhieu.Visible = false;
-            numTongCP.Visible = false;
-            label1.Visible = false;
-            label2.Visible = false;
+          
+
+            // Thiết lập Maximum cho NumericUpDown để tránh lỗi khi giá trị lớn
+            numTongCP.Maximum = 999999999999; // 999 tỷ
+            numTongCP.Minimum = 0;
+            numTongCP.DecimalPlaces = 0;
+            numTongCP.ThousandsSeparator = true;
         }
 
         private void SetupDataGridView(DataGridView dgv, string headerText)
@@ -75,6 +66,19 @@ namespace CuahangNongduoc
 
             // Xóa các cột cũ
             dgv.Columns.Clear();
+
+            // Thêm cột STT (Số thứ tự) - không bind vào data, sẽ tính toán tự động
+            dgv.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colSTT",
+                HeaderText = "STT",
+                Width = 50,
+                DefaultCellStyle = new DataGridViewCellStyle
+                {
+                    Alignment = DataGridViewContentAlignment.MiddleCenter
+                },
+                ReadOnly = true
+            });
 
             // Thêm các cột mới
             dgv.Columns.Add(new DataGridViewTextBoxColumn
@@ -116,18 +120,18 @@ namespace CuahangNongduoc
                 }
             });
 
-            dgv.Columns.Add(new DataGridViewTextBoxColumn
+            // Event để tự động đếm STT
+            dgv.RowPrePaint += (s, e) =>
             {
-                Name = "colTongTien",
-                HeaderText = "Tổng tiền",
-                DataPropertyName = "TongTien",
-                Width = 120,
-                DefaultCellStyle = new DataGridViewCellStyle
+                if (e.RowIndex >= 0)
                 {
-                    Format = "N0",
-                    Alignment = DataGridViewContentAlignment.MiddleRight
+                    var cell = dgv.Rows[e.RowIndex].Cells["colSTT"];
+                    if (cell != null)
+                    {
+                        cell.Value = (e.RowIndex + 1).ToString();
+                    }
                 }
-            });
+            };
         }
 
         private void btnXemBC_Click(object sender, EventArgs e)
@@ -176,40 +180,56 @@ namespace CuahangNongduoc
                 ThongKeController ctrl = new ThongKeController();
                 DataTable dt = ctrl.LayChiPhiVanChuyen(dtpTuNgay.Value, dtpDenNgay.Value);
 
+                // Kiểm tra null
+                if (dt == null)
+                {
+                    MessageBox.Show(
+                        "Lỗi: Không thể lấy dữ liệu từ database!",
+                        "Lỗi",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                    return;
+                }
+
                 // Bind vào DataGridView
                 dgvChiPhiVC.DataSource = dt;
 
                 // Hiển thị thống kê
-                if (dt.Rows.Count > 0)
+                if (dt != null && dt.Rows.Count > 0)
                 {
                     long tongChiPhi = 0;
                     foreach (DataRow row in dt.Rows)
                     {
-                        tongChiPhi += Convert.ToInt64(row["ChiPhiVanChuyen"]);
+                        if (row["ChiPhiVanChuyen"] != DBNull.Value)
+                        {
+                            tongChiPhi += Convert.ToInt64(row["ChiPhiVanChuyen"]);
+                        }
                     }
 
-                    label1.Visible = true;
-                    label2.Visible = true;
-                    numTongPhieu.Visible = true;
-                    numTongCP.Visible = true;
-
-                    label1.Text = "Tổng số phiếu:";
-                    label2.Text = "Tổng chi phí VC:";
+                  
                     numTongPhieu.Value = dt.Rows.Count;
-                    numTongCP.Value = tongChiPhi;
+                    // Đảm bảo Maximum đủ lớn trước khi set Value
+                    if (tongChiPhi > (decimal)numTongCP.Maximum)
+                    {
+                        numTongCP.Maximum = (decimal)tongChiPhi;
+                    }
+                    numTongCP.Value = Math.Min((decimal)tongChiPhi, numTongCP.Maximum);
                     numTongPhieu.ReadOnly = true;
                     numTongCP.ReadOnly = true;
                 }
                 else
                 {
-                    // Ẩn các controls khi không có dữ liệu
-                    label1.Visible = false;
-                    label2.Visible = false;
-                    numTongPhieu.Visible = false;
-                    numTongCP.Visible = false;
+               
+                    
+                    string msg = string.Format(
+                        "Không có dữ liệu chi phí vận chuyển từ ngày {0} đến ngày {1}!\n\nVui lòng kiểm tra:\n- Có phiếu bán trong khoảng thời gian này không?\n- Các phiếu bán có chi phí vận chuyển > 0 không?",
+                        dtpTuNgay.Value.ToString("dd/MM/yyyy"),
+                        dtpDenNgay.Value.ToString("dd/MM/yyyy")
+                    );
                     
                     MessageBox.Show(
-                        "Không có dữ liệu trong khoảng thời gian này!",
+                        msg,
                         "Thông báo",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information
@@ -219,7 +239,7 @@ namespace CuahangNongduoc
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Lỗi khi tải dữ liệu chi phí vận chuyển:\n" + ex.Message,
+                    "Lỗi khi tải dữ liệu chi phí vận chuyển:\n" + ex.Message + "\n\nChi tiết:\n" + ex.StackTrace,
                     "Lỗi",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
@@ -236,40 +256,56 @@ namespace CuahangNongduoc
                 ThongKeController ctrl = new ThongKeController();
                 DataTable dt = ctrl.LayChiPhiDichVu(dtpTuNgay.Value, dtpDenNgay.Value);
 
+                // Kiểm tra null
+                if (dt == null)
+                {
+                    MessageBox.Show(
+                        "Lỗi: Không thể lấy dữ liệu từ database!",
+                        "Lỗi",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                    return;
+                }
+
                 // Bind vào DataGridView
                 dgvChiPhiDV.DataSource = dt;
 
                 // Hiển thị thống kê
-                if (dt.Rows.Count > 0)
+                if (dt != null && dt.Rows.Count > 0)
                 {
                     long tongChiPhi = 0;
                     foreach (DataRow row in dt.Rows)
                     {
-                        tongChiPhi += Convert.ToInt64(row["ChiPhiVanChuyen"]);
+                        if (row["ChiPhiVanChuyen"] != DBNull.Value)
+                        {
+                            tongChiPhi += Convert.ToInt64(row["ChiPhiVanChuyen"]);
+                        }
                     }
 
-                    label1.Visible = true;
-                    label2.Visible = true;
-                    numTongPhieu.Visible = true;
-                    numTongCP.Visible = true;
-
-                    label1.Text = "Tổng số phiếu:";
-                    label2.Text = "Tổng chi phí DV:";
+                 
                     numTongPhieu.Value = dt.Rows.Count;
-                    numTongCP.Value = tongChiPhi;
+                    // Đảm bảo Maximum đủ lớn trước khi set Value
+                    if (tongChiPhi > (decimal)numTongCP.Maximum)
+                    {
+                        numTongCP.Maximum = (decimal)tongChiPhi;
+                    }
+                    numTongCP.Value = Math.Min((decimal)tongChiPhi, numTongCP.Maximum);
                     numTongPhieu.ReadOnly = true;
                     numTongCP.ReadOnly = true;
                 }
                 else
                 {
-                    // Ẩn các controls khi không có dữ liệu
-                    label1.Visible = false;
-                    label2.Visible = false;
-                    numTongPhieu.Visible = false;
-                    numTongCP.Visible = false;
+                    
+                    
+                    string msg = string.Format(
+                        "Không có dữ liệu chi phí dịch vụ từ ngày {0} đến ngày {1}!\n\nVui lòng kiểm tra:\n- Có phiếu bán trong khoảng thời gian này không?\n- Các phiếu bán có chi phí dịch vụ > 0 không?",
+                        dtpTuNgay.Value.ToString("dd/MM/yyyy"),
+                        dtpDenNgay.Value.ToString("dd/MM/yyyy")
+                    );
                     
                     MessageBox.Show(
-                        "Không có dữ liệu trong khoảng thời gian này!",
+                        msg,
                         "Thông báo",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information
@@ -279,7 +315,7 @@ namespace CuahangNongduoc
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Lỗi khi tải dữ liệu chi phí dịch vụ:\n" + ex.Message,
+                    "Lỗi khi tải dữ liệu chi phí dịch vụ:\n" + ex.Message + "\n\nChi tiết:\n" + ex.StackTrace,
                     "Lỗi",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
@@ -389,9 +425,65 @@ namespace CuahangNongduoc
 
         private void frmThongKeChiPhiPhu_Load(object sender, EventArgs e)
         {
-
+            // Đăng ký event khi chuyển tab để cập nhật thống kê
+            tabControl.SelectedIndexChanged += TabControl_SelectedIndexChanged;
         }
 
+        private void TabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Khi chuyển tab, cập nhật thống kê nếu đã có dữ liệu
+            UpdateStatisticsForCurrentTab();
+        }
+
+        private void UpdateStatisticsForCurrentTab()
+        {
+            try
+            {
+                DataTable dt = null;
+                string labelText = "";
+
+                if (tabControl.SelectedTab == tabPage1)
+                {
+                    // Tab chi phí vận chuyển
+                    dt = dgvChiPhiVC.DataSource as DataTable;
+                    labelText = "Tổng chi phí VC:";
+                }
+                else if (tabControl.SelectedTab == tabPage2)
+                {
+                    // Tab chi phí dịch vụ
+                    dt = dgvChiPhiDV.DataSource as DataTable;
+                    labelText = "Tổng chi phí DV:";
+                }
+
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    long tongChiPhi = 0;
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        if (row["ChiPhiVanChuyen"] != DBNull.Value)
+                        {
+                            tongChiPhi += Convert.ToInt64(row["ChiPhiVanChuyen"]);
+                        }
+                    }
+
+                    
+                    // Đảm bảo Maximum đủ lớn trước khi set Value
+                    if (tongChiPhi > (decimal)numTongCP.Maximum)
+                    {
+                        numTongCP.Maximum = (decimal)tongChiPhi;
+                    }
+                    numTongCP.Value = Math.Min((decimal)tongChiPhi, numTongCP.Maximum);
+                    numTongPhieu.ReadOnly = true;
+                    numTongCP.ReadOnly = true;
+                }
+              
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi im lặng khi chuyển tab
+                System.Diagnostics.Debug.WriteLine("UpdateStatisticsForCurrentTab Error: " + ex.Message);
+            }
+        }
 
     }
 }
