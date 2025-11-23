@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CuahangNongduoc.Controller
 {
-    internal class ThongKeGiamGiaController
+    public class ThongKeGiamGiaController
     {
         ThongKeGiamGiaFactory factory = new ThongKeGiamGiaFactory();
 

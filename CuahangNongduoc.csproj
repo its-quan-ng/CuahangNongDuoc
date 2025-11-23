@@ -502,7 +502,7 @@
     <EmbeddedResource Include="Report\rptChiTietPhieuNhap.rdlc" />
     <EmbeddedResource Include="Report\rptDsDuNoKhachHang.rdlc" />
     <EmbeddedResource Include="Report\rptDuNoKhachHang.rdlc" />
-    <EmbeddedResource Include="Report\rptGiamGia.rdlc" />
+    <EmbeddedResource Include="Report\rptKhuyenMai.rdlc" />
     <EmbeddedResource Include="Report\rptPhieuBan.rdlc" />
     <EmbeddedResource Include="Report\rptPhieuChi.rdlc" />
     <EmbeddedResource Include="Report\rptPhieuNhap.rdlc" />

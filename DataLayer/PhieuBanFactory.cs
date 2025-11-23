@@ -37,10 +37,11 @@ namespace CuahangNongduoc.DataLayer
         {
             DataService ds = new DataService();
             SqlCommand cmd = new SqlCommand(
-                @"SELECT PB.*, KM.TEN_KHUYEN_MAI
+                @"SELECT PB.*, KM.TEN_KHUYEN_MAI, ND.HO_TEN AS NGUOI_LAP
                   FROM PHIEU_BAN PB
                   INNER JOIN KHACH_HANG KH ON PB.ID_KHACH_HANG = KH.ID
                   LEFT JOIN KHUYEN_MAI KM ON PB.ID_KHUYEN_MAI = KM.ID
+                  LEFT JOIN NGUOI_DUNG ND ON PB.ID_NGUOI_DUNG = ND.ID
                   WHERE KH.LOAI_KH = 0
                   ORDER BY PB.ID DESC");
             ds.Load(cmd);
@@ -51,10 +52,11 @@ namespace CuahangNongduoc.DataLayer
         {
             DataService ds = new DataService();
             SqlCommand cmd = new SqlCommand(
-                @"SELECT PB.*, KM.TEN_KHUYEN_MAI
+                @"SELECT PB.*, KM.TEN_KHUYEN_MAI, ND.HO_TEN AS NGUOI_LAP
                   FROM PHIEU_BAN PB
                   INNER JOIN KHACH_HANG KH ON PB.ID_KHACH_HANG = KH.ID
                   LEFT JOIN KHUYEN_MAI KM ON PB.ID_KHUYEN_MAI = KM.ID
+                  LEFT JOIN NGUOI_DUNG ND ON PB.ID_NGUOI_DUNG = ND.ID
                   WHERE KH.LOAI_KH = 1
                   ORDER BY PB.ID DESC");
             ds.Load(cmd);
@@ -147,7 +149,7 @@ namespace CuahangNongduoc.DataLayer
                     KH.TEN_KHACH_HANG,
                     PB.CHIET_KHAU,
                     PB.TONG_TIEN,
-                    ND.TEN_NGUOI_DUNG,
+                    ND.HO_TEN AS NGUOI_LAP,
                     -- Tính số tiền giảm = (Tổng hàng * Chiết khấu / 100)
                     CASE 
                         WHEN PB.CHIET_KHAU IS NOT NULL AND PB.CHIET_KHAU > 0 

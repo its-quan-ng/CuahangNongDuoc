@@ -41,7 +41,9 @@ namespace CuahangNongduoc
         public static long LayMaPhieuNhap()
         {
             DataService ds = new DataService();
-            object obj = ds.ExecuteScalar(new SqlCommand("SELECT PHIEU_NHAP FROM THAM_SO"));
+            SqlCommand cmd = new SqlCommand(
+                @"SELECT ISNULL(MAX(ID), 0) + 1 FROM PHIEU_NHAP");
+            object obj = ds.ExecuteScalar(cmd);
             return Convert.ToInt64(obj);
         }
         public static void GanMaPhieuNhap(long id)
@@ -55,7 +57,9 @@ namespace CuahangNongduoc
         public static long LayMaPhieuBan()
         {
             DataService ds = new DataService();
-            object obj = ds.ExecuteScalar(new SqlCommand("SELECT PHIEU_BAN FROM THAM_SO"));
+            SqlCommand cmd = new SqlCommand(
+                @"SELECT ISNULL(MAX(ID), 0) + 1 FROM PHIEU_BAN");
+            object obj = ds.ExecuteScalar(cmd);
             return Convert.ToInt64(obj);
         }
         public static void GanMaPhieuBan(long id)
@@ -69,7 +73,9 @@ namespace CuahangNongduoc
         public static long LayMaPhieuThanhToan()
         {
             DataService ds = new DataService();
-            object obj = ds.ExecuteScalar(new SqlCommand("SELECT PHIEU_THANH_TOAN FROM THAM_SO"));
+            SqlCommand cmd = new SqlCommand(
+                @"SELECT ISNULL(MAX(ID), 0) + 1 FROM PHIEU_THANH_TOAN");
+            object obj = ds.ExecuteScalar(cmd);
             return Convert.ToInt64(obj);
         }
         public static void GanMaPhieuThanhToan(long id)
@@ -182,7 +188,9 @@ namespace CuahangNongduoc
             get
             {
                 DataService ds = new DataService();
-                object obj = ds.ExecuteScalar(new SqlCommand("SELECT PHIEU_CHI FROM THAM_SO"));
+                SqlCommand cmd = new SqlCommand(
+                    @"SELECT ISNULL(MAX(ID), 0) + 1 FROM PHIEU_CHI");
+                object obj = ds.ExecuteScalar(cmd);
                 return Convert.ToInt64(obj);
             }
             set

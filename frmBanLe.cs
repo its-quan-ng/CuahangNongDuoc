@@ -631,6 +631,10 @@ namespace CuahangNongduoc
             row["ID_KHUYEN_MAI"] = (chkApDung.Checked && cboCTKM.SelectedValue != null)
                 ? cboCTKM.SelectedValue
                 : DBNull.Value;
+            // YC7: Lưu người lập phiếu
+            row["ID_NGUOI_DUNG"] = PhienDangNhap.DaDangNhap
+                ? (object)PhienDangNhap.IdNguoiDung
+                : DBNull.Value;
             ctrlPhieuBan.Add(row);
 
             PhieuBanController ctrl = new PhieuBanController();
@@ -639,14 +643,6 @@ namespace CuahangNongduoc
             {
                 MessageBox.Show("Mã Phiếu bán này đã tồn tại !", "Phieu Nhap", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
-            }
-            if (ThamSo.LaSoNguyen(txtMaPhieu.Text))
-            {
-                long so = Convert.ToInt64(txtMaPhieu.Text);
-                if (so >= ThamSo.LayMaPhieuBan())
-                {
-                    ThamSo.GanMaPhieuBan(so + 1);
-                }
             }
 
             ctrlPhieuBan.Save();

@@ -78,8 +78,8 @@ namespace CuahangNongduoc.DataLayer
             return ds;
         }
 
-        
-          public DataTable ThongKeKhuyenMai(DateTime tuNgay, DateTime denNgay)
+
+        public DataTable ThongKeKhuyenMai(DateTime tuNgay, DateTime denNgay)
         {
             DataService ds = new DataService();
 
@@ -92,16 +92,14 @@ namespace CuahangNongduoc.DataLayer
                       KM.TEN_KHUYEN_MAI AS [Chuong_Trinh],
                       KM.TY_LE_GIAM AS [Ty_Le_Giam],
                       (PB.TONG_TIEN * KM.TY_LE_GIAM / 100) AS [So_Tien_Giam],
-                      ISNULL(ND.HO_TEN, N'(Phiếu cũ)') AS [Nguoi_Tao],
                       PB.TONG_TIEN AS [Tong_Tien]
                   FROM [dbo].[PHIEU_BAN] PB
                   INNER JOIN [dbo].[KHUYEN_MAI] KM ON PB.ID_KHUYEN_MAI = KM.ID
                   LEFT JOIN [dbo].[KHACH_HANG] KH ON PB.ID_KHACH_HANG = KH.ID
-                  LEFT JOIN [dbo].[NGUOI_DUNG] ND ON PB.ID_NGUOI_DUNG = ND.ID
                   WHERE PB.NGAY_BAN BETWEEN @tu_ngay AND @den_ngay
                       AND PB.ID_KHUYEN_MAI IS NOT NULL
                   ORDER BY PB.NGAY_BAN DESC, PB.ID DESC
-              ");
+            ");
 
             cmd.Parameters.Add("@tu_ngay", SqlDbType.DateTime).Value = tuNgay;
             cmd.Parameters.Add("@den_ngay", SqlDbType.DateTime).Value = denNgay;
@@ -130,17 +128,15 @@ namespace CuahangNongduoc.DataLayer
                       KM.TEN_KHUYEN_MAI AS [Chuong_Trinh],
                       KM.TY_LE_GIAM AS [Ty_Le_Giam],
                       (PB.TONG_TIEN * KM.TY_LE_GIAM / 100) AS [So_Tien_Giam],
-                      ND.HO_TEN AS [Nguoi_Tao],
                       PB.TONG_TIEN AS [Tong_Tien]
                   FROM [dbo].[PHIEU_BAN] PB
                   INNER JOIN [dbo].[KHUYEN_MAI] KM ON PB.ID_KHUYEN_MAI = KM.ID
                   LEFT JOIN [dbo].[KHACH_HANG] KH ON PB.ID_KHACH_HANG = KH.ID
-                  INNER JOIN [dbo].[NGUOI_DUNG] ND ON PB.ID_NGUOI_DUNG = ND.ID
                   WHERE PB.NGAY_BAN BETWEEN @tu_ngay AND @den_ngay
                       AND PB.ID_KHUYEN_MAI IS NOT NULL
                       AND PB.ID_NGUOI_DUNG = @id_nguoi_dung
                   ORDER BY PB.NGAY_BAN DESC, PB.ID DESC
-              ");
+            ");
 
             cmd.Parameters.Add("@tu_ngay", SqlDbType.DateTime).Value = tuNgay;
             cmd.Parameters.Add("@den_ngay", SqlDbType.DateTime).Value = denNgay;

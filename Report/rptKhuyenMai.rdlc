@@ -7,11 +7,11 @@
         <DataProvider>SQL</DataProvider>
         <ConnectString />
       </ConnectionProperties>
-      <rd:DataSourceID>77d7532b-277b-4fd6-be97-0a1a302d8f69</rd:DataSourceID>
+      <rd:DataSourceID>c9be86d9-ded7-4fda-b268-c7161ff8828e</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="dsChietKhau">
+    <DataSet Name="dsKhuyenMai">
       <Query>
         <DataSourceName>DummyDataSource</DataSourceName>
         <CommandText />
@@ -33,17 +33,17 @@
           <DataField>Khach_Hang</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Chiet_Khau_Percent">
-          <DataField>Chiet_Khau_Percent</DataField>
+        <Field Name="Chuong_Trinh">
+          <DataField>Chuong_Trinh</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Ty_Le_Giam">
+          <DataField>Ty_Le_Giam</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="So_Tien_Giam">
           <DataField>So_Tien_Giam</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="Nguoi_Tao">
-          <DataField>Nguoi_Tao</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Tong_Tien">
           <DataField>Tong_Tien</DataField>
@@ -56,34 +56,27 @@
     <ReportSection>
       <Body>
         <ReportItems>
-          <Textbox Name="txtFooter">
+          <Textbox Name="txtSignature">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>
-											="Tổng số phiếu: " &amp; Count(Fields!STT.Value, "dsChietKhau") &amp; " | Tổng giảm: "
-											&amp; Format(Sum(Fields!So_Tien_Giam.Value, "dsChietKhau"), "#,##0") &amp; " VND"
-										</Value>
-                    <Style>
-                      <FontSize>11pt</FontSize>
-                      <FontWeight>Bold</FontWeight>
-                      <Color>DarkBlue</Color>
-                    </Style>
+                    <Value>Người lập: ____________    Kế toán: ____________</Value>
+                    <Style />
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Left</TextAlign>
+                  <TextAlign>Center</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <rd:DefaultName>txtFooter</rd:DefaultName>
-            <Top>7.5cm</Top>
-            <Left>0.5cm</Left>
+            <rd:DefaultName>txtSignature</rd:DefaultName>
+            <Top>10cm</Top>
+            <Left>0cm</Left>
             <Height>0.8cm</Height>
-            <Width>18cm</Width>
+            <Width>19cm</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -94,26 +87,106 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
-          <Tablix Name="tblChietKhau">
+          <Textbox Name="txtAverage">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>
+											="Trung bình/phiếu: " &amp; Format(Avg(Fields!So_Tien_Giam.Value, "dsKhuyenMai"),
+											"#,##0") &amp; " VND | Tỷ lệ giảm TB: " &amp; Format(Avg(Fields!Ty_Le_Giam.Value, "dsKhuyenMai"), "#,##0.00")
+											&amp; "%"
+										</Value>
+                    <Style>
+                      <Color>DarkGreen</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Left</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>txtAverage</rd:DefaultName>
+            <Top>8.8cm</Top>
+            <Left>0.5cm</Left>
+            <Height>0.6cm</Height>
+            <Width>18cm</Width>
+            <ZIndex>1</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="txtFooter">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>
+											="Tổng số phiếu: " &amp; Count(Fields!STT.Value, "dsKhuyenMai") &amp; " | Tổng giảm: "
+											&amp; Format(Sum(Fields!So_Tien_Giam.Value, "dsKhuyenMai"), "#,##0") &amp; " VND"
+										</Value>
+                    <Style>
+                      <FontSize>11pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                      <Color>DarkGreen</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Left</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>txtFooter</rd:DefaultName>
+            <Top>8cm</Top>
+            <Left>0.5cm</Left>
+            <Height>0.8cm</Height>
+            <Width>18cm</Width>
+            <ZIndex>2</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Tablix Name="tblKhuyenMai">
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.5cm</Width>
+                  <Width>1.2cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.5cm</Width>
+                  <Width>2.2cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2cm</Width>
+                  <Width>1.8cm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>3cm</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>4cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.5cm</Width>
+                  <Width>2cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>3cm</Width>
+                  <Width>2.8cm</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>2.5cm</Width>
@@ -150,7 +223,7 @@
                               <Color>White</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>SteelBlue</BackgroundColor>
+                            <BackgroundColor>DarkGreen</BackgroundColor>
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -187,7 +260,7 @@
                               <Color>White</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>SteelBlue</BackgroundColor>
+                            <BackgroundColor>DarkGreen</BackgroundColor>
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -224,7 +297,7 @@
                               <Color>White</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>SteelBlue</BackgroundColor>
+                            <BackgroundColor>DarkGreen</BackgroundColor>
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -261,7 +334,7 @@
                               <Color>White</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>SteelBlue</BackgroundColor>
+                            <BackgroundColor>DarkGreen</BackgroundColor>
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -273,14 +346,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="lblChietKhau">
+                        <Textbox Name="lblChuongTrinh">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Chiết khấu (%)</Value>
+                                  <Value>Chương trình KM</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                     <Color>White</Color>
@@ -292,13 +365,50 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>lblChietKhau</rd:DefaultName>
+                          <rd:DefaultName>lblChuongTrinh</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>White</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>SteelBlue</BackgroundColor>
+                            <BackgroundColor>DarkGreen</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="lblTyLeGiam">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Tỷ lệ (%)</Value>
+                                  <Style>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>lblTyLeGiam</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>White</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>DarkGreen</BackgroundColor>
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -335,7 +445,7 @@
                               <Color>White</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>SteelBlue</BackgroundColor>
+                            <BackgroundColor>DarkGreen</BackgroundColor>
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -347,14 +457,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="lblNguoiTao">
+                        <Textbox Name="lblTongTien">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Người tạo</Value>
+                                  <Value>Tổng tiền</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                     <Color>White</Color>
@@ -366,13 +476,13 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>lblNguoiTao</rd:DefaultName>
+                          <rd:DefaultName>lblTongTien</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>White</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>SteelBlue</BackgroundColor>
+                            <BackgroundColor>DarkGreen</BackgroundColor>
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -549,14 +659,56 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Chiet_Khau_Percent">
+                        <Textbox Name="Chuong_Trinh">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Chiet_Khau_Percent.Value</Value>
+                                  <Value>=Fields!Chuong_Trinh.Value</Value>
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>DarkGreen</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Chuong_Trinh</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                              <Width>0.5pt</Width>
+                            </Border>
+                            <BackgroundColor>
+															=IIF(RowNumber(Nothing) Mod 2 = 0, "WhiteSmoke",
+															"White")
+														</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Ty_Le_Giam">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Ty_Le_Giam.Value</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <Format>#,##0.00</Format>
@@ -568,7 +720,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Chiet_Khau_Percent</rd:DefaultName>
+                          <rd:DefaultName>Ty_Le_Giam</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -617,7 +769,7 @@
                               <Style>Solid</Style>
                               <Width>0.5pt</Width>
                             </Border>
-                            <BackgroundColor>LightYellow</BackgroundColor>
+                            <BackgroundColor>LightGreen</BackgroundColor>
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -629,25 +781,26 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Nguoi_Tao">
+                        <Textbox Name="Tong_Tien">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Nguoi_Tao.Value</Value>
+                                  <Value>=Fields!Tong_Tien.Value</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
+                                    <Format>#,##0</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Left</TextAlign>
+                                <TextAlign>Right</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Nguoi_Tao</rd:DefaultName>
+                          <rd:DefaultName>Tong_Tien</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -680,6 +833,7 @@
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
+                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -692,18 +846,54 @@
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <DataSetName>dsChietKhau</DataSetName>
-            <Top>5.5cm</Top>
-            <Left>0.5cm</Left>
+            <DataSetName>dsKhuyenMai</DataSetName>
+            <Top>6cm</Top>
+            <Left>0.3cm</Left>
             <Height>1.4cm</Height>
-            <Width>18cm</Width>
-            <ZIndex>1</ZIndex>
+            <Width>19.5cm</Width>
+            <ZIndex>3</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
               </Border>
             </Style>
           </Tablix>
+          <Textbox Name="txtPrintTime">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>="(In ngày: " &amp; Format(Globals!ExecutionTime, "dd/MM/yyyy HH:mm") &amp; ")"</Value>
+                    <Style>
+                      <FontStyle>Italic</FontStyle>
+                      <FontSize>9pt</FontSize>
+                      <Color>Gray</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>txtPrintTime</rd:DefaultName>
+            <Top>5cm</Top>
+            <Left>0cm</Left>
+            <Height>0.6cm</Height>
+            <Width>19cm</Width>
+            <ZIndex>4</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
           <Textbox Name="txtNhanVien">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
@@ -728,7 +918,7 @@
             <Left>0cm</Left>
             <Height>0.6cm</Height>
             <Width>19cm</Width>
-            <ZIndex>2</ZIndex>
+            <ZIndex>5</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -767,7 +957,7 @@
             <Left>0cm</Left>
             <Height>0.6cm</Height>
             <Width>19cm</Width>
-            <ZIndex>3</ZIndex>
+            <ZIndex>6</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -785,11 +975,11 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>BÁO CÁO CHIẾT KHẤU</Value>
+                    <Value>BÁO CÁO KHUYẾN MÃI</Value>
                     <Style>
-                      <FontSize>14pt</FontSize>
+                      <FontSize>18pt</FontSize>
                       <FontWeight>Bold</FontWeight>
-                      <Color>DarkRed</Color>
+                      <Color>DarkGreen</Color>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -803,7 +993,7 @@
             <Left>0cm</Left>
             <Height>1cm</Height>
             <Width>19cm</Width>
-            <ZIndex>4</ZIndex>
+            <ZIndex>7</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -835,7 +1025,7 @@
             <Left>0cm</Left>
             <Height>0.6cm</Height>
             <Width>19cm</Width>
-            <ZIndex>5</ZIndex>
+            <ZIndex>8</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -867,7 +1057,7 @@
             <Left>0cm</Left>
             <Height>0.6cm</Height>
             <Width>19cm</Width>
-            <ZIndex>6</ZIndex>
+            <ZIndex>9</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -903,7 +1093,7 @@
             <Left>0cm</Left>
             <Height>0.8cm</Height>
             <Width>19cm</Width>
-            <ZIndex>7</ZIndex>
+            <ZIndex>10</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -915,10 +1105,10 @@
             </Style>
           </Textbox>
         </ReportItems>
-        <Height>8.5cm</Height>
+        <Height>11cm</Height>
         <Style />
       </Body>
-      <Width>19cm</Width>
+      <Width>19.8cm</Width>
       <Page>
         <PageHeight>29.7cm</PageHeight>
         <PageWidth>21cm</PageWidth>
@@ -996,5 +1186,5 @@
     </GridLayoutDefinition>
   </ReportParametersLayout>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
-  <rd:ReportID>12345678-1234-1234-1234-123456789abc</rd:ReportID>
+  <rd:ReportID>cccccccc-dddd-eeee-ffff-333333333333</rd:ReportID>
 </Report>

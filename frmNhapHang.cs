@@ -232,15 +232,6 @@ namespace CuahangNongduoc
                 return;
             }
 
-            if (ThamSo.LaSoNguyen(txtMaPhieu.Text))
-            {
-                long so = Convert.ToInt64(txtMaPhieu.Text);
-                if (so >= ThamSo.LayMaPhieuNhap())
-                {
-                    ThamSo.GanMaPhieuNhap(so + 1);
-                }
-            }
-
             ctrl.Save();
             ctrlMaSP.Save();
 

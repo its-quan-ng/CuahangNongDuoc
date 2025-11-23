@@ -17,7 +17,7 @@ namespace CuahangNongduoc
     public partial class frmThongKeGiamGia : Form
     {
         ThongKeGiamGiaController controller = new ThongKeGiamGiaController();
-        NguoiDungFactory fac = new NguoiDungFactory();
+        NguoiDungController ctrlNguoiDung = new NguoiDungController();
         DataTable dt;
 
         // Lưu DataTable gốc để in report
@@ -29,10 +29,6 @@ namespace CuahangNongduoc
             InitializeComponent();
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
 
         private void btnXemBaoCao_Click(object sender, EventArgs e)
         {
@@ -74,86 +70,28 @@ namespace CuahangNongduoc
                 dtChietKhauGoc = dtChietKhau.Copy();
                 dtKhuyenMaiGoc = dtKhuyenMai.Copy();
 
-                // DEBUG: Kiểm tra dữ liệu
-                string debugInfo = $"DEBUG INFO:\n\n" +
-                    $"Từ ngày: {tuNgay:dd/MM/yyyy HH:mm:ss}\n" +
-                    $"Đến ngày: {denNgay:dd/MM/yyyy HH:mm:ss}\n" +
-                    $"Nhân viên ID: {idNhanVien}\n\n" +
-                    $"Chiết khấu:\n" +
-                    $"  - Null? {dtChietKhau == null}\n" +
-                    $"  - Rows: {(dtChietKhau == null ? "N/A" : dtChietKhau.Rows.Count.ToString())}\n" +
-                    $"  - Columns: {(dtChietKhau == null ? "N/A" : dtChietKhau.Columns.Count.ToString())}\n\n" +
-                    $"Khuyến mãi:\n" +
-                    $"  - Null? {dtKhuyenMai == null}\n" +
-                    $"  - Rows: {(dtKhuyenMai == null ? "N/A" : dtKhuyenMai.Rows.Count.ToString())}\n" +
-                    $"  - Columns: {(dtKhuyenMai == null ? "N/A" : dtKhuyenMai.Columns.Count.ToString())}";
-
-                MessageBox.Show(debugInfo, "Debug - Trước khi Bind");
-
                 // Bind vào DataGridView
-                dgvChietKhau.DataSource = null; // Clear trước
+                dgvChietKhau.DataSource = null;
                 dgvChietKhau.DataSource = dtChietKhau;
-                
-                dgvGiamGia.DataSource = null; // Clear trước
+
+                dgvGiamGia.DataSource = null;
                 dgvGiamGia.DataSource = dtKhuyenMai;
 
-                // DEBUG: Kiểm tra sau khi bind
-                MessageBox.Show(
-                    $"Sau khi bind:\n" +
-                    $"dgvChietKhau.Rows: {dgvChietKhau.Rows.Count}\n" +
-                    $"dgvGiamGia.Rows: {dgvGiamGia.Rows.Count}",
-                    "Debug - Sau khi Bind"
-                );
-
-                // Format columns - Bọc trong try-catch riêng
-                try
-                {
-                    FormatDataGridViewChietKhau();
-                }
-                catch (Exception exFormat1)
-                {
-                    MessageBox.Show("Lỗi khi format Chiết khấu: " + exFormat1.Message);
-                }
-
-                try
-                {
-                    FormatDataGridViewKhuyenMai();
-                }
-                catch (Exception exFormat2)
-                {
-                    MessageBox.Show("Lỗi khi format Khuyến mãi: " + exFormat2.Message);
-                }
+                // Format columns
+                FormatDataGridViewChietKhau();
+                FormatDataGridViewKhuyenMai();
 
                 // Tính tổng kết
-                try
-                {
-                    TinhTongKet();
-                }
-                catch (Exception exTong)
-                {
-                    MessageBox.Show("Lỗi khi tính tổng: " + exTong.Message);
-                }
-
-                // Thông báo thành công
-                MessageBox.Show(
-                    $"Đã tải xong!\n" +
-                    $"- Chiết khấu: {(dtChietKhau == null ? 0 : dtChietKhau.Rows.Count)} phiếu\n" +
-                    $"- Khuyến mãi: {(dtKhuyenMai == null ? 0 : dtKhuyenMai.Rows.Count)} phiếu",
-                    "Thành công",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
+                TinhTongKet();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Lỗi khi tải dữ liệu:\n" + ex.Message + "\n\nStack Trace:\n" + ex.StackTrace,
+                    "Lỗi khi tải dữ liệu:\n" + ex.Message,
                     "Lỗi",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
-
-
             }
         }
         private void FormatDataGridViewChietKhau()
@@ -302,12 +240,6 @@ DataGridViewContentAlignment.MiddleRight;
                     dgvGiamGia.Columns["So_Tien_Giam"].Width = 130;
                 }
 
-                if (dgvGiamGia.Columns["Nguoi_Tao"] != null)
-                {
-                    dgvGiamGia.Columns["Nguoi_Tao"].HeaderText = "Người tạo";
-                    dgvGiamGia.Columns["Nguoi_Tao"].Width = 120;
-                }
-
                 if (dgvGiamGia.Columns["Tong_Tien"] != null)
                 {
                     dgvGiamGia.Columns["Tong_Tien"].HeaderText = "Tổng tiền";
@@ -409,20 +341,24 @@ DataGridViewContentAlignment.MiddleRight;
                 DataTable dt = null;
                 string reportPath = "";
                 string dataSetName = "";
+                int tabIndex = tabControl.SelectedIndex;
 
-                if (tabControl.SelectedTab == tabChietKhau)
+                if (tabIndex == 0) // Tab Chiết khấu
                 {
-                    // Tab Chiết khấu - Dùng DataTable gốc
                     dt = dtChietKhauGoc;
                     reportPath = Application.StartupPath + @"\Report\rptChietKhau.rdlc";
                     dataSetName = "dsChietKhau";
                 }
-                else if (tabControl.SelectedTab == tabGiamGia)
+                else if (tabIndex == 1) // Tab Khuyến mãi
                 {
-                    // Tab Khuyến mãi - Dùng DataTable gốc
                     dt = dtKhuyenMaiGoc;
                     reportPath = Application.StartupPath + @"\Report\rptKhuyenMai.rdlc";
                     dataSetName = "dsKhuyenMai";
+                }
+                else
+                {
+                    MessageBox.Show("Vui lòng chọn tab Chiết khấu hoặc Khuyến mãi!", "Lỗi");
+                    return;
                 }
 
                 // 2. Kiểm tra data
@@ -433,6 +369,19 @@ DataGridViewContentAlignment.MiddleRight;
                         "Thông báo",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning
+                    );
+                    return;
+                }
+
+                // Kiểm tra file tồn tại
+                if (!System.IO.File.Exists(reportPath))
+                {
+                    MessageBox.Show(
+                        "Không tìm thấy file báo cáo!\n" +
+                        "Vui lòng đảm bảo file .rdlc đã được copy vào thư mục Report.",
+                        "Lỗi",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
                     );
                     return;
                 }
@@ -450,16 +399,16 @@ DataGridViewContentAlignment.MiddleRight;
 
                 // 5. Set parameters (thông tin cửa hàng)
                 CuaHang cuaHang = ThamSo.LayCuaHang();
-                string tenNhanVien = cmbNhanVien.Text; // "-- Tất cả --" hoặc tên NV
+                string tenNhanVien = cmbNhanVien.Text;
 
                 ReportParameter[] parameters = new ReportParameter[]
                 {
-                      new ReportParameter("TuNgay", dtTuNgay.Value.ToString("dd/MM/yyyy")),
-                      new ReportParameter("DenNgay", dtDenNgay.Value.ToString("dd/MM/yyyy")),
-                      new ReportParameter("TenCuaHang", cuaHang.TenCuaHang),
-                      new ReportParameter("DiaChiCuaHang", cuaHang.DiaChi),
-                      new ReportParameter("DienThoaiCuaHang", cuaHang.DienThoai),
-                      new ReportParameter("NhanVien", tenNhanVien) // Filter nhân viên
+                    new ReportParameter("TuNgay", dtTuNgay.Value.ToString("dd/MM/yyyy")),
+                    new ReportParameter("DenNgay", dtDenNgay.Value.ToString("dd/MM/yyyy")),
+                    new ReportParameter("TenCuaHang", cuaHang.TenCuaHang ?? ""),
+                    new ReportParameter("DiaChiCuaHang", cuaHang.DiaChi ?? ""),
+                    new ReportParameter("DienThoaiCuaHang", cuaHang.DienThoai ?? ""),
+                    new ReportParameter("NhanVien", tenNhanVien ?? "")
                 };
                 reportViewer.LocalReport.SetParameters(parameters);
 
@@ -478,7 +427,8 @@ DataGridViewContentAlignment.MiddleRight;
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Lỗi khi tạo báo cáo:\n" + ex.Message,
+                    "Lỗi khi tạo báo cáo:\n" + ex.Message +
+                    (ex.InnerException != null ? "\n\nChi tiết: " + ex.InnerException.Message : ""),
                     "Lỗi",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
@@ -492,16 +442,12 @@ DataGridViewContentAlignment.MiddleRight;
             TinhTongKet();
         }
 
-        private void lblTongKet_Click(object sender, EventArgs e)
-        {
-
-        }
         private void LoadNhanVien()
         {
             try
             {
                 // Lấy danh sách nhân viên từ Controller
-                DataTable dt = fac.DanhsachNguoiDung();
+                DataTable dt = ctrlNguoiDung.DanhsachNguoiDung();
 
                 // Kiểm tra có data không
                 if (dt == null || dt.Rows.Count == 0)
