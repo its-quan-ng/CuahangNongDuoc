@@ -293,18 +293,23 @@ DataGridViewContentAlignment.MiddleRight;
 
                 foreach (DataGridViewRow row in dgv.Rows)
                 {
-                    // Tổng số tiền giảm
-                    if (row.Cells["So_Tien_Giam"].Value != null &&
-                        row.Cells["So_Tien_Giam"].Value != DBNull.Value)
+                    if (row.DataBoundItem != null)
                     {
-                        tongGiam += Convert.ToDecimal(row.Cells["So_Tien_Giam"].Value);
-                    }
+                        DataRowView rowView = (DataRowView)row.DataBoundItem;
 
-                    // Tổng doanh thu
-                    if (row.Cells["Tong_Tien"].Value != null &&
-                        row.Cells["Tong_Tien"].Value != DBNull.Value)
-                    {
-                        tongDoanhThu += Convert.ToDecimal(row.Cells["Tong_Tien"].Value);
+                        // Tổng số tiền giảm
+                        if (rowView["So_Tien_Giam"] != null &&
+                            rowView["So_Tien_Giam"] != DBNull.Value)
+                        {
+                            tongGiam += Convert.ToDecimal(rowView["So_Tien_Giam"]);
+                        }
+
+                        // Tổng doanh thu
+                        if (rowView["Tong_Tien"] != null &&
+                            rowView["Tong_Tien"] != DBNull.Value)
+                        {
+                            tongDoanhThu += Convert.ToDecimal(rowView["Tong_Tien"]);
+                        }
                     }
                 }
 
