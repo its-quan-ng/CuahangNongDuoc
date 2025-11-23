@@ -42,5 +42,55 @@ namespace CuahangNongduoc.BusinessObject
             set { m_ThanhTien = value; }
         }
 
+        // Properties for RDLC Report
+        public String TenSanPham
+        {
+            get
+            {
+                try
+                {
+                    if (m_MaSP == null)
+                        return "[MaSP NULL]";
+                    if (m_MaSP.SanPham == null)
+                        return "[SanPham NULL]";
+                    return m_MaSP.SanPham.TenSanPham ?? "[TenSP NULL]";
+                }
+                catch (Exception ex)
+                {
+                    return $"[ERROR: {ex.Message}]";
+                }
+            }
+        }
+
+        public String MaSo
+        {
+            get
+            {
+                try
+                {
+                    return m_MaSP != null ? m_MaSP.Id : "";
+                }
+                catch
+                {
+                    return "";
+                }
+            }
+        }
+
+        public DateTime NgayHetHan
+        {
+            get
+            {
+                try
+                {
+                    return m_MaSP != null ? m_MaSP.NgayHetHan : DateTime.MinValue;
+                }
+                catch
+                {
+                    return DateTime.MinValue;
+                }
+            }
+        }
+
     }
 }
