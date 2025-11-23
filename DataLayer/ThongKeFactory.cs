@@ -21,12 +21,13 @@ namespace CuahangNongduoc.DataLayer
                     PB.TONG_TIEN as TongTien
                 FROM PHIEU_BAN PB
                 INNER JOIN KHACH_HANG KH ON PB.ID_KHACH_HANG = KH.ID
-                WHERE PB.NGAY_BAN BETWEEN @tuNgay AND @denNgay
+                WHERE CAST(PB.NGAY_BAN AS DATE) >= CAST(@tuNgay AS DATE)
+                    AND CAST(PB.NGAY_BAN AS DATE) <= CAST(@denNgay AS DATE)
                     AND ISNULL(PB.CHI_PHI_VAN_CHUYEN, 0) > 0
                 ORDER BY PB.NGAY_BAN DESC");
 
             cmd.Parameters.Add("@tuNgay", SqlDbType.DateTime).Value = tuNgay.Date;
-            cmd.Parameters.Add("@denNgay", SqlDbType.DateTime).Value = denNgay.Date.AddDays(1).AddSeconds(-1);
+            cmd.Parameters.Add("@denNgay", SqlDbType.DateTime).Value = denNgay.Date;
 
             ds.Load(cmd);
             return ds;
@@ -43,12 +44,13 @@ namespace CuahangNongduoc.DataLayer
                     PB.TONG_TIEN as TongTien
                 FROM PHIEU_BAN PB
                 INNER JOIN KHACH_HANG KH ON PB.ID_KHACH_HANG = KH.ID
-                WHERE PB.NGAY_BAN BETWEEN @tuNgay AND @denNgay
+                WHERE CAST(PB.NGAY_BAN AS DATE) >= CAST(@tuNgay AS DATE)
+                    AND CAST(PB.NGAY_BAN AS DATE) <= CAST(@denNgay AS DATE)
                     AND ISNULL(PB.CHI_PHI_DICH_VU, 0) > 0
                 ORDER BY PB.NGAY_BAN DESC");
 
             cmd.Parameters.Add("@tuNgay", SqlDbType.DateTime).Value = tuNgay.Date;
-            cmd.Parameters.Add("@denNgay", SqlDbType.DateTime).Value = denNgay.Date.AddDays(1).AddSeconds(-1);
+            cmd.Parameters.Add("@denNgay", SqlDbType.DateTime).Value = denNgay.Date;
 
             ds.Load(cmd);
             return ds;

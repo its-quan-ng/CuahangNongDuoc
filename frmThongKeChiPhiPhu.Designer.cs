@@ -164,7 +164,7 @@
             // 
             // numTongCP
             // 
-            this.numTongCP.Location = new System.Drawing.Point(362, 24);
+            this.numTongCP.Location = new System.Drawing.Point(395, 24);
             this.numTongCP.Name = "numTongCP";
             this.numTongCP.Size = new System.Drawing.Size(120, 22);
             this.numTongCP.TabIndex = 1;
@@ -172,11 +172,11 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(102, 24);
+            this.label2.Location = new System.Drawing.Point(50, 22);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(44, 16);
+            this.label2.Size = new System.Drawing.Size(93, 16);
             this.label2.TabIndex = 0;
-            this.label2.Text = "label1";
+            this.label2.Text = "Tổng số phiếu";
             // 
             // panel3
             // 
@@ -257,9 +257,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(312, 24);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 16);
+            this.label1.Size = new System.Drawing.Size(80, 16);
             this.label1.TabIndex = 0;
-            this.label1.Text = "label1";
+            this.label1.Text = "Tổng chi phí";
             // 
             // panel2
             // 

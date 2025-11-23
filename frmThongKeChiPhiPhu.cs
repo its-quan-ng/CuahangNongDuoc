@@ -202,6 +202,12 @@ namespace CuahangNongduoc
                 }
                 else
                 {
+                    // Ẩn các controls khi không có dữ liệu
+                    label1.Visible = false;
+                    label2.Visible = false;
+                    numTongPhieu.Visible = false;
+                    numTongCP.Visible = false;
+                    
                     MessageBox.Show(
                         "Không có dữ liệu trong khoảng thời gian này!",
                         "Thông báo",
@@ -256,6 +262,12 @@ namespace CuahangNongduoc
                 }
                 else
                 {
+                    // Ẩn các controls khi không có dữ liệu
+                    label1.Visible = false;
+                    label2.Visible = false;
+                    numTongPhieu.Visible = false;
+                    numTongCP.Visible = false;
+                    
                     MessageBox.Show(
                         "Không có dữ liệu trong khoảng thời gian này!",
                         "Thông báo",
@@ -287,14 +299,14 @@ namespace CuahangNongduoc
                 if (tabControl.SelectedTab == tabPage1)
                 {
                     // Chi phí vận chuyển
-                    dt = (DataTable)dgvChiPhiVC.DataSource;
+                    dt = dgvChiPhiVC.DataSource as DataTable;
                     reportPath = Application.StartupPath + @"\Report\rptChiPhiVanChuyen.rdlc";
                     dataSetName = "dsChiPhiVC";
                 }
                 else if (tabControl.SelectedTab == tabPage2)
                 {
                     // Chi phí dịch vụ
-                    dt = (DataTable)dgvChiPhiDV.DataSource;
+                    dt = dgvChiPhiDV.DataSource as DataTable;
                     reportPath = Application.StartupPath + @"\Report\rptChiPhiDichVu.rdlc";
                     dataSetName = "dsChiPhiDV";
                 }
@@ -341,9 +353,9 @@ namespace CuahangNongduoc
                 {
                     new ReportParameter("TuNgay", dtpTuNgay.Value.ToString("dd/MM/yyyy")),
                     new ReportParameter("DenNgay", dtpDenNgay.Value.ToString("dd/MM/yyyy")),
-                    new ReportParameter("TenCuaHang", cuaHang.TenCuaHang),
-                    new ReportParameter("DiaChiCuaHang", cuaHang.DiaChi),
-                    new ReportParameter("DienThoaiCuaHang", cuaHang.DienThoai)
+                    new ReportParameter("TenCuaHang", cuaHang != null ? cuaHang.TenCuaHang : ""),
+                    new ReportParameter("DiaChiCuaHang", cuaHang != null ? cuaHang.DiaChi : ""),
+                    new ReportParameter("DienThoaiCuaHang", cuaHang != null ? cuaHang.DienThoai : "")
                 };
                 reportViewer.LocalReport.SetParameters(parameters);
 
