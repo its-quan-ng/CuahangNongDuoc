@@ -363,13 +363,9 @@ namespace CuahangNongduoc
                 bindingNavigator.BindingSource.DataSource = dt;
                 bindingNavigator.BindingSource.MoveLast();
 
-                // Focus vào textbox đầu tiên
+                // Focus vào textbox đầu tiên để user nhập liệu
                 txtTenKhuyenMai.Focus();
-
-                MessageBox.Show("Đã thêm chương trình khuyến mãi mới.\nVui lòng nhập thông tin và bấm 'Lưu'.",
-                    "Khuyến mãi",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+                txtTenKhuyenMai.SelectAll();
             }
             catch (Exception ex)
             {
