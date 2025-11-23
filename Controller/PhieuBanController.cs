@@ -131,11 +131,20 @@ namespace CuahangNongduoc.Controller
 
                 ph = new PhieuBan();
                 ph.Id = Convert.ToString(tbl.Rows[0]["ID"]);
-                
+
                 ph.NgayBan = Convert.ToDateTime(tbl.Rows[0]["NGAY_BAN"]);
                 ph.TongTien = Convert.ToInt64(tbl.Rows[0]["TONG_TIEN"]);
                 ph.DaTra = Convert.ToInt64(tbl.Rows[0]["DA_TRA"]);
                 ph.ConNo = Convert.ToInt64(tbl.Rows[0]["CON_NO"]);
+
+                // YC4: Load ChietKhau và IdKhuyenMai
+                ph.ChietKhau = tbl.Rows[0]["CHIET_KHAU"] != DBNull.Value
+                    ? Convert.ToDecimal(tbl.Rows[0]["CHIET_KHAU"])
+                    : 0;
+                ph.IdKhuyenMai = tbl.Rows[0]["ID_KHUYEN_MAI"] != DBNull.Value
+                    ? (int?)Convert.ToInt32(tbl.Rows[0]["ID_KHUYEN_MAI"])
+                    : null;
+
                 KhachHangController ctrlKH = new KhachHangController();
                 ph.KhachHang = ctrlKH.LayKhachHang(Convert.ToInt32(tbl.Rows[0]["ID_KHACH_HANG"]));
                 ChiTietPhieuBanController ctrl = new ChiTietPhieuBanController();
