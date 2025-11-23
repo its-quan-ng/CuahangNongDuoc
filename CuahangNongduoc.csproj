@@ -55,13 +55,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevExpress.Data.Desktop.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Data.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Drawing.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Printing.v24.1.Core, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Sparkline.v24.1.Core, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Utils.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraEditors.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.ReportViewer.WinForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1484.0\lib\net40\Microsoft.ReportViewer.WinForms.dll</HintPath>
     </Reference>
@@ -104,6 +97,8 @@
     <Compile Include="BusinessObject\SanPham.cs" />
     <Compile Include="BusinessObject\SoLuongTon.cs" />
     <Compile Include="BusinessObject\KhuyenMai.cs" />
+    <Compile Include="BusinessObject\ThongKeChietKhau.cs" />
+    <Compile Include="BusinessObject\ThongKeGiamGia.cs" />
     <Compile Include="Controller\ChiTietPhieuBanController.cs" />
     <Compile Include="Controller\NguoiDungController.cs" />
     <Compile Include="Controller\PhieuChiController.cs" />
@@ -118,9 +113,11 @@
     <Compile Include="Controller\SanPhamController.cs" />
     <Compile Include="Controller\DonViTinhController.cs" />
     <Compile Include="Controller\KhuyenMaiController.cs" />
+    <Compile Include="Controller\ThongKeGiamGiaController.cs" />
     <Compile Include="DataLayer\NguoiDungFactory.cs" />
     <Compile Include="DataLayer\KhuyenMaiFactory.cs" />
     <Compile Include="DataLayer\PhieuChiFactory.cs" />
+    <Compile Include="DataLayer\ThongKeGiamGiaFactory.cs" />
     <Compile Include="frmCauHinh.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -310,6 +307,12 @@
     <Compile Include="frmThanhToan.Designer.cs">
       <DependentUpon>frmThanhToan.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmThongKeGiamGia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmThongKeGiamGia.Designer.cs">
+      <DependentUpon>frmThongKeGiamGia.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmThongtinCuahang.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -462,6 +465,9 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmThanhToan.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmThongKeGiamGia.resx">
+      <DependentUpon>frmThongKeGiamGia.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmThongtinCuahang.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmThongtinCuahang.cs</DependentUpon>
@@ -491,10 +497,12 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptChietKhau.rdlc" />
     <EmbeddedResource Include="Report\rptChiTietPhieuBan.rdlc" />
     <EmbeddedResource Include="Report\rptChiTietPhieuNhap.rdlc" />
     <EmbeddedResource Include="Report\rptDsDuNoKhachHang.rdlc" />
     <EmbeddedResource Include="Report\rptDuNoKhachHang.rdlc" />
+    <EmbeddedResource Include="Report\rptKhuyenMai.rdlc" />
     <EmbeddedResource Include="Report\rptPhieuBan.rdlc" />
     <EmbeddedResource Include="Report\rptPhieuChi.rdlc" />
     <EmbeddedResource Include="Report\rptPhieuNhap.rdlc" />
@@ -504,6 +512,8 @@
     <EmbeddedResource Include="Report\rptThanhToan.rdlc" />
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\CuahangNongduoc.BusinessObject.ThongKeChietKhau.datasource" />
+    <None Include="Properties\DataSources\CuahangNongduoc.BusinessObject.ThongKeGiamGia.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

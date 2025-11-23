@@ -132,6 +132,14 @@ namespace CuahangNongduoc.Controller
             }
 
             /// <summary>
+            /// Lấy danh sách người dùng (DataTable - để bind vào ComboBox)
+            /// </summary>
+            public DataTable DanhsachNguoiDung()
+            {
+                return factory.DanhsachNguoiDung();
+            }
+
+            /// <summary>
             /// Lấy danh sách người dùng (convert sang BusinessObject list)
             /// </summary>
             public IList<NguoiDung> LayDanhSachNguoiDung()

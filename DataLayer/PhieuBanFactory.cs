@@ -37,10 +37,11 @@ namespace CuahangNongduoc.DataLayer
         {
             DataService ds = new DataService();
             SqlCommand cmd = new SqlCommand(
-                @"SELECT PB.*, KM.TEN_KHUYEN_MAI
+                @"SELECT PB.*, KM.TEN_KHUYEN_MAI, ND.HO_TEN AS NGUOI_LAP
                   FROM PHIEU_BAN PB
                   INNER JOIN KHACH_HANG KH ON PB.ID_KHACH_HANG = KH.ID
                   LEFT JOIN KHUYEN_MAI KM ON PB.ID_KHUYEN_MAI = KM.ID
+                  LEFT JOIN NGUOI_DUNG ND ON PB.ID_NGUOI_DUNG = ND.ID
                   WHERE KH.LOAI_KH = 0
                   ORDER BY PB.ID DESC");
             ds.Load(cmd);
@@ -51,10 +52,11 @@ namespace CuahangNongduoc.DataLayer
         {
             DataService ds = new DataService();
             SqlCommand cmd = new SqlCommand(
-                @"SELECT PB.*, KM.TEN_KHUYEN_MAI
+                @"SELECT PB.*, KM.TEN_KHUYEN_MAI, ND.HO_TEN AS NGUOI_LAP
                   FROM PHIEU_BAN PB
                   INNER JOIN KHACH_HANG KH ON PB.ID_KHACH_HANG = KH.ID
                   LEFT JOIN KHUYEN_MAI KM ON PB.ID_KHUYEN_MAI = KM.ID
+                  LEFT JOIN NGUOI_DUNG ND ON PB.ID_NGUOI_DUNG = ND.ID
                   WHERE KH.LOAI_KH = 1
                   ORDER BY PB.ID DESC");
             ds.Load(cmd);
@@ -126,6 +128,59 @@ namespace CuahangNongduoc.DataLayer
         {
            
             return m_Ds.ExecuteNoneQuery() > 0;
+        }
+
+        /// <summary>
+        /// Lấy danh sách phiếu bán có chiết khấu theo khoảng thời gian và nhân viên
+        /// </summary>
+        /// <param name="tuNgay">Ngày bắt đầu</param>
+        /// <param name="denNgay">Ngày kết thúc</param>
+        /// <param name="maNguoiDung">ID nhân viên (null = tất cả)</param>
+        /// <returns>DataTable chứa thông tin phiếu bán có chiết khấu</returns>
+        public DataTable LayPhieuBanCoChietKhau(DateTime tuNgay, DateTime denNgay, int? maNguoiDung)
+        {
+            DataService ds = new DataService();
+            
+            string query = @"
+                SELECT 
+                    PB.ID,
+                    PB.NGAY_BAN,
+                    PB.MA_PHIEU,
+                    KH.TEN_KHACH_HANG,
+                    PB.CHIET_KHAU,
+                    PB.TONG_TIEN,
+                    ND.HO_TEN AS NGUOI_LAP,
+                    -- Tính số tiền giảm = (Tổng hàng * Chiết khấu / 100)
+                    CASE 
+                        WHEN PB.CHIET_KHAU IS NOT NULL AND PB.CHIET_KHAU > 0 
+                        THEN (SELECT SUM(THANH_TIEN) FROM CHI_TIET_PHIEU_BAN WHERE ID_PHIEU_BAN = PB.ID) * PB.CHIET_KHAU / 100
+                        ELSE 0
+                    END AS SO_TIEN_GIAM
+                FROM PHIEU_BAN PB
+                INNER JOIN KHACH_HANG KH ON PB.ID_KHACH_HANG = KH.ID
+                LEFT JOIN NGUOI_DUNG ND ON PB.ID_NGUOI_DUNG = ND.ID
+                WHERE PB.NGAY_BAN >= @tuNgay 
+                    AND PB.NGAY_BAN <= @denNgay
+                    AND (PB.CHIET_KHAU IS NOT NULL AND PB.CHIET_KHAU > 0)";
+
+            if (maNguoiDung.HasValue)
+            {
+                query += " AND PB.ID_NGUOI_DUNG = @maNguoiDung";
+            }
+
+            query += " ORDER BY PB.NGAY_BAN DESC, PB.ID DESC";
+
+            SqlCommand cmd = new SqlCommand(query);
+            cmd.Parameters.Add("@tuNgay", SqlDbType.DateTime).Value = tuNgay;
+            cmd.Parameters.Add("@denNgay", SqlDbType.DateTime).Value = denNgay;
+            
+            if (maNguoiDung.HasValue)
+            {
+                cmd.Parameters.Add("@maNguoiDung", SqlDbType.Int).Value = maNguoiDung.Value;
+            }
+
+            ds.Load(cmd);
+            return ds;
         }
 
         /// <summary>

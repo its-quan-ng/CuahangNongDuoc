@@ -28,7 +28,6 @@ namespace CuahangNongduoc
         private void toolAdd_Click(object sender, EventArgs e)
         {
             long maphieu = ThamSo.PhieuChi;
-            ThamSo.PhieuChi=maphieu+1;
 
             DataRow row = ctrl.NewRow();
             row["ID"] = maphieu;
