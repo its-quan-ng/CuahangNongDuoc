@@ -10,6 +10,8 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+
 
 
    
@@ -24,30 +26,66 @@ namespace CuahangNongduoc.Controller
 
             NguoiDungFactory factory = new NguoiDungFactory();
 
-            /// <summary>
-            /// Hiển thị danh sách người dùng lên DataGridView
-            /// </summary>
-            public void HienthiNguoiDungDataGridview(System.Windows.Forms.DataGridView dg, System.Windows.Forms.BindingNavigator bn)
+        /// <summary>
+        /// Hiển thị danh sách người dùng lên DataGridView với data binding
+        /// </summary>
+        public void HienthiDataGridview(System.Windows.Forms.DataGridView dg, System.Windows.Forms.BindingNavigator bn,
+            System.Windows.Forms.TextBox txtMaNguoiDung, System.Windows.Forms.TextBox txtTenNguoiDung,
+            System.Windows.Forms.TextBox txtTaiKhoan, System.Windows.Forms.TextBox txtMatKhau,
+            System.Windows.Forms.TextBox txtSDT,
+                System.Windows.Forms.ComboBox cmbQuyenHan, System.Windows.Forms.ComboBox cmbTrangThai)
             {
                 factory.LoadData();
 
                 System.Windows.Forms.BindingSource bs = new System.Windows.Forms.BindingSource();
-                DataTable tbl = factory.GetDataTable();
+                bs.DataSource = factory.GetDataTable();
 
-                bs.DataSource = tbl;
+                // Bind textboxes
+                txtMaNguoiDung.DataBindings.Clear();
+                txtMaNguoiDung.DataBindings.Add("Text", bs, "ID");
+
+                txtTenNguoiDung.DataBindings.Clear();
+                txtTenNguoiDung.DataBindings.Add("Text", bs, "HO_TEN");
+
+                txtTaiKhoan.DataBindings.Clear();
+                txtTaiKhoan.DataBindings.Add("Text", bs, "TEN_DANG_NHAP");
+
+                txtMatKhau.DataBindings.Clear();
+                txtMatKhau.DataBindings.Add("Text", bs, "MAT_KHAU");
+            
+                txtSDT.DataBindings.Clear();
+                txtSDT.DataBindings.Add("Text", bs, "SO_DIEN_THOAI");
+
+
+            // Bind comboboxes
+            cmbQuyenHan.DataBindings.Clear();
+                cmbQuyenHan.DataBindings.Add("Text", bs, "QUYEN_HAN");
+
+                cmbTrangThai.DataBindings.Clear();
+                cmbTrangThai.DataBindings.Add("Text", bs, "TRANG_THAI");
+
+                // Bind navigator and datagridview
                 bn.BindingSource = bs;
                 dg.DataSource = bs;
             }
+        public void HienthiAutoComboBoxTrangThai(System.Windows.Forms.ComboBox cmb)
+        {
+            DataTable tbl = factory.LayDanhSachTrangThai();
+            cmb.DataSource = tbl;
+            cmb.DisplayMember = "TRANG_THAI";
+            cmb.ValueMember = "TRANG_THAI";
+        }
 
-            /// <summary>
-            /// Hiển thị người dùng lên ComboBox (nếu cần)
-            /// </summary>
-            public void HienthiAutoComboBox(System.Windows.Forms.ComboBox cmb)
+        /// <summary>
+        /// Hiển thị danh sách quyền hạn lên ComboBox
+        /// </summary>
+        public void HienthiAutoComboBoxQuyenHan(System.Windows.Forms.ComboBox cmb)
             {
-                cmb.DataSource = factory.DanhsachNguoiDung();
-                cmb.DisplayMember = "HO_TEN";
-                cmb.ValueMember = "ID";
-            }
+                DataTable tbl = factory.LayDanhSachQuyenHan();
+                cmb.DataSource = tbl;
+                cmb.DisplayMember = "QUYEN_HAN";
+                cmb.ValueMember = "QUYEN_HAN";
+        }
 
             /// <summary>
             /// Get DataTable từ Factory để refresh binding
@@ -63,6 +101,14 @@ namespace CuahangNongduoc.Controller
             public void TimHoTen(String hoTen)
             {
                 factory.TimHoTenLoad(hoTen);
+            }
+
+            /// <summary>
+            /// Tìm kiếm người dùng theo tài khoản hoặc họ tên
+            /// </summary>
+            public void TimTheoTaiKhoanHoacTen(String tuKhoa)
+            {
+                factory.TimTheoTaiKhoanHoacTen(tuKhoa);
             }
 
             /// <summary>
@@ -101,6 +147,7 @@ namespace CuahangNongduoc.Controller
                     nd.HoTen = Convert.ToString(row["HO_TEN"]);
                     nd.SoDienThoai = Convert.ToString(row["SO_DIEN_THOAI"]);
                     nd.QuyenHan = Convert.ToString(row["QUYEN_HAN"]);
+                    nd.TrangThai = Convert.ToString(row["TRANG_THAI"]);
                     ds.Add(nd);
                 }
                 return ds;

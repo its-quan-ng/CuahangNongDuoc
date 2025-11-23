@@ -118,6 +118,20 @@ namespace CuahangNongduoc.DataLayer
                 m_Ds.Load(cmd);
             }
 
+            /// <summary>
+            /// Tìm kiếm người dùng theo tài khoản hoặc họ tên và load vào m_Ds để binding
+            /// </summary>
+            public void TimTheoTaiKhoanHoacTen(String tuKhoa)
+            {
+                SqlCommand cmd = new SqlCommand(@"
+                    SELECT * FROM NGUOI_DUNG 
+                    WHERE TEN_DANG_NHAP LIKE '%' + @tukhoa + '%' 
+                       OR HO_TEN LIKE '%' + @tukhoa + '%' 
+                    ORDER BY ID");
+                cmd.Parameters.Add("@tukhoa", SqlDbType.NVarChar).Value = tuKhoa;
+                m_Ds.Load(cmd);
+            }
+
             public DataRow NewRow()
             {
                 return m_Ds.NewRow();
@@ -131,6 +145,28 @@ namespace CuahangNongduoc.DataLayer
             public bool Save()
             {
                 return m_Ds.ExecuteNoneQuery() > 0;
+            }
+
+            /// <summary>
+            /// Lấy danh sách các giá trị QUYEN_HAN duy nhất
+            /// </summary>
+            public DataTable LayDanhSachQuyenHan()
+            {
+                DataService ds = new DataService();
+                SqlCommand cmd = new SqlCommand("SELECT DISTINCT QUYEN_HAN FROM NGUOI_DUNG ORDER BY QUYEN_HAN");
+                ds.Load(cmd);
+                return ds;
+            }
+
+            /// <summary>
+            /// Lấy danh sách các giá trị TRANG_THAI duy nhất
+            /// </summary>
+            public DataTable LayDanhSachTrangThai()
+            {
+                DataService ds = new DataService();
+                SqlCommand cmd = new SqlCommand("SELECT DISTINCT TRANG_THAI FROM NGUOI_DUNG ORDER BY TRANG_THAI");
+                ds.Load(cmd);
+                return ds;
             }
         }
     }

@@ -160,6 +160,23 @@ namespace CuahangNongduoc
             }
         }
 
+        public static long NguoiDung
+        {
+            get
+            {
+                DataService ds = new DataService();
+                object obj = ds.ExecuteScalar(new SqlCommand("SELECT NGUOI_DUNG FROM THAM_SO"));
+                return Convert.ToInt64(obj);
+            }
+            set
+            {
+                DataService ds = new DataService();
+                SqlCommand cmd = new SqlCommand("UPDATE THAM_SO SET NGUOI_DUNG = @value");
+                cmd.Parameters.Add("@value", SqlDbType.BigInt).Value = value;
+                ds.ExecuteNoneQuery(cmd);
+            }
+        }
+
         public static long PhieuChi
         {
             get
