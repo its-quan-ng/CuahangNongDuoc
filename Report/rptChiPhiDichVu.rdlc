@@ -7,41 +7,41 @@
         <DataProvider>SQL</DataProvider>
         <ConnectString />
       </ConnectionProperties>
-      <rd:DataSourceID>c9be86d9-ded7-4fda-b268-c7161ff8828e</rd:DataSourceID>
+      <rd:DataSourceID>cbf839a5-a7b9-4cc2-a111-c45dcd68136a</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="dsChiPhiVC">
+    <DataSet Name="dsChiPhiDV">
       <Query>
         <DataSourceName>DummyDataSource</DataSourceName>
         <CommandText />
       </Query>
       <Fields>
-		  <Field Name="STT">
-			  <DataField>STT</DataField>
-			  <rd:TypeName>System.Int32</rd:TypeName>
-		  </Field>
-		  <Field Name="Ngay_Ban">
-			  <DataField>Ngay_Ban</DataField>
-			  <rd:TypeName>System.String</rd:TypeName>
-		  </Field>
-		  <Field Name="Ma_Phieu">
-			  <DataField>Ma_Phieu</DataField>
-			  <rd:TypeName>System.Int64</rd:TypeName>
-		  </Field>
-		  <Field Name="Khach_Hang">
-			  <DataField>Khach_Hang</DataField>
-			  <rd:TypeName>System.String</rd:TypeName>
-		  </Field>
-		  <Field Name="Chi_Phi_VC">
-			  <DataField>Chi_Phi_VC</DataField>
-			  <rd:TypeName>System.Decimal</rd:TypeName>
-		  </Field>
-		  <Field Name="Tong_Tien_Phieu">
-			  <DataField>Tong_Tien_Phieu</DataField>
-			  <rd:TypeName>System.Decimal</rd:TypeName>
-		  </Field>
-	  </Fields>
+        <Field Name="STT">
+          <DataField>STT</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Ngay_Ban">
+          <DataField>Ngay_Ban</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Ma_Phieu">
+          <DataField>Ma_Phieu</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="Khach_Hang">
+          <DataField>Khach_Hang</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Chi_Phi_DV">
+          <DataField>Chi_Phi_DV</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Tong_Tien_Phieu">
+          <DataField>Tong_Tien_Phieu</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+      </Fields>
     </DataSet>
   </DataSets>
   <ReportSections>
@@ -68,8 +68,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>txtPageNumber</rd:DefaultName>
-            <Top>10.1cm</Top>
-            <Left>0.4cm</Left>
+            <Top>10.3cm</Top>
+            <Left>0cm</Left>
             <Height>0.6cm</Height>
             <Width>19cm</Width>
             <Style>
@@ -99,8 +99,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>txtSignature</rd:DefaultName>
-            <Top>9.3cm</Top>
-            <Left>0.4cm</Left>
+            <Top>9.5cm</Top>
+            <Left>0cm</Left>
             <Height>0.8cm</Height>
             <Width>19cm</Width>
             <ZIndex>1</ZIndex>
@@ -121,7 +121,10 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>="Trung bình/phiếu: " &amp; Format(Avg(Fields!Chi_Phi_VC.Value, "dsChiPhiVC"), "#,##0") &amp; " VND"</Value>
+                    <Value>
+											="Trung bình/phiếu: " &amp; Format(Avg(Fields!Chi_Phi_DV.Value, "dsChiPhiDV"), "#,##0")
+											&amp; " VND"
+										</Value>
                     <Style>
                       <Color>DarkBlue</Color>
                     </Style>
@@ -133,8 +136,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>txtAverage</rd:DefaultName>
-            <Top>8.1cm</Top>
-            <Left>0.9cm</Left>
+            <Top>8.3cm</Top>
+            <Left>0.5cm</Left>
             <Height>0.6cm</Height>
             <Width>18cm</Width>
             <ZIndex>2</ZIndex>
@@ -155,7 +158,10 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>="Tổng số phiếu: " &amp; Count(Fields!STT.Value, "dsChiPhiVC") &amp; " | Tổng chi phí vận chuyển: " &amp; Format(Sum(Fields!Chi_Phi_VC.Value, "dsChiPhiVC"), "#,##0") &amp; " VND"</Value>
+                    <Value>
+											="Tổng số phiếu: " &amp; Count(Fields!STT.Value, "dsChiPhiDV") &amp; " | Tổng chi phí
+											dịch vụ: " &amp; Format(Sum(Fields!Chi_Phi_DV.Value, "dsChiPhiDV"), "#,##0") &amp; " VND"
+										</Value>
                     <Style>
                       <FontSize>11pt</FontSize>
                       <FontWeight>Bold</FontWeight>
@@ -169,8 +175,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>txtFooter</rd:DefaultName>
-            <Top>7.3cm</Top>
-            <Left>0.9cm</Left>
+            <Top>7.5cm</Top>
+            <Left>0.5cm</Left>
             <Height>0.8cm</Height>
             <Width>18cm</Width>
             <ZIndex>3</ZIndex>
@@ -184,26 +190,26 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
-          <Tablix Name="tblChiPhiVC">
+          <Tablix Name="tblChiPhiDV">
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
                   <Width>1.5cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.5cm</Width>
+                  <Width>3cm</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>2cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>5cm</Width>
+                  <Width>4.30433cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>3.5cm</Width>
+                  <Width>4.0795cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>3.5cm</Width>
+                  <Width>3.61617cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -360,14 +366,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="lblChiPhiVC">
+                        <Textbox Name="lblChiPhiDV">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Chi phí VC</Value>
+                                  <Value>Chi phí DV</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                     <Color>White</Color>
@@ -379,7 +385,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>lblChiPhiVC</rd:DefaultName>
+                          <rd:DefaultName>lblChiPhiDV</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>White</Color>
@@ -464,7 +470,10 @@
                               <Style>Solid</Style>
                               <Width>0.5pt</Width>
                             </Border>
-                            <BackgroundColor>=IIF(RowNumber(Nothing) Mod 2 = 0, "WhiteSmoke", "White")</BackgroundColor>
+                            <BackgroundColor>
+															=IIF(RowNumber(Nothing) Mod 2 = 0, "WhiteSmoke",
+															"White")
+														</BackgroundColor>
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -501,7 +510,10 @@
                               <Style>Solid</Style>
                               <Width>0.5pt</Width>
                             </Border>
-                            <BackgroundColor>=IIF(RowNumber(Nothing) Mod 2 = 0, "WhiteSmoke", "White")</BackgroundColor>
+                            <BackgroundColor>
+															=IIF(RowNumber(Nothing) Mod 2 = 0, "WhiteSmoke",
+															"White")
+														</BackgroundColor>
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -538,7 +550,10 @@
                               <Style>Solid</Style>
                               <Width>0.5pt</Width>
                             </Border>
-                            <BackgroundColor>=IIF(RowNumber(Nothing) Mod 2 = 0, "WhiteSmoke", "White")</BackgroundColor>
+                            <BackgroundColor>
+															=IIF(RowNumber(Nothing) Mod 2 = 0, "WhiteSmoke",
+															"White")
+														</BackgroundColor>
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -575,7 +590,10 @@
                               <Style>Solid</Style>
                               <Width>0.5pt</Width>
                             </Border>
-                            <BackgroundColor>=IIF(RowNumber(Nothing) Mod 2 = 0, "WhiteSmoke", "White")</BackgroundColor>
+                            <BackgroundColor>
+															=IIF(RowNumber(Nothing) Mod 2 = 0, "WhiteSmoke",
+															"White")
+														</BackgroundColor>
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -587,14 +605,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Chi_Phi_VC">
+                        <Textbox Name="Chi_Phi_DV">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Chi_Phi_VC.Value</Value>
+                                  <Value>=Fields!Chi_Phi_DV.Value</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -607,14 +625,14 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Chi_Phi_VC</rd:DefaultName>
+                          <rd:DefaultName>Chi_Phi_DV</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                               <Width>0.5pt</Width>
                             </Border>
-                            <BackgroundColor>LightYellow</BackgroundColor>
+                            <BackgroundColor>LightCyan</BackgroundColor>
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -652,7 +670,10 @@
                               <Style>Solid</Style>
                               <Width>0.5pt</Width>
                             </Border>
-                            <BackgroundColor>=IIF(RowNumber(Nothing) Mod 2 = 0, "WhiteSmoke", "White")</BackgroundColor>
+                            <BackgroundColor>
+															=IIF(RowNumber(Nothing) Mod 2 = 0, "WhiteSmoke",
+															"White")
+														</BackgroundColor>
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -686,11 +707,11 @@
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <DataSetName>dsChiPhiVC</DataSetName>
-            <Top>5.3cm</Top>
-            <Left>0.9cm</Left>
+            <DataSetName>dsChiPhiDV</DataSetName>
+            <Top>5.5cm</Top>
+            <Left>0.5cm</Left>
             <Height>1.4cm</Height>
-            <Width>18cm</Width>
+            <Width>18.5cm</Width>
             <ZIndex>4</ZIndex>
             <Style>
               <Border>
@@ -719,8 +740,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>txtPrintTime</rd:DefaultName>
-            <Top>4.2cm</Top>
-            <Left>0.4cm</Left>
+            <Top>4.4cm</Top>
+            <Left>0cm</Left>
             <Height>0.6cm</Height>
             <Width>19cm</Width>
             <ZIndex>5</ZIndex>
@@ -741,7 +762,10 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>="Từ ngày " &amp; Parameters!TuNgay.Value &amp; " đến ngày " &amp; Parameters!DenNgay.Value</Value>
+                    <Value>
+											="Từ ngày " &amp; Parameters!TuNgay.Value &amp; " đến ngày " &amp;
+											Parameters!DenNgay.Value
+										</Value>
                     <Style>
                       <FontStyle>Italic</FontStyle>
                       <FontSize>11pt</FontSize>
@@ -755,8 +779,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>txtDateRange</rd:DefaultName>
-            <Top>3.6cm</Top>
-            <Left>0.4cm</Left>
+            <Top>3.8cm</Top>
+            <Left>0cm</Left>
             <Height>0.6cm</Height>
             <Width>19cm</Width>
             <ZIndex>6</ZIndex>
@@ -777,7 +801,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>BÁO CÁO CHI PHÍ VẬN CHUYỂN</Value>
+                    <Value>BÁO CÁO CHI PHÍ DỊCH VỤ</Value>
                     <Style>
                       <FontSize>18pt</FontSize>
                       <FontWeight>Bold</FontWeight>
@@ -791,8 +815,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>txtReportTitle</rd:DefaultName>
-            <Top>2.6cm</Top>
-            <Left>0.4cm</Left>
+            <Top>2.8cm</Top>
+            <Left>0cm</Left>
             <Height>1cm</Height>
             <Width>19cm</Width>
             <ZIndex>7</ZIndex>
@@ -823,8 +847,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>txtPhone</rd:DefaultName>
-            <Top>1.7cm</Top>
-            <Left>0.4cm</Left>
+            <Top>1.9cm</Top>
+            <Left>0cm</Left>
             <Height>0.6cm</Height>
             <Width>19cm</Width>
             <ZIndex>8</ZIndex>
@@ -855,8 +879,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>txtAddress</rd:DefaultName>
-            <Top>1.1cm</Top>
-            <Left>0.4cm</Left>
+            <Top>1.3cm</Top>
+            <Left>0cm</Left>
             <Height>0.6cm</Height>
             <Width>19cm</Width>
             <ZIndex>9</ZIndex>
@@ -891,8 +915,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>txtTitle</rd:DefaultName>
-            <Top>0.3cm</Top>
-            <Left>0.4cm</Left>
+            <Top>0.5cm</Top>
+            <Left>0cm</Left>
             <Height>0.8cm</Height>
             <Width>19cm</Width>
             <ZIndex>10</ZIndex>
@@ -910,7 +934,7 @@
         <Height>11cm</Height>
         <Style />
       </Body>
-      <Width>19.8cm</Width>
+      <Width>23.9765cm</Width>
       <Page>
         <PageHeight>29.7cm</PageHeight>
         <PageWidth>21cm</PageWidth>
@@ -979,5 +1003,5 @@
     </GridLayoutDefinition>
   </ReportParametersLayout>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
-  <rd:ReportID>cccccccc-dddd-eeee-ffff-333333333333</rd:ReportID>
+  <rd:ReportID>bbbbbbbb-cccc-dddd-eeee-222222222222</rd:ReportID>
 </Report>

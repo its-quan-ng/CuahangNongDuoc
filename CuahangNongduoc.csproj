@@ -97,6 +97,7 @@
     <Compile Include="BusinessObject\SanPham.cs" />
     <Compile Include="BusinessObject\SoLuongTon.cs" />
     <Compile Include="BusinessObject\KhuyenMai.cs" />
+    <Compile Include="BusinessObject\ThongKeChiPhiDichVu.cs" />
     <Compile Include="BusinessObject\ThongKeChiPhiVanChuyen.cs" />
     <Compile Include="BusinessObject\ThongKeChietKhau.cs" />
     <Compile Include="BusinessObject\ThongKeGiamGia.cs" />
@@ -116,7 +117,7 @@
     <Compile Include="Controller\KhuyenMaiController.cs" />
     <Compile Include="Controller\ThongKeGiamGiaController.cs" />
     <Compile Include="DataLayer\NguoiDungFactory.cs" />
-    <Compile Include="DataLayer\ThongKeFactory.cs" />
+    <Compile Include="DataLayer\ThongKeChiPhiFactory.cs" />
     <Compile Include="Controller\ThongKeController.cs" />
     <Compile Include="DataLayer\KhuyenMaiFactory.cs" />
     <Compile Include="DataLayer\PhieuChiFactory.cs" />
@@ -315,6 +316,7 @@
     </Compile>
     <Compile Include="frmThongKeChiPhiPhu.Designer.cs">
       <DependentUpon>frmThongKeChiPhiPhu.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmThongKeGiamGia.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -475,6 +477,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmThongKeChiPhiPhu.resx">
       <DependentUpon>frmThongKeChiPhiPhu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmThongKeGiamGia.resx">
       <DependentUpon>frmThongKeGiamGia.cs</DependentUpon>
     </EmbeddedResource>
@@ -507,7 +510,12 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Report\rptChiPhiVanChuyen.rdlc" />
+    <Content Include="Report\rptChiPhiDichVu.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Report\rptChiPhiVanChuyen.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="Report\rptChietKhau.rdlc" />
     <EmbeddedResource Include="Report\rptChiTietPhieuBan.rdlc" />
     <EmbeddedResource Include="Report\rptChiTietPhieuNhap.rdlc" />

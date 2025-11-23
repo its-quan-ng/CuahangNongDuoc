@@ -112,29 +112,34 @@
             // 
             // btnThoat
             // 
-            this.btnThoat.Location = new System.Drawing.Point(293, 77);
+            this.btnThoat.Image = global::CuahangNongduoc.Properties.Resources.stop;
+            this.btnThoat.Location = new System.Drawing.Point(408, 77);
             this.btnThoat.Name = "btnThoat";
-            this.btnThoat.Size = new System.Drawing.Size(75, 23);
+            this.btnThoat.Size = new System.Drawing.Size(83, 32);
             this.btnThoat.TabIndex = 1;
             this.btnThoat.Text = "Thoát";
+            this.btnThoat.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnThoat.UseVisualStyleBackColor = true;
             this.btnThoat.Click += new System.EventHandler(this.btnThoat_Click);
             // 
             // btnInBC
             // 
-            this.btnInBC.Location = new System.Drawing.Point(155, 77);
+            this.btnInBC.Image = global::CuahangNongduoc.Properties.Resources.printer;
+            this.btnInBC.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnInBC.Location = new System.Drawing.Point(287, 77);
             this.btnInBC.Name = "btnInBC";
-            this.btnInBC.Size = new System.Drawing.Size(75, 23);
+            this.btnInBC.Size = new System.Drawing.Size(115, 32);
             this.btnInBC.TabIndex = 1;
             this.btnInBC.Text = "In báo cáo";
+            this.btnInBC.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnInBC.UseVisualStyleBackColor = true;
             this.btnInBC.Click += new System.EventHandler(this.btnInBC_Click);
             // 
             // btnXemBC
             // 
-            this.btnXemBC.Location = new System.Drawing.Point(28, 77);
+            this.btnXemBC.Location = new System.Drawing.Point(172, 77);
             this.btnXemBC.Name = "btnXemBC";
-            this.btnXemBC.Size = new System.Drawing.Size(75, 23);
+            this.btnXemBC.Size = new System.Drawing.Size(109, 32);
             this.btnXemBC.TabIndex = 1;
             this.btnXemBC.Text = "Xem báo cáo";
             this.btnXemBC.UseVisualStyleBackColor = true;
@@ -147,6 +152,7 @@
             this.dtpDenNgay.Name = "dtpDenNgay";
             this.dtpDenNgay.Size = new System.Drawing.Size(117, 22);
             this.dtpDenNgay.TabIndex = 0;
+            this.dtpDenNgay.Value = new System.DateTime(2026, 11, 23, 0, 0, 0, 0);
             // 
             // dtpTuNgay
             // 
@@ -192,9 +198,9 @@
             // 
             // tabControl
             // 
-            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.tabControl.Controls.Add(this.tabPage1);
             this.tabControl.Controls.Add(this.tabPage2);
+            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;

@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 
 namespace CuahangNongduoc.DataLayer
 {
-    public class ThongKeFactory
+    public class ThongKeChiPhiFactory
     {
         DataService ds = new DataService();
 

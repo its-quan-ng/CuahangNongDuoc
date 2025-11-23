@@ -378,29 +378,49 @@ namespace CuahangNongduoc
                 frmReport.StartPosition = FormStartPosition.CenterScreen;
                 frmReport.WindowState = FormWindowState.Maximized;
 
-                // 5. Tạo ReportViewer
+                // Kiểm tra file tồn tại
+                if (!System.IO.File.Exists(reportPath))
+                {
+                    MessageBox.Show(
+                        "Không tìm thấy file báo cáo tại:\n" + reportPath,
+                        "Lỗi",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                    return;
+                }
+
+                // 4. Tạo ReportViewer
                 ReportViewer reportViewer = new ReportViewer();
                 reportViewer.Dock = DockStyle.Fill;
+
+                System.Diagnostics.Debug.WriteLine("Loading report: " + reportPath);
                 reportViewer.LocalReport.ReportPath = reportPath;
 
-                // 6. Set parameters (thông tin cửa hàng)
+                System.Diagnostics.Debug.WriteLine("Report loaded, DisplayName: " + reportViewer.LocalReport.DisplayName);
+
+                // 5. Set parameters (thông tin cửa hàng)
                 CuaHang cuaHang = ThamSo.LayCuaHang();
+
                 ReportParameter[] parameters = new ReportParameter[]
                 {
                     new ReportParameter("TuNgay", dtpTuNgay.Value.ToString("dd/MM/yyyy")),
                     new ReportParameter("DenNgay", dtpDenNgay.Value.ToString("dd/MM/yyyy")),
-                    new ReportParameter("TenCuaHang", cuaHang != null ? cuaHang.TenCuaHang : ""),
-                    new ReportParameter("DiaChiCuaHang", cuaHang != null ? cuaHang.DiaChi : ""),
-                    new ReportParameter("DienThoaiCuaHang", cuaHang != null ? cuaHang.DienThoai : "")
+                    new ReportParameter("TenCuaHang", cuaHang.TenCuaHang ?? ""),
+                    new ReportParameter("DiaChiCuaHang", cuaHang.DiaChi ?? ""),
+                    new ReportParameter("DienThoaiCuaHang", cuaHang.DienThoai ?? "")
                 };
-                reportViewer.LocalReport.SetParameters(parameters);
 
-                // 7. Bind data vào report
+                System.Diagnostics.Debug.WriteLine("Setting " + parameters.Length + " parameters...");
+                reportViewer.LocalReport.SetParameters(parameters);
+                System.Diagnostics.Debug.WriteLine("Parameters set successfully");
+
+                // 6. Bind data vào report
                 ReportDataSource rds = new ReportDataSource(dataSetName, dt);
                 reportViewer.LocalReport.DataSources.Clear();
                 reportViewer.LocalReport.DataSources.Add(rds);
 
-                // 8. Refresh report
+                // 7. Refresh report
                 reportViewer.RefreshReport();
 
                 // 9. Hiển thị form

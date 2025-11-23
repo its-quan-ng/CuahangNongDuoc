@@ -8,7 +8,7 @@ namespace CuahangNongduoc.Controller
 {
     public class ThongKeController
     {
-        ThongKeFactory factory = new ThongKeFactory();
+        ThongKeChiPhiFactory factory = new ThongKeChiPhiFactory();
 
         public DataTable LayChiPhiVanChuyen(DateTime tuNgay, DateTime denNgay)
         {
