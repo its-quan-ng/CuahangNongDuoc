@@ -104,6 +104,7 @@
     <Compile Include="BusinessObject\SanPham.cs" />
     <Compile Include="BusinessObject\SoLuongTon.cs" />
     <Compile Include="BusinessObject\KhuyenMai.cs" />
+    <Compile Include="BusinessObject\ThongKeChiPhiVanChuyen.cs" />
     <Compile Include="Controller\ChiTietPhieuBanController.cs" />
     <Compile Include="Controller\NguoiDungController.cs" />
     <Compile Include="Controller\PhieuChiController.cs" />
@@ -119,6 +120,8 @@
     <Compile Include="Controller\DonViTinhController.cs" />
     <Compile Include="Controller\KhuyenMaiController.cs" />
     <Compile Include="DataLayer\NguoiDungFactory.cs" />
+    <Compile Include="DataLayer\ThongKeFactory.cs" />
+    <Compile Include="Controller\ThongKeController.cs" />
     <Compile Include="DataLayer\KhuyenMaiFactory.cs" />
     <Compile Include="DataLayer\PhieuChiFactory.cs" />
     <Compile Include="frmCauHinh.cs">
@@ -310,6 +313,12 @@
     <Compile Include="frmThanhToan.Designer.cs">
       <DependentUpon>frmThanhToan.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmThongKeChiPhiPhu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmThongKeChiPhiPhu.Designer.cs">
+      <DependentUpon>frmThongKeChiPhiPhu.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmThongtinCuahang.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -462,6 +471,9 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmThanhToan.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmThongKeChiPhiPhu.resx">
+      <DependentUpon>frmThongKeChiPhiPhu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmThongtinCuahang.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmThongtinCuahang.cs</DependentUpon>
@@ -491,6 +503,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptChiPhiVanChuyen.rdlc" />
     <EmbeddedResource Include="Report\rptChiTietPhieuBan.rdlc" />
     <EmbeddedResource Include="Report\rptChiTietPhieuNhap.rdlc" />
     <EmbeddedResource Include="Report\rptDsDuNoKhachHang.rdlc" />
@@ -501,9 +514,11 @@
     <EmbeddedResource Include="Report\rptSanPhamHetHan.rdlc" />
     <EmbeddedResource Include="Report\rptSoLuongBan.rdlc" />
     <EmbeddedResource Include="Report\rptSoLuongTon.rdlc" />
+    <EmbeddedResource Include="Report\rptThanhToan - Backup.rdlc" />
     <EmbeddedResource Include="Report\rptThanhToan.rdlc" />
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\CuahangNongduoc.BusinessObject.ThongKeChiPhiVanChuyen.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
