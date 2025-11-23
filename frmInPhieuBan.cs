@@ -32,7 +32,35 @@ namespace CuahangNongduoc
             param.Add(new Microsoft.Reporting.WinForms.ReportParameter("ten_cua_hang", ch.TenCuaHang));
             param.Add(new Microsoft.Reporting.WinForms.ReportParameter("dia_chi", ch.DiaChi));
             param.Add(new Microsoft.Reporting.WinForms.ReportParameter("dien_thoai", ch.DienThoai));
-            param.Add(new Microsoft.Reporting.WinForms.ReportParameter("bang_chu", num.NumberToString(m_PhieuBan.TongTien.ToString())));
+            param.Add(new Microsoft.Reporting.WinForms.ReportParameter("bang_chu", num.NumberToString(m_PhieuBan.ConNo.ToString())));
+
+            // YC4: Tính tổng tiền giảm (Chiết khấu + Khuyến mãi)
+            decimal tongTienGiam = 0;
+            try
+            {
+                // Tính tiền chiết khấu
+                decimal tienCK = m_PhieuBan.TongTien * m_PhieuBan.ChietKhau / 100;
+                tongTienGiam += tienCK;
+
+                // Tính tiền khuyến mãi (nếu có)
+                if (m_PhieuBan.IdKhuyenMai.HasValue)
+                {
+                    Controller.KhuyenMaiController ctrlKM = new Controller.KhuyenMaiController();
+                    BusinessObject.KhuyenMai km = ctrlKM.LayKhuyenMai(m_PhieuBan.IdKhuyenMai.Value);
+                    if (km != null)
+                    {
+                        decimal tienKM = m_PhieuBan.TongTien * km.TyLeGiam / 100;
+                        tongTienGiam += tienKM;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Lỗi tính tổng tiền giảm: {ex.Message}");
+                tongTienGiam = 0;
+            }
+
+            param.Add(new Microsoft.Reporting.WinForms.ReportParameter("tong_tien_giam", tongTienGiam.ToString("N0")));
 
             this.reportViewer.LocalReport.SetParameters(param);
             this.PhieuBanBindingSource.DataSource = m_PhieuBan;
