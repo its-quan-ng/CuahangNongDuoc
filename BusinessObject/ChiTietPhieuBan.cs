@@ -47,49 +47,20 @@ namespace CuahangNongduoc.BusinessObject
         {
             get
             {
-                try
-                {
-                    if (m_MaSP == null)
-                        return "[MaSP NULL]";
-                    if (m_MaSP.SanPham == null)
-                        return "[SanPham NULL]";
-                    return m_MaSP.SanPham.TenSanPham ?? "[TenSP NULL]";
-                }
-                catch (Exception ex)
-                {
-                    return $"[ERROR: {ex.Message}]";
-                }
+                if (m_MaSP == null || m_MaSP.SanPham == null)
+                    return "";
+                return m_MaSP.SanPham.TenSanPham ?? "";
             }
         }
 
         public String MaSo
         {
-            get
-            {
-                try
-                {
-                    return m_MaSP != null ? m_MaSP.Id : "";
-                }
-                catch
-                {
-                    return "";
-                }
-            }
+            get { return m_MaSP != null ? m_MaSP.Id : ""; }
         }
 
         public DateTime NgayHetHan
         {
-            get
-            {
-                try
-                {
-                    return m_MaSP != null ? m_MaSP.NgayHetHan : DateTime.MinValue;
-                }
-                catch
-                {
-                    return DateTime.MinValue;
-                }
-            }
+            get { return m_MaSP != null ? m_MaSP.NgayHetHan : DateTime.MinValue; }
         }
 
     }
