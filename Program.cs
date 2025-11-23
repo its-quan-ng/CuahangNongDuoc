@@ -13,7 +13,7 @@ namespace CuahangNongduoc
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmThongKeGiamGia()); 
+            Application.Run(new frmMain()); 
         }
     }
 }
