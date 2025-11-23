@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Body>
+    <Height>2in</Height>
+    <Style />
+  </Body>
+  <Width>6.5in</Width>
+  <Page>
+    <LeftMargin>1in</LeftMargin>
+    <RightMargin>1in</RightMargin>
+    <TopMargin>1in</TopMargin>
+    <BottomMargin>1in</BottomMargin>
+    <Style />
+  </Page>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="CuahangNongduocBusinessObject">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>d800e206-5296-4fd7-8c2f-4c3f77307033</rd:DataSourceID>
+    </DataSource>
+    <DataSource Name="CuahangNongduocBusinessObject1">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>9df55cfb-69e3-4e56-a2e3-7524dbcadcdf</rd:DataSourceID>
+    </DataSource>
+    <DataSource Name="CuahangNongduocBusinessObject2">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>03037bfe-1fa2-45e7-a74c-cc275ddbe6a8</rd:DataSourceID>
+    </DataSource>
+    <DataSource Name="CuahangNongduocBusinessObject3">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>7c8c3d27-65fc-4add-bb4a-98d2520eefbb</rd:DataSourceID>
+    </DataSource>
+    <DataSource Name="CuahangNongduocBusinessObject4">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>73022323-f55c-4714-853d-42a6f179a4fc</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="dsGiamGia">
+      <Query>
+        <DataSourceName>CuahangNongduocBusinessObject4</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="KhachHang">
+          <DataField>KhachHang</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MaPhieu">
+          <DataField>MaPhieu</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="NgayBan">
+          <DataField>NgayBan</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="SoTienGiam">
+          <DataField>SoTienGiam</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="TongSauGiam">
+          <DataField>TongSauGiam</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="TongTien">
+          <DataField>TongTien</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>CuahangNongduoc.BusinessObject</rd:DataSetName>
+        <rd:TableName>ThongKeGiamGia</rd:TableName>
+        <rd:ObjectDataSourceType>CuahangNongduoc.BusinessObject.ThongKeGiamGia, CuahangNongduoc, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+      </rd:DataSetInfo>
+    </DataSet>
+  </DataSets>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>eadec583-0048-4ed8-a953-adee9db40fff</rd:ReportID>
+</Report>
