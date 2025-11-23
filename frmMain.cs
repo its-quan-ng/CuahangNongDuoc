@@ -33,6 +33,8 @@ namespace CuahangNongduoc
         frmCauHinh CauHinh = null;
         frmKhuyenMai KhuyenMai = null;
         frmNguoiDung nguoiDung = null;
+        frmThongKeChiPhiPhu ThongKeChiPhiPhu = null;
+        frmThongKeGiamGia ThongKeGiamGia = null;
 
         public frmMain()
         {
@@ -72,11 +74,13 @@ namespace CuahangNongduoc
                 mnuKhuyenMai.Visible = laAdmin;
                 mnuLyDoChi.Visible = laAdmin;
                 mnuNhaCungCap.Visible = laAdmin;
-               
+
                 mnuTonghopDuno.Visible = laAdmin;
                 mnuSoLuongBan.Visible = laAdmin;
                 mnuTuychinh.Visible = laAdmin;
                 mnuCauHinhKho.Visible = laAdmin;
+                mnuChiPhiPhu.Visible = laAdmin;
+                mnuGiamGia.Visible = laAdmin;
 
                 toolNhaCungCap.Visible = laAdmin;
                 toolNguoiDung.Visible = laAdmin;
@@ -84,6 +88,8 @@ namespace CuahangNongduoc
                 itemNhaCungCap.Visible = laAdmin;
 
                 itemTonghopDoanhthu.Visible = laAdmin;
+                itemChiPhiPhu.Visible = laAdmin;
+                itemGiamGia.Visible = laAdmin;
 
                 mnuThanhCongCu.Checked = true;
                 toolStrip.Visible = true;
@@ -382,7 +388,7 @@ namespace CuahangNongduoc
 
         private void mnuCauHinhKho_Click(object sender, EventArgs e)
         {
-            // Không cần check quyền vì menu đã ẩn với user thường rồi
+           // Không cần check quyền vì menu đã ẩn với user thường rồi 
             if (CauHinh == null || CauHinh.IsDisposed)
             {
                 CauHinh = new frmCauHinh();
@@ -438,6 +444,40 @@ namespace CuahangNongduoc
             }
             else
                 nguoiDung.Activate();
+        }
+
+        private void mnuChiPhiPhu_Click(object sender, EventArgs e)
+        {
+            if (ThongKeChiPhiPhu == null || ThongKeChiPhiPhu.IsDisposed)
+            {
+                ThongKeChiPhiPhu = new frmThongKeChiPhiPhu();
+                ThongKeChiPhiPhu.MdiParent = this;
+                ThongKeChiPhiPhu.Show();
+            }
+            else
+                ThongKeChiPhiPhu.Activate();
+        }
+
+        private void mnuGiamGia_Click(object sender, EventArgs e)
+        {
+            if (ThongKeGiamGia == null || ThongKeGiamGia.IsDisposed)
+            {
+                ThongKeGiamGia = new frmThongKeGiamGia();
+                ThongKeGiamGia.MdiParent = this;
+                ThongKeGiamGia.Show();
+            }
+            else
+                ThongKeGiamGia.Activate();
+        }
+
+        private void itemChiPhiPhu_Click(object sender, EventArgs e)
+        {
+            mnuChiPhiPhu_Click(sender, e);
+        }
+
+        private void itemGiamGia_Click(object sender, EventArgs e)
+        {
+            mnuGiamGia_Click(sender, e);
         }
     }
 }

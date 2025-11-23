@@ -363,6 +363,8 @@
     <Compile Include="PhienDangNhap.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Resources\percent.ico" />
+    <None Include="Resources\currency_dollar.ico" />
     <EmbeddedResource Include="frmCauHinh.resx">
       <DependentUpon>frmCauHinh.cs</DependentUpon>
     </EmbeddedResource>

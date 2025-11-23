@@ -85,16 +85,15 @@ namespace CuahangNongduoc
             {
                 Name = "colNgayBan",
                 HeaderText = "Ngày bán",
-                DataPropertyName = "NgayBan",
-                Width = 120,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "dd/MM/yyyy" }
+                DataPropertyName = "Ngay_Ban",
+                Width = 120
             });
 
             dgv.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colMaPhieu",
                 HeaderText = "Mã phiếu",
-                DataPropertyName = "MaPhieu",
+                DataPropertyName = "Ma_Phieu",
                 Width = 100
             });
 
@@ -102,7 +101,7 @@ namespace CuahangNongduoc
             {
                 Name = "colKhachHang",
                 HeaderText = "Khách hàng",
-                DataPropertyName = "KhachHang",
+                DataPropertyName = "Khach_Hang",
                 Width = 250,
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
             });
@@ -111,7 +110,7 @@ namespace CuahangNongduoc
             {
                 Name = "colChiPhiVanChuyen",
                 HeaderText = headerText,
-                DataPropertyName = "ChiPhiVanChuyen",
+                DataPropertyName = headerText == "Chi phí VC" ? "Chi_Phi_VC" : "Chi_Phi_DV",
                 Width = 120,
                 DefaultCellStyle = new DataGridViewCellStyle
                 {
@@ -201,13 +200,13 @@ namespace CuahangNongduoc
                     long tongChiPhi = 0;
                     foreach (DataRow row in dt.Rows)
                     {
-                        if (row["ChiPhiVanChuyen"] != DBNull.Value)
+                        if (row["Chi_Phi_VC"] != DBNull.Value)
                         {
-                            tongChiPhi += Convert.ToInt64(row["ChiPhiVanChuyen"]);
+                            tongChiPhi += Convert.ToInt64(row["Chi_Phi_VC"]);
                         }
                     }
 
-                  
+
                     numTongPhieu.Value = dt.Rows.Count;
                     // Đảm bảo Maximum đủ lớn trước khi set Value
                     if (tongChiPhi > (decimal)numTongCP.Maximum)
@@ -277,13 +276,13 @@ namespace CuahangNongduoc
                     long tongChiPhi = 0;
                     foreach (DataRow row in dt.Rows)
                     {
-                        if (row["ChiPhiVanChuyen"] != DBNull.Value)
+                        if (row["Chi_Phi_DV"] != DBNull.Value)
                         {
-                            tongChiPhi += Convert.ToInt64(row["ChiPhiVanChuyen"]);
+                            tongChiPhi += Convert.ToInt64(row["Chi_Phi_DV"]);
                         }
                     }
 
-                 
+
                     numTongPhieu.Value = dt.Rows.Count;
                     // Đảm bảo Maximum đủ lớn trước khi set Value
                     if (tongChiPhi > (decimal)numTongCP.Maximum)
@@ -394,10 +393,7 @@ namespace CuahangNongduoc
                 ReportViewer reportViewer = new ReportViewer();
                 reportViewer.Dock = DockStyle.Fill;
 
-                System.Diagnostics.Debug.WriteLine("Loading report: " + reportPath);
                 reportViewer.LocalReport.ReportPath = reportPath;
-
-                System.Diagnostics.Debug.WriteLine("Report loaded, DisplayName: " + reportViewer.LocalReport.DisplayName);
 
                 // 5. Set parameters (thông tin cửa hàng)
                 CuaHang cuaHang = ThamSo.LayCuaHang();
@@ -411,9 +407,7 @@ namespace CuahangNongduoc
                     new ReportParameter("DienThoaiCuaHang", cuaHang.DienThoai ?? "")
                 };
 
-                System.Diagnostics.Debug.WriteLine("Setting " + parameters.Length + " parameters...");
                 reportViewer.LocalReport.SetParameters(parameters);
-                System.Diagnostics.Debug.WriteLine("Parameters set successfully");
 
                 // 6. Bind data vào report
                 ReportDataSource rds = new ReportDataSource(dataSetName, dt);
@@ -430,7 +424,7 @@ namespace CuahangNongduoc
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Lỗi khi tạo báo cáo:\n" + ex.Message + "\n\nStack trace:\n" + ex.StackTrace,
+                    "Lỗi khi tạo báo cáo:\n" + ex.Message,
                     "Lỗi",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
@@ -461,18 +455,21 @@ namespace CuahangNongduoc
             {
                 DataTable dt = null;
                 string labelText = "";
+                string columnName = "";
 
                 if (tabControl.SelectedTab == tabPage1)
                 {
                     // Tab chi phí vận chuyển
                     dt = dgvChiPhiVC.DataSource as DataTable;
                     labelText = "Tổng chi phí VC:";
+                    columnName = "Chi_Phi_VC";
                 }
                 else if (tabControl.SelectedTab == tabPage2)
                 {
                     // Tab chi phí dịch vụ
                     dt = dgvChiPhiDV.DataSource as DataTable;
                     labelText = "Tổng chi phí DV:";
+                    columnName = "Chi_Phi_DV";
                 }
 
                 if (dt != null && dt.Rows.Count > 0)
@@ -480,9 +477,9 @@ namespace CuahangNongduoc
                     long tongChiPhi = 0;
                     foreach (DataRow row in dt.Rows)
                     {
-                        if (row["ChiPhiVanChuyen"] != DBNull.Value)
+                        if (row[columnName] != DBNull.Value)
                         {
-                            tongChiPhi += Convert.ToInt64(row["ChiPhiVanChuyen"]);
+                            tongChiPhi += Convert.ToInt64(row[columnName]);
                         }
                     }
 

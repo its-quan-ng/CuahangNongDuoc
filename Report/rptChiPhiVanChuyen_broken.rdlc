@@ -7,7 +7,7 @@
         <DataProvider>SQL</DataProvider>
         <ConnectString />
       </ConnectionProperties>
-      <rd:DataSourceID>cbf839a5-a7b9-4cc2-a111-c45dcd68136a</rd:DataSourceID>
+      <rd:DataSourceID>11111111-2222-3333-4444-555555555555</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
@@ -48,6 +48,40 @@
     <ReportSection>
       <Body>
         <ReportItems>
+          <Textbox Name="txtPageNumber">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>="Trang " &amp; Globals!PageNumber &amp; " / " &amp; Globals!TotalPages</Value>
+                    <Style>
+                      <FontSize>9pt</FontSize>
+                      <Color>Gray</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Right</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>txtPageNumber</rd:DefaultName>
+            <Top>10.3cm</Top>
+            <Left>0cm</Left>
+            <Height>0.6cm</Height>
+            <Width>19cm</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
           <Textbox Name="txtSignature">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
@@ -69,6 +103,7 @@
             <Left>0cm</Left>
             <Height>0.8cm</Height>
             <Width>19cm</Width>
+            <ZIndex>1</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -86,12 +121,9 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>
-											="Trung bình/phiếu: " &amp; Format(Avg(Fields!Chi_Phi_VC.Value, "dsChiPhiVC"), "#,##0")
-											&amp; " VND"
-										</Value>
+                    <Value>="Trung bình/phiếu: " &amp; Format(Avg(Fields!Chi_Phi_VC.Value, "dsChiPhiVC"), "#,##0") &amp; " VND"</Value>
                     <Style>
-                      <Color>DarkGreen</Color>
+                      <Color>DarkBlue</Color>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -105,7 +137,7 @@
             <Left>0.5cm</Left>
             <Height>0.6cm</Height>
             <Width>18cm</Width>
-            <ZIndex>1</ZIndex>
+            <ZIndex>2</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -123,14 +155,11 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>
-											="Tổng số phiếu: " &amp; Count(Fields!STT.Value, "dsChiPhiVC") &amp; " | Tổng chi phí
-											vận chuyển: " &amp; Format(Sum(Fields!Chi_Phi_VC.Value, "dsChiPhiVC"), "#,##0") &amp; " VND"
-										</Value>
+                    <Value>="Tổng số phiếu: " &amp; Count(Fields!STT.Value, "dsChiPhiVC") &amp; " | Tổng chi phí vận chuyển: " &amp; Format(Sum(Fields!Chi_Phi_VC.Value, "dsChiPhiVC"), "#,##0") &amp; " VND"</Value>
                     <Style>
                       <FontSize>11pt</FontSize>
                       <FontWeight>Bold</FontWeight>
-                      <Color>DarkGreen</Color>
+                      <Color>DarkBlue</Color>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -144,7 +173,7 @@
             <Left>0.5cm</Left>
             <Height>0.8cm</Height>
             <Width>18cm</Width>
-            <ZIndex>2</ZIndex>
+            <ZIndex>3</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -162,19 +191,19 @@
                   <Width>1.5cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>3cm</Width>
+                  <Width>2.5cm</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>2cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>4.30433cm</Width>
+                  <Width>5cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>4.0795cm</Width>
+                  <Width>3.5cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>3.61617cm</Width>
+                  <Width>3.5cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -435,10 +464,7 @@
                               <Style>Solid</Style>
                               <Width>0.5pt</Width>
                             </Border>
-                            <BackgroundColor>
-															=IIF(RowNumber(Nothing) Mod 2 = 0, "WhiteSmoke",
-															"White")
-														</BackgroundColor>
+                            <BackgroundColor>=IIF(RowNumber(Nothing) Mod 2 = 0, "WhiteSmoke", "White")</BackgroundColor>
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -475,10 +501,7 @@
                               <Style>Solid</Style>
                               <Width>0.5pt</Width>
                             </Border>
-                            <BackgroundColor>
-															=IIF(RowNumber(Nothing) Mod 2 = 0, "WhiteSmoke",
-															"White")
-														</BackgroundColor>
+                            <BackgroundColor>=IIF(RowNumber(Nothing) Mod 2 = 0, "WhiteSmoke", "White")</BackgroundColor>
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -515,10 +538,7 @@
                               <Style>Solid</Style>
                               <Width>0.5pt</Width>
                             </Border>
-                            <BackgroundColor>
-															=IIF(RowNumber(Nothing) Mod 2 = 0, "WhiteSmoke",
-															"White")
-														</BackgroundColor>
+                            <BackgroundColor>=IIF(RowNumber(Nothing) Mod 2 = 0, "WhiteSmoke", "White")</BackgroundColor>
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -555,10 +575,7 @@
                               <Style>Solid</Style>
                               <Width>0.5pt</Width>
                             </Border>
-                            <BackgroundColor>
-															=IIF(RowNumber(Nothing) Mod 2 = 0, "WhiteSmoke",
-															"White")
-														</BackgroundColor>
+                            <BackgroundColor>=IIF(RowNumber(Nothing) Mod 2 = 0, "WhiteSmoke", "White")</BackgroundColor>
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -635,10 +652,7 @@
                               <Style>Solid</Style>
                               <Width>0.5pt</Width>
                             </Border>
-                            <BackgroundColor>
-															=IIF(RowNumber(Nothing) Mod 2 = 0, "WhiteSmoke",
-															"White")
-														</BackgroundColor>
+                            <BackgroundColor>=IIF(RowNumber(Nothing) Mod 2 = 0, "WhiteSmoke", "White")</BackgroundColor>
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -676,8 +690,8 @@
             <Top>5.5cm</Top>
             <Left>0.5cm</Left>
             <Height>1.4cm</Height>
-            <Width>18.5cm</Width>
-            <ZIndex>3</ZIndex>
+            <Width>18cm</Width>
+            <ZIndex>4</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -709,7 +723,7 @@
             <Left>0cm</Left>
             <Height>0.6cm</Height>
             <Width>19cm</Width>
-            <ZIndex>4</ZIndex>
+            <ZIndex>5</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -727,10 +741,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>
-											="Từ ngày " &amp; Parameters!TuNgay.Value &amp; " đến ngày " &amp;
-											Parameters!DenNgay.Value
-										</Value>
+                    <Value>="Từ ngày " &amp; Parameters!TuNgay.Value &amp; " đến ngày " &amp; Parameters!DenNgay.Value</Value>
                     <Style>
                       <FontStyle>Italic</FontStyle>
                       <FontSize>11pt</FontSize>
@@ -748,7 +759,7 @@
             <Left>0cm</Left>
             <Height>0.6cm</Height>
             <Width>19cm</Width>
-            <ZIndex>5</ZIndex>
+            <ZIndex>6</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -770,7 +781,7 @@
                     <Style>
                       <FontSize>18pt</FontSize>
                       <FontWeight>Bold</FontWeight>
-                      <Color>DarkOrange</Color>
+                      <Color>DarkRed</Color>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -784,7 +795,7 @@
             <Left>0cm</Left>
             <Height>1cm</Height>
             <Width>19cm</Width>
-            <ZIndex>6</ZIndex>
+            <ZIndex>7</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -816,7 +827,7 @@
             <Left>0cm</Left>
             <Height>0.6cm</Height>
             <Width>19cm</Width>
-            <ZIndex>7</ZIndex>
+            <ZIndex>8</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -848,7 +859,7 @@
             <Left>0cm</Left>
             <Height>0.6cm</Height>
             <Width>19cm</Width>
-            <ZIndex>8</ZIndex>
+            <ZIndex>9</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -884,7 +895,7 @@
             <Left>0cm</Left>
             <Height>0.8cm</Height>
             <Width>19cm</Width>
-            <ZIndex>9</ZIndex>
+            <ZIndex>10</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -899,7 +910,7 @@
         <Height>11cm</Height>
         <Style />
       </Body>
-      <Width>23.9765cm</Width>
+      <Width>19cm</Width>
       <Page>
         <PageHeight>29.7cm</PageHeight>
         <PageWidth>21cm</PageWidth>
@@ -968,5 +979,5 @@
     </GridLayoutDefinition>
   </ReportParametersLayout>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
-  <rd:ReportID>a1b2c3d4-e5f6-7890-abcd-123456789abc</rd:ReportID>
+  <rd:ReportID>aaaaaaaa-bbbb-cccc-dddd-111111111111</rd:ReportID>
 </Report>

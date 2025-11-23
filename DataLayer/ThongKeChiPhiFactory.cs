@@ -13,12 +13,13 @@ namespace CuahangNongduoc.DataLayer
         public DataTable LayChiPhiVanChuyen(DateTime tuNgay, DateTime denNgay)
         {
             SqlCommand cmd = new SqlCommand(
-                @"SELECT 
-                    PB.NGAY_BAN as NgayBan,
-                    PB.ID as MaPhieu,
-                    KH.HO_TEN as KhachHang,
-                    ISNULL(PB.CHI_PHI_VAN_CHUYEN, 0) as ChiPhiVanChuyen,
-                    PB.TONG_TIEN as TongTien
+                @"SELECT
+                    ROW_NUMBER() OVER (ORDER BY PB.NGAY_BAN DESC) as STT,
+                    CONVERT(VARCHAR(10), PB.NGAY_BAN, 103) as Ngay_Ban,
+                    PB.ID as Ma_Phieu,
+                    KH.HO_TEN as Khach_Hang,
+                    ISNULL(PB.CHI_PHI_VAN_CHUYEN, 0) as Chi_Phi_VC,
+                    PB.TONG_TIEN as Tong_Tien_Phieu
                 FROM PHIEU_BAN PB
                 INNER JOIN KHACH_HANG KH ON PB.ID_KHACH_HANG = KH.ID
                 WHERE CONVERT(DATE, PB.NGAY_BAN) >= @tuNgay
@@ -36,12 +37,13 @@ namespace CuahangNongduoc.DataLayer
         public DataTable LayChiPhiDichVu(DateTime tuNgay, DateTime denNgay)
         {
             SqlCommand cmd = new SqlCommand(
-                @"SELECT 
-                    PB.NGAY_BAN as NgayBan,
-                    PB.ID as MaPhieu,
-                    KH.HO_TEN as KhachHang,
-                    ISNULL(PB.CHI_PHI_DICH_VU, 0) as ChiPhiVanChuyen,
-                    PB.TONG_TIEN as TongTien
+                @"SELECT
+                    ROW_NUMBER() OVER (ORDER BY PB.NGAY_BAN DESC) as STT,
+                    CONVERT(VARCHAR(10), PB.NGAY_BAN, 103) as Ngay_Ban,
+                    PB.ID as Ma_Phieu,
+                    KH.HO_TEN as Khach_Hang,
+                    ISNULL(PB.CHI_PHI_DICH_VU, 0) as Chi_Phi_DV,
+                    PB.TONG_TIEN as Tong_Tien_Phieu
                 FROM PHIEU_BAN PB
                 INNER JOIN KHACH_HANG KH ON PB.ID_KHACH_HANG = KH.ID
                 WHERE CONVERT(DATE, PB.NGAY_BAN) >= @tuNgay
