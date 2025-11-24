@@ -115,7 +115,7 @@ namespace CuahangNongduoc.Controller
             DataTable tbl = f.LaySoLuongTon();
 
             IList<SoLuongTon> ds = new List<SoLuongTon>();
-            
+
 
             DonViTinhController ctrlDVT = new DonViTinhController();
             foreach(DataRow row in tbl.Rows)
@@ -135,6 +135,41 @@ namespace CuahangNongduoc.Controller
             }
             return ds;
 
+        }
+
+        /// <summary>
+        /// Lấy báo cáo biến động tồn kho theo khoảng thời gian
+        /// </summary>
+        public static IList<SoLuongTon> LayBienDongTon(DateTime tuNgay, DateTime denNgay)
+        {
+            SanPhamFactory f = new SanPhamFactory();
+            DataTable tbl = f.LayBienDongTon(tuNgay, denNgay);
+
+            IList<SoLuongTon> ds = new List<SoLuongTon>();
+
+            DonViTinhController ctrlDVT = new DonViTinhController();
+            foreach (DataRow row in tbl.Rows)
+            {
+                SoLuongTon slt = new SoLuongTon();
+                SanPham sp = new SanPham();
+                sp.Id = Convert.ToString(row["ID"]);
+                sp.TenSanPham = Convert.ToString(row["TEN_SAN_PHAM"]);
+                sp.DonGiaNhap = Convert.ToInt64(row["DON_GIA_NHAP"]);
+                sp.GiaBanLe = Convert.ToInt64(row["GIA_BAN_LE"]);
+                sp.GiaBanSi = Convert.ToInt64(row["GIA_BAN_SI"]);
+                sp.DonViTinh = ctrlDVT.LayDVT(Convert.ToInt32(row["ID_DON_VI_TINH"]));
+
+                slt.SanPham = sp;
+                slt.SoLuong = Convert.ToInt32(row["TON_HIEN_TAI"]);
+                slt.NhapTrongKy = Convert.ToInt32(row["NHAP_TRONG_KY"]);
+                slt.XuatTrongKy = Convert.ToInt32(row["XUAT_TRONG_KY"]);
+                // Tồn đầu kỳ = Tồn hiện tại - Nhập + Xuất (ngược lại logic)
+                slt.TonDauKy = slt.SoLuong - slt.NhapTrongKy + slt.XuatTrongKy;
+                slt.TonCuoiKy = slt.SoLuong; // Tồn cuối = Tồn hiện tại
+
+                ds.Add(slt);
+            }
+            return ds;
         }
 
         /// <summary>

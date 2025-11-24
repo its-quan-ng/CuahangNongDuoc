@@ -21,6 +21,35 @@ namespace CuahangNongduoc.BusinessObject
             set { m_SoLuongTon = value; }
         }
 
+        // Fields cho báo cáo biến động tồn
+        private int m_TonDauKy;
+        public int TonDauKy
+        {
+            get { return m_TonDauKy; }
+            set { m_TonDauKy = value; }
+        }
+
+        private int m_NhapTrongKy;
+        public int NhapTrongKy
+        {
+            get { return m_NhapTrongKy; }
+            set { m_NhapTrongKy = value; }
+        }
+
+        private int m_XuatTrongKy;
+        public int XuatTrongKy
+        {
+            get { return m_XuatTrongKy; }
+            set { m_XuatTrongKy = value; }
+        }
+
+        private int m_TonCuoiKy;
+        public int TonCuoiKy
+        {
+            get { return m_TonCuoiKy; }
+            set { m_TonCuoiKy = value; }
+        }
+
         public String MaSanPham
         {
             get { return m_SanPham != null ? m_SanPham.Id : ""; }
