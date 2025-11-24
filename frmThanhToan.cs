@@ -33,14 +33,32 @@ namespace CuahangNongduoc
 
         private void toolAdd_Click(object sender, EventArgs e)
         {
-            long maphieu = ThamSo.LayMaPhieuThanhToan();
+            try
+            {
+                // Lấy mã phiếu mới
+                long newMaphieu = ThamSo.LayMaPhieuThanhToan();
 
-            DataRow row = ctrl.NewRow();
-            row["ID"] = maphieu;
-            row["NGAY_THANH_TOAN"] = DateTime.Now.Date;
-            row["TONG_TIEN"] = numTongTien.Value;
-            ctrl.Add(row);
-            bindingNavigator.BindingSource.MoveLast();
+                // Tạo dòng dữ liệu mới
+                DataRow newRow = ctrl.NewRow();
+                newRow["ID"] = newMaphieu;
+                newRow["NGAY_THANH_TOAN"] = DateTime.Now.Date;
+                newRow["TONG_TIEN"] = 0;  // Giá trị mặc định
+                newRow["GHI_CHU"] = DBNull.Value;  // Giá trị mặc định
+
+                // Thêm vào DataTable
+                ctrl.Add(newRow);
+
+                // Di chuyển đến dòng mới
+                bindingNavigator.BindingSource.MoveLast();
+
+                // Focus vào combobox Khách hàng
+                cmbKhachHang.Focus();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi thêm mới: " + ex.Message, "Lỗi",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void dataGridView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
@@ -53,44 +71,92 @@ namespace CuahangNongduoc
 
         private void toolDelete_Click(object sender, EventArgs e)
         {
-            DataRowView currentRow = (DataRowView)bindingNavigator.BindingSource.Current;
-            if (currentRow != null)
+            if (MessageBox.Show("Bạn có chắc chắn xóa không?", "San Pham", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                int idPhieuThanhToan = Convert.ToInt32(currentRow["ID"]);
-
-                // Kiểm tra xem phiếu thanh toán có liên kết với khách hàng không
-                PhieuThanhToanController ctrlPTT = new PhieuThanhToanController();
-                BusinessObject.PhieuThanhToan ptt = ctrlPTT.LayPhieuThanhToan(idPhieuThanhToan);
-
-                if (ptt != null && ptt.KhachHang != null)
-                {
-                    MessageBox.Show("Không thể xóa phiếu thanh toán này vì đã liên kết với khách hàng: " + ptt.KhachHang.HoTen,
-                                  "Không thể xóa",
-                                  MessageBoxButtons.OK,
-                                  MessageBoxIcon.Warning);
-                    return;
-                }
-
-                if (MessageBox.Show("Bạn chắc chắn xóa phiếu thanh toán này không?",
-                                 "Xác nhận xóa",
-                                 MessageBoxButtons.YesNo,
-                                 MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    bindingNavigator.BindingSource.RemoveCurrent();
-                    ctrl.Save();
-                }
+                bindingNavigator.BindingSource.RemoveCurrent();
             }
         }
 
         private void toolSave_Click(object sender, EventArgs e)
         {
-            txtMaPhieu.Focus();
-            bindingNavigator.BindingSource.MoveNext();
-            ctrl.Save();
+            try
+            {
+                // Kiểm tra các trường bắt buộc
+                if (cmbKhachHang.SelectedValue == null || cmbKhachHang.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Vui lòng chọn khách hàng!", "Thông báo",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cmbKhachHang.Focus();
+                    return;
+                }
+
+                // Lấy dữ liệu hiện tại
+                DataRowView currentRow = (DataRowView)bindingNavigator.BindingSource.Current;
+                if (currentRow == null)
+                {
+                    MessageBox.Show("Không có dữ liệu để lưu!", "Thông báo",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Cập nhật giá trị
+                try
+                {
+                    // Xử lý ngày thanh toán
+                    currentRow["NGAY_THANH_TOAN"] = dtNgayThanhToan.Value.Date;
+
+                    // Xử lý khách hàng
+                    if (cmbKhachHang.SelectedValue != null)
+                    {
+                        currentRow["ID_KHACH_HANG"] = cmbKhachHang.SelectedValue;
+                    }
+
+                    // Xử lý tổng tiền
+                    decimal tongTien = 0;
+                    if (numTongTien.Value != null && numTongTien.Value > 0)
+                    {
+                        tongTien = numTongTien.Value;
+                    }
+                    currentRow["TONG_TIEN"] = tongTien;
+
+                    // Xử lý ghi chú
+                    currentRow["GHI_CHU"] = string.IsNullOrEmpty(txtGhiChu.Text) ?
+                                           DBNull.Value : (object)txtGhiChu.Text;
+
+                    // Kết thúc chỉnh sửa
+                    bindingNavigator.BindingSource.EndEdit();
+
+                    try
+                    {
+                        // Lưu dữ liệu
+                        ctrl.Save();
+                        MessageBox.Show("Lưu dữ liệu thành công!", "Thông báo",
+                                      MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception saveEx)
+                    {
+                        throw new Exception("Không thể lưu dữ liệu: " + saveEx.Message, saveEx);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Lỗi khi cập nhật dữ liệu: " + ex.Message, ex);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Lỗi",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void dataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
+            e.ThrowException = false;
+            MessageBox.Show("Dữ liệu không hợp lệ: " + e.Exception.Message,
+                          "Lỗi dữ liệu",
+                          MessageBoxButtons.OK,
+                          MessageBoxIcon.Error);
             e.Cancel = true;
         }
 
