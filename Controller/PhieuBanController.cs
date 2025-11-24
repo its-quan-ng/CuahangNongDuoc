@@ -53,16 +53,18 @@ namespace CuahangNongduoc.Controller
 
         public void HienthiPhieuBanLe(BindingNavigator bn, DataGridView dg)
         {
-
-            bs.DataSource = factory.DanhsachPhieuBanLe();
+            // Load vào m_Ds trong factory để có thể Save()
+            factory.LoadDanhsachPhieuBanLe();
+            bs.DataSource = factory.GetDataTable();
             bn.BindingSource = bs;
             dg.DataSource = bs;
         }
 
         public void HienthiPhieuBanSi(BindingNavigator bn, DataGridView dg)
         {
-
-            bs.DataSource = factory.DanhsachPhieuBanSi();
+            // Load vào m_Ds trong factory để có thể Save()
+            factory.LoadDanhsachPhieuBanSi();
+            bs.DataSource = factory.GetDataTable();
             bn.BindingSource = bs;
             dg.DataSource = bs;
         }
@@ -173,6 +175,14 @@ namespace CuahangNongduoc.Controller
         public List<string> LayDanhSachBangLienKet(int idPhieuBan)
         {
             return factory.LayDanhSachBangLienKet(idPhieuBan);
+        }
+
+        /// <summary>
+        /// Xóa phiếu bán và chi tiết phiếu bán
+        /// </summary>
+        public bool DeletePhieuBan(int idPhieuBan)
+        {
+            return factory.DeletePhieuBan(idPhieuBan);
         }
 
         // =============================================

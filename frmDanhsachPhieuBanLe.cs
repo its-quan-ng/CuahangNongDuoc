@@ -76,20 +76,40 @@ namespace CuahangNongduoc
 
         private void dataGridView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
+            DataRowView view = (DataRowView)bindingNavigator.BindingSource.Current;
+            if (view == null)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            // Lấy ID của phiếu bán hiện tại
+            int idPhieuBan = Convert.ToInt32(view["ID"]);
+
             if (MessageBox.Show("Bạn có chắc chắn xóa không?", "Phieu Ban Le", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
             {
                 e.Cancel = true;
+                return;
+            }
+
+            // Cộng lại số lượng vào kho trước khi xóa
+            ChiTietPhieuBanController ctrlChiTiet = new ChiTietPhieuBanController();
+            IList<ChiTietPhieuBan> ds = ctrlChiTiet.ChiTietPhieuBan(idPhieuBan);
+            foreach (ChiTietPhieuBan ct in ds)
+            {
+                CuahangNongduoc.DataLayer.MaSanPhamFactory.CapNhatSoLuong(ct.MaSanPham.Id, ct.SoLuong);
+            }
+
+            // Xóa phiếu bán và chi tiết (cascade delete thủ công)
+            if (ctrl.DeletePhieuBan(idPhieuBan))
+            {
+                // Xóa thành công → Remove từ BindingSource để update UI
+                // KHÔNG cancel event - để row biến mất khỏi grid
             }
             else
             {
-                DataRowView view = (DataRowView)bindingNavigator.BindingSource.Current;
-                ChiTietPhieuBanController ctrl = new ChiTietPhieuBanController();
-                IList<ChiTietPhieuBan> ds = ctrl.ChiTietPhieuBan(Convert.ToInt32(view["ID"]));
-                foreach (ChiTietPhieuBan ct in ds)
-                {
-                    CuahangNongduoc.DataLayer.MaSanPhamFactory.CapNhatSoLuong(ct.MaSanPham.Id, ct.SoLuong);
-                }
-                ctrl.Save();
+                MessageBox.Show("Lỗi khi xóa phiếu bán!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                e.Cancel = true;
             }
         }
 
@@ -98,17 +118,30 @@ namespace CuahangNongduoc
              DataRowView view =  (DataRowView)bindingNavigator.BindingSource.Current;
              if (view != null)
              {
+                 // Lấy ID của phiếu bán hiện tại
+                 int idPhieuBan = Convert.ToInt32(view["ID"]);
 
                  if (MessageBox.Show("Bạn có chắc chắn xóa không?", "Phieu Ban Le", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                  {
-                     ChiTietPhieuBanController ctrl = new ChiTietPhieuBanController();
-                     IList<ChiTietPhieuBan> ds = ctrl.ChiTietPhieuBan(Convert.ToInt32(view["ID"]));
+                     // Cộng lại số lượng vào kho trước khi xóa
+                     ChiTietPhieuBanController ctrlChiTiet = new ChiTietPhieuBanController();
+                     IList<ChiTietPhieuBan> ds = ctrlChiTiet.ChiTietPhieuBan(idPhieuBan);
                      foreach (ChiTietPhieuBan ct in ds)
                      {
                          CuahangNongduoc.DataLayer.MaSanPhamFactory.CapNhatSoLuong(ct.MaSanPham.Id, ct.SoLuong);
                      }
-                     bindingNavigator.BindingSource.RemoveCurrent();
-                     ctrl.Save();
+
+                     // Xóa phiếu bán và chi tiết (cascade delete thủ công)
+                     if (ctrl.DeletePhieuBan(idPhieuBan))
+                     {
+                         // Xóa thành công → Remove từ BindingSource để update UI
+                         bindingNavigator.BindingSource.RemoveCurrent();
+                         MessageBox.Show("Xóa phiếu bán thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                     }
+                     else
+                     {
+                         MessageBox.Show("Lỗi khi xóa phiếu bán!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                     }
                  }
              }
         }
