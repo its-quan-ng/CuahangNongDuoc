@@ -206,7 +206,7 @@ namespace CuahangNongduoc.Controller
             {
                 return 0;  
             }
-        }═
+        }
 
         /// <summary>
         /// Chọn lô xuất theo cấu hình (FIFO tự động hoặc CHI_DINH thủ công)
