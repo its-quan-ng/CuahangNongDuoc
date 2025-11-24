@@ -15,7 +15,7 @@ namespace CuahangNongduoc
         public frmSoLuongBan()
         {
             InitializeComponent();
-            reportViewer.LocalReport.ExecuteReportInCurrentAppDomain(System.Reflection.Assembly.GetExecutingAssembly().Evidence);
+            //reportViewer.LocalReport.ExecuteReportInCurrentAppDomain(System.Reflection.Assembly.GetExecutingAssembly().Evidence);
         }
 
         private void frmSoLuongBan_Load(object sender, EventArgs e)
@@ -29,25 +29,36 @@ namespace CuahangNongduoc
         
         private void btnXemNgay_Click(object sender, EventArgs e)
         {
+            IList<CuahangNongduoc.BusinessObject.ChiTietPhieuBan_rptSoLuongBan> data = ctrl.ChiTietPhieuBan(dtTuNgay.Value.Date, dtDenNgay.Value.Date);
             IList<Microsoft.Reporting.WinForms.ReportParameter> param = new List<Microsoft.Reporting.WinForms.ReportParameter>();
-            param.Add(new Microsoft.Reporting.WinForms.ReportParameter("ngay", "Ngày " + dtNgay.Value.Date.ToString("dd/MM/yyyy")));
+            string moTaKetQua = "";
+            if(dtTuNgay.Value.Date == dtDenNgay.Value.Date)
+            {
+                moTaKetQua = "Ngày: " + dtTuNgay.Value.Date.ToString("dd/MM/yyyy");
+            }
+            else
+            {
+                moTaKetQua = "Từ ngày: " + dtTuNgay.Value.Date.ToString("dd/MM/yyyy") + " - Đến ngày: " + dtDenNgay.Value.Date.ToString("dd/MM/yyyy");
+            }
+            param.Add(new Microsoft.Reporting.WinForms.ReportParameter("ngay", moTaKetQua));
 
+            this.ChiTietPhieuBanBindingSource.DataSource = data;
             this.reportViewer.LocalReport.SetParameters(param);
 
-            this.ChiTietPhieuBanBindingSource.DataSource = ctrl.ChiTietPhieuBan(dtNgay.Value.Date);
             this.reportViewer.RefreshReport();
         }
 
         private void btnXemThang_Click(object sender, EventArgs e)
         {
+            IList<CuahangNongduoc.BusinessObject.ChiTietPhieuBan_rptSoLuongBan> data = ctrl.ChiTietPhieuBan(cmbThang.SelectedIndex + 1, Convert.ToInt32(numNam.Value));
             IList<Microsoft.Reporting.WinForms.ReportParameter> param = new List<Microsoft.Reporting.WinForms.ReportParameter>();
+
             param.Add(new Microsoft.Reporting.WinForms.ReportParameter("ngay",
                 "Tháng " + Convert.ToString(cmbThang.SelectedIndex + 1) + "/" + numNam.Value.ToString()));
 
             this.reportViewer.LocalReport.SetParameters(param);
 
-
-            this.ChiTietPhieuBanBindingSource.DataSource = ctrl.ChiTietPhieuBan(cmbThang.SelectedIndex + 1, Convert.ToInt32(numNam.Value));
+            this.ChiTietPhieuBanBindingSource.DataSource = data;
             this.reportViewer.RefreshReport();
         }
 
