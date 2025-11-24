@@ -573,9 +573,68 @@ namespace CuahangNongduoc
 
         private void toolLuu_Click(object sender, EventArgs e)
         {
-            this.Luu();
-            status = Controll.Normal;
-            this.Allow(false);
+            try
+            {
+                // Kiểm tra khách hàng đã chọn chưa
+                if (cmbKhachHang.SelectedValue == null || cmbKhachHang.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Vui lòng chọn khách hàng trước khi lưu!", "Thông báo",
+                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cmbKhachHang.Focus();
+                    return;
+                }
+
+                // Kiểm tra có sản phẩm nào trong danh sách không
+                if (dgvDanhsachSP.Rows.Count == 0 ||
+                    (dgvDanhsachSP.Rows.Count == 1 && dgvDanhsachSP.Rows[0].IsNewRow))
+                {
+                    MessageBox.Show("Vui lòng thêm ít nhất một sản phẩm vào đơn hàng!", "Thông báo",
+                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Kiểm tra tổng tiền
+                if (numTongTien.Value <= 0)
+                {
+                    MessageBox.Show("Tổng tiền phải lớn hơn 0!", "Thông báo",
+                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Kiểm tra từng sản phẩm trong danh sách
+                foreach (DataGridViewRow row in dgvDanhsachSP.Rows)
+                {
+                    if (row.IsNewRow) continue;
+
+                    if (row.Cells["colSoLuong"].Value == null ||
+                        Convert.ToDecimal(row.Cells["colSoLuong"].Value) <= 0)
+                    {
+                        MessageBox.Show("Số lượng sản phẩm phải lớn hơn 0!", "Thông báo",
+                                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        dgvDanhsachSP.CurrentCell = row.Cells["colSoLuong"];
+                        return;
+                    }
+
+                    if (row.Cells["colDonGia"].Value == null ||
+                        Convert.ToDecimal(row.Cells["colDonGia"].Value) <= 0)
+                    {
+                        MessageBox.Show("Đơn giá sản phẩm phải lớn hơn 0!", "Thông báo",
+                                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        dgvDanhsachSP.CurrentCell = row.Cells["colDonGia"];
+                        return;
+                    }
+                }
+
+                // Nếu đã qua tất cả các kiểm tra, tiến hành lưu
+                this.Luu();
+                status = Controll.Normal;
+                this.Allow(false);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi lưu dữ liệu: " + ex.Message, "Lỗi",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         void Luu()
