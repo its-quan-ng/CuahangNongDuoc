@@ -62,11 +62,36 @@ namespace CuahangNongduoc
 
         private void bindingNavigatorDeleteItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Bạn có chắc chắn xóa không?", "Phieu Nhap", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (bindingNavigator.BindingSource.Current == null)
+                return;
+
+            // Get the current PhieuNhap ID
+            DataRowView currentRow = (DataRowView)bindingNavigator.BindingSource.Current;
+            int phieuNhapId = Convert.ToInt32(currentRow["ID"]);
+
+            // Check for related records
+            if (ctrl.HasRelatedRecords(phieuNhapId))
             {
-                bindingNavigator.BindingSource.RemoveCurrent();
-                ctrl.Save();
+                MessageBox.Show("Không thể xóa phiếu nhập này vì có chi tiết phiếu nhập còn nợ chưa thanh toán .\nVui lòng xóa các chi tiết phiếu nhập trước khi xóa phiếu nhập.",
+                    "Không thể xóa", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
+
+            // Confirm deletion
+            if (MessageBox.Show("Bạn có chắc chắn muốn xóa phiếu nhập này?",
+                "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                try
+                {
+                    bindingNavigator.BindingSource.RemoveCurrent();
+                    ctrl.Save();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Đã xảy ra lỗi khi xóa phiếu nhập: " + ex.Message,
+                        "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }/
         }
 
         private void toolTimKiem_Click(object sender, EventArgs e)
