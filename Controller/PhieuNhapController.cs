@@ -105,10 +105,12 @@ namespace CuahangNongduoc.Controller
 
         public bool HasRelatedRecords(int phieuNhapId)
         {
-            ChiTietPhieuNhapFactory chiTietFactory = new ChiTietPhieuNhapFactory();
-            DataTable chiTiet = chiTietFactory.LayChiTietPhieuNhap(phieuNhapId);
+            // Check xem phiếu nhập có lô hàng (MA_SAN_PHAM) liên kết không
+            MaSanPhamFactory maSPFactory = new MaSanPhamFactory();
+            DataTable chiTiet = maSPFactory.DanhsachChiTiet(phieuNhapId);
 
             return chiTiet.Rows.Count > 0;
+
         }
    
     }

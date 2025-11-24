@@ -91,7 +91,7 @@ namespace CuahangNongduoc
                     MessageBox.Show("Đã xảy ra lỗi khi xóa phiếu nhập: " + ex.Message,
                         "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            }/
+            }
         }
 
         private void toolTimKiem_Click(object sender, EventArgs e)

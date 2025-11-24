@@ -48,7 +48,18 @@ namespace CuahangNongduoc
             if (dataGridView.Columns.Contains("TEN_KHUYEN_MAI"))
             {
                 dataGridView.Columns["TEN_KHUYEN_MAI"].HeaderText = "Khuyến mãi";
-                dataGridView.Columns["TEN_KHUYEN_MAI"].Width = 200;
+            }
+
+            // Ẩn ID_NGUOI_DUNG (không cần hiển thị số ID)
+            if (dataGridView.Columns.Contains("ID_NGUOI_DUNG"))
+            {
+                dataGridView.Columns["ID_NGUOI_DUNG"].Visible = false;
+            }
+
+            // Format header cho NGUOI_LAP
+            if (dataGridView.Columns.Contains("NGUOI_LAP"))
+            {
+                dataGridView.Columns["NGUOI_LAP"].HeaderText = "Người lập";
             }
         }
         frmBanLe BanLe = null;

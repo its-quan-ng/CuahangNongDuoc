@@ -53,7 +53,6 @@
             this.colTongTien = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDaTra = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colConNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colNguoiLap = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator)).BeginInit();
             this.bindingNavigator.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
@@ -232,8 +231,7 @@
             this.colNgayNhap,
             this.colTongTien,
             this.colDaTra,
-            this.colConNo,
-            this.colNguoiLap});
+            this.colConNo});
             this.dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView.Location = new System.Drawing.Point(0, 51);
             this.dataGridView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
@@ -293,14 +291,6 @@
             this.colConNo.Name = "colConNo";
             this.colConNo.ReadOnly = true;
             //
-            // colNguoiLap
-            //
-            this.colNguoiLap.DataPropertyName = "NGUOI_LAP";
-            this.colNguoiLap.HeaderText = "Người lập";
-            this.colNguoiLap.MinimumWidth = 6;
-            this.colNguoiLap.Name = "colNguoiLap";
-            this.colNguoiLap.ReadOnly = true;
-            //
             // frmDanhsachPhieuBanSi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -346,7 +336,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colTongTien;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDaTra;
         private System.Windows.Forms.DataGridViewTextBoxColumn colConNo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colNguoiLap;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton toolIn;
         private System.Windows.Forms.ToolStripButton toolTimKiem;
