@@ -1,12 +1,13 @@
-﻿using System;
+﻿using CuahangNongduoc.BusinessObject;
+using CuahangNongduoc.Controller;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using CuahangNongduoc.Controller;
-using CuahangNongduoc.BusinessObject;
 
 namespace CuahangNongduoc
 {
@@ -120,6 +121,7 @@ namespace CuahangNongduoc
                 // Load thông tin khuyến mãi
                 LoadKhuyenMaiInfo();
             }
+           
         }
 
         void BindingSource_CurrentChanged(object sender, EventArgs e)
@@ -563,19 +565,119 @@ namespace CuahangNongduoc
 
         private void toolLuu_Click(object sender, EventArgs e)
         {
-            this.Luu();
-            status = Controll.Normal;
-            this.Allow(false);
+            try
+            {
+                // Debug: Log tất cả các cột trong DataGridView
+                Console.WriteLine("=== DANH SÁCH CÁC CỘT TRONG DATAGRIDVIEW ===");
+                foreach (DataGridViewColumn col in dgvDanhsachSP.Columns)
+                {
+                    Console.WriteLine($"Tên cột: {col.Name}, DataProperty: {col.DataPropertyName}, Header: {col.HeaderText}");
+                }
+                Console.WriteLine("===========================================");
+
+                // Kiểm tra đã chọn khách hàng chưa
+                if (cmbKhachHang.SelectedValue == null || cmbKhachHang.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Vui lòng chọn khách hàng trước khi lưu!", "Thông báo",
+                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cmbKhachHang.Focus();
+                    return;
+                }
+
+                // Kiểm tra có sản phẩm nào trong danh sách không
+                if (dgvDanhsachSP.Rows.Count == 0 ||
+                    (dgvDanhsachSP.Rows.Count == 1 && dgvDanhsachSP.Rows[0].IsNewRow))
+                {
+                    MessageBox.Show("Vui lòng thêm ít nhất một sản phẩm vào đơn hàng!", "Thông báo",
+                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Kiểm tra từng dòng sản phẩm
+                foreach (DataGridViewRow row in dgvDanhsachSP.Rows)
+                {
+                    if (row.IsNewRow) continue;
+
+                    // Tìm cột số lượng và đơn giá
+                    var soLuongCell = row.Cells.Cast<DataGridViewCell>()
+                        .FirstOrDefault(c =>
+                            (c.OwningColumn.DataPropertyName != null &&
+                             (c.OwningColumn.DataPropertyName.Equals("SO_LUONG", StringComparison.OrdinalIgnoreCase) ||
+                              c.OwningColumn.DataPropertyName.Equals("SOLUONG", StringComparison.OrdinalIgnoreCase))) ||
+                            (c.OwningColumn.Name != null &&
+                             (c.OwningColumn.Name.Equals("SO_LUONG", StringComparison.OrdinalIgnoreCase) ||
+                              c.OwningColumn.Name.Equals("SOLUONG", StringComparison.OrdinalIgnoreCase))));
+
+                    var donGiaCell = row.Cells.Cast<DataGridViewCell>()
+                        .FirstOrDefault(c =>
+                            (c.OwningColumn.DataPropertyName != null &&
+                             (c.OwningColumn.DataPropertyName.Equals("DON_GIA", StringComparison.OrdinalIgnoreCase) ||
+                              c.OwningColumn.DataPropertyName.Equals("DONGIA", StringComparison.OrdinalIgnoreCase))) ||
+                            (c.OwningColumn.Name != null &&
+                             (c.OwningColumn.Name.Equals("DON_GIA", StringComparison.OrdinalIgnoreCase) ||
+                              c.OwningColumn.Name.Equals("DONGIA", StringComparison.OrdinalIgnoreCase))));
+
+                    // Kiểm tra số lượng
+                    if (soLuongCell == null || soLuongCell.Value == null ||
+                        !decimal.TryParse(soLuongCell.Value.ToString(), out decimal soLuong) ||
+                        soLuong <= 0)
+                    {
+                        MessageBox.Show("Số lượng sản phẩm phải là số dương!", "Thông báo",
+                                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        dgvDanhsachSP.CurrentCell = soLuongCell ?? row.Cells[0];
+                        return;
+                    }
+
+                    // Kiểm tra đơn giá
+                    if (donGiaCell == null || donGiaCell.Value == null ||
+                        !decimal.TryParse(donGiaCell.Value.ToString(), out decimal donGia) ||
+                        donGia <= 0)
+                    {
+                        MessageBox.Show("Đơn giá sản phẩm phải là số dương!", "Thông báo",
+                                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        dgvDanhsachSP.CurrentCell = donGiaCell ?? row.Cells[1];
+                        return;
+                    }
+                }
+
+                // Kiểm tra tổng tiền
+                if (numTongTien.Value <= 0)
+                {
+                    MessageBox.Show("Tổng tiền phải lớn hơn 0!", "Thông báo",
+                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Nếu mọi thứ đều hợp lệ, tiến hành lưu
+                this.Luu();
+                status = Controll.Normal;
+                this.Allow(false);
+
+                MessageBox.Show("Lưu đơn hàng thành công!", "Thông báo",
+                              MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi lưu dữ liệu: " + ex.Message, "Lỗi",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         void Luu()
         {
-            if (status == Controll.AddNew)
+            try
             {
-                ThemMoi();
+                if (status == Controll.AddNew)
+                {
+                    ThemMoi();
+                }
+                else
+                {
+                    CapNhat();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                CapNhat();
+                throw new Exception("Lỗi khi lưu dữ liệu: " + ex.Message, ex);
             }
         }
         void CapNhat()
