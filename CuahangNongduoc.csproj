@@ -187,7 +187,6 @@
       <DependentUpon>frmDanhsachPhieuBanLe.cs</DependentUpon>
     </Compile>
     <Compile Include="DataLayer\ChiTietPhieuBanFactory.cs" />
-    <Compile Include="DataLayer\ChiTietPhieuNhapFactory.cs" />
     <Compile Include="DataLayer\PhieuNhapFactory.cs" />
     <Compile Include="DataLayer\MaSanPhamFactory.cs" />
     <Compile Include="DataLayer\PhieuBanFactory.cs" />

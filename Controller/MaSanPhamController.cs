@@ -15,7 +15,7 @@ namespace CuahangNongduoc.Controller
         
         public DataRow NewRow()
         {
-            factory.LoadSchema();  // Factory tự check nếu đã load rồi
+            factory.LoadSchema();
             return factory.NewRow();
         }
 
@@ -150,10 +150,6 @@ namespace CuahangNongduoc.Controller
             return ds;
         }
 
-        // ═══════════════════════════════════════════════════════════════
-        // TASK 4: LOGIC FIFO CƠ BẢN (Wrapper methods)
-        // ═══════════════════════════════════════════════════════════════
-
         /// <summary>
         /// Chọn lô tự động theo FIFO (FEFO - hết hạn sớm nhất)
         /// Wrapper method cho Strategy Pattern
@@ -210,11 +206,7 @@ namespace CuahangNongduoc.Controller
             {
                 return 0;  
             }
-        }
-
-        // ═══════════════════════════════════════════════════════════════
-        // STRATEGY PATTERN: XUẤT KHO VÀ TÍNH GIÁ
-        // ═══════════════════════════════════════════════════════════════
+        }═
 
         /// <summary>
         /// Chọn lô xuất theo cấu hình (FIFO tự động hoặc CHI_DINH thủ công)
