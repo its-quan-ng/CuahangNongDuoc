@@ -23,18 +23,28 @@ namespace CuahangNongduoc
             ctrlLyDo.HienthiAutoComboBox(cmbLyDoChi);
             ctrlLyDo.HienthiDataGridviewComboBox(colLyDoChi);
             ctrl.HienthiPhieuChi(bindingNavigator, dataGridView, cmbLyDoChi, txtMaPhieu, dtNgayChi, numTongTien, txtGhiChu);
+
+
         }
 
         private void toolAdd_Click(object sender, EventArgs e)
         {
-            long maphieu = ThamSo.PhieuChi;
-
-            DataRow row = ctrl.NewRow();
-            row["ID"] = maphieu;
-            row["NGAY_CHI"] = dtNgayChi.Value.Date;
-            row["TONG_TIEN"] = numTongTien.Value;
-            ctrl.Add(row);
-            bindingNavigator.BindingSource.MoveLast();
+            try
+            {
+                long maphieu = ThamSo.PhieuChi;
+                DataRow row = ctrl.NewRow();
+                row["ID"] = maphieu;
+                row["NGAY_CHI"] = dtNgayChi.Value.Date;
+                row["TONG_TIEN"] = 0m;  // Set default value to 0
+                ctrl.Add(row);
+                bindingNavigator.BindingSource.MoveLast();
+                numTongTien.Focus();  // Focus on the amount field
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi thêm mới: " + ex.Message, "Lỗi",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void dataGridView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
@@ -100,13 +110,59 @@ namespace CuahangNongduoc
 
         private void toolSave_Click(object sender, EventArgs e)
         {
-            txtMaPhieu.Focus();
-            bindingNavigator.BindingSource.MoveNext();
-            ctrl.Save();
+            try
+            {
+               
+                if (cmbLyDoChi.SelectedValue == null || cmbLyDoChi.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Vui lòng chọn Lý Do Chi!", "Thông báo",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cmbLyDoChi.Focus();
+                    return;
+                }
+
+                // Lấy dữ liệu hiện tại
+                DataRowView currentRow = (DataRowView)bindingNavigator.BindingSource.Current;
+                if (currentRow == null)
+                {
+                    MessageBox.Show("Không có dữ liệu để lưu!", "Thông báo",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Cập nhật giá trị
+                try
+                {
+                    // Kết thúc chỉnh sửa hiện tại
+                    bindingNavigator.BindingSource.EndEdit();
+
+                    // Lưu dữ liệu
+                    ctrl.Save();
+
+                    MessageBox.Show("Lưu dữ liệu thành công!", "Thông báo",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    // Nếu có lỗi, hủy thay đổi
+                    currentRow.Row.RejectChanges();
+                    throw new Exception("Lỗi khi lưu dữ liệu: " + ex.Message, ex);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Lỗi",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void dataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
+            e.ThrowException = false;
+            MessageBox.Show("Dữ liệu không hợp lệ: " + e.Exception.Message,
+                          "Lỗi dữ liệu",
+                          MessageBoxButtons.OK,
+                          MessageBoxIcon.Error);
             e.Cancel = true;
         }
 
