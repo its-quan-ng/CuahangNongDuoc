@@ -64,6 +64,114 @@ namespace CuahangNongduoc.DataLayer
             return ds;
         }
 
+        /// <summary>
+        /// Load danh sách phiếu bán lẻ vào m_Ds để có thể Save (cho form danh sách phiếu)
+        /// </summary>
+        public void LoadDanhsachPhieuBanLe()
+        {
+            // Query chỉ từ bảng PHIEU_BAN (KHÔNG JOIN) để có thể save
+            SqlCommand cmd = new SqlCommand(
+                @"SELECT *
+                  FROM PHIEU_BAN
+                  WHERE ID_KHACH_HANG IN (SELECT ID FROM KHACH_HANG WHERE LOAI_KH = 0)
+                  ORDER BY ID DESC");
+            m_Ds.Load(cmd);
+
+            // Thêm columns hiển thị (không lưu vào DB)
+            if (!m_Ds.Columns.Contains("TEN_KHUYEN_MAI"))
+            {
+                m_Ds.Columns.Add("TEN_KHUYEN_MAI", typeof(string));
+            }
+            if (!m_Ds.Columns.Contains("NGUOI_LAP"))
+            {
+                m_Ds.Columns.Add("NGUOI_LAP", typeof(string));
+            }
+
+            // Populate data cho columns hiển thị
+            foreach (DataRow row in m_Ds.Rows)
+            {
+                // Lấy tên khuyến mãi
+                if (row["ID_KHUYEN_MAI"] != DBNull.Value)
+                {
+                    int idKM = Convert.ToInt32(row["ID_KHUYEN_MAI"]);
+                    DataService dsKM = new DataService();
+                    SqlCommand cmdKM = new SqlCommand("SELECT TEN_KHUYEN_MAI FROM KHUYEN_MAI WHERE ID = @id");
+                    cmdKM.Parameters.Add("@id", SqlDbType.Int).Value = idKM;
+                    object tenKM = dsKM.ExecuteScalar(cmdKM);
+                    row["TEN_KHUYEN_MAI"] = tenKM != null ? tenKM.ToString() : "";
+                }
+
+                // Lấy tên người lập
+                if (row["ID_NGUOI_DUNG"] != DBNull.Value)
+                {
+                    int idND = Convert.ToInt32(row["ID_NGUOI_DUNG"]);
+                    DataService dsND = new DataService();
+                    SqlCommand cmdND = new SqlCommand("SELECT HO_TEN FROM NGUOI_DUNG WHERE ID = @id");
+                    cmdND.Parameters.Add("@id", SqlDbType.Int).Value = idND;
+                    object tenND = dsND.ExecuteScalar(cmdND);
+                    row["NGUOI_LAP"] = tenND != null ? tenND.ToString() : "";
+                }
+            }
+        }
+
+        /// <summary>
+        /// Load danh sách phiếu bán sỉ vào m_Ds để có thể Save (cho form danh sách phiếu)
+        /// </summary>
+        public void LoadDanhsachPhieuBanSi()
+        {
+            // Query chỉ từ bảng PHIEU_BAN (KHÔNG JOIN) để có thể save
+            SqlCommand cmd = new SqlCommand(
+                @"SELECT *
+                  FROM PHIEU_BAN
+                  WHERE ID_KHACH_HANG IN (SELECT ID FROM KHACH_HANG WHERE LOAI_KH = 1)
+                  ORDER BY ID DESC");
+            m_Ds.Load(cmd);
+
+            // Thêm columns hiển thị (không lưu vào DB)
+            if (!m_Ds.Columns.Contains("TEN_KHUYEN_MAI"))
+            {
+                m_Ds.Columns.Add("TEN_KHUYEN_MAI", typeof(string));
+            }
+            if (!m_Ds.Columns.Contains("NGUOI_LAP"))
+            {
+                m_Ds.Columns.Add("NGUOI_LAP", typeof(string));
+            }
+
+            // Populate data cho columns hiển thị
+            foreach (DataRow row in m_Ds.Rows)
+            {
+                // Lấy tên khuyến mãi
+                if (row["ID_KHUYEN_MAI"] != DBNull.Value)
+                {
+                    int idKM = Convert.ToInt32(row["ID_KHUYEN_MAI"]);
+                    DataService dsKM = new DataService();
+                    SqlCommand cmdKM = new SqlCommand("SELECT TEN_KHUYEN_MAI FROM KHUYEN_MAI WHERE ID = @id");
+                    cmdKM.Parameters.Add("@id", SqlDbType.Int).Value = idKM;
+                    object tenKM = dsKM.ExecuteScalar(cmdKM);
+                    row["TEN_KHUYEN_MAI"] = tenKM != null ? tenKM.ToString() : "";
+                }
+
+                // Lấy tên người lập
+                if (row["ID_NGUOI_DUNG"] != DBNull.Value)
+                {
+                    int idND = Convert.ToInt32(row["ID_NGUOI_DUNG"]);
+                    DataService dsND = new DataService();
+                    SqlCommand cmdND = new SqlCommand("SELECT HO_TEN FROM NGUOI_DUNG WHERE ID = @id");
+                    cmdND.Parameters.Add("@id", SqlDbType.Int).Value = idND;
+                    object tenND = dsND.ExecuteScalar(cmdND);
+                    row["NGUOI_LAP"] = tenND != null ? tenND.ToString() : "";
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get m_Ds để binding (cho form danh sách phiếu)
+        /// </summary>
+        public DataTable GetDataTable()
+        {
+            return m_Ds;
+        }
+
 
         public DataTable LayPhieuBan(int id)
         {
@@ -185,32 +293,12 @@ namespace CuahangNongduoc.DataLayer
 
         /// <summary>
         /// Kiểm tra xem phiếu bán có được sử dụng trong các bảng khác không
+        /// Hiện tại: DU_NO_KH và PHIEU_THANH_TOAN không có FK đến PHIEU_BAN → Luôn return false
         /// </summary>
         public bool KiemTraLienKet(int idPhieuBan)
         {
-            DataService ds = new DataService();
-
-            // Kiểm tra trong CHI_TIET_PHIEU_BAN
-            SqlCommand cmd1 = new SqlCommand("SELECT COUNT(*) FROM CHI_TIET_PHIEU_BAN WHERE ID_PHIEU_BAN = @id");
-            cmd1.Parameters.Add("@id", SqlDbType.Int).Value = idPhieuBan;
-            object count1 = ds.ExecuteScalar(cmd1);
-            if (count1 != null && Convert.ToInt32(count1) > 0)
-                return true;
-
-            // Kiểm tra trong DU_NO_KH (nếu có liên kết qua PHIEU_BAN)
-            SqlCommand cmd2 = new SqlCommand("SELECT COUNT(*) FROM DU_NO_KH WHERE ID_PHIEU_BAN = @id");
-            cmd2.Parameters.Add("@id", SqlDbType.Int).Value = idPhieuBan;
-            object count2 = ds.ExecuteScalar(cmd2);
-            if (count2 != null && Convert.ToInt32(count2) > 0)
-                return true;
-
-            // Kiểm tra trong PHIEU_THANH_TOAN (nếu có liên kết qua PHIEU_BAN)
-            SqlCommand cmd3 = new SqlCommand("SELECT COUNT(*) FROM PHIEU_THANH_TOAN WHERE ID_PHIEU_BAN = @id");
-            cmd3.Parameters.Add("@id", SqlDbType.Int).Value = idPhieuBan;
-            object count3 = ds.ExecuteScalar(cmd3);
-            if (count3 != null && Convert.ToInt32(count3) > 0)
-                return true;
-
+            // Database hiện tại KHÔNG có foreign key từ bảng nào đến PHIEU_BAN
+            // CHI_TIET_PHIEU_BAN sẽ được xóa thủ công trong DeletePhieuBan()
             return false;
         }
 
@@ -219,31 +307,35 @@ namespace CuahangNongduoc.DataLayer
         /// </summary>
         public List<string> LayDanhSachBangLienKet(int idPhieuBan)
         {
-            List<string> danhSachBang = new List<string>();
+            // Database hiện tại KHÔNG có foreign key từ bảng nào đến PHIEU_BAN
+            return new List<string>();
+        }
+
+        /// <summary>
+        /// Xóa phiếu bán và chi tiết phiếu bán (cascade delete thủ công)
+        /// </summary>
+        public bool DeletePhieuBan(int idPhieuBan)
+        {
             DataService ds = new DataService();
+            try
+            {
+                // Xóa CHI_TIET_PHIEU_BAN trước (FK constraint)
+                SqlCommand cmd1 = new SqlCommand("DELETE FROM CHI_TIET_PHIEU_BAN WHERE ID_PHIEU_BAN = @id");
+                cmd1.Parameters.Add("@id", SqlDbType.Int).Value = idPhieuBan;
+                ds.ExecuteNoneQuery(cmd1);
 
-            // Kiểm tra trong CHI_TIET_PHIEU_BAN
-            SqlCommand cmd1 = new SqlCommand("SELECT COUNT(*) FROM CHI_TIET_PHIEU_BAN WHERE ID_PHIEU_BAN = @id");
-            cmd1.Parameters.Add("@id", SqlDbType.Int).Value = idPhieuBan;
-            object count1 = ds.ExecuteScalar(cmd1);
-            if (count1 != null && Convert.ToInt32(count1) > 0)
-                danhSachBang.Add("Chi tiết phiếu bán");
+                // Sau đó xóa PHIEU_BAN
+                SqlCommand cmd2 = new SqlCommand("DELETE FROM PHIEU_BAN WHERE ID = @id");
+                cmd2.Parameters.Add("@id", SqlDbType.Int).Value = idPhieuBan;
+                int result = ds.ExecuteNoneQuery(cmd2);
 
-            // Kiểm tra trong DU_NO_KH
-            SqlCommand cmd2 = new SqlCommand("SELECT COUNT(*) FROM DU_NO_KH WHERE ID_PHIEU_BAN = @id");
-            cmd2.Parameters.Add("@id", SqlDbType.Int).Value = idPhieuBan;
-            object count2 = ds.ExecuteScalar(cmd2);
-            if (count2 != null && Convert.ToInt32(count2) > 0)
-                danhSachBang.Add("Dư nợ khách hàng");
-
-            // Kiểm tra trong PHIEU_THANH_TOAN
-            SqlCommand cmd3 = new SqlCommand("SELECT COUNT(*) FROM PHIEU_THANH_TOAN WHERE ID_PHIEU_BAN = @id");
-            cmd3.Parameters.Add("@id", SqlDbType.Int).Value = idPhieuBan;
-            object count3 = ds.ExecuteScalar(cmd3);
-            if (count3 != null && Convert.ToInt32(count3) > 0)
-                danhSachBang.Add("Phiếu thanh toán");
-
-            return danhSachBang;
+                return result > 0;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"DeletePhieuBan Error: {ex.Message}");
+                return false;
+            }
         }
     }
 }
