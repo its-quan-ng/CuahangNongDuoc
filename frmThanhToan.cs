@@ -28,7 +28,7 @@ namespace CuahangNongduoc
 
         void BindingSource_AddingNew(object sender, AddingNewEventArgs e)
         {
-            
+
         }
 
         private void toolAdd_Click(object sender, EventArgs e)
@@ -45,12 +45,12 @@ namespace CuahangNongduoc
 
         private void dataGridView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
-            if (MessageBox.Show("Bạn chắc chắn xóa phiếu thanh toán này không?", "Phieu Thanh Toan",   MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            if (MessageBox.Show("Bạn chắc chắn xóa phiếu thanh toán này không?", "Phieu Thanh Toan", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
             {
                 e.Cancel = true;
             }
         }
-        
+
         private void toolDelete_Click(object sender, EventArgs e)
         {
             DataRowView currentRow = (DataRowView)bindingNavigator.BindingSource.Current;
