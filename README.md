@@ -29,7 +29,7 @@ Phần mềm quản lý cửa hàng kinh doanh nông dược (phân bón, thuố
 - **Framework:** .NET Framework 4.8
 - **UI:** Windows Forms
 - **Database:** SQL Server (SQLEXPRESS)
-- **Data Access:** ADO.NET (không dùng Entity Framework)
+- **Data Access:** ADO.NET
 - **Reporting:** Microsoft ReportViewer (.rdlc)
 - **Architecture:** 3-Tier Architecture (Presentation → Business Logic → Data Access)
 
@@ -51,7 +51,7 @@ Phần mềm quản lý cửa hàng kinh doanh nông dược (phân bón, thuố
 ### Bước 1: Clone Repository
 
 ```bash
-git clone https://github.com/your-team/CHND.git
+git clone https://github.com/its-quan-ng/CHND.git
 cd CHND/CHND
 ```
 
