@@ -23,10 +23,7 @@
 
 | Màn hình chính | Bán lẻ | Bán sỉ |
 |:-:|:-:|:-:|
-| **[Main]**<img width="1919" height="1013" alt="image" src="https://github.com/user-attachments/assets/5a5c16ca-c597-4109-b665-3bb5a60e5d39" /> | [BanLe]<img width="927" height="494" alt="image" src="https://github.com/user-attachments/assets/5e8eb069-045e-4146-9e9b-f626b3d12183" />
-
- | [BanSi]<img width="1919" height="1014" alt="image" src="https://github.com/user-attachments/assets/ef179faf-91ac-4b79-ad49-7ae74a02a803" />
- |
+| **[Main]**<img width="1919" height="1013" alt="image" src="https://github.com/user-attachments/assets/5a5c16ca-c597-4109-b665-3bb5a60e5d39" /> | [BanLe]<img width="927" height="494" alt="image" src="https://github.com/user-attachments/assets/5e8eb069-045e-4146-9e9b-f626b3d12183" /> | [BanSi]<img width="1919" height="1014" alt="image" src="https://github.com/user-attachments/assets/ef179faf-91ac-4b79-ad49-7ae74a02a803" />|
 
 | Nhập hàng | Quản lý sản phẩm | Báo cáo |
 |:-:|:-:|:-:|
