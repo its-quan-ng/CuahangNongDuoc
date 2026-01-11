@@ -19,7 +19,8 @@
 
 ## 📸 Screenshots
 
-<!-- Thêm screenshots của bạn vào đây -->
+<img width="1919" height="1013" alt="image" src="https://github.com/user-attachments/assets/5a5c16ca-c597-4109-b665-3bb5a60e5d39" />
+
 | Màn hình chính | Bán lẻ | Bán sỉ |
 |:-:|:-:|:-:|
 | ![Main](screenshots/main.png) | ![BanLe](screenshots/banle.png) | ![BanSi](screenshots/bansi.png) |
