@@ -165,7 +165,7 @@ public static String m_ConnectString =
 
 | Username | Password | Quyền |
 |----------|----------|-------|
-| `admin`  | `123`    | Admin (full quyền) |
+| `admin`  | `admin`    | Admin (full quyền) |
 
 > ⚠️ **Lưu ý:** Đổi mật khẩu mặc định sau khi cài đặt!
 
