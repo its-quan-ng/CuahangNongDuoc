@@ -1,4 +1,5 @@
 using System;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -11,8 +12,11 @@ namespace CuahangNongduoc
 		// The connection to a database of this data service.
 		private static SqlConnection	m_Connection;
 
-        //
-        public static String m_ConnectString = "Server=.\\SQLEXPRESS;Initial Catalog=QLCHNongDuoc;Integrated Security=SSPI;TrustServerCertificate=True;";
+        // Connection string - đọc từ app.config, fallback sang default nếu không có
+        public static String m_ConnectString = 
+            ConfigurationManager.ConnectionStrings["QLCHNongDuoc"]?.ConnectionString 
+            ?? "Server=.\\SQLEXPRESS;Initial Catalog=QLCHNongDuoc;Integrated Security=SSPI;TrustServerCertificate=True;";
+
 		// The command to execute query or non-query command on a database of this data service.
 		private SqlCommand		m_Command;
       

@@ -367,4 +367,6 @@ FodyWeavers.xsd
 CLAUDE.md
 YC2_TODO.md
 PROGRESS.md
-/docs
+
+# Visual Studio 2022 user-specific folder
+Visual Studio 2022/

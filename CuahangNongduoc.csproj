@@ -122,15 +122,21 @@
     <Compile Include="DataLayer\KhuyenMaiFactory.cs" />
     <Compile Include="DataLayer\PhieuChiFactory.cs" />
     <Compile Include="DataLayer\ThongKeGiamGiaFactory.cs" />
-    <Compile Include="Forms\CauHinh\frmCauHinh.cs" />
+    <Compile Include="Forms\CauHinh\frmCauHinh.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\CauHinh\frmCauHinh.Designer.cs">
       <DependentUpon>frmCauHinh.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Main\frmDangNhap.cs" />
+    <Compile Include="Forms\Main\frmDangNhap.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\Main\frmDangNhap.Designer.cs">
       <DependentUpon>frmDangNhap.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\In\frmInPhieuChi.cs" />
+    <Compile Include="Forms\In\frmInPhieuChi.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\In\frmInPhieuChi.Designer.cs">
       <DependentUpon>frmInPhieuChi.cs</DependentUpon>
     </Compile>
@@ -140,7 +146,9 @@
     <Compile Include="Forms\NghiepVu\frmKhuyenMai.Designer.cs">
       <DependentUpon>frmKhuyenMai.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\DanhMuc\frmNguoiDung.cs" />
+    <Compile Include="Forms\DanhMuc\frmNguoiDung.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\DanhMuc\frmNguoiDung.Designer.cs">
       <DependentUpon>frmNguoiDung.cs</DependentUpon>
     </Compile>
@@ -151,7 +159,9 @@
       <DependentUpon>frmPhieuChi.cs</DependentUpon>
     </Compile>
     <Compile Include="DataLayer\LyDoChiFactory.cs" />
-    <Compile Include="Forms\DanhMuc\frmLyDoChi.cs" />
+    <Compile Include="Forms\DanhMuc\frmLyDoChi.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\DanhMuc\frmLyDoChi.Designer.cs">
       <DependentUpon>frmLyDoChi.cs</DependentUpon>
     </Compile>
@@ -186,7 +196,9 @@
     <Compile Include="Forms\NghiepVu\frmBanLe.Designer.cs">
       <DependentUpon>frmBanLe.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\DanhMuc\frmDaiLy.cs" />
+    <Compile Include="Forms\DanhMuc\frmDaiLy.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\DanhMuc\frmDaiLy.Designer.cs">
       <DependentUpon>frmDaiLy.cs</DependentUpon>
     </Compile>
@@ -208,7 +220,9 @@
     <Compile Include="Forms\BaoCao\frmDoanhThu.Designer.cs">
       <DependentUpon>frmDoanhThu.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\DanhMuc\frmDonViTinh.cs" />
+    <Compile Include="Forms\DanhMuc\frmDonViTinh.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\DanhMuc\frmDonViTinh.Designer.cs">
       <DependentUpon>frmDonViTinh.cs</DependentUpon>
     </Compile>
@@ -218,27 +232,39 @@
     <Compile Include="Forms\DanhSach\frmDunoKhachhang.Designer.cs">
       <DependentUpon>frmDunoKhachhang.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\In\frmInDunoKhachHang.cs" />
+    <Compile Include="Forms\In\frmInDunoKhachHang.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\In\frmInDunoKhachHang.Designer.cs">
       <DependentUpon>frmInDunoKhachHang.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\In\frmInPhieuBan.cs" />
+    <Compile Include="Forms\In\frmInPhieuBan.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\In\frmInPhieuBan.Designer.cs">
       <DependentUpon>frmInPhieuBan.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\In\frmInPhieuNhap.cs" />
+    <Compile Include="Forms\In\frmInPhieuNhap.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\In\frmInPhieuNhap.Designer.cs">
       <DependentUpon>frmInPhieuNhap.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\DanhMuc\frmKhachHang.cs" />
+    <Compile Include="Forms\DanhMuc\frmKhachHang.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\DanhMuc\frmKhachHang.Designer.cs">
       <DependentUpon>frmKhachHang.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Main\frmMain.cs" />
+    <Compile Include="Forms\Main\frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\Main\frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\DanhMuc\frmNhaCungCap.cs" />
+    <Compile Include="Forms\DanhMuc\frmNhaCungCap.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\DanhMuc\frmNhaCungCap.Designer.cs">
       <DependentUpon>frmNhaCungCap.cs</DependentUpon>
     </Compile>
@@ -248,11 +274,15 @@
     <Compile Include="Forms\NghiepVu\frmNhapHang.Designer.cs">
       <DependentUpon>frmNhapHang.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\In\frmInPhieuThanhToan.cs" />
+    <Compile Include="Forms\In\frmInPhieuThanhToan.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\In\frmInPhieuThanhToan.Designer.cs">
       <DependentUpon>frmInPhieuThanhToan.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\DanhMuc\frmSanPham.cs" />
+    <Compile Include="Forms\DanhMuc\frmSanPham.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\DanhMuc\frmSanPham.Designer.cs">
       <DependentUpon>frmSanPham.cs</DependentUpon>
     </Compile>
@@ -262,11 +292,15 @@
     <Compile Include="Forms\BaoCao\frmSanphamHethan.Designer.cs">
       <DependentUpon>frmSanphamHethan.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\BaoCao\frmSoLuongBan.cs" />
+    <Compile Include="Forms\BaoCao\frmSoLuongBan.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\BaoCao\frmSoLuongBan.Designer.cs">
       <DependentUpon>frmSoLuongBan.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\BaoCao\frmSoLuongTon.cs" />
+    <Compile Include="Forms\BaoCao\frmSoLuongTon.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\BaoCao\frmSoLuongTon.Designer.cs">
       <DependentUpon>frmSoLuongTon.cs</DependentUpon>
     </Compile>
@@ -276,35 +310,51 @@
     <Compile Include="Forms\NghiepVu\frmThanhToan.Designer.cs">
       <DependentUpon>frmThanhToan.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\BaoCao\frmThongKeChiPhiPhu.cs" />
+    <Compile Include="Forms\BaoCao\frmThongKeChiPhiPhu.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\BaoCao\frmThongKeChiPhiPhu.Designer.cs">
       <DependentUpon>frmThongKeChiPhiPhu.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\BaoCao\frmThongKeGiamGia.cs" />
+    <Compile Include="Forms\BaoCao\frmThongKeGiamGia.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\BaoCao\frmThongKeGiamGia.Designer.cs">
       <DependentUpon>frmThongKeGiamGia.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\CauHinh\frmThongtinCuahang.cs" />
+    <Compile Include="Forms\CauHinh\frmThongtinCuahang.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\CauHinh\frmThongtinCuahang.Designer.cs">
       <DependentUpon>frmThongtinCuahang.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\CauHinh\frmThongtinLienhe.cs" />
+    <Compile Include="Forms\CauHinh\frmThongtinLienhe.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\CauHinh\frmThongtinLienhe.Designer.cs">
       <DependentUpon>frmThongtinLienhe.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\TimKiem\frmTimPhieuBanLe.cs" />
+    <Compile Include="Forms\TimKiem\frmTimPhieuBanLe.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\TimKiem\frmTimPhieuBanLe.Designer.cs">
       <DependentUpon>frmTimPhieuBanLe.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\TimKiem\frmTimPhieuChi.cs" />
+    <Compile Include="Forms\TimKiem\frmTimPhieuChi.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\TimKiem\frmTimPhieuChi.Designer.cs">
       <DependentUpon>frmTimPhieuChi.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\TimKiem\frmTimPhieuNhap.cs" />
+    <Compile Include="Forms\TimKiem\frmTimPhieuNhap.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\TimKiem\frmTimPhieuNhap.Designer.cs">
       <DependentUpon>frmTimPhieuNhap.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\TimKiem\frmTimPhieuThu.cs" />
+    <Compile Include="Forms\TimKiem\frmTimPhieuThu.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\TimKiem\frmTimPhieuThu.Designer.cs">
       <DependentUpon>frmTimPhieuThu.cs</DependentUpon>
     </Compile>
