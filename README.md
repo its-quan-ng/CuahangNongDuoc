@@ -23,11 +23,17 @@
 
 | Màn hình chính | Bán lẻ | Bán sỉ |
 |:-:|:-:|:-:|
-| ![Main]<img width="1919" height="1013" alt="image" src="https://github.com/user-attachments/assets/5a5c16ca-c597-4109-b665-3bb5a60e5d39" /> | ![BanLe](screenshots/banle.png) | ![BanSi](screenshots/bansi.png) |
+| **[Main]**<img width="1919" height="1013" alt="image" src="https://github.com/user-attachments/assets/5a5c16ca-c597-4109-b665-3bb5a60e5d39" /> | [BanLe]<img width="927" height="494" alt="image" src="https://github.com/user-attachments/assets/5e8eb069-045e-4146-9e9b-f626b3d12183" />
+
+ | [BanSi]<img width="1919" height="1014" alt="image" src="https://github.com/user-attachments/assets/ef179faf-91ac-4b79-ad49-7ae74a02a803" />
+ |
 
 | Nhập hàng | Quản lý sản phẩm | Báo cáo |
 |:-:|:-:|:-:|
-| ![NhapHang](screenshots/nhaphang.png) | ![SanPham](screenshots/sanpham.png) | ![BaoCao](screenshots/baocao.png) |
+| [NhapHang]<img width="1919" height="1021" alt="image" src="https://github.com/user-attachments/assets/628046c1-08a4-4a88-b40f-9214e7a93b31" />
+ | [SanPham]<img width="974" height="681" alt="image" src="https://github.com/user-attachments/assets/c1f286da-518f-4d9f-b36d-2a1ff9d3098e" />
+ | [BaoCao]<img width="996" height="645" alt="image" src="https://github.com/user-attachments/assets/6f467161-12f9-4a62-85de-b9dc29f5d669" />
+ |
 
 ---
 
