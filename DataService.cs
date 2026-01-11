@@ -11,8 +11,13 @@ namespace CuahangNongduoc
 		// The connection to a database of this data service.
 		private static SqlConnection	m_Connection;
 
-        //
+        /// <summary>
+        /// Connection string mặc định. 
+        /// Để thay đổi, sửa trực tiếp ở đây hoặc sử dụng app.config với ConfigurationManager.
+        /// Xem hướng dẫn trong README.md để biết thêm chi tiết.
+        /// </summary>
         public static String m_ConnectString = "Server=.\\SQLEXPRESS;Initial Catalog=QLCHNongDuoc;Integrated Security=SSPI;TrustServerCertificate=True;";
+
 		// The command to execute query or non-query command on a database of this data service.
 		private SqlCommand		m_Command;
       
