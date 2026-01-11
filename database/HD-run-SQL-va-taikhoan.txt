@@ -1,0 +1,20 @@
+
+-- THÔNG TIN TÀI KHOẢN MẶC ĐỊNH:
+-- Admin:
+--   Username: admin    | Password: admin   | Quyền: ADMIN
+--   Username: ptd4     | Password: 123456  | Quyền: ADMIN (Phạm Thị Dung)
+-- 
+-- User:
+--   Username: nva1     | Password: 123456  | Quyền: USER (Nguyễn Văn An)
+--   Username: ttb2     | Password: 123456  | Quyền: USER (Trần Thị Bình)
+--   Username: lvc3     | Password: 123456  | Quyền: USER (Lê Văn Cường)
+-- 
+-- Lưu ý: Mật khẩu đã được mã hóa MD5
+-- ============================================
+excute theo thứ tự
+CHNongDuoc.sql
+SampleData_TestFIFO.sql
+Add_ChiPhiVanChuyenDichVu.sql
+Migration_ChietKhauKhuyenMai.sql
+Test_DuNo_SampleData.sql
+ADD_NGUOI_DUNGvaoTHAM_SO.sql 
