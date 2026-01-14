@@ -167,8 +167,6 @@ public static String m_ConnectString =
 |----------|----------|-------|
 | `admin`  | `admin`    | Admin (full quyền) |
 
-> ⚠️ **Lưu ý:** Đổi mật khẩu mặc định sau khi cài đặt!
-
 ---
 
 ## 📖 Tài Liệu Thêm
@@ -176,6 +174,8 @@ public static String m_ConnectString =
 - 📄 [Database Schema](database/CHNongDuoc.sql) - Cấu trúc database
 - 📄 [Hướng dẫn SQL](database/HD-run-SQL-va-taikhoan.txt) - Hướng dẫn chạy script SQL
 - 📄 [Thư viện ngoài](lib/README.md) - Danh sách DLL dependencies
+- 📄 Hợp đồng và báo giá phần mềm (unpublish do chỉ phục vụ đồ án môn học)
+- 📄 Tài liệu đặc tả, thiết kế và giao diện (unpublish do chỉ phục vụ đồ án môn học)
 
 ---
 
