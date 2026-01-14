@@ -198,5 +198,5 @@ Dự án này được phát triển cho mục đích học tập.
 ---
 
 <p align="center">
-  Made with ❤️ by CHND Team
+  Made with ❤️ by Nhom8TKPTBT Team
 </p>
